@@ -30,3 +30,23 @@
   - Email notifications
   - Profile page for each user
   - Public meetup that can invite other users that are using the application
+
+## Project Task Requirements
+
+- Minimal requirements
+	- An account system that could handle signing up, logging in, and deleting account. It should also store user's personal information with different visibility. (i.e. Password/User ID are not supposed to be public; Timezone/Email can be public given users' permissions).
+	- A posting system that could handle posting a new event, joining an existing event, delete a posted event.
+	- A scheduling system that contains all the time slots information for each event and each user. It should calculate and return time slots that all participating users are available for each event.
+	- A tracing system that could trace all events joined, all people met, etc.
+	- User-friend frontend. Every webpage should contain all the necessary information and functions with appropriate layout, and needs to be responsive and interactive.
+-  Standard requirements
+	- A connection system that could handle adding friends, removing friends, assigning relationship, and changing relationship. Users could choose information/events visibility based on connection/relationship.
+	- An invitation system that could invite users to join an event. Users would be able to view the event and decide whether to join or not with the invitation.
+	- A grouping system such that user could create different spaces (i.e. workspace, gamespace, etc.) with different group members and different visibility (i.e. public/invitation only). Users could explore and join public spaces.
+	- A recommender system that could recommend/filter attendees based on location and meetup history, and time slots based on the current attendees' time availability.
+	- Visualization of location and time information for each event.
+	- A tagging system such that users/events/spaces could have different tags.
+- Stretch requirements
+	- A smarter recommender system that coule automatically generate best times and location for meetup based on existing user inputs.
+	- A timezone adjusting system that could adjuest availability based on different timezone (useful for remote meetings).
+	- Profile page for each user and customized avatar.
