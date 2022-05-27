@@ -62,3 +62,8 @@
   - Create UI that shows each event post, including its title, description, time, and who it's created by
   - Create UI that allows any user to join the event 
   - Create UI that allows only the creator of the post to delete the event post
+
+## prototypes
+- ![Image1](“p1.jpg”)
+- ![Image2](“p2.jpg”)
+- ![Image3](“p3.jpg”)
