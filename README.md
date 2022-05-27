@@ -64,6 +64,6 @@
   - Create UI that allows only the creator of the post to delete the event post
 
 ## prototypes
-- ![Image1](“p1.jpg”)
-- ![Image2](“p2.jpg”)
-- ![Image3](“p3.jpg”)
+- ![Image1](“https://github.com/shiyuchen6688/free2meet/blob/prototypes/p1.jpg?raw=true”)
+- ![Image2](“https://github.com/shiyuchen6688/free2meet/blob/prototypes/p2.jpg?raw=true”)
+- ![Image3](“https://github.com/shiyuchen6688/free2meet/blob/prototypes/p3.jpg?raw=true”)
