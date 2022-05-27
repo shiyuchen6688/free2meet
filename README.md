@@ -62,3 +62,8 @@
   - Create UI that shows each event post, including its title, description, time, and who it's created by
   - Create UI that allows any user to join the event 
   - Create UI that allows only the creator of the post to delete the event post
+
+## Prototypes
+![Image1](https://github.com/shiyuchen6688/free2meet/blob/prototypes/p1.jpg?raw=true)
+![Image2](https://github.com/shiyuchen6688/free2meet/blob/prototypes/p2.jpg?raw=true)
+![Image3](https://github.com/shiyuchen6688/free2meet/blob/prototypes/p3.jpg?raw=true)
