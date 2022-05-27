@@ -50,3 +50,15 @@
 	- A smarter recommender system that coule automatically generate best times and location for meetup based on existing user inputs.
 	- A timezone adjusting system that could adjuest availability based on different timezone (useful for remote meetings).
 	- Profile page for each user and customized avatar.
+
+## Project Tasks
+
+- Account System
+  - Create a database to store account information such as email, timezone, username, password
+  - Create UI to handle logging in to an account, and rejecting the login if the username and password do not match
+  - Create a UI that shows public (email/timezone) and private (username/password) account information
+- Posting System
+  - Create database tables to store all event posts, and relations between posts and attendees
+  - Create UI that shows each event post, including its title, description, time, and who it's created by
+  - Create UI that allows any user to join the event 
+  - Create UI that allows only the creator of the post to delete the event post
