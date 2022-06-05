@@ -21,6 +21,9 @@ export default function SignIn({ setIsValidUser }) {
     const onSignIn = (e) => {
         e.preventDefault()
         setIsValidUser(true)
+        // store window local storage to persist signin state, TODO: cookie later
+        window.localStorage.setItem('user-info', JSON.stringify({}));
+
     }
 
     return (

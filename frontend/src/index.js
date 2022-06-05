@@ -2,12 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import Meetups from './Meetups'
 import reportWebVitals from './reportWebVitals';
 import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,7 +18,7 @@ root.render(
       <Routes>
 
         <Route path="/" element={<App />} />
-        <Route path="/meetups" element={<App />} />
+        <Route path="/meetups" element={<Meetups />} />
         {/* <Route path="meetups" element={<TODO />}>
                 <Route path=":meetupId" element={<TODO />} />
                 <Route path="new" element={<TODO />} />

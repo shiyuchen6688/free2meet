@@ -4,8 +4,16 @@ import SignIn from "./SignIn"
 import Home from "./Home"
 
 
+
 function App() {
-  const [isValidUser, setIsValidUser] = useState(false);
+
+  // chec if window has local storage, TODO: can change to cookie later
+  const isLoggedIn = () => {
+    return !!window.localStorage.getItem('user-info'); // !! to cast to boolean
+  }
+
+  const [isValidUser, setIsValidUser] = useState(isLoggedIn());
+
 
   // if not signed in
   if (!isValidUser) {
