@@ -1,10 +1,21 @@
+import { useState } from 'react'
+import './App.css'
+import SignIn from "./SignIn"
+import Home from "./Home"
 
-import './App.css';
 
 function App() {
+  const [isValidUser, setIsValidUser] = useState(false);
+
+  // if not signed in
+  if (!isValidUser) {
+    return <SignIn setIsValidUser={setIsValidUser} />
+  }
+
+  // alredy sign in
   return (
     <div className="App">
-
+      <Home />
 
     </div>
   );
