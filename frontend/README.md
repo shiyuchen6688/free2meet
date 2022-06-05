@@ -72,3 +72,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 # References
 
 Material UI Doc and example: https://mui.com/material-ui/getting-started/installation/
+Image Reference: https://thumbs.dreamstime.com/b/friends-gathering-group-cheerful-young-people-enjoying-food-drinks-spending-nice-time-cofortable-chairs-home-78185609.jpg
