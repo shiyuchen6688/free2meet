@@ -18,10 +18,11 @@ import ToolBar from './ToolBar'
 import MeetupAvailability from './MeetupAvailability';
 import MeetupInvitation from './MeetupInvitation';
 import MeetupTitleAndDetail from './MeetupTitleAndDetail';
+import MeetupLocation from './MeetupLocation';
 
 const theme = createTheme();
 
-const steps = ['Title and Details', 'Availability', 'Invitation'];
+const steps = ['Title and Details', 'Availability', 'Invitation', 'Location'];
 
 export default function CreateMeetup() {
     const theme = createTheme();
@@ -44,6 +45,8 @@ export default function CreateMeetup() {
                 return <MeetupAvailability />;
             case 2:
                 return <MeetupInvitation />;
+            case 3:
+                return <MeetupLocation />;
             default:
                 throw new Error('Unknown step');
         }
