@@ -23,7 +23,7 @@ function App() {
   // alredy sign in
   return (
     <div className="App">
-      <Home />=
+      <Home />
 
     </div>
   );

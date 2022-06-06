@@ -56,6 +56,14 @@ export default function ToolBar() {
                     <Link
                         variant="button"
                         color="text.primary"
+                        // onClick={() => navigate("/meetups")} TODO: need to be updated to correct route
+                        sx={{ my: 1, mx: 1.5 }}
+                    >
+                        View Full History
+                    </Link>
+                    <Link
+                        variant="button"
+                        color="text.primary"
                         onClick={() => navigate("/explore")}
                         sx={{ my: 1, mx: 1.5 }}
                     >

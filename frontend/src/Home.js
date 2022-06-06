@@ -27,7 +27,7 @@ export default function Home() {
                     Home
                 </Typography>
                 <Typography variant="h5" align="center" color="text.secondary" component="p">
-                    Here are your meetup history!
+                    Here are your recent meetups!
                 </Typography>
             </Container>
 
