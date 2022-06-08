@@ -16,7 +16,8 @@ export default function MeetupInvitation() {
          'Sat Jun 11 2022 12:00:00 GMT-0700 (Pacific Daylight Time)',
          'Mon Jun 13 2022 13:00:00 GMT-0700 (Pacific Daylight Time)', 
          'Mon Jun 13 2022 14:00:00 GMT-0700 (Pacific Daylight Time)',
-         'Mon Jun 13 2022 15:00:00 GMT-0700 (Pacific Daylight Time)']
+         'Mon Jun 13 2022 15:00:00 GMT-0700 (Pacific Daylight Time)',
+         'Mon Jun 13 2022 16:00:00 GMT-0700 (Pacific Daylight Time)']
     );
     return (
         <React.Fragment>
