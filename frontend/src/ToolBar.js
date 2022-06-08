@@ -22,6 +22,7 @@ export default function ToolBar() {
                 </Typography>
                 <nav>
                     <Link
+                        component="button"
                         variant="button"
                         color="text.primary"
                         onClick={() => navigate("/")}
@@ -30,6 +31,7 @@ export default function ToolBar() {
                         Home
                     </Link>
                     <Link
+                        component="button"
                         variant="button"
                         color="text.primary"
                         onClick={() => navigate("/meetups/new")}
@@ -38,6 +40,7 @@ export default function ToolBar() {
                         Schedule New Meetup
                     </Link>
                     <Link
+                        component="button"
                         variant="button"
                         color="text.primary"
                         onClick={() => navigate("/meetups")}
@@ -46,6 +49,7 @@ export default function ToolBar() {
                         View Existing Meetups
                     </Link>
                     <Link
+                        component="button"
                         variant="button"
                         color="text.primary"
                         onClick={() => navigate("/invitations")}
@@ -54,6 +58,7 @@ export default function ToolBar() {
                         View Invitations
                     </Link>
                     <Link
+                        component="button"
                         variant="button"
                         color="text.primary"
                         // onClick={() => navigate("/meetups")} TODO: need to be updated to correct route
@@ -62,6 +67,7 @@ export default function ToolBar() {
                         View Full History
                     </Link>
                     <Link
+                        component="button"
                         variant="button"
                         color="text.primary"
                         onClick={() => navigate("/explore")}

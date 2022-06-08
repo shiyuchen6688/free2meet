@@ -1,98 +1,39 @@
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Typography from '@mui/material/Typography';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import caLocale from 'date-fns/locale/ca';
-import enLocale from 'date-fns/locale/en-US';
-import zhCN from 'date-fns/locale/zh-CN';
 import * as React from 'react';
 import { useState } from "react";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import spacetime from "spacetime";
 import { useMemo } from 'react';
+import Stack from '@mui/material/Stack';
+import MenuItem from '@mui/material/MenuItem';
+import ScheduleSelector from 'react-schedule-selector';
 
 export default function MeetupAvailability() {
-    const [value1, setValue1] = React.useState([null, null]);
-    const localeMap = {
-        "24 Hours Format": caLocale,
-        "12 Hours Format": enLocale,
-        "Chinese Format": zhCN,
-    };
-    const [locale, setLocale] = React.useState("12 Hours Format");
-    const [value, setValue] = React.useState(new Date());
-    const [value2, setValue2] = React.useState(new Date());
     const [timezone, setTimezone] = useState(
         Intl.DateTimeFormat().resolvedOptions().timeZone
     );
     const [datetime, setDatetime] = useState(spacetime.now());
+
+    /* This section of states are for the timetable */
+    const [startDate, setStartDate] = useState(new Date());
+    const [schedule, handleScheduleChange] = useState([]);
+    const [selectionScheme, setSelectionScheme] = React.useState('linear');
+    const [numDays, setNumDays] = React.useState(7);
+    const [minTime, setMinTime] = React.useState(9);
+    const [maxTime, setMaxTime] = React.useState(17);
+    const [hourlyChunk, setHourlyChunk] = React.useState(1);
+
     useMemo(() => {
         const timezoneValue = timezone.value ?? timezone;
         setDatetime(datetime.goto(timezoneValue));
     }, [timezone]);
+
     return (
         <React.Fragment>
-            <Typography variant="h6" gutterBottom>
-                Date Range
-            </Typography>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DateRangePicker
-                    startText="Start"
-                    endText="End"
-                    value={value1}
-                    onChange={(newValue) => {
-                        setValue1(newValue);
-                    }}
-                    renderInput={(startProps, endProps) => (
-                        <React.Fragment>
-                            <TextField {...startProps} />
-                            <Box sx={{ mx: 2 }}> to </Box>
-                            <TextField {...endProps} />
-                        </React.Fragment>
-                    )}
-                />
-            </LocalizationProvider>
-            <Typography variant="h6" gutterBottom>
-                Time Format
-            </Typography>
-            <ToggleButtonGroup value={locale} exclusive sx={{ mb: 2, display: 'block' }}>
-                {Object.keys(localeMap).map((localeItem) => (
-                    <ToggleButton
-                        key={localeItem}
-                        value={localeItem}
-                        onClick={() => setLocale(localeItem)}
-                    >
-                        {localeItem}
-                    </ToggleButton>
-                ))}
-            </ToggleButtonGroup>
-            <Typography variant="h6" gutterBottom>
-                Time Range
-            </Typography>
-            <LocalizationProvider
-                dateAdapter={AdapterDateFns}
-                adapterLocale={localeMap[locale]}
-            >
-                <TimePicker
-                    value={value}
-                    onChange={(newValue) => setValue(newValue)}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-            </LocalizationProvider>
-            <LocalizationProvider
-                dateAdapter={AdapterDateFns}
-                adapterLocale={localeMap[locale]}
-            >
-                <TimePicker
-                    value={value2}
-                    onChange={(newValue) => setValue2(newValue)}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-            </LocalizationProvider>
             <Typography variant="h6" gutterBottom>
                 TimeZone
             </Typography>
@@ -105,10 +46,87 @@ export default function MeetupAvailability() {
                 <div>
                     Current Date / Time in{" "}
                     {timezone.value ? timezone.value.split("/")[1] : timezone.split("/")[1]}:{" "}
-                    <pre>{datetime.unixFmt("dd.MM.YY HH:mm:ss")}</pre>
+                    <pre>{datetime.unixFmt("YYYY.MM.dd HH:mm:ss")}</pre>
                     <div>Selected Timezone:</div>
                     <pre>{JSON.stringify(timezone, null, 2)}</pre>
                 </div>
+            </div>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Stack direction="row" spacing={1} justifyContent="space-between">
+                <TextField
+                    select
+                    label="Selection Scheme"
+                    value={selectionScheme}
+                    onChange={(newSelectionScheme) => {
+                        setSelectionScheme(newSelectionScheme.target.value);
+                    }}
+                    style = {{minWidth: 150}}
+                    >
+                    <MenuItem value={'linear'}>Linear</MenuItem>
+                    <MenuItem value={'square'}>Square</MenuItem>
+                </TextField>
+                <DesktopDatePicker
+                    label="Start Date"
+                    inputFormat="yyyy/MM/dd"
+                    value={startDate}
+                    onChange={(newDate) => {
+                        setStartDate(newDate);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+                <TextField 
+                label="Num Days"
+                value={numDays}
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                onChange={(newNumDays)=>{
+                    console.log(newNumDays.target);
+                    setNumDays(newNumDays.target.value);
+                }} 
+                style = {{maxWidth: 150}}
+                />
+                <TextField 
+                label="Min Time"
+                value={minTime}
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                onChange={(newMinTime)=>{
+                    setMinTime(newMinTime.target.value);
+                }}
+                style = {{maxWidth: 150}}
+                />
+                <TextField 
+                label="Max Time"
+                value={maxTime}
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                onChange={(newMaxTime)=>{
+                    setMaxTime(newMaxTime.target.value);
+                }}
+                style = {{maxWidth: 150}}
+                />
+                <TextField 
+                label="Hourly Chunk"
+                value={hourlyChunk}
+                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                onChange={(newHourlyChunk)=>{
+                    setHourlyChunk(newHourlyChunk.target.value);
+                }}
+                style = {{maxWidth: 150}}
+                />
+            </Stack>
+            </LocalizationProvider>
+            <div>
+            <ScheduleSelector
+                selection={schedule}
+                selectionScheme={selectionScheme}
+                startDate={startDate}
+                numDays={numDays}
+                minTime={minTime}
+                maxTime={maxTime}
+                hourlyChunks={hourlyChunk}
+                timeFormat={"h:mma"}
+                onChange={(newSchedule) => {
+                    handleScheduleChange(newSchedule);
+                }}
+            />
             </div>
         </React.Fragment>
     );

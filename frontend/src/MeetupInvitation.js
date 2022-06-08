@@ -1,11 +1,23 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import ScheduleSelector from 'react-schedule-selector';
 
 export default function MeetupInvitation() {
+    /* These are some fake data */
+    const [schedule, handleScheduleChange] = useState(
+        ['Sat Jun 11 2022 09:00:00 GMT-0700 (Pacific Daylight Time)',
+         'Sat Jun 11 2022 10:00:00 GMT-0700 (Pacific Daylight Time)', 
+         'Sat Jun 11 2022 11:00:00 GMT-0700 (Pacific Daylight Time)', 
+         'Sat Jun 11 2022 12:00:00 GMT-0700 (Pacific Daylight Time)',
+         'Mon Jun 13 2022 13:00:00 GMT-0700 (Pacific Daylight Time)', 
+         'Mon Jun 13 2022 14:00:00 GMT-0700 (Pacific Daylight Time)',
+         'Mon Jun 13 2022 15:00:00 GMT-0700 (Pacific Daylight Time)']
+    );
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
@@ -104,6 +116,24 @@ export default function MeetupInvitation() {
                     />
                 </Grid>
             </Grid>
+            <div>
+                <ScheduleSelector
+                    selection={schedule}
+                    numDays={7}
+                    minTime={9}
+                    maxTime={17}
+                    startDate={new Date()}
+                    dateFormat="ddd M/D"
+                    renderDateCell={(time, selected, innerRef) => (
+                        <div style={{ textAlign: 'center' }} ref={innerRef}>
+                          {selected ? '✅' : '❌'}
+                        </div>
+                    )}
+                    onChange={(newSchedule) => {
+                        handleScheduleChange(newSchedule);
+                    }}
+                />
+            </div>
         </React.Fragment>
     );
 }
