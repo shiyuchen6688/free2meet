@@ -1,109 +1,115 @@
-import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Typography from '@mui/material/Typography';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import caLocale from 'date-fns/locale/ca';
+import enLocale from 'date-fns/locale/en-US';
+import zhCN from 'date-fns/locale/zh-CN';
+import * as React from 'react';
+import { useState } from "react";
+import TimezoneSelect, { allTimezones } from "react-timezone-select";
+import spacetime from "spacetime";
+import { useMemo } from 'react';
 
 export default function MeetupAvailability() {
+    const [value1, setValue1] = React.useState([null, null]);
+    const localeMap = {
+        "24 Hours Format": caLocale,
+        "12 Hours Format": enLocale,
+        "Chinese Format": zhCN,
+    };
+    const [locale, setLocale] = React.useState("12 Hours Format");
+    const [value, setValue] = React.useState(new Date());
+    const [value2, setValue2] = React.useState(new Date());
+    const [timezone, setTimezone] = useState(
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+    );
+    const [datetime, setDatetime] = useState(spacetime.now());
+    useMemo(() => {
+        const timezoneValue = timezone.value ?? timezone;
+        setDatetime(datetime.goto(timezoneValue));
+    }, [timezone]);
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                Shipping address
+                Date Range
             </Typography>
-            <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="firstName"
-                        name="firstName"
-                        label="First name"
-                        fullWidth
-                        autoComplete="given-name"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="lastName"
-                        name="lastName"
-                        label="Last name"
-                        fullWidth
-                        autoComplete="family-name"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        id="address1"
-                        name="address1"
-                        label="Address line 1"
-                        fullWidth
-                        autoComplete="shipping address-line1"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        id="address2"
-                        name="address2"
-                        label="Address line 2"
-                        fullWidth
-                        autoComplete="shipping address-line2"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="city"
-                        name="city"
-                        label="City"
-                        fullWidth
-                        autoComplete="shipping address-level2"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        id="state"
-                        name="state"
-                        label="State/Province/Region"
-                        fullWidth
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="zip"
-                        name="zip"
-                        label="Zip / Postal code"
-                        fullWidth
-                        autoComplete="shipping postal-code"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="country"
-                        name="country"
-                        label="Country"
-                        fullWidth
-                        autoComplete="shipping country"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <FormControlLabel
-                        control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-                        label="Use this address for payment details"
-                    />
-                </Grid>
-            </Grid>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateRangePicker
+                    startText="Start"
+                    endText="End"
+                    value={value1}
+                    onChange={(newValue) => {
+                        setValue1(newValue);
+                    }}
+                    renderInput={(startProps, endProps) => (
+                        <React.Fragment>
+                            <TextField {...startProps} />
+                            <Box sx={{ mx: 2 }}> to </Box>
+                            <TextField {...endProps} />
+                        </React.Fragment>
+                    )}
+                />
+            </LocalizationProvider>
+            <Typography variant="h6" gutterBottom>
+                Time Format
+            </Typography>
+            <ToggleButtonGroup value={locale} exclusive sx={{ mb: 2, display: 'block' }}>
+                {Object.keys(localeMap).map((localeItem) => (
+                    <ToggleButton
+                        key={localeItem}
+                        value={localeItem}
+                        onClick={() => setLocale(localeItem)}
+                    >
+                        {localeItem}
+                    </ToggleButton>
+                ))}
+            </ToggleButtonGroup>
+            <Typography variant="h6" gutterBottom>
+                Time Range
+            </Typography>
+            <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                adapterLocale={localeMap[locale]}
+            >
+                <TimePicker
+                    value={value}
+                    onChange={(newValue) => setValue(newValue)}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                adapterLocale={localeMap[locale]}
+            >
+                <TimePicker
+                    value={value2}
+                    onChange={(newValue) => setValue2(newValue)}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            <Typography variant="h6" gutterBottom>
+                TimeZone
+            </Typography>
+            <div>
+                <TimezoneSelect
+                    value={timezone}
+                    onChange={setTimezone}
+                    timezones={allTimezones}
+                />
+                <div>
+                    Current Date / Time in{" "}
+                    {timezone.value ? timezone.value.split("/")[1] : timezone.split("/")[1]}:{" "}
+                    <pre>{datetime.unixFmt("dd.MM.YY HH:mm:ss")}</pre>
+                    <div>Selected Timezone:</div>
+                    <pre>{JSON.stringify(timezone, null, 2)}</pre>
+                </div>
+            </div>
         </React.Fragment>
     );
 }
