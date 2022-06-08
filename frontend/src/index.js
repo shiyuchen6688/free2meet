@@ -2,14 +2,41 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import Meetups from './Meetups'
+import Invitations from './Invitations'
+import Explore from './Explore'
+import CreateMeetup from './CreateMeetup'
 import reportWebVitals from './reportWebVitals';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+
+        <Route path="/" element={<App />} />
+        <Route path="/meetups" element={<Meetups />} />
+        <Route path="/meetups/:meetupid" element={<Meetups />} />
+        <Route path="/meetups/new" element={<CreateMeetup />} />
+        <Route path="/invitations" element={<Invitations />} />
+        <Route path="/explore" element={<Explore />} />
+        {/* <Route path="meetups" element={<TODO />}>
+                <Route path=":meetupId" element={<TODO />} />
+                <Route path="new" element={<TODO />} />
+          </Route> */}
+      </Routes>
+    </BrowserRouter>
+
+
   </React.StrictMode>
 );
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

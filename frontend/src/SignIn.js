@@ -12,10 +12,19 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Home from './Home';
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function SignIn({ setIsValidUser }) {
+    // TODO: this is just a stub that does not validate password and username
+    const onSignIn = (e) => {
+        e.preventDefault()
+        setIsValidUser(true)
+        // store window local storage to persist signin state, TODO: cookie later
+        window.localStorage.setItem('user-info', JSON.stringify({}));
+
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -89,6 +98,7 @@ export default function SignIn() {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
+                                onClick={onSignIn}
                             >
                                 Sign In
                             </Button>
