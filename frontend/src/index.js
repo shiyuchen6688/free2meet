@@ -12,6 +12,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import Signup from './Signup';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -26,6 +27,7 @@ root.render(
         <Route path="/meetups/new" element={<CreateMeetup />} />
         <Route path="/invitations" element={<Invitations />} />
         <Route path="/explore" element={<Explore />} />
+        <Route path="/signup" element={<Signup />} />
         {/* <Route path="meetups" element={<TODO />}>
                 <Route path=":meetupId" element={<TODO />} />
                 <Route path="new" element={<TODO />} />
