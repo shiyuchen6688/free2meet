@@ -57,6 +57,7 @@ export default function MeetupAvailability() {
                     renderInput={(params) => <TextField {...params} />}
                 />
                 <TextField 
+                type="number"
                 error={numDays!==numDaysInput}
                 label="Num Days"
                 value={numDaysInput}
@@ -70,32 +71,35 @@ export default function MeetupAvailability() {
                 style = {{maxWidth: 150}}
                 />
                 <TextField
+                type="number"
                 error={minTime!==minTimeInput}
                 label="Min Time"
                 value={minTimeInput}
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 onChange={(newMinTime)=>{
-                    setMinTimeInput(newMinTime.target.value);
-                    if (newMinTime.target.value!=='' && newMinTime.target.value>=0) {
-                        setMinTime(newMinTime.target.value);
+                    setMinTimeInput(newMinTime.target.valueAsNumber);
+                    if (newMinTime.target.value>=0) {
+                        setMinTime(newMinTime.target.valueAsNumber);
                     }
                 }}
                 style = {{maxWidth: 150}}
                 />
                 <TextField
+                type="number"
                 error={maxTime!==maxTimeInput}
                 label="Max Time"
                 value={maxTimeInput}
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 onChange={(newMaxTime)=>{
-                    setMaxTimeInput(newMaxTime.target.value);
-                    if (newMaxTime.target.value!=='' && newMaxTime.target.value<=24 && newMaxTime.target.value>minTime) {
-                        setMaxTime(newMaxTime.target.value);
+                    setMaxTimeInput(newMaxTime.target.valueAsNumber);
+                    if (newMaxTime.target.value<=24 && newMaxTime.target.value>minTime) {
+                        setMaxTime(newMaxTime.target.valueAsNumber);
                     }
                 }}
                 style = {{maxWidth: 150}}
                 />
                 <TextField 
+                type="number"
                 error={hourlyChunk!==hourlyChunkInput}
                 label="Hourly Chunk"
                 value={hourlyChunkInput}
