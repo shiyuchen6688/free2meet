@@ -7,6 +7,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import ScheduleSelector from 'react-schedule-selector';
 
+
+import CreatableSelect from 'react-select/creatable';
+import { ActionMeta, OnChangeValue } from 'react-select';
+import { Stack } from '@mui/material';
+import Place from './Place.js';
+
+
 export default function MeetupInvitation() {
     /* These are some fake data */
     const [schedule, handleScheduleChange] = useState(
@@ -19,104 +26,54 @@ export default function MeetupInvitation() {
          'Mon Jun 13 2022 15:00:00 GMT-0700 (Pacific Daylight Time)',
          'Mon Jun 13 2022 16:00:00 GMT-0700 (Pacific Daylight Time)']
     );
+    const [options, setOptions] = useState([
+        { value: 'friend_0', label: 'Sam', uid: 'sam@gmail.com' },
+        { value: 'friend_1', label: 'Amy', uid: 'amy@gmail.com' }
+    ]);
+
+    const ubcLocation = {
+        icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
+        formatted_address: "Vancouver, BC V6T 1Z4, Canada",
+        name: "The University of British Columbia",
+        place_id: "ChIJAx7UL8xyhlQR86Iqc-fUncc",
+    };
+
     return (
         <React.Fragment>
+            <Stack direction="column" spacing={1}>
             <Typography variant="h6" gutterBottom>
-                Shipping address
+                Title: Temp
             </Typography>
-            <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="firstName"
-                        name="firstName"
-                        label="First name"
-                        fullWidth
-                        autoComplete="given-name"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="lastName"
-                        name="lastName"
-                        label="Last name"
-                        fullWidth
-                        autoComplete="family-name"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        id="address1"
-                        name="address1"
-                        label="Address line 1"
-                        fullWidth
-                        autoComplete="shipping address-line1"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        id="address2"
-                        name="address2"
-                        label="Address line 2"
-                        fullWidth
-                        autoComplete="shipping address-line2"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="city"
-                        name="city"
-                        label="City"
-                        fullWidth
-                        autoComplete="shipping address-level2"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        id="state"
-                        name="state"
-                        label="State/Province/Region"
-                        fullWidth
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="zip"
-                        name="zip"
-                        label="Zip / Postal code"
-                        fullWidth
-                        autoComplete="shipping postal-code"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        required
-                        id="country"
-                        name="country"
-                        label="Country"
-                        fullWidth
-                        autoComplete="shipping country"
-                        variant="standard"
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <FormControlLabel
-                        control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-                        label="Use this address for payment details"
-                    />
-                </Grid>
-            </Grid>
+            <Typography variant="h6" gutterBottom>
+                Details:
+            </Typography>
+            <Typography variant="h9" gutterBottom>
+                Stub
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+                Add Friends
+            </Typography>
+            <div>
+            <CreatableSelect
+                isMulti
+                // onChange={(newValue,actionMeta) => {
+                //     console.group('Value Changed');
+                //     console.log(newValue);
+                //     console.log(`action: ${actionMeta.action}`);
+                //     console.groupEnd();
+                //   }}
+                options={options}
+            />
+            </div>
+            <Typography variant="h6" gutterBottom>
+                Location
+            </Typography>
+            <Place key={ubcLocation.place_id} item={ubcLocation}>
+
+            </Place>
+            <Typography variant="h6" gutterBottom>
+                Time Availability
+            </Typography>
             <div>
                 <ScheduleSelector
                     selection={schedule}
@@ -135,6 +92,7 @@ export default function MeetupInvitation() {
                     }}
                 />
             </div>
+        </Stack>
         </React.Fragment>
     );
 }

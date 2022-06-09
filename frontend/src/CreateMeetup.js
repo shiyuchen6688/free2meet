@@ -20,7 +20,7 @@ import MeetupLocation from './MeetupLocation';
 
 const theme = createTheme();
 
-const steps = ['Title and Details', 'Availability', 'Invitation', 'Location'];
+const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
 
 export default function CreateMeetup() {
     const theme = createTheme();
@@ -42,9 +42,9 @@ export default function CreateMeetup() {
             case 1:
                 return <MeetupAvailability />;
             case 2:
-                return <MeetupInvitation />;
-            case 3:
                 return <MeetupLocation />;
+            case 3:
+                return <MeetupInvitation />;
             default:
                 throw new Error('Unknown step');
         }
