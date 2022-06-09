@@ -6,13 +6,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import * as React from 'react';
 import { useState } from "react";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
-import spacetime from "spacetime";
-// import { useMemo } from 'react';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import ScheduleSelector from 'react-schedule-selector';
-import NumericInput from 'react-numeric-input';
-import { height } from '@mui/system';
 
 export default function MeetupAvailability() {
     const [timezone, setTimezone] = useState(
@@ -140,16 +136,6 @@ export default function MeetupAvailability() {
                     timezones={allTimezones}
                 />
             </div>
-            {/* <div>
-                
-                <div>
-                    Current Date / Time in{" "}
-                    {timezone.value ? timezone.value.split("/")[1] : timezone.split("/")[1]}:{" "}
-                    <pre>{datetime.unixFmt("YYYY.MM.dd HH:mm:ss")}</pre>
-                    <div>Selected Timezone:</div>
-                    <pre>{JSON.stringify(timezone, null, 2)}</pre>
-                </div>
-            </div> */}
         </React.Fragment>
     );
 }
