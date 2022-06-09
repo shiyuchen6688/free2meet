@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import './App.css';
 import Place from './Place.js';
 
+let script;
 let autoComplete;
 let places = [];
 const k1 = "AIzaSyDHH_p0fbbZSRyr";
@@ -9,7 +10,6 @@ const k2 = "HqvLAc5WcM7Ic26ypP4";
 const k = k1 + k2;
 
 const loadScript = (url, callback) => {
-    let script = document.createElement("script");
     script.type = "text/javascript";
     if (script.readyState) {
         script.onreadystatechange = function () {
@@ -22,7 +22,6 @@ const loadScript = (url, callback) => {
         script.onload = () => callback();
     }
     script.src = url;
-    document.getElementsByTagName("head")[0].appendChild(script);
 };
 
 function handleScriptLoad(updateQuery, autoCompleteRef) {
@@ -41,12 +40,14 @@ async function handlePlaceSelect(updateQuery) {
 export default function MeetupLocation() {
     const [query, setQuery] = useState("");
     const autoCompleteRef = useRef(null);
+    script = document.createElement("script");
     useEffect(() => {
         loadScript(
             `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
             () => handleScriptLoad(setQuery, autoCompleteRef)
         );
     }, []);
+    document.getElementsByTagName("head")[0].appendChild(script);
     return (
         <div>
             <div className="search">
