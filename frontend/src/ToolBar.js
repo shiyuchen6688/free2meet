@@ -67,7 +67,7 @@ export default function ToolBar() {
                         component="button"
                         variant="button"
                         color="text.primary"
-                        // onClick={() => navigate("/meetups")} TODO: need to be updated to correct route
+                        onClick={() => navigate("/history")}
                         sx={{ my: 1, mx: 1.5 }}
                     >
                         View Full History
