@@ -1,5 +1,3 @@
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,25 +15,8 @@ export default function Signup() {
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
-
-        {/* Icon */}
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={3}
-          sx={{
-            backgroundImage: 'url(https://m.media-amazon.com/images/I/61a5yoW56UL._AC_SL1500_.jpg)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-
         {/* Sign up Form */}
-        <Grid item xs={12} sm={8} md={9} component={Paper} elevation={12} square>
+        <Grid item xs={12} sm={12} md={12} component={Paper} elevation={12} square>
           <Box
             sx={{
               my: 8,
@@ -45,25 +26,11 @@ export default function Signup() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
             <Typography component="h1" variant="h5">
               Create an account
             </Typography>
 
             <Box component="form" noValidate sx={{ mt: 1 }}>
-              {/* Email Input */}
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
               {/* User Name Input */}
               <TextField
                 margin="normal"
@@ -73,6 +40,16 @@ export default function Signup() {
                 label="User Name"
                 name="username"
                 autoFocus
+              />
+              {/* Email Input */}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
               />
               {/* Password Input */}
               <TextField
