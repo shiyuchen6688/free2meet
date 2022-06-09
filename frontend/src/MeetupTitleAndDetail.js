@@ -11,7 +11,7 @@ export default function MeetupTitleAndDetail() {
             <Typography variant="h6" gutterBottom>
                 Title
             </Typography>
-            <Grid xs={12} sm={6} sx={{ mb: "3%" }}>
+            <Grid xs={12} sm={6} sx={{ mb: "3%" }} item={true}>
                 <TextField
                     required
                     id="meetupName"
@@ -30,7 +30,7 @@ export default function MeetupTitleAndDetail() {
             <Typography variant="subtitle2" gutterBottom>
                 Maximum 1000 characters.
             </Typography>
-            <Grid xs={12} sm={6}>
+            <Grid xs={12} sm={6} item={true}>
                 <TextField
                     placeholder="Describe your meetup"
                     id="meetupDescription"
