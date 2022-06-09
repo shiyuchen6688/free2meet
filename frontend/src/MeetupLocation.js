@@ -1,6 +1,7 @@
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import React from 'react';
 
+
 // Initialize Google Map and add the map
 // function initMap() {
 //     // The location of Uluru

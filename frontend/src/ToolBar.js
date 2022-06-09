@@ -10,6 +10,12 @@ import { useNavigate } from "react-router-dom";
 export default function ToolBar() {
     const navigate = useNavigate();
 
+    const onSignOut = () => {
+        window.localStorage.removeItem('user-info');
+        navigate("/");
+        window.location.reload(false);
+    }
+
     return (
         <AppBar
             position="static"
@@ -76,7 +82,7 @@ export default function ToolBar() {
                         Explore
                     </Link>
                 </nav>
-                <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }}>
+                <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }} onClick={onSignOut}>
                     Log out
                 </Button>
             </Toolbar>
