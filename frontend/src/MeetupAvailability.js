@@ -6,8 +6,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import * as React from 'react';
 import { useState } from "react";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
-import spacetime from "spacetime";
-import { useMemo } from 'react';
 import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import ScheduleSelector from 'react-schedule-selector';
@@ -16,41 +14,24 @@ export default function MeetupAvailability() {
     const [timezone, setTimezone] = useState(
         Intl.DateTimeFormat().resolvedOptions().timeZone
     );
-    const [datetime, setDatetime] = useState(spacetime.now());
 
     /* This section of states are for the timetable */
     const [startDate, setStartDate] = useState(new Date());
     const [schedule, handleScheduleChange] = useState([]);
     const [selectionScheme, setSelectionScheme] = React.useState('linear');
-    const [numDays, setNumDays] = React.useState(7);
-    const [minTime, setMinTime] = React.useState(9);
-    const [maxTime, setMaxTime] = React.useState(17);
-    const [hourlyChunk, setHourlyChunk] = React.useState(1);
 
-    useMemo(() => {
-        const timezoneValue = timezone.value ?? timezone;
-        setDatetime(datetime.goto(timezoneValue));
-    }, [timezone]);
+    const [numDaysInput, setNumDaysInput] = React.useState(7);
+    const [minTimeInput, setMinTimeInput] = React.useState(9);
+    const [maxTimeInput, setMaxTimeInput] = React.useState(17);
+    const [hourlyChunkInput, setHourlyChunkInput] = React.useState(1);
+
+    const [numDays, setNumDays] = React.useState(numDaysInput);
+    const [minTime, setMinTime] = React.useState(minTimeInput);
+    const [maxTime, setMaxTime] = React.useState(maxTimeInput);
+    const [hourlyChunk, setHourlyChunk] = React.useState(hourlyChunkInput);
 
     return (
         <React.Fragment>
-            <Typography variant="h6" gutterBottom>
-                TimeZone
-            </Typography>
-            <div>
-                <TimezoneSelect
-                    value={timezone}
-                    onChange={setTimezone}
-                    timezones={allTimezones}
-                />
-                <div>
-                    Current Date / Time in{" "}
-                    {timezone.value ? timezone.value.split("/")[1] : timezone.split("/")[1]}:{" "}
-                    <pre>{datetime.unixFmt("YYYY.MM.dd HH:mm:ss")}</pre>
-                    <div>Selected Timezone:</div>
-                    <pre>{JSON.stringify(timezone, null, 2)}</pre>
-                </div>
-            </div>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack direction="row" spacing={1} justifyContent="space-between">
                 <TextField
@@ -67,7 +48,8 @@ export default function MeetupAvailability() {
                 </TextField>
                 <DesktopDatePicker
                     label="Start Date"
-                    inputFormat="yyyy/MM/dd"
+                    inputFormat="yyyy/mm/dd"
+                    mask='____/__/__'
                     value={startDate}
                     onChange={(newDate) => {
                         setStartDate(newDate);
@@ -75,39 +57,54 @@ export default function MeetupAvailability() {
                     renderInput={(params) => <TextField {...params} />}
                 />
                 <TextField 
+                error={numDays!==numDaysInput}
                 label="Num Days"
-                value={numDays}
+                value={numDaysInput}
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 onChange={(newNumDays)=>{
-                    console.log(newNumDays.target);
-                    setNumDays(newNumDays.target.value);
+                    setNumDaysInput(newNumDays.target.value);
+                    if (newNumDays.target.value!=='' && newNumDays.target.value>0) {
+                        setNumDays(newNumDays.target.value);
+                    }
                 }} 
                 style = {{maxWidth: 150}}
                 />
-                <TextField 
+                <TextField
+                error={minTime!==minTimeInput}
                 label="Min Time"
-                value={minTime}
+                value={minTimeInput}
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 onChange={(newMinTime)=>{
-                    setMinTime(newMinTime.target.value);
+                    setMinTimeInput(newMinTime.target.value);
+                    if (newMinTime.target.value!=='' && newMinTime.target.value>=0) {
+                        setMinTime(newMinTime.target.value);
+                    }
                 }}
                 style = {{maxWidth: 150}}
                 />
-                <TextField 
+                <TextField
+                error={maxTime!==maxTimeInput}
                 label="Max Time"
-                value={maxTime}
+                value={maxTimeInput}
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 onChange={(newMaxTime)=>{
-                    setMaxTime(newMaxTime.target.value);
+                    setMaxTimeInput(newMaxTime.target.value);
+                    if (newMaxTime.target.value!=='' && newMaxTime.target.value<=24 && newMaxTime.target.value>minTime) {
+                        setMaxTime(newMaxTime.target.value);
+                    }
                 }}
                 style = {{maxWidth: 150}}
                 />
                 <TextField 
+                error={hourlyChunk!==hourlyChunkInput}
                 label="Hourly Chunk"
-                value={hourlyChunk}
+                value={hourlyChunkInput}
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 onChange={(newHourlyChunk)=>{
-                    setHourlyChunk(newHourlyChunk.target.value);
+                    setHourlyChunkInput(newHourlyChunk.target.value);
+                    if (newHourlyChunk.target.value!=='' && newHourlyChunk.target.value<=6 && newHourlyChunk.target.value>0) {
+                        setHourlyChunk(newHourlyChunk.target.value);
+                    }
                 }}
                 style = {{maxWidth: 150}}
                 />
@@ -127,6 +124,17 @@ export default function MeetupAvailability() {
                     handleScheduleChange(newSchedule);
                 }}
             />
+            </div>
+
+            <Typography variant="h6" gutterBottom>
+                TimeZone
+            </Typography>
+            <div>
+            <TimezoneSelect
+                    value={timezone}
+                    onChange={setTimezone}
+                    timezones={allTimezones}
+                />
             </div>
         </React.Fragment>
     );

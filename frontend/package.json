@@ -13,6 +13,7 @@
     "date-fns": "^2.28.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-numeric-input": "^2.2.3",
     "react-router-dom": "^6.3.0",
     "react-schedule-selector": "^3.0.0",
     "react-scripts": "5.0.1",
