@@ -48,6 +48,7 @@ export default function MeetupAvailability() {
                     renderInput={(params) => <TextField {...params} />}
                 />
                 <TextField 
+                type="number"
                 error={numDays!==numDaysInput}
                 label="Num Days"
                 value={numDaysInput}
@@ -61,6 +62,7 @@ export default function MeetupAvailability() {
                 style = {{maxWidth: 150}}
                 />
                 <TextField 
+                type="number"
                 error={hourlyChunk!==hourlyChunkInput}
                 label="Hourly Chunk"
                 value={hourlyChunkInput}
