@@ -77,6 +77,15 @@ export default function CreateMeetup() {
                                 <Typography variant="h5" gutterBottom>
                                     Your Meetup has been created, enjoy!
                                 </Typography>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    href="/meetups/new"
+                                >
+                                    Schedule another meetup
+                                </Button>
                             </>
                         ) : (
                             <>
