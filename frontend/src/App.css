@@ -32,32 +32,3 @@
   width: 100%;
   /* The width is the width of the web page */
 }
-
-.search {
-  display: flex;
-  width: 100%;
-  border-radius: 24px;
-  border: 1px solid #ccc;
-}
-
-.search:hover {
-  box-shadow: 0 6px 6px 0 rgba(33,33,33,0.3);
-}
-
-.search input {
-  height: 32px;
-  width: 100%;
-  padding: 8px 12px;
-  border: none;
-  font-size: 16px;
-  border-radius: 24px;
-}
-
-.search input:focus {
-  outline: none;
-}
-
-.placesList {
-	list-style-type: none;
-  padding: 0;
-}

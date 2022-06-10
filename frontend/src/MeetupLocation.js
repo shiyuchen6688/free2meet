@@ -1,3 +1,6 @@
+import SearchIcon from "@material-ui/icons/Search";
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { addR } from "./actions/actions";
@@ -56,21 +59,28 @@ export default function MeetupLocation() {
     let data = useSelector(state => state.reducers);
     return (
         <div>
-            <div className="search">
-                <input
-                    ref={autoCompleteRef}
-                    onChange={event => setQuery(event.target.value)}
-                    placeholder="Search places"
-                    value={query}
-                />
-            </div>
+            <TextField
+                inputRef={autoCompleteRef}
+                onChange={event => setQuery(event.target.value)}
+                label="Search a location"
+                type="search"
+                variant="standard"
+                value={query}
+                fullWidth
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon />
+                        </InputAdornment>
+                    )
+                }}
+            />
 
-            <div className="places">
-                <ul className="placesList">
+            <div>
                     {data.map((item) => {
                         return (<Place key={item.place_id} item={item} />);
                     })}
-                </ul>
+
             </div>
         </div>
     );
