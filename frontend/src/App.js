@@ -1,12 +1,22 @@
-import { useState } from 'react'
-import './App.css'
-import SignIn from "./SignIn"
-import Home from "./Home"
-
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import * as React from 'react';
+import { useState } from 'react';
+import './App.css';
+import Home from "./Home";
+import SignIn from "./SignIn";
 
 function App() {
-
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: prefersDarkMode ? 'dark' : 'light',
+        },
+      }),
+    [prefersDarkMode],
+  );
   // chec if window has local storage, TODO: can change to cookie later
   const isLoggedIn = () => {
     return !!window.localStorage.getItem('user-info'); // !! to cast to boolean
@@ -22,10 +32,11 @@ function App() {
 
   // alredy sign in
   return (
-    <div className="App">
-      <Home />
-
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Home />
+      </div>
+    </ThemeProvider>
   );
 }
 

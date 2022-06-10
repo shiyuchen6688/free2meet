@@ -1,13 +1,16 @@
-import * as React from 'react';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
+import { useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import { useNavigate } from "react-router-dom";
 
-
 export default function ToolBar() {
+    const theme = useTheme();
     const navigate = useNavigate();
 
     const onSignOut = () => {
@@ -85,6 +88,9 @@ export default function ToolBar() {
                 <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }} onClick={onSignOut}>
                     Log out
                 </Button>
+                <IconButton sx={{ ml: 1 }} color="inherit">
+                    {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                </IconButton>
             </Toolbar>
         </AppBar>
     )
