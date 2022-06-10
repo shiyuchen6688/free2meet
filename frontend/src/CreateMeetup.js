@@ -1,29 +1,34 @@
-
-
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Stepper from '@mui/material/Stepper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import ToolBar from './ToolBar'
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import * as React from 'react';
 import MeetupAvailability from './MeetupAvailability';
 import MeetupInvitation from './MeetupInvitation';
-import MeetupTitleAndDetail from './MeetupTitleAndDetail';
 import MeetupLocation from './MeetupLocation';
-
-const theme = createTheme();
+import MeetupTitleAndDetail from './MeetupTitleAndDetail';
+import ToolBar from './ToolBar';
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
 
 export default function CreateMeetup() {
-    const theme = createTheme();
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const theme = React.useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode: prefersDarkMode ? 'dark' : 'light',
+                },
+            }),
+        [prefersDarkMode],
+    );
 
     const [activeStep, setActiveStep] = React.useState(0);
 
