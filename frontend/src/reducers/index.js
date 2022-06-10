@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import reducers from "./reducers";
+import createMeetupLocationReducer from "./createMeetupLocationReducer";
+import createMeetupTitleDetailReducer from "./createMeetupTitleDetailReducer";
 
 export default combineReducers({
-    reducers
+    createMeetupLocationReducer,
+    createMeetupTitleDetailReducer
 });

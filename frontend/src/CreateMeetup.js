@@ -15,6 +15,7 @@ import MeetupInvitation from './MeetupInvitation';
 import MeetupLocation from './MeetupLocation';
 import MeetupTitleAndDetail from './MeetupTitleAndDetail';
 import ToolBar from './ToolBar';
+import { useSelector } from 'react-redux';
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
 
@@ -32,8 +33,19 @@ export default function CreateMeetup() {
 
     const [activeStep, setActiveStep] = React.useState(0);
 
+    // TODO: get value of all the form inputs in all steps
+    let titleAndDetailInput = useSelector(state => state.createMeetupTitleDetailReducer)
+
     const handleNext = () => {
         setActiveStep(activeStep + 1);
+        console.log(activeStep)
+
+        // TODO: if we finished the last step, we can submit to backend
+        // this is just temporary to make sure that the form is correct
+        if (activeStep == (steps.length - 1)) {
+
+            console.log(titleAndDetailInput)
+        }
     };
 
     const handleBack = () => {

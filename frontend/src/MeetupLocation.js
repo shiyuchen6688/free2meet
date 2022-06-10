@@ -3,7 +3,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { addR } from "./actions/actions";
+import { addLocation } from "./actions/actions";
 import './App.css';
 import Place from './Place.js';
 
@@ -40,7 +40,7 @@ async function handlePlaceSelect(updateQuery) {
     updateQuery("");
     console.log(addressObject);
     if (addressObject.formatted_address !== undefined) {
-        dispatch(addR(addressObject));
+        dispatch(addLocation(addressObject));
     }
 }
 
@@ -56,7 +56,7 @@ export default function MeetupLocation() {
         );
     }, []);
     document.getElementsByTagName("head")[0].appendChild(script);
-    let data = useSelector(state => state.reducers);
+    let data = useSelector(state => state.createMeetupLocationReducer);
     return (
         <div>
             <TextField
