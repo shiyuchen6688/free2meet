@@ -1,20 +1,15 @@
+import { Stack } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useState } from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import ScheduleSelector from 'react-schedule-selector';
-
-
 import CreatableSelect from 'react-select/creatable';
-import { ActionMeta, OnChangeValue } from 'react-select';
-import { Stack } from '@mui/material';
+import "./App.css";
 import Place from './Place.js';
 
-
 export default function MeetupInvitation() {
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     /* These are some fake data */
     const [schedule, handleScheduleChange] = useState(
         ['Sat Jun 11 2022 09:00:00 GMT-0700 (Pacific Daylight Time)',
@@ -54,7 +49,7 @@ export default function MeetupInvitation() {
                 Add Friends
             </Typography>
             <div>
-            <CreatableSelect
+            <CreatableSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
                 isMulti
                 // onChange={(newValue,actionMeta) => {
                 //     console.group('Value Changed');

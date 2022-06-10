@@ -32,3 +32,8 @@
   width: 100%;
   /* The width is the width of the web page */
 }
+
+.dropdownMeunDark {
+  filter: invert(1);
+  color: black;
+}
