@@ -3,6 +3,7 @@ import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -10,6 +11,7 @@ import * as React from 'react';
 import { useState } from "react";
 import ScheduleSelector from 'react-schedule-selector';
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
+import "./App.css";
 
 export default function MeetupAvailability() {
     const [timezone, setTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -21,7 +23,7 @@ export default function MeetupAvailability() {
     const [numDays, setNumDays] = React.useState(numDaysInput);
     const [hourlyChunk, setHourlyChunk] = React.useState(hourlyChunkInput);
     const [timeInterval, settimeInterval] = React.useState([8, 18]);
-
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     return (
         <React.Fragment>
             <Stack direction="column" spacing={2}>
@@ -132,7 +134,7 @@ export default function MeetupAvailability() {
                 Timezone
             </Typography>
             <div>
-            <TimezoneSelect
+            <TimezoneSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
                     value={timezone}
                     onChange={setTimezone}
                     timezones={allTimezones}
