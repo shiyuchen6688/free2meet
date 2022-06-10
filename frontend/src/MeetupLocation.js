@@ -77,10 +77,9 @@ export default function MeetupLocation() {
             />
 
             <div>
-                    {data.map((item) => {
-                        return (<Place key={item.place_id} item={item} />);
-                    })}
-
+                {data.map((item) => {
+                    return (<Place key={item.place_id} item={item} />);
+                })}
             </div>
         </div>
     );
