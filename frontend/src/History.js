@@ -20,7 +20,7 @@ const eventsJSON = [{title: "Party 3",
                     startDate: "2022-07-03", 
                     startTime: "12:00PM", 
                     endDate: "2022-07-03", 
-                    endTime: "08:000PM", 
+                    endTime: "08:00PM", 
                     host: 
                         {
                             userID: 1, 
@@ -52,9 +52,9 @@ const eventsJSON = [{title: "Party 3",
                     id: 1,
                     description: "a description of party 3...", 
                     startDate: "2022-07-01", 
-                    startTime: "12:02:00PM", 
+                    startTime: "12:02PM", 
                     endDate: "2022-07-01", 
-                    endTime: "08:02:00PM", 
+                    endTime: "08:02PM", 
                     host: 
                         {
                             userID: 9, 

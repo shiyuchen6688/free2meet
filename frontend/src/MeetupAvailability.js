@@ -77,7 +77,7 @@ export default function MeetupAvailability() {
                 />
             </Stack>
             <Typography variant="h6" gutterBottom>
-                Choose min and max times
+                Choose the starting hour and ending hour of your timetable
             </Typography>
             <Slider
                     getAriaLabel={() => 'Time range'}

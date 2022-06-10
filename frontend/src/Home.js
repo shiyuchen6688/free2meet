@@ -25,6 +25,8 @@ let recentMeetupList = [
     }
 ]
 
+recentMeetupList.reverse();
+
 export default function Home() {
 
 
