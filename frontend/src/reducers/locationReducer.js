@@ -1,7 +1,7 @@
-const reducers = (state = [], action) => {
+const locationReducer = (state = [], action) => {
     switch (action.type) {
         case "ADD_R":
-            if (!state.some(e=> e.place_id === action.newPlace.place_id)){
+            if (!state.some(e => e.place_id === action.newPlace.place_id)) {
                 return [...state, action.newPlace];
             }
             return state;
@@ -12,4 +12,4 @@ const reducers = (state = [], action) => {
     }
 };
 
-export default reducers;
+export default locationReducer;

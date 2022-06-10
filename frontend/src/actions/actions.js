@@ -1,9 +1,11 @@
-export const addR = (newPlace) => ({
-    type: "ADD_R",
+// Add location
+export const addLocation = (newPlace) => ({
+    type: "ADD_LOCATION",
     newPlace
 });
 
-export const delR = id => ({
-    type: "DEL_R",
+// Delete locations
+export const deleteLocation = id => ({
+    type: "DELETE_LOCATION",
     id
 });
