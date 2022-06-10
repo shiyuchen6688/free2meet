@@ -11,12 +11,13 @@ import * as React from 'react';
 import { useState } from "react";
 import ScheduleSelector from 'react-schedule-selector';
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
-import "./App.css";
+
+import { useDispatch, useSelector } from 'react-redux';
+import { updateSchedule } from './actions/actions';
 
 export default function MeetupAvailability() {
     const [timezone, setTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
     const [startDate, setStartDate] = useState(new Date());
-    const [schedule, handleScheduleChange] = useState([]);
     const [selectionScheme, setSelectionScheme] = React.useState('linear');
     const [numDaysInput, setNumDaysInput] = React.useState(7);
     const [hourlyChunkInput, setHourlyChunkInput] = React.useState(1);
@@ -24,6 +25,10 @@ export default function MeetupAvailability() {
     const [hourlyChunk, setHourlyChunk] = React.useState(hourlyChunkInput);
     const [timeInterval, settimeInterval] = React.useState([8, 18]);
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+    const dispatch = useDispatch();
+    const schedule = useSelector(state => state.timeReducer);
+
     return (
         <React.Fragment>
             <Stack direction="column" spacing={2}>
@@ -125,7 +130,7 @@ export default function MeetupAvailability() {
                 hourlyChunks={hourlyChunk}
                 timeFormat={"h:mma"}
                 onChange={(newSchedule) => {
-                    handleScheduleChange(newSchedule);
+                    dispatch(updateSchedule(newSchedule));
                 }}
             />
             </div>

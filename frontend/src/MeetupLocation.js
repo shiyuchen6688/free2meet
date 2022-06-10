@@ -56,7 +56,7 @@ export default function MeetupLocation() {
         );
     }, []);
     document.getElementsByTagName("head")[0].appendChild(script);
-    let data = useSelector(state => state.reducers);
+    let data = useSelector(state => state.locReducer);
     return (
         <div>
             <TextField

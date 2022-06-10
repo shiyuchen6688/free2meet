@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import reducers from "./reducers";
+import locReducer from "./locReducer";
+import timeReducer from "./timeReducer";
 
 export default combineReducers({
-    reducers
+    locReducer,
+    timeReducer
 });
