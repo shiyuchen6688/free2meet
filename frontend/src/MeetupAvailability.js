@@ -1,15 +1,15 @@
+import MenuItem from '@mui/material/MenuItem';
+import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import * as React from 'react';
 import { useState } from "react";
-import TimezoneSelect, { allTimezones } from "react-timezone-select";
-import Stack from '@mui/material/Stack';
-import MenuItem from '@mui/material/MenuItem';
 import ScheduleSelector from 'react-schedule-selector';
-import Slider from '@mui/material/Slider';
+import TimezoneSelect, { allTimezones } from "react-timezone-select";
 
 export default function MeetupAvailability() {
     const [timezone, setTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -76,8 +76,8 @@ export default function MeetupAvailability() {
                 style = {{maxWidth: 150}}
                 />
             </Stack>
-            <Typography variant="h6" gutterBottom>
-                Choose the starting hour and ending hour of your timetable
+            <Typography variant="subtitle1" gutterBottom>
+                From {timeInterval[0]}:00 to {timeInterval[1]}:00
             </Typography>
             <Slider
                     getAriaLabel={() => 'Time range'}
@@ -129,7 +129,7 @@ export default function MeetupAvailability() {
             </div>
 
             <Typography variant="h6" gutterBottom>
-                TimeZone
+                Timezone
             </Typography>
             <div>
             <TimezoneSelect
