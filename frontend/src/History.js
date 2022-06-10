@@ -15,6 +15,7 @@ import ToolBar from './ToolBar'
 import { Avatar, Typography } from '@mui/material';
 
 const eventsJSON = [{title: "Party 3", 
+                    id: 3,
                     description: "a description of party 1...", 
                     startDate: "2022-07-03", 
                     startTime: "12:00PM", 
@@ -31,6 +32,7 @@ const eventsJSON = [{title: "Party 3",
                         {userID: 4, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}
                     ]},
                     {title: "Party 2", 
+                    id: 2,
                     description: "a description of party 2...", 
                     startDate: "2022-07-02", 
                     startTime: "12:01PM", 
@@ -47,6 +49,7 @@ const eventsJSON = [{title: "Party 3",
                         {userID: 8, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}
                     ]},
                     {title: "Party 1", 
+                    id: 1,
                     description: "a description of party 3...", 
                     startDate: "2022-07-01", 
                     startTime: "12:02:00PM", 
@@ -87,7 +90,7 @@ export default function History() {
 
     function mapJSONToCard(eventJSON) {
         return (
-            <Box sx={{minWidth: 275, maxWidth: 600, margin: 5}}>
+            <Box sx={{minWidth: 275, maxWidth: 600, margin: 5}} key={eventJSON.id}>
                 <Card variant="outlined">
                     <CardHeader
                         avatar={
@@ -114,7 +117,7 @@ export default function History() {
 
     function mapPeopleToCard(peopleJSON) {
         return (
-            <Box sx={{minWidth: 275, maxWidth: 600, margin: 5}}>
+            <Box sx={{minWidth: 275, maxWidth: 600, margin: 5}} key={peopleJSON.userID}>
                 <Card variant="outlined">
                     <CardHeader
                         title={peopleJSON.name}

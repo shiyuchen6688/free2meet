@@ -36,7 +36,6 @@ export default function MeetupTitleAndDetail() {
                     multiline
                     fullWidth
                     rows={12}
-                    maxRows={Infinity}
                 />
             </Grid>
         </ >
