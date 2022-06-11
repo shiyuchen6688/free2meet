@@ -15,6 +15,7 @@ import MeetupInvitation from './MeetupInvitation';
 import MeetupLocation from './MeetupLocation';
 import MeetupTitleAndDetail from './MeetupTitleAndDetail';
 import ToolBar from './ToolBar';
+import Confetti from "react-confetti";
 import { useSelector } from 'react-redux';
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
@@ -43,7 +44,7 @@ export default function CreateMeetup() {
         // this is just temporary to make sure that the form is correct
         if (activeStep === (steps.length - 1)) {
 
-            console.log(titleAndDetailInput)
+            // console.log(titleAndDetailInput);
         }
     };
 
@@ -89,7 +90,8 @@ export default function CreateMeetup() {
                     <>
                         {/* Check if we finished all the steps */}
                         {activeStep === steps.length ? (
-                            <>
+                            <> 
+                                <Confetti recycle={false}/>
                                 <Typography variant="h5" gutterBottom>
                                     Your Meetup has been created, enjoy!
                                 </Typography>
