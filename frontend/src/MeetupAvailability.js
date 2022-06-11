@@ -1,21 +1,15 @@
 import * as React from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import Slider from '@mui/material/Slider';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { Button, MenuItem, Slider, Stack, 
+         TextField, Typography, useMediaQuery } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import ScheduleSelector from 'react-schedule-selector';
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
-
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSchedule, updateHourlyChunk,updateHourlyChunkInput,
          updateNumDays, updateNumDaysInput, updateStartDate, clearSchedule,
          updateSelectionScheme, updateTimezone, updateTimeInterval} from './actions/actions';
-import { Button } from '@mui/material';
 
 export default function MeetupAvailability() {
     const dispatch = useDispatch();
@@ -137,7 +131,8 @@ export default function MeetupAvailability() {
             </div>
 
             <Typography variant="h6" gutterBottom>
-                Timezone
+                Timezone: {allScheduleInfo.timezone.value === undefined ? 
+                allScheduleInfo.timezone : allScheduleInfo.timezone.value}
             </Typography>
             <div>
             <TimezoneSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
