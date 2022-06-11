@@ -1,3 +1,4 @@
+import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
@@ -7,27 +8,20 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import * as React from 'react';
-import { useState } from "react";
 import ScheduleSelector from 'react-schedule-selector';
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 
 import { useDispatch, useSelector } from 'react-redux';
-import { updateSchedule } from './actions/actions';
+import { updateSchedule, updateHourlyChunk,updateHourlyChunkInput,
+         updateNumDays, updateNumDaysInput, updateStartDate, clearSchedule,
+         updateSelectionScheme, updateTimezone, updateTimeInterval} from './actions/actions';
+import { Button } from '@mui/material';
 
 export default function MeetupAvailability() {
-    const [timezone, setTimezone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
-    const [startDate, setStartDate] = useState(new Date());
-    const [selectionScheme, setSelectionScheme] = React.useState('linear');
-    const [numDaysInput, setNumDaysInput] = React.useState(7);
-    const [hourlyChunkInput, setHourlyChunkInput] = React.useState(1);
-    const [numDays, setNumDays] = React.useState(numDaysInput);
-    const [hourlyChunk, setHourlyChunk] = React.useState(hourlyChunkInput);
-    const [timeInterval, settimeInterval] = React.useState([8, 18]);
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
     const dispatch = useDispatch();
-    const schedule = useSelector(state => state.timeReducer);
+    const allScheduleInfo = useSelector(state => state.timeReducer);
+
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     return (
         <React.Fragment>
@@ -37,9 +31,9 @@ export default function MeetupAvailability() {
                 <TextField
                     select
                     label="Selection Scheme"
-                    value={selectionScheme}
+                    value={allScheduleInfo.selectionScheme}
                     onChange={(newSelectionScheme) => {
-                        setSelectionScheme(newSelectionScheme.target.value);
+                        dispatch(updateSelectionScheme(newSelectionScheme.target.value));
                     }}
                     style = {{minWidth: 150}}
                     >
@@ -48,47 +42,54 @@ export default function MeetupAvailability() {
                 </TextField>
                 <DesktopDatePicker
                     label="Start Date"
-                    value={startDate}
+                    value={allScheduleInfo.startDate}
                     onChange={(newDate) => {
-                        setStartDate(newDate);
+                        dispatch(updateStartDate(newDate));
                     }}
                     renderInput={(params) => <TextField {...params} />}
                 />
                 <TextField 
                 type="number"
-                error={numDays!==numDaysInput}
+                error={allScheduleInfo.numDays!==allScheduleInfo.numDaysInput}
                 label="Num Days"
-                value={numDaysInput}
+                value={allScheduleInfo.numDaysInput}
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 onChange={(newNumDays)=>{
-                    setNumDaysInput(newNumDays.target.value);
+                    dispatch(updateNumDaysInput(newNumDays.target.value));
                     if (newNumDays.target.value!=='' && newNumDays.target.value>0) {
-                        setNumDays(newNumDays.target.value);
+                        dispatch(updateNumDays(newNumDays.target.value));
                     }
                 }} 
                 style = {{maxWidth: 150}}
                 />
                 <TextField 
                 type="number"
-                error={hourlyChunk!==hourlyChunkInput}
+                error={allScheduleInfo.hourlyChunk!==allScheduleInfo.hourlyChunkInput}
                 label="Hourly Chunk"
-                value={hourlyChunkInput}
+                value={allScheduleInfo.hourlyChunkInput}
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                 onChange={(newHourlyChunk)=>{
-                    setHourlyChunkInput(newHourlyChunk.target.value);
+                    dispatch(updateHourlyChunkInput(newHourlyChunk.target.value));
                     if (newHourlyChunk.target.value!=='' && newHourlyChunk.target.value<=6 && newHourlyChunk.target.value>0) {
-                        setHourlyChunk(newHourlyChunk.target.value);
+                        dispatch(updateHourlyChunk(newHourlyChunk.target.value));
                     }
                 }}
                 style = {{maxWidth: 150}}
                 />
             </Stack>
-            <Typography variant="subtitle1" gutterBottom>
-                From {timeInterval[0]}:00 to {timeInterval[1]}:00
-            </Typography>
+            <Stack direction="row" spacing={2} justifyContent="space-between">
+                <Typography variant="subtitle1" gutterBottom>
+                    From {allScheduleInfo.timeInterval[0]}:00 to {allScheduleInfo.timeInterval[1]}:00
+                </Typography>
+                <Button 
+                variant="outlined" 
+                onClick={() => {
+                    dispatch(clearSchedule());
+                }}>CLEAR</Button>
+            </Stack>
             <Slider
                     getAriaLabel={() => 'Time range'}
-                    value={timeInterval}
+                    value={allScheduleInfo.timeInterval}
                     onChange={(event, newValue, activeThumb) => {
                         const minDistance = 1;
                         if (!Array.isArray(newValue)) {
@@ -97,13 +98,13 @@ export default function MeetupAvailability() {
                         if (newValue[1] - newValue[0] < minDistance) {
                             if (activeThumb === 0) {
                                 const clamped = Math.min(newValue[0], 100 - minDistance);
-                                settimeInterval([clamped, clamped + minDistance]);
+                                dispatch(updateTimeInterval([clamped, clamped + minDistance]));
                             } else {
                                 const clamped = Math.max(newValue[1], minDistance);
-                                settimeInterval([clamped - minDistance, clamped]);
+                                dispatch(updateTimeInterval([clamped - minDistance, clamped]));
                             }
                         } else {
-                            settimeInterval(newValue);
+                            dispatch(updateTimeInterval(newValue));
                         }
                     }}
                     valueLabelDisplay="auto"
@@ -121,13 +122,13 @@ export default function MeetupAvailability() {
             </LocalizationProvider>
             <div>
             <ScheduleSelector
-                selection={schedule}
-                selectionScheme={selectionScheme}
-                startDate={startDate}
-                numDays={numDays}
-                minTime={timeInterval[0]}
-                maxTime={timeInterval[1]}
-                hourlyChunks={hourlyChunk}
+                selection={allScheduleInfo.schedule}
+                selectionScheme={allScheduleInfo.selectionScheme}
+                startDate={allScheduleInfo.startDate}
+                numDays={allScheduleInfo.numDays}
+                minTime={allScheduleInfo.timeInterval[0]}
+                maxTime={allScheduleInfo.timeInterval[1]}
+                hourlyChunks={allScheduleInfo.hourlyChunk}
                 timeFormat={"h:mma"}
                 onChange={(newSchedule) => {
                     dispatch(updateSchedule(newSchedule));
@@ -140,8 +141,10 @@ export default function MeetupAvailability() {
             </Typography>
             <div>
             <TimezoneSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
-                    value={timezone}
-                    onChange={setTimezone}
+                    value={allScheduleInfo.timezone}
+                    onChange={(newTineZone) => {
+                        dispatch(updateTimezone(newTineZone));
+                    }}
                     timezones={allTimezones}
                 />
             </div>
