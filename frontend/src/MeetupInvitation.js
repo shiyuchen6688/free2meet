@@ -23,13 +23,13 @@ export default function MeetupInvitation() {
         <React.Fragment>
             <Stack direction="column" spacing={2}>
                 <Typography variant="h6" gutterBottom>
-                    Title: {titleAndDetailInfo["meetup-title"]}
+                    Title: {titleAndDetailInfo["meetup-title"] === "" ? "NA" : titleAndDetailInfo["meetup-title"]}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
                     Details:
                 </Typography>
                 <Typography variant="h9" gutterBottom>
-                    {titleAndDetailInfo["meetup-description"]}
+                    {titleAndDetailInfo["meetup-description"] === "" ? "NA" : titleAndDetailInfo["meetup-description"]}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
                     Add Friends
@@ -42,7 +42,7 @@ export default function MeetupInvitation() {
                     />
                 </div>
                 <Typography variant="h6" gutterBottom>
-                    Location
+                    Location {locationInfo.length === 0 ? "NA" : ""}
                 </Typography>
                 {locationInfo.map((item) => {
                     return (<Place key={item.place_id} item={item} />);
@@ -52,9 +52,9 @@ export default function MeetupInvitation() {
                     allScheduleInfo.timezone : allScheduleInfo.timezone.value}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                    Time Availability
+                    Time Availability {allScheduleInfo.schedule.length === 0 ? "NA" : ""}
                 </Typography>
-                <div>
+                { allScheduleInfo.schedule.length !== 0 && <div>
                     <ScheduleSelector
                         selection={allScheduleInfo.schedule}
                         numDays={allScheduleInfo.numDays}
@@ -68,7 +68,7 @@ export default function MeetupInvitation() {
                             </div>
                         )}
                     />
-                </div>
+                </div>}
             </Stack>
         </React.Fragment>
     );
