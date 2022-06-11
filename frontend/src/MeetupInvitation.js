@@ -2,48 +2,34 @@ import { Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
-import { useState } from 'react';
 import ScheduleSelector from 'react-schedule-selector';
 import CreatableSelect from 'react-select/creatable';
 import "./App.css";
 import Place from './Place';
+import { useSelector } from 'react-redux';
 
 export default function MeetupInvitation() {
+    const titleAndDetailInfo = useSelector(state => state.createMeetupTitleDetailReducer);
+    const allScheduleInfo = useSelector(state => state.createMeetupScheduleReducer);
+    const locationInfo = useSelector(state => state.createMeetupLocationReducer);
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    /* These are some fake data */
-    const [schedule, handleScheduleChange] = useState(
-        ['Sat Jun 11 2022 09:00:00 GMT-0700 (Pacific Daylight Time)',
-            'Sat Jun 11 2022 10:00:00 GMT-0700 (Pacific Daylight Time)',
-            'Sat Jun 11 2022 11:00:00 GMT-0700 (Pacific Daylight Time)',
-            'Sat Jun 11 2022 12:00:00 GMT-0700 (Pacific Daylight Time)',
-            'Mon Jun 13 2022 13:00:00 GMT-0700 (Pacific Daylight Time)',
-            'Mon Jun 13 2022 14:00:00 GMT-0700 (Pacific Daylight Time)',
-            'Mon Jun 13 2022 15:00:00 GMT-0700 (Pacific Daylight Time)',
-            'Mon Jun 13 2022 16:00:00 GMT-0700 (Pacific Daylight Time)']
-    );
-    const [options, setOptions] = useState([
+
+    const options = [
         { value: 'friend_0', label: 'Sam', uid: 'sam@gmail.com' },
         { value: 'friend_1', label: 'Amy', uid: 'amy@gmail.com' }
-    ]);
-
-    const ubcLocation = {
-        icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png",
-        formatted_address: "Vancouver, BC V6T 1Z4, Canada",
-        name: "The University of British Columbia",
-        place_id: "ChIJAx7UL8xyhlQR86Iqc-fUncc",
-    };
+    ];
 
     return (
         <React.Fragment>
-            <Stack direction="column" spacing={1}>
+            <Stack direction="column" spacing={2}>
                 <Typography variant="h6" gutterBottom>
-                    Title: Temp
+                    Title: {titleAndDetailInfo["meetup-title"] === "" ? "NA" : titleAndDetailInfo["meetup-title"]}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
                     Details:
                 </Typography>
                 <Typography variant="h9" gutterBottom>
-                    Stub
+                    {titleAndDetailInfo["meetup-description"] === "" ? "NA" : titleAndDetailInfo["meetup-description"]}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
                     Add Friends
@@ -51,42 +37,38 @@ export default function MeetupInvitation() {
                 <div>
                     <CreatableSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
                         isMulti
-                        // onChange={(newValue,actionMeta) => {
-                        //     console.group('Value Changed');
-                        //     console.log(newValue);
-                        //     console.log(`action: ${actionMeta.action}`);
-                        //     console.groupEnd();
-                        //   }}
+                        // onChange={}
                         options={options}
                     />
                 </div>
                 <Typography variant="h6" gutterBottom>
-                    Location
+                    Location {locationInfo.length === 0 ? "NA" : ""}
                 </Typography>
-                <Place key={ubcLocation.place_id} item={ubcLocation}>
-
-                </Place>
+                {locationInfo.map((item) => {
+                    return (<Place key={item.place_id} item={item} />);
+                })}
                 <Typography variant="h6" gutterBottom>
-                    Time Availability
+                    Timezone: {allScheduleInfo.timezone.value === undefined ? 
+                    allScheduleInfo.timezone : allScheduleInfo.timezone.value}
                 </Typography>
-                <div>
+                <Typography variant="h6" gutterBottom>
+                    Time Availability {allScheduleInfo.schedule.length === 0 ? "NA" : ""}
+                </Typography>
+                { allScheduleInfo.schedule.length !== 0 && <div>
                     <ScheduleSelector
-                        selection={schedule}
-                        numDays={7}
-                        minTime={9}
-                        maxTime={17}
-                        startDate={new Date()}
-                        dateFormat="ddd M/D"
+                        selection={allScheduleInfo.schedule}
+                        numDays={allScheduleInfo.numDays}
+                        startDate={allScheduleInfo.startDate}
+                        minTime={allScheduleInfo.timeInterval[0]}
+                        maxTime={allScheduleInfo.timeInterval[1]}
+                        dateFormat={"h:mma"}
                         renderDateCell={(time, selected, innerRef) => (
                             <div style={{ textAlign: 'center' }} ref={innerRef}>
                                 {selected ? '✅' : '❌'}
                             </div>
                         )}
-                        onChange={(newSchedule) => {
-                            handleScheduleChange(newSchedule);
-                        }}
                     />
-                </div>
+                </div>}
             </Stack>
         </React.Fragment>
     );

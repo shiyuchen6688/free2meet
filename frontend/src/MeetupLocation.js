@@ -38,7 +38,7 @@ function handleScriptLoad(updateQuery, autoCompleteRef) {
 async function handlePlaceSelect(updateQuery) {
     const addressObject = autoComplete.getPlace();
     updateQuery("");
-    console.log(addressObject);
+    // console.log(addressObject);
     if (addressObject.formatted_address !== undefined) {
         dispatch(addLocation(addressObject));
     }
