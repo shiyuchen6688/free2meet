@@ -91,9 +91,9 @@ export default function CreateMeetup() {
                         {/* Check if we finished all the steps */}
                         {activeStep === steps.length ? (
                             <> 
-                                <Confetti recycle={false}/>
+                                <Confetti recycle={false} numberOfPieces={288}/>
                                 <Typography variant="h5" gutterBottom>
-                                    Your Meetup has been created, enjoy!
+                                    Your Meetup {titleAndDetailInput["meetup-title"]} has been created, enjoy!
                                 </Typography>
                                 <Button
                                     type="submit"

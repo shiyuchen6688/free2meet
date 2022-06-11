@@ -61,7 +61,7 @@ export default function MeetupInvitation() {
                         startDate={allScheduleInfo.startDate}
                         minTime={allScheduleInfo.timeInterval[0]}
                         maxTime={allScheduleInfo.timeInterval[1]}
-                        dateFormat={"h:mma"}
+                        timeFormat={"h:mma"}
                         renderDateCell={(time, selected, innerRef) => (
                             <div style={{ textAlign: 'center' }} ref={innerRef}>
                                 {selected ? '✅' : '❌'}
