@@ -19,7 +19,7 @@ import { Button } from '@mui/material';
 
 export default function MeetupAvailability() {
     const dispatch = useDispatch();
-    const allScheduleInfo = useSelector(state => state.timeReducer);
+    const allScheduleInfo = useSelector(state => state.createMeetupScheduleReducer);
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 

@@ -1,10 +1,12 @@
-export const addR = (newPlace) => ({
-    type: "ADD_R",
+// Add location
+export const addLocation = (newPlace) => ({
+    type: "ADD_LOCATION",
     newPlace
 });
 
-export const delR = id => ({
-    type: "DEL_R",
+// Delete locations
+export const deleteLocation = id => ({
+    type: "DELETE_LOCATION",
     id
 });
 
@@ -56,3 +58,12 @@ export const updateTimeInterval = (newTimeInterval) => ({
 export const clearSchedule = () => ({
     type: "CLEAR_SCHEDULE"
 });
+
+// Handle change in meetup title and detial form input
+export const changeMeetupTitleAndDetailForm = (inputValue, inputName) => {
+    return {
+        type: "CHANGE_MEETUP_TITLE_AND_DETAIL_FORM",
+        payload: { inputValue, inputName }
+    }
+}
+

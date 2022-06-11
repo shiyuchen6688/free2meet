@@ -10,7 +10,7 @@ const initState = {
     timeInterval: [8, 18],
 };
 
-const timeReducer = (state = initState, action) => {
+const createMeetupScheduleReducer = (state = initState, action) => {
     let newState = {...state};
     switch (action.type) {
         case "UPDATE_SCHEDULE":
@@ -51,4 +51,4 @@ const timeReducer = (state = initState, action) => {
     }
 };
 
-export default timeReducer;
+export default createMeetupScheduleReducer;
