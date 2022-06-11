@@ -38,11 +38,10 @@ export default function CreateMeetup() {
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
-        console.log(activeStep)
 
         // TODO: if we finished the last step, we can submit to backend
         // this is just temporary to make sure that the form is correct
-        if (activeStep == (steps.length - 1)) {
+        if (activeStep === (steps.length - 1)) {
 
             console.log(titleAndDetailInput)
         }
