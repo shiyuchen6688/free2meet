@@ -13,6 +13,7 @@ let script;
 let autoComplete;
 let dispatch;
 let map;
+let data;
 const k1 = "AIzaSyDHH_p0fbbZSRyr";
 const k2 = "HqvLAc5WcM7Ic26ypP4";
 const k = k1 + k2;
@@ -119,21 +120,24 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
         zoom: 15,
         styles: prefersDarkMode ? darkStyle : [],
     });
+    data.forEach(d => createMarker(d.place_id, d.lat, d.lng, 1));
     autoComplete.setFields(["address_component", "adr_address", "alt_id", "formatted_address", "geometry.location", "icon", "name", "place_id", "type", "url"]);
     autoComplete.addListener("place_changed", () => handlePlaceSelect(updateQuery));
 }
 
 let markers = [];
 
-let createMarker = function (id, loc) {
-    for (let i = 0; i < markers.length; i++) {
-        if (id === markers[i].id) {
-            return;
+let createMarker = function (id, lat, lng, para) {
+    if (para === 0) {
+        for (let i = 0; i < markers.length; i++) {
+            if (id === markers[i].id) {
+                return;
+            }
         }
     }
-    let marker = new window.google.maps.Marker({ // create a marker and set id
+    let marker = new window.google.maps.Marker({
         id: id,
-        position: loc,
+        position: new window.google.maps.LatLng(lat, lng),
         map: map,
         draggable: false,
         animation: window.google.maps.Animation.DROP
@@ -153,12 +157,16 @@ let deleteMarker = function (id) {
 
 async function handlePlaceSelect(updateQuery) {
     const addressObject = autoComplete.getPlace();
-    updateQuery("");
-    // console.log(addressObject);
     if (addressObject.formatted_address !== undefined) {
+        updateQuery("");
+        let lat = addressObject.geometry.location.lat()
+        let lng = addressObject.geometry.location.lng();
+        addressObject.lat = lat;
+        addressObject.lng = lng;
         dispatch(addLocation(addressObject));
         map.setCenter(addressObject.geometry.location);
-        createMarker(addressObject.place_id, addressObject.geometry.location);
+        map.setZoom(15);
+        createMarker(addressObject.place_id, lat, lng, 0);
     }
 }
 
@@ -183,7 +191,7 @@ export default function MeetupLocation() {
         );
     }, []);
     document.getElementsByTagName("head")[0].appendChild(script);
-    let data = useSelector(state => state.createMeetupLocationReducer);
+    data = useSelector(state => state.createMeetupLocationReducer);
     return (
         <div>
             <TextField
