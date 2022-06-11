@@ -43,6 +43,11 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
 let markers = [];
 
 let createMarker = function (id, loc) {
+    for (let i = 0; i < markers.length; i++) {
+        if (id === markers[i].id) {
+            return;
+        }
+    }
     let marker = new window.google.maps.Marker({ // create a marker and set id
         id: id,
         position: loc,
@@ -59,7 +64,7 @@ let deleteMarker = function (id) {
         if (id === markers[i].id) {
             marker = markers[i]
         }
-      }
+    }
     marker.setMap(null);
 }
 
@@ -109,7 +114,7 @@ export default function MeetupLocation() {
             <div ref={mapRef} id='map' />
             <div>
                 {data.map((item) => {
-                    return (<Place key={item.place_id} item={item} deleteMarker={deleteMarker}/>);
+                    return (<Place key={item.place_id} item={item} deleteMarker={deleteMarker} />);
                 })}
             </div>
         </div>
