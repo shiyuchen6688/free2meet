@@ -2,11 +2,12 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { useDispatch } from 'react-redux';
+import { useDispatch , useSelector} from 'react-redux';
 import { changeMeetupTitleAndDetailForm } from './actions/actions'
 
 export default function MeetupTitleAndDetail() {
     const dispatch = useDispatch()
+    const titleAndDetailInfo = useSelector(state => state.createMeetupTitleDetailReducer);
 
     let onChangeHandler = e => {
         dispatch(changeMeetupTitleAndDetailForm(e.target.value, e.target.name))
@@ -26,6 +27,7 @@ export default function MeetupTitleAndDetail() {
                     label="Meetup Title"
                     fullWidth
                     variant="standard"
+                    defaultValue={titleAndDetailInfo["meetup-title"]}
                     onChange={onChangeHandler}
                 />
             </Grid>
@@ -46,6 +48,7 @@ export default function MeetupTitleAndDetail() {
                     multiline
                     fullWidth
                     rows={12}
+                    defaultValue={titleAndDetailInfo["meetup-description"]}
                     onChange={onChangeHandler}
                 />
             </Grid>
