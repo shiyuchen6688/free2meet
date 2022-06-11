@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { deleteLocation } from './actions/actions';
 import "./App.css";
 
-export default function Place({ item }) {
+export default function Place({ item, deleteMarker }) {
     const dispatch = useDispatch();
     return (
         <Card variant="outlined" sx={{ my: 4 }}>
@@ -25,7 +25,10 @@ export default function Place({ item }) {
                 <Button rel="noopener noreferrer" href={item.url} target="_blank">
                     View Details In Google Map
                 </Button>
-                <Button onClick={() => dispatch(deleteLocation(item.place_id))}>
+                <Button onClick={() => {
+                    dispatch(deleteLocation(item.place_id));
+                    deleteMarker(item.place_id);
+                }}>
                     Delete
                 </Button>
             </CardActions>
