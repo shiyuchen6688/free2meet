@@ -171,7 +171,7 @@ function deleteMarker(delId) {
 }
 
 function focusPlace(lat, lng) {
-    map.setCenter({ lat: lat, lng: lng });
+    map.panTo({ lat: lat, lng: lng });
 }
 
 async function handlePlaceSelect(updateQuery) {
@@ -183,7 +183,7 @@ async function handlePlaceSelect(updateQuery) {
         addressObject.lat = lat;
         addressObject.lng = lng;
         dispatch(addLocation(addressObject));
-        map.setCenter(addressObject.geometry.location);
+        map.panTo(addressObject.geometry.location);
         map.setZoom(15);
         createMarker(addressObject.place_id, lat, lng, 0);
     }
