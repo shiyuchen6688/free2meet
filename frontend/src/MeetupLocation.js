@@ -153,6 +153,13 @@ let deleteMarker = function (id) {
         }
     }
     marker.setMap(null);
+    let markers2 = [];
+    for (let i = 0; i < markers.length; i++) {
+        if (id !== markers[i].id) {
+            markers2.push(marker[i]);
+        }
+    }
+    markers = markers2;
 }
 
 async function handlePlaceSelect(updateQuery) {
