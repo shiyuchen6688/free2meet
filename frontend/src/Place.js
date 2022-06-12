@@ -7,8 +7,13 @@ import { useDispatch } from 'react-redux';
 import { deleteLocation } from './actions/actions';
 import "./App.css";
 
-export default function Place({ item, deleteMarker }) {
+export default function Place({ item, deleteMarker, focusPlace }) {
     const dispatch = useDispatch();
+    const focusButton = <Button onClick={() => {
+        focusPlace(item.geometry.location);
+    }}>
+        Focus On Map
+    </Button>;
     return (
         <Card variant="outlined" sx={{ my: 4 }}>
             <CardHeader
@@ -25,9 +30,12 @@ export default function Place({ item, deleteMarker }) {
                 <Button rel="noopener noreferrer" href={item.url} target="_blank">
                     View Details In Google Map
                 </Button>
+                {focusPlace ? focusButton : null}
                 <Button onClick={() => {
                     dispatch(deleteLocation(item.place_id));
-                    deleteMarker(item.place_id);
+                    if (deleteMarker) {
+                        deleteMarker(item.place_id);
+                    }
                 }}>
                     Delete
                 </Button>

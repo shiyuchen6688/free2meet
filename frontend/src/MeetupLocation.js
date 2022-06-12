@@ -127,7 +127,7 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
 
 let markers = [];
 
-let createMarker = function (id, lat, lng, para) {
+function createMarker(id, lat, lng, para) {
     if (para === 0) {
         for (let i = 0; i < markers.length; i++) {
             if (id === markers[i].id) {
@@ -145,21 +145,23 @@ let createMarker = function (id, lat, lng, para) {
     markers.push(marker);
 }
 
-let deleteMarker = function (id) {
-    let marker;
+function deleteMarker(delId) {
     for (let i = 0; i < markers.length; i++) {
-        if (id === markers[i].id) {
-            marker = markers[i]
+        if (delId === markers[i].id) {
+            markers[i].setMap(null);
         }
     }
-    marker.setMap(null);
     let markers2 = [];
     for (let i = 0; i < markers.length; i++) {
-        if (id !== markers[i].id) {
-            markers2.push(marker[i]);
+        if (delId !== markers[i].id) {
+            markers2.push(markers[i]);
         }
     }
     markers = markers2;
+}
+
+function focusPlace(loc) {
+    map.setCenter(loc);
 }
 
 async function handlePlaceSelect(updateQuery) {
@@ -220,7 +222,7 @@ export default function MeetupLocation() {
             <div ref={mapRef} id='map' />
             <div>
                 {data.map((item) => {
-                    return (<Place key={item.place_id} item={item} deleteMarker={deleteMarker} />);
+                    return (<Place key={item.place_id} item={item} deleteMarker={deleteMarker} focusPlace={focusPlace} />);
                 })}
             </div>
         </div>
