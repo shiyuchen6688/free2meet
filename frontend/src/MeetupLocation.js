@@ -123,6 +123,16 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
     data.forEach(d => createMarker(d.place_id, d.lat, d.lng, 1));
     autoComplete.setFields(["address_component", "adr_address", "alt_id", "formatted_address", "geometry.location", "icon", "name", "place_id", "type", "url"]);
     autoComplete.addListener("place_changed", () => handlePlaceSelect(updateQuery));
+    window.google.maps.event.addListener(map, "click", function (event) {
+        let lat = event.latLng.lat();
+        let lng = event.latLng.lng();
+        let geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({
+            'latLng': new window.google.maps.LatLng(lat, lng)
+        }, function (results, status) {
+            updateQuery(results[0].formatted_address);
+        });
+    });
 }
 
 let markers = [];
