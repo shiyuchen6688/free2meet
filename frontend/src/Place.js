@@ -10,7 +10,7 @@ import "./App.css";
 export default function Place({ item, deleteMarker, focusPlace }) {
     const dispatch = useDispatch();
     const focusButton = <Button onClick={() => {
-        focusPlace(item.geometry.location);
+        focusPlace(item.lat, item.lng);
     }}>
         Focus On Map
     </Button>;

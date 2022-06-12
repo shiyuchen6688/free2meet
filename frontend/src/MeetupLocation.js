@@ -160,8 +160,8 @@ function deleteMarker(delId) {
     markers = markers2;
 }
 
-function focusPlace(loc) {
-    map.setCenter(loc);
+function focusPlace(lat, lng) {
+    map.setCenter({ lat: lat, lng: lng });
 }
 
 async function handlePlaceSelect(updateQuery) {
