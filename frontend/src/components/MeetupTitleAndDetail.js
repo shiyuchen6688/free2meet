@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeMeetupTitleAndDetailForm } from '../actions/actions'
+import { changeMeetupTitleAndDetailForm } from '../redux/actions/actions'
 
 export default function MeetupTitleAndDetail() {
     const dispatch = useDispatch()

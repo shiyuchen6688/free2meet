@@ -12,7 +12,7 @@ import History from './components/History';
 import './index.css';
 import Invitations from './components/Invitations';
 import Meetups from './components/Meetups';
-import rootReducer from './reducers';
+import rootReducer from './redux/reducers';
 import reportWebVitals from './components/reportWebVitals';
 import Signup from './Signup';
 

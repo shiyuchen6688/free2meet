@@ -13,7 +13,7 @@ import {
     updateSchedule, updateHourlyChunk, updateHourlyChunkInput,
     updateNumDays, updateNumDaysInput, updateStartDate, clearSchedule,
     updateSelectionScheme, updateTimezone, updateTimeInterval
-} from '../actions/actions';
+} from '../redux/actions/actions';
 
 export default function MeetupAvailability() {
     const dispatch = useDispatch();
