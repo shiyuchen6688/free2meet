@@ -123,11 +123,21 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
     data.forEach(d => createMarker(d.place_id, d.lat, d.lng, 1));
     autoComplete.setFields(["address_component", "adr_address", "alt_id", "formatted_address", "geometry.location", "icon", "name", "place_id", "type", "url"]);
     autoComplete.addListener("place_changed", () => handlePlaceSelect(updateQuery));
+    window.google.maps.event.addListener(map, "click", function (event) {
+        let lat = event.latLng.lat();
+        let lng = event.latLng.lng();
+        let geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({
+            'latLng': new window.google.maps.LatLng(lat, lng)
+        }, function (results, status) {
+            updateQuery(results[0].formatted_address);
+        });
+    });
 }
 
 let markers = [];
 
-let createMarker = function (id, lat, lng, para) {
+function createMarker(id, lat, lng, para) {
     if (para === 0) {
         for (let i = 0; i < markers.length; i++) {
             if (id === markers[i].id) {
@@ -145,14 +155,23 @@ let createMarker = function (id, lat, lng, para) {
     markers.push(marker);
 }
 
-let deleteMarker = function (id) {
-    let marker;
+function deleteMarker(delId) {
     for (let i = 0; i < markers.length; i++) {
-        if (id === markers[i].id) {
-            marker = markers[i]
+        if (delId === markers[i].id) {
+            markers[i].setMap(null);
         }
     }
-    marker.setMap(null);
+    let markers2 = [];
+    for (let i = 0; i < markers.length; i++) {
+        if (delId !== markers[i].id) {
+            markers2.push(markers[i]);
+        }
+    }
+    markers = markers2;
+}
+
+function focusPlace(lat, lng) {
+    map.panTo({ lat: lat, lng: lng });
 }
 
 async function handlePlaceSelect(updateQuery) {
@@ -164,7 +183,7 @@ async function handlePlaceSelect(updateQuery) {
         addressObject.lat = lat;
         addressObject.lng = lng;
         dispatch(addLocation(addressObject));
-        map.setCenter(addressObject.geometry.location);
+        map.panTo(addressObject.geometry.location);
         map.setZoom(15);
         createMarker(addressObject.place_id, lat, lng, 0);
     }
@@ -213,7 +232,7 @@ export default function MeetupLocation() {
             <div ref={mapRef} id='map' />
             <div>
                 {data.map((item) => {
-                    return (<Place key={item.place_id} item={item} deleteMarker={deleteMarker} />);
+                    return (<Place key={item.place_id} item={item} deleteMarker={deleteMarker} focusPlace={focusPlace} />);
                 })}
             </div>
         </div>

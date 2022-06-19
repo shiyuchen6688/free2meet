@@ -42,7 +42,7 @@ export default function MeetupAvailability() {
                             label="Start Date"
                             value={allScheduleInfo.startDate}
                             onChange={(newDate) => {
-                                dispatch(updateStartDate(newDate));
+                                dispatch(updateStartDate(JSON.parse(JSON.stringify(newDate))));
                             }}
                             renderInput={(params) => <TextField {...params} />}
                         />
@@ -129,7 +129,10 @@ export default function MeetupAvailability() {
                         hourlyChunks={allScheduleInfo.hourlyChunk}
                         timeFormat={"h:mma"}
                         onChange={(newSchedule) => {
-                            dispatch(updateSchedule(newSchedule));
+                            let newScheduleArray = newSchedule.map((slot) => {
+                                return JSON.parse(JSON.stringify(slot));
+                            });
+                            dispatch(updateSchedule(newScheduleArray));
                         }}
                     />
                 </div>

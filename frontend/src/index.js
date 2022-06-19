@@ -14,7 +14,7 @@ import Invitations from './components/Invitations';
 import Meetups from './components/Meetups';
 import rootReducer from './redux/reducers';
 import reportWebVitals from './components/reportWebVitals';
-import Signup from './Signup';
+import Signup from './components/Signup';
 
 const store = configureStore({ reducer: rootReducer });
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -17,11 +17,15 @@ import MeetupTitleAndDetail from './MeetupTitleAndDetail';
 import ToolBar from './ToolBar';
 import Confetti from "react-confetti";
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { addMeetupAsync } from '../redux/meetups/thunks';
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
 
 export default function CreateMeetup() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const dispatch = useDispatch();
+
     const theme = React.useMemo(
         () =>
             createTheme({
@@ -36,15 +40,22 @@ export default function CreateMeetup() {
 
     // TODO: get value of all the form inputs in all steps
     let titleAndDetailInput = useSelector(state => state.createMeetupTitleDetailReducer)
+    let meetupLocation = useSelector(state => state.createMeetupLocationReducer)
+    let meetupSchedule = useSelector(state => state.createMeetupSchedulerReducer)
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
 
-        // TODO: if we finished the last step, we can submit to backend
-        // this is just temporary to make sure that the form is correct
+        // At the last step, submit the newlly created meetup to backup
         if (activeStep === (steps.length - 1)) {
-
+            dispatch(addMeetupAsync({
+                title: titleAndDetailInput['meetup-title'],
+                description: titleAndDetailInput['meetup-description']
+                // TODO: add other keys for location and schedule
+            }));
             // console.log(titleAndDetailInput);
+            // console.log(meetupLocation)
+            // console.log(meetupSchedule)
         }
     };
 
@@ -90,8 +101,8 @@ export default function CreateMeetup() {
                     <>
                         {/* Check if we finished all the steps */}
                         {activeStep === steps.length ? (
-                            <> 
-                                <Confetti recycle={false} numberOfPieces={288}/>
+                            <>
+                                <Confetti recycle={false} numberOfPieces={288} />
                                 <Typography variant="h5" gutterBottom>
                                     Your Meetup {titleAndDetailInput["meetup-title"]} has been created, enjoy!
                                 </Typography>
