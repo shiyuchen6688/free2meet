@@ -1,11 +1,12 @@
 import SearchIcon from "@material-ui/icons/Search";
+import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { addLocation } from "../redux/actions/actions";
 import '../App.css';
+import { addLocation } from "../redux/actions/actions";
 import Place from './Place.js';
 
 let prefersDarkMode;
@@ -124,7 +125,10 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
         zoom: 15,
         styles: prefersDarkMode ? darkStyle : [],
     });
-    data.forEach(d => createMarker(d.place_id, d.lat, d.lng, 1));
+    data.forEach(d => createMarker(d.place_id, d.name, d.formatted_address, d.lat, d.lng, 1));
+    if (data.length > 0) {
+        map.setCenter({ lat: data[0].lat, lng: data[0].lng });
+    }
     autoComplete.setFields(["address_component", "adr_address", "alt_id", "formatted_address", "geometry.location", "icon", "name", "place_id", "type", "url"]);
     autoComplete.addListener("place_changed", () => handlePlaceSelect(updateQuery));
     window.google.maps.event.addListener(map, "click", function (event) {
@@ -141,7 +145,7 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
 
 let markers = [];
 
-function createMarker(id, lat, lng, para) {
+function createMarker(id, name, formatted_address, lat, lng, para) {
     if (para === 0) {
         for (let i = 0; i < markers.length; i++) {
             if (id === markers[i].id) {
@@ -156,7 +160,30 @@ function createMarker(id, lat, lng, para) {
         draggable: false,
         animation: window.google.maps.Animation.DROP
     });
+    window.google.maps.event.addListener(marker, 'click', function () {
+        let infowindow = new window.google.maps.InfoWindow({
+            content: '<div class="infoWindow">' +
+                '<h3>' + name + '</h3>' +
+                '<p>' + formatted_address + '</p>' +
+                '</div>'
+        });
+        infowindow.open(map, marker);
+    });
     markers.push(marker);
+}
+
+const fitBounds = () => {
+    if (markers.length === 0) {
+        return;
+    } else if (markers.length === 1) {
+        zoom(markers[0].position.lat(), markers[0].position.lng());
+        return;
+    }
+    let latlngbounds = new window.google.maps.LatLngBounds();
+    for (let i = 0; i < markers.length; i++) {
+        latlngbounds.extend(markers[i].getPosition());
+    }
+    map.fitBounds(latlngbounds);
 }
 
 function deleteMarker(delId) {
@@ -178,6 +205,11 @@ function focusPlace(lat, lng) {
     map.panTo({ lat: lat, lng: lng });
 }
 
+function zoom(lat, lng) {
+    map.panTo({ lat: lat, lng: lng });
+    map.setZoom(15);
+}
+
 async function handlePlaceSelect(updateQuery) {
     const addressObject = autoComplete.getPlace();
     if (addressObject.formatted_address !== undefined) {
@@ -189,7 +221,7 @@ async function handlePlaceSelect(updateQuery) {
         dispatch(addLocation(JSON.parse(JSON.stringify(addressObject))));
         map.panTo(addressObject.geometry.location);
         map.setZoom(15);
-        createMarker(addressObject.place_id, lat, lng, 0);
+        createMarker(addressObject.place_id, addressObject.name, addressObject.formatted_address, lat, lng, 0);
     }
 }
 
@@ -234,9 +266,10 @@ export default function MeetupLocation() {
                 }}
             />
             <div ref={mapRef} id='map' />
+            <Button variant="outlined" fullWidth sx={{ my: 1 }} onClick={fitBounds}>Fit All Locations</Button>
             <div>
                 {data.map((item) => {
-                    return (<Place key={item.place_id} item={item} deleteMarker={deleteMarker} focusPlace={focusPlace} />);
+                    return (<Place key={item.place_id} item={item} deleteMarker={deleteMarker} focusPlace={focusPlace} zoom={zoom} />);
                 })}
             </div>
         </div>
