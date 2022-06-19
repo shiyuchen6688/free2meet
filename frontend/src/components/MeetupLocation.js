@@ -99,6 +99,10 @@ const darkStyle = [
 ];
 
 const loadScript = (url, callback) => {
+    if (autoComplete || map) {
+        callback();
+        return;
+    }
     script.type = "text/javascript";
     if (script.readyState) {
         script.onreadystatechange = function () {
