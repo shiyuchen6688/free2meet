@@ -1,7 +1,7 @@
 const initState = {
     schedule: [],
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    startDate: new Date(),
+    startDate: JSON.parse(JSON.stringify(new Date())),
     selectionScheme: 'linear',
     numDaysInput: 7,
     numDays: 7,
