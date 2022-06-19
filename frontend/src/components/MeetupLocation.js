@@ -182,7 +182,7 @@ async function handlePlaceSelect(updateQuery) {
         let lng = addressObject.geometry.location.lng();
         addressObject.lat = lat;
         addressObject.lng = lng;
-        dispatch(addLocation(addressObject));
+        dispatch(addLocation(JSON.parse(JSON.stringify(addressObject))));
         map.panTo(addressObject.geometry.location);
         map.setZoom(15);
         createMarker(addressObject.place_id, lat, lng, 0);
