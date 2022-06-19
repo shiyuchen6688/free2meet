@@ -8,15 +8,17 @@ import { useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
+import { logout } from '../redux/users/reducer'
+import { useDispatch } from 'react-redux';
 
 export default function ToolBar() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onSignOut = () => {
-        window.localStorage.removeItem('user-info');
         navigate("/");
-        window.location.reload(false);
+        dispatch(logout());
     }
 
     return (

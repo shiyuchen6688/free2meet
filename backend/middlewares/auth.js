@@ -1,6 +1,6 @@
 var jwt = require('jsonwebtoken')
 
-export function verifyJWT(req, res, next) {
+function verifyJWT(req, res, next) {
     let token = req.headers["x-access-token"]?.split(' ')[1]
 
     if (token) {
@@ -25,3 +25,6 @@ export function verifyJWT(req, res, next) {
         })
     }
 }
+
+module.exports = verifyJWT
+

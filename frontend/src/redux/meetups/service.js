@@ -1,7 +1,10 @@
 // Get all meetups
 const getMeetups = async () => {
     const response = await fetch('http://localhost:3001/meetups', {
-        method: 'GET'
+        method: 'GET',
+        headers: {
+            'x-access-token': localStorage.getItem("token")
+        },
     });
 
     const data = await response.json()
@@ -18,7 +21,8 @@ const addMeetup = async (meetup) => {
     const response = await fetch('http://localhost:3001/meetups', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
         },
         body: JSON.stringify(meetup)
     });

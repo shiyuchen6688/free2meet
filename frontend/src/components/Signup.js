@@ -7,9 +7,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import * as React from 'react';
+import React, { useState } from 'react';
+import { registerAsync } from '../redux/users/thunks';
+import { useDispatch } from 'react-redux';
 
 export default function Signup() {
+  const dispatch = useDispatch();
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const theme = React.useMemo(
     () =>
@@ -20,6 +23,19 @@ export default function Signup() {
       }),
     [prefersDarkMode],
   );
+
+  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+
+  const onSubmit = () => {
+    dispatch(registerAsync({
+      email,
+      username,
+      password
+    }))
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -49,6 +65,8 @@ export default function Signup() {
                 label="User Name"
                 name="username"
                 autoFocus
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
               {/* Email Input */}
               <TextField
@@ -59,6 +77,8 @@ export default function Signup() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               {/* Password Input */}
               <TextField
@@ -70,6 +90,8 @@ export default function Signup() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <Button
                 type="submit"
@@ -77,6 +99,7 @@ export default function Signup() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 href="/"
+                onClick={onSubmit}
               >
                 Sign Up
               </Button>

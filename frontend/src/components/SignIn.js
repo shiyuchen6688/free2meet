@@ -10,9 +10,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import * as React from 'react';
+import React, { useState } from 'react';
+import { loginAsync } from '../redux/users/thunks';
+import { useDispatch } from 'react-redux';
 
 export default function SignIn({ setIsValidUser }) {
+    const dispatch = useDispatch();
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const theme = React.useMemo(
         () =>
@@ -23,12 +26,18 @@ export default function SignIn({ setIsValidUser }) {
             }),
         [prefersDarkMode],
     );
+
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+
     // TODO: this is just a stub that does not validate password and username
     const onSignIn = (e) => {
         e.preventDefault()
-        setIsValidUser(true)
-        // store window local storage to persist signin state, TODO: cookie later
-        window.localStorage.setItem('user-info', JSON.stringify({}));
+        dispatch(loginAsync({
+            email,
+            password,
+            setIsValidUser
+        }))
 
     }
 
@@ -81,6 +90,8 @@ export default function SignIn({ setIsValidUser }) {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 autoFocus
                             />
                             {/* Password Input */}
@@ -92,6 +103,8 @@ export default function SignIn({ setIsValidUser }) {
                                 label="Password"
                                 type="password"
                                 id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 autoComplete="current-password"
                             />
                             {/* TODO: use cookie to remmeber user in the future */}
