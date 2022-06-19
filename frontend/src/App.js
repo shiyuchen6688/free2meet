@@ -3,8 +3,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useState } from 'react';
 import './App.css';
-import Home from "./Home";
-import SignIn from "./SignIn";
+import Home from "./components//Home";
+import SignIn from "./components/SignIn";
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
