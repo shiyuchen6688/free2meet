@@ -6,15 +6,15 @@ import {
   BrowserRouter, Route, Routes
 } from "react-router-dom";
 import App from './App';
-import CreateMeetup from './CreateMeetup';
-import Explore from './Explore';
-import History from './History';
+import CreateMeetup from './components/CreateMeetup';
+import Explore from './components/Explore';
+import History from './components/History';
 import './index.css';
-import Invitations from './Invitations';
-import Meetups from './Meetups';
-import rootReducer from './reducers';
-import reportWebVitals from './reportWebVitals';
-import Signup from './Signup';
+import Invitations from './components/Invitations';
+import Meetups from './components/Meetups';
+import rootReducer from './redux/reducers';
+import reportWebVitals from './components/reportWebVitals';
+import Signup from './components/Signup';
 
 const store = configureStore({ reducer: rootReducer });
 const root = ReactDOM.createRoot(document.getElementById('root'));

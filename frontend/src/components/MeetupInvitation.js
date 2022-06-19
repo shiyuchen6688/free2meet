@@ -4,7 +4,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import ScheduleSelector from 'react-schedule-selector';
 import CreatableSelect from 'react-select/creatable';
-import "./App.css";
+import "../App.css";
 import Place from './Place';
 import { useSelector } from 'react-redux';
 
@@ -48,13 +48,13 @@ export default function MeetupInvitation() {
                     return (<Place key={item.place_id} item={item} />);
                 })}
                 <Typography variant="h6" gutterBottom>
-                    Timezone: {allScheduleInfo.timezone.value === undefined ? 
-                    allScheduleInfo.timezone : allScheduleInfo.timezone.value}
+                    Timezone: {allScheduleInfo.timezone.value === undefined ?
+                        allScheduleInfo.timezone : allScheduleInfo.timezone.value}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
                     Time Availability {allScheduleInfo.schedule.length === 0 ? "NA" : ""}
                 </Typography>
-                { allScheduleInfo.schedule.length !== 0 && <div>
+                {allScheduleInfo.schedule.length !== 0 && <div>
                     <ScheduleSelector
                         selection={allScheduleInfo.schedule}
                         numDays={allScheduleInfo.numDays}

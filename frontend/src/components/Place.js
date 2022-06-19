@@ -4,8 +4,8 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardHeader from '@mui/material/CardHeader';
 import { useDispatch } from 'react-redux';
-import { deleteLocation } from './actions/actions';
-import "./App.css";
+import { deleteLocation } from '../redux/actions/actions';
+import "../App.css";
 
 export default function Place({ item, deleteMarker, focusPlace }) {
     const dispatch = useDispatch();

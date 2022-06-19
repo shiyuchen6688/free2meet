@@ -4,8 +4,8 @@ import TextField from '@mui/material/TextField';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { addLocation } from "./actions/actions";
-import './App.css';
+import { addLocation } from "../redux/actions/actions";
+import '../App.css';
 import Place from './Place.js';
 
 let prefersDarkMode;
