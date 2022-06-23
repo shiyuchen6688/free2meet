@@ -246,7 +246,7 @@ export default function InvitationCard({creator, meetup ,attendees}) {
             </CardActions>
             </Collapse>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <Box sx={{minWidth: 600, margin: 5}}>
+            <Box sx={{minWidth: 600, margin: 0}}>
                 <CardContent>
                 <Typography variant="h6" gutterBottom>
                     Locations
