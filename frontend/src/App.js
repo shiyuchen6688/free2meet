@@ -26,7 +26,7 @@ function App() {
 
 
   // if not signed in
-  if (isValidUser) {
+  if (!isValidUser) {
     return <SignIn setIsValidUser={setIsValidUser} />
   }
 

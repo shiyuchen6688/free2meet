@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import "../App.css";
 import { deleteLocation } from '../redux/actions/actions';
 
-export default function Place({ item, deleteMarker, focusPlace, zoom }) {
+export default function Place({ item, deleteMarker, focusPlace, zoom, deleteButton=true }) {
     const dispatch = useDispatch();
     const focusButton = <Button onClick={() => {
         focusPlace(item.lat, item.lng);
@@ -37,14 +37,14 @@ export default function Place({ item, deleteMarker, focusPlace, zoom }) {
                 </Button>
                 {focusPlace ? focusButton : null}
                 {zoom ? zoomButton : null}
-                <Button onClick={() => {
+                {deleteButton && <Button onClick={() => {
                     dispatch(deleteLocation(item.place_id));
                     if (deleteMarker) {
                         deleteMarker(item.place_id);
                     }
                 }}>
                     Delete
-                </Button>
+                </Button>}
             </CardActions>
         </Card>
     );
