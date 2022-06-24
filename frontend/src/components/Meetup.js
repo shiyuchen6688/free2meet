@@ -20,24 +20,16 @@ import Box from '@mui/material/Box';
 
 
 export default function Meetup() {
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const dispatch = useDispatch();
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     const location = useLocation();
-    console.log(location);
     const id = location.pathname.split("/")[2];
-    console.log(id);
 
-    let test = false;
     const meetup = useSelector(state => state.meetupsReducer.meetup);
     useEffect(() => {
         dispatch(getMeetupAsync(id));
-    }, []);
-    const state = useSelector(state => state);
-    console.log("state: ");
-    console.log(test);
-    console.log(state);
-    console.log(meetup);
+    }, [dispatch]);
 
     const theme = React.useMemo(
         () =>
