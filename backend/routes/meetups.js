@@ -510,7 +510,7 @@ router.get('/', function (req, res, next) {
 /* get a single meetup by id. */
 router.get(`/meetup`, function (req, res, next) {
   const id = req.query.id;
-  let meetup = meetups.filter(e => e.id === parseInt(id))[0];
+  let meetup = meetups.filter(e => e.id === id)[0];
   return res.send(meetup);
 });
 
