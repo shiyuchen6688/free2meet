@@ -61,7 +61,7 @@ export default function Meetup() {
                                     />
                                 }
                                 title={meetup.title}
-                                // subheader={`${meetup.startDate} ${meetup.startTime} - ${meetup.endDate} ${meetup.endTime}`}
+                                subheader={`${meetup.schedule.schedule[0].split("T")[0]} ${meetup.schedule.schedule[0].split("T")[1].split(":00.")[0]} - ${meetup.schedule.schedule[meetup.schedule.schedule.length-1].split("T")[0]} ${meetup.schedule.schedule[meetup.schedule.schedule.length-1].split("T")[1].split(":00.")[0]}`}
                             />
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary">
