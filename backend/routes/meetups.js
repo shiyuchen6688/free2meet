@@ -15,6 +15,7 @@ endDate: "2022-07-03",
 endTime: "08:00PM", 
 host: 
     {
+        name: "user 1",
         userID: 1, 
         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
     }, 
@@ -32,6 +33,7 @@ endDate: "2022-07-02",
 endTime: "08:01PM", 
 host: 
     {
+      name: "user 5",
         userID: 5, 
         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
     }, 
@@ -49,6 +51,7 @@ endDate: "2022-07-01",
 endTime: "08:02PM", 
 host: 
     {
+        name: "user 9",
         userID: 9, 
         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
     }, 

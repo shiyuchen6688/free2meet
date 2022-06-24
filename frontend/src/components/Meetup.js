@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { getMeetupAsync } from '../redux/meetups/thunks';
+import { CircularProgress } from '@mui/material';
 
 
 export default function Meetup() {
@@ -26,11 +27,18 @@ export default function Meetup() {
     const id = location.pathname.split("/")[2];
     console.log(id);
 
+    let test = false;
     const meetup = useSelector(state => state.meetupsReducer.meetup);
     useEffect(() => {
+        // test = !test;
+        console.log("use effect");
         dispatch(getMeetupAsync(id));
     }, []);
     const state = useSelector(state => state);
+    console.log("state: ");
+    console.log(test);
+    console.log(state);
+    console.log(meetup);
 
     const theme = React.useMemo(
         () =>
@@ -48,17 +56,11 @@ export default function Meetup() {
 
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
+                {(meetup !== null && meetup !== undefined && Object.keys(meetup).length !== 0) ?
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center">
                         {meetup.title}
                     </Typography>
-                    <Grid
-                        container
-                        spacing={2}
-                        direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                    >
                         <Card variant="outlined">
                             <CardHeader
                                 avatar={
@@ -76,8 +78,16 @@ export default function Meetup() {
                                 </Typography>
                             </CardContent>
                         </Card>
-                    </Grid>
                 </Paper>
+                :
+                <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    minHeight="100vh"
+                >
+                    <CircularProgress />
+                </Box> }
             </Container>
         </ThemeProvider>
     )
