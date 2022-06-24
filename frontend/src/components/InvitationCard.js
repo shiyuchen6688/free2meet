@@ -44,7 +44,7 @@ export default function InvitationCard({invitation}) {
                     />
                 }
                 // title={fakeMeetup.title}
-                title={invitation.creator.name}
+                title={invitation.creator.username}
             />
             <CardContent>
                 <Typography variant="h6" gutterBottom>
