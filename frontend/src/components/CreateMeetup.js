@@ -41,21 +41,29 @@ export default function CreateMeetup() {
     // TODO: get value of all the form inputs in all steps
     let titleAndDetailInput = useSelector(state => state.createMeetupTitleDetailReducer)
     let meetupLocation = useSelector(state => state.createMeetupLocationReducer)
-    let meetupSchedule = useSelector(state => state.createMeetupSchedulerReducer)
+    let meetupSchedule = useSelector(state => state.createMeetupScheduleReducer);
+    let meetupInvitation = useSelector(state => state.createMeetupInvitationReducer)
+    // let creator = useSelector(state => state.usersReducer.user)
+    let creator = {
+        email: "a",
+        username: "a",
+    };
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
 
         // At the last step, submit the newlly created meetup to backup
         if (activeStep === (steps.length - 1)) {
+            console.log(meetupSchedule);
             dispatch(addMeetupAsync({
                 title: titleAndDetailInput['meetup-title'],
-                description: titleAndDetailInput['meetup-description']
-                // TODO: add other keys for location and schedule
+                description: titleAndDetailInput['meetup-description'],
+                location: meetupLocation,
+                schedule: meetupSchedule,
+                invitees: meetupInvitation,
+                // TODO creator: meetupCreator
+                creator: creator
             }));
-            // console.log(titleAndDetailInput);
-            // console.log(meetupLocation)
-            // console.log(meetupSchedule)
         }
     };
 

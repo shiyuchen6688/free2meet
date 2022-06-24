@@ -3,7 +3,7 @@ var router = express.Router();
 const { v4: uuid } = require('uuid');
 
 /** Schema of meetup include:
- *  title, description, availabiliyt times, locations, invited users, creater user
+ *  title, description, availabiliyt times (schedule), locations, invited users (invitees), creater user
  */
 
 let meetups = [{title: "Party 3", 
@@ -80,9 +80,13 @@ router.post('/', function (req, res, next) {
   console.log(req)
   let meetup = {
     id: uuid(),
+    timestamp: Date.now(),
     title: req.body.title,
-    description: req.body.description
-    // TODO: more keys here
+    description: req.body.description,
+    schedule: req.body.schedule,
+    location: req.body.location,
+    invitees: req.body.invitees,
+    creator: req.body.creator
   }
   meetups.push(meetup)
   console.log(meetups)

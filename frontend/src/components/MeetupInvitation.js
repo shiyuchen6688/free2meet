@@ -6,18 +6,26 @@ import ScheduleSelector from 'react-schedule-selector';
 import CreatableSelect from 'react-select/creatable';
 import "../App.css";
 import Place from './Place';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {changeInvitee} from '../redux/actions/actions';
 
 export default function MeetupInvitation() {
+    const dispatch = useDispatch();
     const titleAndDetailInfo = useSelector(state => state.createMeetupTitleDetailReducer);
     const allScheduleInfo = useSelector(state => state.createMeetupScheduleReducer);
     const locationInfo = useSelector(state => state.createMeetupLocationReducer);
+    const invitationInfo = useSelector(state => state.createMeetupInvitationReducer);
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
+    // TODO: All frineds here.
     const options = [
         { value: 'friend_0', label: 'Sam', uid: 'sam@gmail.com' },
         { value: 'friend_1', label: 'Amy', uid: 'amy@gmail.com' }
     ];
+
+    let handleChange = (newValue) => {
+        dispatch(changeInvitee(newValue));
+    };
 
     return (
         <React.Fragment>
@@ -37,7 +45,7 @@ export default function MeetupInvitation() {
                 <div>
                     <CreatableSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
                         isMulti
-                        // onChange={}
+                        onChange={handleChange}
                         options={options}
                     />
                 </div>
