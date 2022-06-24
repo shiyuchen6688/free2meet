@@ -8,6 +8,7 @@ import { Container } from '@mui/system';
 import { Paper } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Meetups() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');

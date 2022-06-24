@@ -42,6 +42,12 @@ export default function CreateMeetup() {
     let titleAndDetailInput = useSelector(state => state.createMeetupTitleDetailReducer)
     let meetupLocation = useSelector(state => state.createMeetupLocationReducer)
     let meetupSchedule = useSelector(state => state.createMeetupSchedulerReducer)
+    let meetupInvitation = useSelector(state => state.createMeetupInvitationReducer)
+    // let creator = useSelector(state => state.usersReducer.user)
+    let creator = {
+        email: "a",
+        username: "a",
+    };
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -50,8 +56,12 @@ export default function CreateMeetup() {
         if (activeStep === (steps.length - 1)) {
             dispatch(addMeetupAsync({
                 title: titleAndDetailInput['meetup-title'],
-                description: titleAndDetailInput['meetup-description']
-                // TODO: add other keys for location and schedule
+                description: titleAndDetailInput['meetup-description'],
+                // location: meetupLocation,
+                // schedule: meetupSchedule,
+                // invitees: meetupInvitation,
+                // creator: meetupCreator
+                // invitations: MeetupInvitation
             }));
             // console.log(titleAndDetailInput);
             // console.log(meetupLocation)
