@@ -83,7 +83,7 @@ export default function InvitationCard({invitation}) {
                     {/* Location {locationInfo.length === 0 ? "NA" : ""} */}
                 </Typography>
                 {invitation.location.map((item) => {
-                    return (<Place key={item.place_id} item={item} />);
+                    return (<Place key={item.place_id} item={item} deleteButton={false}/>);
                 })}
                 {/* <Place key={meetup.location.place_id} item={fakeLocation} deleteButton={false} /> */}
                 <Typography variant="h6" gutterBottom>
