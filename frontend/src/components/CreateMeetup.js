@@ -58,16 +58,11 @@ export default function CreateMeetup() {
             dispatch(addMeetupAsync({
                 title: titleAndDetailInput['meetup-title'],
                 description: titleAndDetailInput['meetup-description'],
-<<<<<<< HEAD
                 location: meetupLocation,
                 schedule: meetupSchedule,
                 invitees: meetupInvitation,
                 // TODO creator: meetupCreator
                 creator: creator
-=======
-                locations: meetupLocations,
-                // TODO: add other keys for location and schedule
->>>>>>> main
             }));
         }
     };
