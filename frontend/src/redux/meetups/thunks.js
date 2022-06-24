@@ -16,3 +16,11 @@ export const addMeetupAsync = createAsyncThunk(
         return await MeetupsService.addMeetup(meetup)
     }
 )
+
+export const getMeetupAsync = createAsyncThunk(
+    actionTypes.GET_MEETUP,
+    async (id) => {
+        console.log(id);
+        return await MeetupsService.getMeetup(id);
+    }
+)

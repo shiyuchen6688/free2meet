@@ -118,7 +118,9 @@ export default function History() {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small">View</Button>
+                        <a href={`/meetup/${eventJSON.id}`}>
+                            <Button size="small">View</Button>
+                        </a>
                     </CardActions>
                 </Card>
             </Box>
