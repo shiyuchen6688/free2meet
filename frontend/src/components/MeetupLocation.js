@@ -15,6 +15,7 @@ let autoComplete;
 let dispatch;
 let map;
 let data;
+let infoWindow;
 const k1 = "AIzaSyDHH_p0fbbZSRyr";
 const k2 = "HqvLAc5WcM7Ic26ypP4";
 const k = k1 + k2;
@@ -125,11 +126,53 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
         zoom: 15,
         styles: prefersDarkMode ? darkStyle : [],
     });
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(
+            browserHasGeolocation
+                ? "Error: The Geolocation service failed."
+                : "Error: Your browser doesn't support geolocation."
+        );
+        infoWindow.open(map);
+    }
+    infoWindow = new window.google.maps.InfoWindow();
+    const locationButton = document.createElement("button");
+    const getCurrentPosition = "Get Current Position";
+    const loading = "Loading...";
+    locationButton.textContent = getCurrentPosition;
+    locationButton.classList.add("custom-map-control-button");
+    map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(locationButton);
+    locationButton.addEventListener("click", () => {
+        if (navigator.geolocation) {
+            locationButton.textContent = loading;
+            locationButton.disabled = true;
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+                    infoWindow.setPosition(pos);
+                    let timestamp = new Date(position.timestamp);
+                    infoWindow.setContent("<p style='color:#000'> Your current location at " + timestamp.toLocaleString() + "</p>");
+                    infoWindow.open(map);
+                    locationButton.textContent = getCurrentPosition;
+                    locationButton.disabled = false;
+                    map.setCenter(pos);
+                },
+                () => {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                }
+            );
+        } else {
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    });
     data.forEach(d => createMarker(d.place_id, d.name, d.formatted_address, d.lat, d.lng, 1));
     if (data.length > 0) {
         map.setCenter({ lat: data[0].lat, lng: data[0].lng });
     }
-    autoComplete.setFields(["address_component", "adr_address", "alt_id", "formatted_address", "geometry.location", "icon", "name", "place_id", "type", "url"]);
+    autoComplete.setFields(["address_component", "adr_address", "formatted_address", "geometry.location", "icon", "name", "place_id", "type", "url"]);
     autoComplete.addListener("place_changed", () => handlePlaceSelect(updateQuery));
     window.google.maps.event.addListener(map, "click", function (event) {
         let lat = event.latLng.lat();
@@ -162,7 +205,7 @@ function createMarker(id, name, formatted_address, lat, lng, para) {
     });
     window.google.maps.event.addListener(marker, 'click', function () {
         let infowindow = new window.google.maps.InfoWindow({
-            content: '<div class="infoWindow">' +
+            content: '<div class="infoWindow" style="color:#000">' +
                 '<h3>' + name + '</h3>' +
                 '<p>' + formatted_address + '</p>' +
                 '</div>'

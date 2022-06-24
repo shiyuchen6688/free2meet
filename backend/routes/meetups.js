@@ -20,6 +20,7 @@ router.post('/', function (req, res, next) {
   console.log(req)
   let meetup = {
     id: uuid(),
+    timestamp: Date.now(),
     title: req.body.title,
     description: req.body.description,
     schedule: req.body.schedule,

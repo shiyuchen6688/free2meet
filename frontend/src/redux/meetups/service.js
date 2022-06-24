@@ -36,8 +36,9 @@ const addMeetup = async (meetup) => {
     return data
 }
 
-
-export default {
+const exportedService = {
     getMeetups,
     addMeetup
 }
+
+export default exportedService;
