@@ -12,6 +12,7 @@ import History from './components/History';
 import './index.css';
 import Invitations from './components/Invitations';
 import Meetups from './components/Meetups';
+import Meetup from './components/Meetup';
 import rootReducer from './redux/reducers';
 import reportWebVitals from './components/reportWebVitals';
 import Signup from './components/Signup';
@@ -27,7 +28,7 @@ root.render(
 
           <Route path="/" element={<App />} />
           <Route path="/meetups" element={<Meetups />} />
-          <Route path="/meetups/:meetupid" element={<Meetups />} />
+          <Route path="/meetup/:id" element={<Meetup />} />
           <Route path="/meetups/new" element={<CreateMeetup />} />
           <Route path="/invitations" element={<Invitations />} />
           <Route path="/history" element={<History />} />

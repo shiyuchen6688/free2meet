@@ -15,6 +15,15 @@ const getMeetups = async () => {
     return data
 }
 
+// Get one meetup
+const getMeetup = async (id) => {
+    const response = await fetch(`http://localhost:3001/meetups/meetup?id=${id}`, {
+        method: 'GET',
+        mode: 'cors'
+    });
+    return response.json();
+};
+
 // Add new meetup
 const addMeetup = async (meetup) => {
     console.log(meetup)
@@ -39,5 +48,6 @@ const addMeetup = async (meetup) => {
 
 export default {
     getMeetups,
+    getMeetup,
     addMeetup
 }
