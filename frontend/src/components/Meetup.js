@@ -8,7 +8,6 @@ import Container from '@mui/material/Container';
 import CardContent from '@mui/material/CardContent';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
@@ -17,7 +16,6 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { getMeetupAsync } from '../redux/meetups/thunks';
 import { CircularProgress } from '@mui/material';
-import Box from '@mui/material/Box';
 
 
 export default function Meetup() {
