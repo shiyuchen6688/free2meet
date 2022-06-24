@@ -1,15 +1,20 @@
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Icon from '@mui/material/Icon';
-import Link from '@mui/material/Link';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { useNavigate } from "react-router-dom";
-import { logout } from '../redux/users/reducer'
+import * as React from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import { logout } from '../redux/users/reducer';
 
 export default function ToolBar() {
     const theme = useTheme();
@@ -21,9 +26,33 @@ export default function ToolBar() {
         dispatch(logout());
     }
 
+    const settings = [
+        { text: 'Profile', actions: () => { alert("Profile not implemented yet!!!") } },
+        { text: 'Logout', actions: onSignOut }
+    ];
+
+    const pages = [
+        { text: 'Home', actions: () => navigate("/") },
+        { text: 'Schedule New Meetup', actions: () => navigate("/meetups/new") },
+        { text: 'View Existing Meetups', actions: () => navigate("/meetups") },
+        { text: 'View Invitations', actions: () => navigate("/invitations") },
+        { text: 'View Full History', actions: () => navigate("/history") },
+        { text: 'Explore', actions: () => navigate("/explore") },
+    ];
+
+    const [user, setUser] = React.useState(null);
+
+    const handleOpenUserMenu = (event) => {
+        setUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setUser(null);
+    };
+
     return (
         <AppBar
-            position="static"
+            position="sticky"
             color="default"
             sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
         >
@@ -31,68 +60,45 @@ export default function ToolBar() {
                 <Typography variant="h6" color="inherit" noWrap align='left' sx={{ flexGrow: 1 }}>
                     free2meet
                 </Typography>
-                <nav>
-                    <Link
-                        component="button"
-                        variant="button"
-                        color="text.primary"
-                        onClick={() => navigate("/")}
-                        sx={{ my: 1, mx: 1.5 }}
-                    >
-                        Home
-                    </Link>
-                    <Link
-                        component="button"
-                        variant="button"
-                        color="text.primary"
-                        onClick={() => navigate("/meetups/new")}
-                        sx={{ my: 1, mx: 1.5 }}
-                    >
-                        Schedule New Meetup
-                    </Link>
-                    <Link
-                        component="button"
-                        variant="button"
-                        color="text.primary"
-                        onClick={() => navigate("/meetups")}
-                        sx={{ my: 1, mx: 1.5 }}
-                    >
-                        View Existing Meetups
-                    </Link>
-                    <Link
-                        component="button"
-                        variant="button"
-                        color="text.primary"
-                        onClick={() => navigate("/invitations")}
-                        sx={{ my: 1, mx: 1.5 }}
-                    >
-                        View Invitations
-                    </Link>
-                    <Link
-                        component="button"
-                        variant="button"
-                        color="text.primary"
-                        onClick={() => navigate("/history")}
-                        sx={{ my: 1, mx: 1.5 }}
-                    >
-                        View Full History
-                    </Link>
-                    <Link
-                        component="button"
-                        variant="button"
-                        color="text.primary"
-                        onClick={() => navigate("/explore")}
-                        sx={{ my: 1, mx: 1.5 }}
-                    >
-                        Explore
-                    </Link>
-                </nav>
-                <Button href="#" variant="outlined" sx={{ my: 1, mx: 1.5 }} onClick={onSignOut}>
-                    Log out
-                </Button>
+                <Box sx={{ flexGrow: 1, flexWrap: 'wrap', display: { xs: 'flex' } }}>
+                    {pages.map((page) => (
+                        <MenuItem key={page.text} onClick={page.actions} >
+                            <Typography textAlign="center">{page.text}</Typography>
+                        </MenuItem>
+                    ))}
+                </Box>
                 <Icon sx={{ ml: 1 }} color="inherit">
                     {theme.palette.mode === 'dark' ? <Brightness4Icon /> : <Brightness7Icon />}
                 </Icon>
+                <Box sx={{ flexGrow: 0, m: 2 }}>
+                    <Tooltip title="Open settings">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <Avatar alt="a" src=".jpg" />
+                        </IconButton>
+                    </Tooltip>
+                    <Menu
+                        sx={{ mt: '45px' }}
+                        id="menu-appbar"
+                        anchorEl={user}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={Boolean(user)}
+                        onClose={handleCloseUserMenu}
+                    >
+                        {settings.map((setting) => (
+                            <MenuItem key={setting.text} onClick={setting.actions}>
+                                <Typography textAlign="center">{setting.text}</Typography>
+                            </MenuItem>
+                        ))}
+                    </Menu>
+                </Box>
             </Toolbar>
         </AppBar>
     )
