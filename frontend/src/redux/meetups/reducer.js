@@ -44,15 +44,15 @@ const meetupsSlice = createSlice({
                 state.error = action.error;
             })
             .addCase(addMeetupAsync.pending, (state) => {
-                state.getMeetups = REQUEST_STATE.PENDING;
+                state.addMeetup = REQUEST_STATE.PENDING;
                 state.error = null;
             })
             .addCase(addMeetupAsync.fulfilled, (state, action) => {
-                state.getMeetups = REQUEST_STATE.FULFILLED;
+                state.addMeetup = REQUEST_STATE.FULFILLED;
                 state.list.push(action.payload)
             })
             .addCase(addMeetupAsync.rejected, (state, action) => {
-                state.getMeetups = REQUEST_STATE.REJECTED;
+                state.addMeetup = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
     }

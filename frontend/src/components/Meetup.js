@@ -17,29 +17,20 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { getMeetupAsync } from '../redux/meetups/thunks';
 import { CircularProgress } from '@mui/material';
+import Box from '@mui/material/Box';
 
 
 export default function Meetup() {
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const dispatch = useDispatch();
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     const location = useLocation();
-    console.log(location);
     const id = location.pathname.split("/")[2];
-    console.log(id);
 
-    let test = false;
     const meetup = useSelector(state => state.meetupsReducer.meetup);
     useEffect(() => {
-        // test = !test;
-        console.log("use effect");
         dispatch(getMeetupAsync(id));
-    }, []);
-    const state = useSelector(state => state);
-    console.log("state: ");
-    console.log(test);
-    console.log(state);
-    console.log(meetup);
+    }, [dispatch]);
 
     const theme = React.useMemo(
         () =>
@@ -65,13 +56,13 @@ export default function Meetup() {
                         <Card variant="outlined">
                             <CardHeader
                                 avatar={
-                                    <Avatar
-                                        alt={meetup.host.Name}
-                                        src={meetup.host.profilePictureLink}
+                                    <Avatar 
+                                        alt={meetup.creator.username} 
+                                        src={meetup.creator.profilePictureLink}
                                     />
                                 }
                                 title={meetup.title}
-                                subheader={`${meetup.startDate} ${meetup.startTime} - ${meetup.endDate} ${meetup.endTime}`}
+                                subheader={`${meetup.schedule.schedule[0].split("T")[0]} ${meetup.schedule.schedule[0].split("T")[1].split(":00.")[0]} - ${meetup.schedule.schedule[meetup.schedule.schedule.length-1].split("T")[0]} ${meetup.schedule.schedule[meetup.schedule.schedule.length-1].split("T")[1].split(":00.")[0]}`}
                             />
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary">
