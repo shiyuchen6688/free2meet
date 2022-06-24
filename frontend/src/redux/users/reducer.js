@@ -4,6 +4,7 @@ import { loginAsync, registerAsync } from './thunks';
 
 const INITIAL_STATE = {
     username: null,
+    email: null,
     signin: REQUEST_STATE.IDLE,
     register: REQUEST_STATE.IDLE,
     error: null
@@ -31,7 +32,9 @@ const usersSlice = createSlice({
                 state.getMeetups = REQUEST_STATE.FULFILLED;
                 state.username = action.payload.username;
                 console.log(action.payload)
+                state.username = action.payload.username
                 window.localStorage.setItem('token', action.payload.token)
+
             })
             .addCase(loginAsync.rejected, (state, action) => {
                 state.getMeetups = REQUEST_STATE.REJECTED;
