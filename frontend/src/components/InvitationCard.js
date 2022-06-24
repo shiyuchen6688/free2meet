@@ -7,7 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -39,7 +39,7 @@ export default function InvitationCard({invitation}) {
             <CardHeader
                 avatar={
                     <Avatar 
-                        alt={invitation.creator.name}
+                        alt={invitation.creator.username}
                         src={invitation.creator.profilePictureLink}
                     />
                 }
