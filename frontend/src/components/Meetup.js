@@ -1,4 +1,5 @@
 import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
@@ -57,15 +58,15 @@ export default function Meetup() {
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 {(meetup !== null && meetup !== undefined && Object.keys(meetup).length !== 0) ?
-                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h4" align="center">
-                        {meetup.title}
-                    </Typography>
+                    <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                        <Typography component="h1" variant="h4" align="center">
+                            {meetup.title}
+                        </Typography>
                         <Card variant="outlined">
                             <CardHeader
                                 avatar={
-                                    <Avatar 
-                                        alt={meetup.host.Name} 
+                                    <Avatar
+                                        alt={meetup.host.Name}
                                         src={meetup.host.profilePictureLink}
                                     />
                                 }
@@ -78,16 +79,16 @@ export default function Meetup() {
                                 </Typography>
                             </CardContent>
                         </Card>
-                </Paper>
-                :
-                <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    minHeight="100vh"
-                >
-                    <CircularProgress />
-                </Box> }
+                    </Paper>
+                    :
+                    <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        minHeight="100vh"
+                    >
+                        <CircularProgress />
+                    </Box>}
             </Container>
         </ThemeProvider>
     )
