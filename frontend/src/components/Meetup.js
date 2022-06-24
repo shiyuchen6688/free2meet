@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { getMeetupAsync } from '../redux/meetups/thunks';
 import { CircularProgress } from '@mui/material';
+import Box from '@mui/material/Box';
 
 
 export default function Meetup() {
@@ -30,8 +31,6 @@ export default function Meetup() {
     let test = false;
     const meetup = useSelector(state => state.meetupsReducer.meetup);
     useEffect(() => {
-        // test = !test;
-        console.log("use effect");
         dispatch(getMeetupAsync(id));
     }, []);
     const state = useSelector(state => state);
