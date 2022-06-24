@@ -26,7 +26,7 @@ const ExpandMore = styled((props) => {
     }),
   }));
 
-export default function InvitationCard({creator, meetup ,attendees}) {
+export default function InvitationCard({invitation}) {
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -39,22 +39,22 @@ export default function InvitationCard({creator, meetup ,attendees}) {
             <CardHeader
                 avatar={
                     <Avatar 
-                        alt={creator.name}
-                        src={creator.profilePictureLink}
+                        alt={invitation.creator.name}
+                        src={invitation.creator.profilePictureLink}
                     />
                 }
                 // title={fakeMeetup.title}
-                title={creator.name}
+                title={invitation.creator.name}
             />
             <CardContent>
                 <Typography variant="h6" gutterBottom>
-                    Title: {meetup.title}
+                    Title: {invitation.title}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
                     Details:
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    {meetup.description}
+                    {invitation.description}
                 </Typography>
             </CardContent>
             <Collapse in={!expanded} timeout="auto" unmountOnExit>
@@ -82,21 +82,21 @@ export default function InvitationCard({creator, meetup ,attendees}) {
                     Locations
                     {/* Location {locationInfo.length === 0 ? "NA" : ""} */}
                 </Typography>
-                {/* {locationInfo.map((item) => {
+                {invitation.location.map((item) => {
                     return (<Place key={item.place_id} item={item} />);
-                })} */}
+                })}
                 {/* <Place key={meetup.location.place_id} item={fakeLocation} deleteButton={false} /> */}
                 <Typography variant="h6" gutterBottom>
-                    Timezone: {meetup.timezone.value}
+                    Timezone: {invitation.schedule.timezone.value}
                 </Typography>
                 <ScheduleSelector
-                    selection={meetup.schedule.schedule}
-                    selectionScheme={meetup.schedule.selectionScheme}
-                    startDate={meetup.schedule.startDate}
-                    numDays={meetup.schedule.numDays}
-                    minTime={meetup.schedule.timeInterval[0]}
-                    maxTime={meetup.schedule.timeInterval[1]}
-                    hourlyChunks={meetup.schedule.hourlyChunk}
+                    selection={invitation.schedule.schedule}
+                    selectionScheme={invitation.schedule.selectionScheme}
+                    startDate={invitation.schedule.startDate}
+                    numDays={invitation.schedule.numDays}
+                    minTime={invitation.schedule.timeInterval[0]}
+                    maxTime={invitation.schedule.timeInterval[1]}
+                    hourlyChunks={invitation.schedule.hourlyChunk}
                     timeFormat={"h:mma"}
                     // onChange={(newSchedule) => {
                     //     let newScheduleArray = newSchedule.map((slot) => {
