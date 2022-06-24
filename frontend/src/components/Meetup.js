@@ -56,12 +56,12 @@ export default function Meetup() {
                             <CardHeader
                                 avatar={
                                     <Avatar 
-                                        alt={meetup.host.Name} 
-                                        src={meetup.host.profilePictureLink}
+                                        alt={meetup.creator.username} 
+                                        src={meetup.creator.profilePictureLink}
                                     />
                                 }
                                 title={meetup.title}
-                                subheader={`${meetup.startDate} ${meetup.startTime} - ${meetup.endDate} ${meetup.endTime}`}
+                                // subheader={`${meetup.startDate} ${meetup.startTime} - ${meetup.endDate} ${meetup.endTime}`}
                             />
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary">
