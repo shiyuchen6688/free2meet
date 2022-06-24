@@ -65,5 +65,12 @@ export const changeMeetupTitleAndDetailForm = (inputValue, inputName) => {
         type: "CHANGE_MEETUP_TITLE_AND_DETAIL_FORM",
         payload: { inputValue, inputName }
     }
-}
+};
 
+// Change invitees in meetup invitation page
+export const changeInvitee = (invitees) => {
+    return {
+        type: "CHANGE_INVITEES",
+        payload: invitees
+    }
+};
