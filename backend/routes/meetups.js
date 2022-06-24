@@ -20,8 +20,10 @@ router.post('/', function (req, res, next) {
   console.log(req)
   let meetup = {
     id: uuid(),
+    timestamp: Date.now(),
     title: req.body.title,
-    description: req.body.description
+    description: req.body.description,
+    locations: req.body.locations,
     // TODO: more keys here
   }
   meetups.push(meetup)
