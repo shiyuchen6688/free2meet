@@ -137,11 +137,15 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
     }
     infoWindow = new window.google.maps.InfoWindow();
     const locationButton = document.createElement("button");
-    locationButton.textContent = "Current Location";
+    const getCurrentPosition = "Get Current Position";
+    const loading = "Loading...";
+    locationButton.textContent = getCurrentPosition;
     locationButton.classList.add("custom-map-control-button");
-    map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+    map.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(locationButton);
     locationButton.addEventListener("click", () => {
         if (navigator.geolocation) {
+            locationButton.textContent = loading;
+            locationButton.disabled = true;
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const pos = {
@@ -150,8 +154,10 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
                     };
                     infoWindow.setPosition(pos);
                     let timestamp = new Date(position.timestamp);
-                    infoWindow.setContent("Your current location at " + timestamp.toLocaleString());
+                    infoWindow.setContent("<p style='color:#000'> Your current location at " + timestamp.toLocaleString() + "</p>");
                     infoWindow.open(map);
+                    locationButton.textContent = getCurrentPosition;
+                    locationButton.disabled = false;
                     map.setCenter(pos);
                 },
                 () => {
@@ -166,7 +172,7 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
     if (data.length > 0) {
         map.setCenter({ lat: data[0].lat, lng: data[0].lng });
     }
-    autoComplete.setFields(["address_component", "adr_address", "alt_id", "formatted_address", "geometry.location", "icon", "name", "place_id", "type", "url"]);
+    autoComplete.setFields(["address_component", "adr_address", "formatted_address", "geometry.location", "icon", "name", "place_id", "type", "url"]);
     autoComplete.addListener("place_changed", () => handlePlaceSelect(updateQuery));
     window.google.maps.event.addListener(map, "click", function (event) {
         let lat = event.latLng.lat();
