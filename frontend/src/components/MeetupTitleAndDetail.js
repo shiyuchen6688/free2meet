@@ -3,7 +3,10 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
+import { convertToRaw } from "draft-js";
 import { changeMeetupTitleAndDetailForm } from '../redux/actions/actions'
+// import { createTheme, ThemeProvider } from '@mui/material/styles'
+import MUIRichTextEditor from 'mui-rte'
 
 export default function MeetupTitleAndDetail() {
     const dispatch = useDispatch()
@@ -11,6 +14,18 @@ export default function MeetupTitleAndDetail() {
 
     let onChangeHandler = e => {
         dispatch(changeMeetupTitleAndDetailForm(e.target.value, e.target.name))
+    }
+    let onChangeHandlerMuiRte = value => {
+        const text = JSON.stringify(value.getCurrentContent().getPlainText())
+        const content = JSON.stringify(
+            convertToRaw(value.getCurrentContent())
+        );
+        console.log(value)
+        console.log(content)
+        // const rteContent = convertToRaw(e.getCurrentContent()) // for rte content with text formating
+        console.log(text)
+        // rteContent && setValue(JSON.stringify(rteContent)) // store your rteContent to state
+        dispatch(changeMeetupTitleAndDetailForm(content, 'meetup-description'))
     }
 
 
@@ -41,7 +56,7 @@ export default function MeetupTitleAndDetail() {
                 Maximum 1000 characters.
             </Typography>
             <Grid xs={12} sm={6} item={true}>
-                <TextField
+                {/* <TextField
                     placeholder="Describe your meetup"
                     id="meetup-description"
                     name="meetup-description"
@@ -49,7 +64,17 @@ export default function MeetupTitleAndDetail() {
                     fullWidth
                     rows={12}
                     defaultValue={titleAndDetailInfo["meetup-description"]}
-                    onChange={onChangeHandler}
+                    onChange={onChangeHandlerMuiRte}
+                /> */}
+                <MUIRichTextEditor
+                    placeholder="Describe your meetup"
+                    id="meetup-description"
+                    name="meetup-description"
+                    multiline
+                    fullWidth
+                    rows={12}
+                    value={titleAndDetailInfo["meetup-description"]}
+                    onChange={onChangeHandlerMuiRte}
                 />
             </Grid>
         </ >
