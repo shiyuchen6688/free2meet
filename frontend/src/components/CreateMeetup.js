@@ -119,9 +119,9 @@ export default function CreateMeetup() {
                                     fullWidth
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
-                                    onClick={e => navigate("/meetups/new")}
+                                    onClick={e => navigate("/")}
                                 >
-                                    Schedule another meetup
+                                    Finish
                                 </Button>
                             </>
                         ) : (
