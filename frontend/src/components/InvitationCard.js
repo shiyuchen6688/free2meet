@@ -76,10 +76,12 @@ export default function InvitationCard({invitation}) {
             </CardActions>
             </Collapse>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <Box sx={{minWidth: 600, margin: 0}}>
+            <Box sx={{minWidth: 800, margin: 0}}>
                 <CardContent>
                 <Typography variant="h6" gutterBottom>
-                    Locations
+                    {invitation.location.length === 0 ? "No Location Selected" : 
+                        invitation.location.length === 1 ? "Location (1 Selected)" : 
+                            "Locations (" + invitation.location.length + " Selected)"}
                     {/* Location {locationInfo.length === 0 ? "NA" : ""} */}
                 </Typography>
                 {invitation.location.map((item) => {
