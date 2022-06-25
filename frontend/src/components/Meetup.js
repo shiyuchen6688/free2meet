@@ -28,7 +28,7 @@ export default function Meetup() {
     const meetup = useSelector(state => state.meetupsReducer.meetup);
     useEffect(() => {
         dispatch(getMeetupAsync(id));
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     const theme = React.useMemo(
         () =>
