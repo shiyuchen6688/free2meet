@@ -32,7 +32,7 @@ const usersSlice = createSlice({
                 state.getMeetups = REQUEST_STATE.FULFILLED;
                 state.username = action.payload.username;
                 state.email = action.payload.email
-                console.log(action.payload)
+                // console.log(action.payload)
                 window.localStorage.setItem('token', action.payload.token)
 
             })

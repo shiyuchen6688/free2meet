@@ -61,10 +61,10 @@ router.post('/register', function (req, res, next) {
 router.post('/login', (req, res) => {
     const user = req.body
 
-    console.log(user)
+    // console.log(user)
 
     const matchStoredUser = users.find(u => u.email === user.email)
-    console.log("matchStoredUser", matchStoredUser)
+    // console.log("matchStoredUser", matchStoredUser)
     if (!matchStoredUser) {
         return res.status(404).send(new Error("Email does not exist"))
 
@@ -74,7 +74,7 @@ router.post('/login', (req, res) => {
 
     bcrypt.compare(user.password, matchStoredUser.password)
         .then(passwordCorrect => {
-            console.log(passwordCorrect)
+            // console.log(passwordCorrect)
             if (passwordCorrect) {
                 let payload = {
                     username: matchStoredUser.username,

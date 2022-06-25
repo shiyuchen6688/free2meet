@@ -39,14 +39,14 @@ export default function CreateMeetup() {
     const [activeStep, setActiveStep] = React.useState(0);
 
     // TODO: get value of all the form inputs in all steps
-    let titleAndDetailInput = useSelector(state => state.createMeetupTitleDetailReducer)
-    let meetupLocation = useSelector(state => state.createMeetupLocationReducer)
+    let titleAndDetailInput = useSelector(state => state.createMeetupTitleDetailReducer);
+    let meetupLocation = useSelector(state => state.createMeetupLocationReducer);
     let meetupSchedule = useSelector(state => state.createMeetupScheduleReducer);
-    let meetupInvitation = useSelector(state => state.createMeetupInvitationReducer)
-    // let creator = useSelector(state => state.usersReducer.user)
+    let meetupInvitation = useSelector(state => state.createMeetupInvitationReducer);
+    let user = useSelector(state => state.usersReducer);
     let creator = {
-        email: "a",
-        username: "a",
+        username:user.username,
+        email:user.email
     };
 
     const handleNext = () => {
@@ -54,7 +54,6 @@ export default function CreateMeetup() {
 
         // At the last step, submit the newlly created meetup to backup
         if (activeStep === (steps.length - 1)) {
-            console.log(meetupSchedule);
             dispatch(addMeetupAsync({
                 title: titleAndDetailInput['meetup-title'],
                 description: titleAndDetailInput['meetup-description'],
