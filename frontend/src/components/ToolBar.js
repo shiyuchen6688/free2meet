@@ -73,7 +73,7 @@ export default function ToolBar() {
                 <Box sx={{ flexGrow: 0, m: 2 }}>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="a" src=".jpg" />
+                            <Avatar alt="" src="" />
                         </IconButton>
                     </Tooltip>
                     <Menu
