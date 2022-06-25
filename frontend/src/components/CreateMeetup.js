@@ -60,7 +60,6 @@ export default function CreateMeetup() {
                 location: meetupLocation,
                 schedule: meetupSchedule,
                 invitees: meetupInvitation,
-                // TODO creator: meetupCreator
                 creator: creator
             }));
         }
