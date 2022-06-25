@@ -119,7 +119,7 @@ export default function History() {
                             />
                         }
                         title={eventJSON.title}
-                        subheader={`${eventJSON.schedule.schedule[0].split("T")[0]} - ${eventJSON.schedule.schedule[eventJSON.schedule.schedule.length-1].split("T")[0]}`}
+                        subheader={`${eventJSON.schedule.schedule.length === 0 ? 'NA': eventJSON.schedule.schedule[0].split("T")[0]} - ${eventJSON.schedule.schedule.length === 0 ? 'NA':eventJSON.schedule.schedule[eventJSON.schedule.schedule.length-1].split("T")[0]}`}
                         // subheader={`${eventJSON.startDate} ${eventJSON.startTime} - ${eventJSON.endDate} ${eventJSON.endTime}`}
                     />
                     <CardContent>

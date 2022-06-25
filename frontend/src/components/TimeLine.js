@@ -44,7 +44,7 @@ function TimeLineItem(props) {
 
 
 export default function TimeLine(props) {
-    console.log(props)
+    // console.log(props)
 
 
     return (

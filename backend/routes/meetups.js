@@ -516,8 +516,8 @@ router.get(`/meetup`, function (req, res, next) {
 
 /* add a new meetup */
 router.post('/', function (req, res, next) {
-  console.log("a")
-  console.log(req)
+//   console.log("a")
+//   console.log(req)
   let meetup = {
     id: uuid(),
     timestamp: Date.now(),
@@ -529,7 +529,7 @@ router.post('/', function (req, res, next) {
     creator: req.body.creator
   }
   meetups.push(meetup)
-  console.log(meetups)
+//   console.log(meetups)
   return res.send(meetup)
 });
 

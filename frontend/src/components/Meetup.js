@@ -60,7 +60,10 @@ export default function Meetup() {
                                     />
                                 }
                                 title={meetup.title}
-                                subheader={`${meetup.schedule.schedule[0].split("T")[0]} ${meetup.schedule.schedule[0].split("T")[1].split(":00.")[0]} - ${meetup.schedule.schedule[meetup.schedule.schedule.length-1].split("T")[0]} ${meetup.schedule.schedule[meetup.schedule.schedule.length-1].split("T")[1].split(":00.")[0]}`}
+                                subheader={`${meetup.schedule.schedule.length === 0 ? 'NA':meetup.schedule.schedule[0].split("T")[0]} 
+                                            ${meetup.schedule.schedule.length === 0 ? 'NA':meetup.schedule.schedule[0].split("T")[1].split(":00.")[0]} - 
+                                            ${meetup.schedule.schedule.length === 0 ? 'NA':meetup.schedule.schedule[meetup.schedule.schedule.length-1].split("T")[0]} 
+                                            ${meetup.schedule.schedule.length === 0 ? 'NA':meetup.schedule.schedule[meetup.schedule.schedule.length-1].split("T")[1].split(":00.")[0]}`}
                             />
                             <CardContent>
                                 <Typography variant="body2" color="text.secondary">
