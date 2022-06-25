@@ -5,6 +5,7 @@ import { useState } from 'react';
 import './App.css';
 import Home from "./components//Home";
 import SignIn from "./components/SignIn";
+import { useSelector } from 'react-redux';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -22,10 +23,12 @@ function App() {
     return !!window.localStorage.getItem('token'); // !! to cast to boolean
   }
 
-  // remove token when webpage closed
-  window.addEventListener("beforeunload", function (e) {
+  // remove token when user information is null
+  let username = useSelector(state => state.users.username);
+  if (username == null) {
     window.localStorage.removeItem('token');
-  }, false);
+  }
+
 
   const [isValidUser, setIsValidUser] = useState(isLoggedIn());
 
