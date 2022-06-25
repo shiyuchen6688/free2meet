@@ -3,23 +3,45 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Slide from '@mui/material/Slide';
 import { useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { logout } from '../redux/users/reducer';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="down" ref={ref} {...props} />;
+});
 
 export default function ToolBar() {
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [open, setOpen] = React.useState(false);
+    let currentUser = useSelector(state => state.usersReducer);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+        handleCloseUserMenu();
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const onSignOut = () => {
         navigate("/");
@@ -27,7 +49,7 @@ export default function ToolBar() {
     }
 
     const settings = [
-        { text: 'Profile', actions: () => { alert("Profile not implemented yet!!!") } },
+        { text: 'Profile', actions: handleClickOpen },
         { text: 'Logout', actions: onSignOut }
     ];
 
@@ -78,7 +100,6 @@ export default function ToolBar() {
                     </Tooltip>
                     <Menu
                         sx={{ mt: '45px' }}
-                        id="menu-appbar"
                         anchorEl={user}
                         anchorOrigin={{
                             vertical: 'top',
@@ -99,6 +120,22 @@ export default function ToolBar() {
                         ))}
                     </Menu>
                 </Box>
+                <Dialog
+                    open={open}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleClose}
+                >
+                    <DialogTitle>{"Welcome"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Hello, {currentUser.username}!
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Close</Button>
+                    </DialogActions>
+                </Dialog>
             </Toolbar>
         </AppBar>
     )
