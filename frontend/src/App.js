@@ -24,7 +24,7 @@ function App() {
   }
 
   // remove token when user information is null
-  let username = useSelector(state => state.users.username);
+  let username = useSelector(state => state.usersReducer.username);
   if (username == null) {
     window.localStorage.removeItem('token');
   }

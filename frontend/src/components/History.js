@@ -16,6 +16,7 @@ import * as React from 'react';
 import ToolBar from './ToolBar';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { getMeetupsAsync } from '../redux/meetups/thunks';
 
 // const eventsJSON = [{title: "Party 3", 
@@ -72,21 +73,21 @@ import { getMeetupsAsync } from '../redux/meetups/thunks';
 //                 ];
 
 const peopleJSON = [
-                    {
-                        name: "Person 1",
-                        userID: 1,
-                        profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                    },
-                    {
-                        name: "Person 2",
-                        userID: 2,
-                        profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                    },
-                    {
-                        name: "Person 3",
-                        userID: 3,
-                        profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                    },]
+    {
+        name: "Person 1",
+        userID: 1,
+        profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+    },
+    {
+        name: "Person 2",
+        userID: 2,
+        profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+    },
+    {
+        name: "Person 3",
+        userID: 3,
+        profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+    },]
 
 
 export default function History() {
@@ -95,6 +96,7 @@ export default function History() {
     useEffect(() => {
         dispatch(getMeetupsAsync());
     }, [dispatch]);
+    const navigate = useNavigate();
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const theme = React.useMemo(
@@ -109,18 +111,18 @@ export default function History() {
 
     function mapJSONToCard(eventJSON) {
         return (
-            <Box sx={{minWidth: 275, maxWidth: 600, margin: 5}} key={eventJSON.id}>
+            <Box sx={{ minWidth: 275, maxWidth: 600, margin: 5 }} key={eventJSON.id}>
                 <Card variant="outlined">
                     <CardHeader
                         avatar={
-                            <Avatar 
-                                alt={eventJSON.creator.username} 
+                            <Avatar
+                                alt={eventJSON.creator.username}
                                 src={eventJSON.creator.profilePictureLink}
                             />
                         }
                         title={eventJSON.title}
-                        subheader={`${eventJSON.schedule.schedule.length === 0 ? 'NA': eventJSON.schedule.schedule[0].split("T")[0]} - ${eventJSON.schedule.schedule.length === 0 ? 'NA':eventJSON.schedule.schedule[eventJSON.schedule.schedule.length-1].split("T")[0]}`}
-                        // subheader={`${eventJSON.startDate} ${eventJSON.startTime} - ${eventJSON.endDate} ${eventJSON.endTime}`}
+                        subheader={`${eventJSON.schedule.schedule.length === 0 ? 'NA' : eventJSON.schedule.schedule[0].split("T")[0]} - ${eventJSON.schedule.schedule.length === 0 ? 'NA' : eventJSON.schedule.schedule[eventJSON.schedule.schedule.length - 1].split("T")[0]}`}
+                    // subheader={`${eventJSON.startDate} ${eventJSON.startTime} - ${eventJSON.endDate} ${eventJSON.endTime}`}
                     />
                     <CardContent>
                         <Typography variant="body2" color="text.secondary">
@@ -128,18 +130,16 @@ export default function History() {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <a href={`/meetup/${eventJSON.id}`}>
-                            <Button size="small">View</Button>
-                        </a>
+                        <Button size="small" onClick={e => navigate(`/meetup/${eventJSON.id}`)}>View</Button>
                     </CardActions>
                 </Card>
-            </Box>
+            </Box >
         );
     }
 
     function mapPeopleToCard(peopleJSON) {
         return (
-            <Box sx={{minWidth: 275, maxWidth: 600, margin: 5}} key={peopleJSON.userID}>
+            <Box sx={{ minWidth: 275, maxWidth: 600, margin: 5 }} key={peopleJSON.userID}>
                 <Card variant="outlined">
                     <CardHeader
                         title={peopleJSON.name}
@@ -191,7 +191,7 @@ export default function History() {
                     </Grid>
                 </Paper>
             </Container>
-            
+
         </ThemeProvider>
     );
 }

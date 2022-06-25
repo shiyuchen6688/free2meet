@@ -18,6 +18,7 @@ import ToolBar from './ToolBar';
 import Confetti from "react-confetti";
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { addMeetupAsync } from '../redux/meetups/thunks';
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
@@ -25,6 +26,7 @@ const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
 export default function CreateMeetup() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const theme = React.useMemo(
         () =>
@@ -45,8 +47,8 @@ export default function CreateMeetup() {
     let meetupInvitation = useSelector(state => state.createMeetupInvitationReducer);
     let user = useSelector(state => state.usersReducer);
     let creator = {
-        username:user.username,
-        email:user.email
+        username: user.username,
+        email: user.email
     };
 
     const handleNext = () => {
@@ -117,7 +119,7 @@ export default function CreateMeetup() {
                                     fullWidth
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
-                                    href="/meetups/new"
+                                    onClick={e => navigate("/meetups/new")}
                                 >
                                     Schedule another meetup
                                 </Button>
