@@ -18,6 +18,7 @@ const usersSlice = createSlice({
         logout: (state) => {
             // console.log(action)
             state.username = null
+            state.email = null
             window.localStorage.removeItem('token');
             window.location.reload(false);
         }

@@ -22,6 +22,11 @@ function App() {
     return !!window.localStorage.getItem('token'); // !! to cast to boolean
   }
 
+  // remove token when webpage closed
+  window.addEventListener("beforeunload", function (e) {
+    window.localStorage.removeItem('token');
+  }, false);
+
   const [isValidUser, setIsValidUser] = useState(isLoggedIn());
 
 
