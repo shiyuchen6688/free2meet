@@ -31,8 +31,8 @@ const usersSlice = createSlice({
             .addCase(loginAsync.fulfilled, (state, action) => {
                 state.getMeetups = REQUEST_STATE.FULFILLED;
                 state.username = action.payload.username;
+                state.email = action.payload.email
                 console.log(action.payload)
-                state.username = action.payload.username
                 window.localStorage.setItem('token', action.payload.token)
 
             })

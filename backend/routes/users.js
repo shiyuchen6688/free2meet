@@ -92,7 +92,8 @@ router.post('/login', (req, res) => {
                         return res.send({
                             status: "success",
                             token: "Bearer " + token,
-                            username: matchStoredUser.username
+                            username: matchStoredUser.username,
+                            email: matchStoredUser.email
                         })
 
                     }
