@@ -1,5 +1,7 @@
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Logout from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -11,6 +13,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Slide from '@mui/material/Slide';
@@ -49,8 +52,8 @@ export default function ToolBar() {
     }
 
     const settings = [
-        { text: 'Profile', actions: handleClickOpen },
-        { text: 'Logout', actions: onSignOut }
+        { text: 'Profile', actions: handleClickOpen, icon: <PersonIcon /> },
+        { text: 'Logout', actions: onSignOut, icon: <Logout /> }
     ];
 
     const pages = [
@@ -95,7 +98,7 @@ export default function ToolBar() {
                 <Box sx={{ flexGrow: 0, m: 2 }}>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="" src="" />
+                            <Avatar>{currentUser.username.charAt(0)}</Avatar>
                         </IconButton>
                     </Tooltip>
                     <Menu
@@ -115,6 +118,9 @@ export default function ToolBar() {
                     >
                         {settings.map((setting) => (
                             <MenuItem key={setting.text} onClick={setting.actions}>
+                                <ListItemIcon>
+                                    {setting.icon}
+                                </ListItemIcon>
                                 <Typography textAlign="center">{setting.text}</Typography>
                             </MenuItem>
                         ))}
