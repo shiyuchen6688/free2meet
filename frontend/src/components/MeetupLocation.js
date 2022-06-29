@@ -19,7 +19,7 @@ let infoWindow;
 const k1 = "AIzaSyDHH_p0fbbZSRyr";
 const k2 = "HqvLAc5WcM7Ic26ypP4";
 const k = k1 + k2;
-const darkStyle = [
+export const darkStyle = [
     { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
     { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
     { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
