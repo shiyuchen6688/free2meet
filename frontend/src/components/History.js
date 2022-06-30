@@ -155,10 +155,11 @@ function createMarker(id, name, formatted_address, lat, lng) {
         animation: window.google.maps.Animation.DROP
     });
     window.google.maps.event.addListener(marker, 'click', function () {
+        let s = marker.times === 1 ? "" : "s";
         let infowindow = new window.google.maps.InfoWindow({
             content: '<div class="infoWindow" style="color:#000">' +
                 '<h3>' + name + '</h3>' +
-                '<p>' + 'You have been here for ' + marker.times + ' time(s)!' + '</p>' +
+                '<p>You have been here for ' + marker.times + ' time' + s + '!</p>' +
                 '<p>' + formatted_address + '</p>' +
                 '</div>'
         });
@@ -280,6 +281,9 @@ export default function History() {
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center">
                         Past Locations
+                    </Typography>
+                    <Typography component="h1" variant="body1" align="center">
+                        Click on the marker to see more information!
                     </Typography>
                     <div ref={mapRef} id='map' />
                     <Button variant="outlined" fullWidth sx={{ my: 1 }} onClick={fitBounds}>Display All Locations On The Map</Button>
