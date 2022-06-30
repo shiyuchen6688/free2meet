@@ -90,7 +90,7 @@ const peopleJSON = [
         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
     },]
 
-// for google map --------------------------------------------------------------
+// for google map <<<<<--------------------------------------------------------------
 let script1;
 let map;
 let locations;
@@ -182,7 +182,7 @@ const fitBounds = () => {
     }
     map.fitBounds(latlngbounds);
 }
-// for google map --------------------------------------------------------------
+// for google map -------------------------------------------------------------->>>>>
 
 export default function History() {
     const dispatch = useDispatch();
@@ -204,7 +204,7 @@ export default function History() {
         [prefersDarkMode],
     );
 
-    // for google map --------------------------------------------------------------
+    // for google map <<<<<--------------------------------------------------------------
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
             map.setOptions({ styles: darkStyle });
@@ -222,7 +222,7 @@ export default function History() {
         );
     }, []);
     document.getElementsByTagName("head")[0].appendChild(script1);
-    // for google map --------------------------------------------------------------
+    // for google map -------------------------------------------------------------->>>>>
 
     function mapJSONToCard(eventJSON) {
         return (
