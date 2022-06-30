@@ -91,10 +91,11 @@ const peopleJSON = [
     },]
 
 // for google map <<<<<--------------------------------------------------------------
-let script1;
+let script;
 let map;
 let locations;
 let firstLoadDarkMode;
+let markers = [];
 const k1 = "AIzaSyDHH_p0fbbZSRyr";
 const k2 = "HqvLAc5WcM7Ic26ypP4";
 const k = k1 + k2;
@@ -104,18 +105,18 @@ const loadScript = (url, callback) => {
         callback();
         return;
     }
-    script1.type = "text/javascript";
-    if (script1.readyState) {
-        script1.onreadystatechange = function () {
-            if (script1.readyState === "loaded" || script1.readyState === "complete") {
-                script1.onreadystatechange = null;
+    script.type = "text/javascript";
+    if (script.readyState) {
+        script.onreadystatechange = function () {
+            if (script.readyState === "loaded" || script.readyState === "complete") {
+                script.onreadystatechange = null;
                 callback();
             }
         };
     } else {
-        script1.onload = () => callback();
+        script.onload = () => callback();
     }
-    script1.src = url;
+    script.src = url;
 };
 
 function handleScriptLoad(mapRef) {
@@ -136,8 +137,6 @@ function handleScriptLoad(mapRef) {
     }
     fitBounds();
 }
-
-let markers = [];
 
 function createMarker(id, name, formatted_address, lat, lng) {
     for (let i = 0; i < markers.length; i++) {
@@ -214,14 +213,14 @@ export default function History() {
     });
     locations = eventsJSON;
     const mapRef = useRef(null);
-    script1 = document.createElement("script");
+    script = document.createElement("script");
     useEffect(() => {
         loadScript(
             `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
             () => handleScriptLoad(mapRef)
         );
     }, []);
-    document.getElementsByTagName("head")[0].appendChild(script1);
+    document.getElementsByTagName("head")[0].appendChild(script);
     // for google map -------------------------------------------------------------->>>>>
 
     function mapJSONToCard(eventJSON) {
