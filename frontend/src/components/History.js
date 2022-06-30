@@ -127,9 +127,12 @@ function handleScriptLoad(mapRef) {
     markers = [];
     for (let i = 0; i < locations.length; i++) {
         const d = locations[i];
-        if (d.location.length > 0) {
-            createMarker(d.location[0].place_id, d.location[0].name, d.location[0].formatted_address, d.location[0].lat, d.location[0].lng);
+        for (let j = 0; j < d.location.length; j++) {
+            createMarker(d.location[j].place_id, d.location[j].name, d.location[j].formatted_address, d.location[j].lat, d.location[j].lng);
         }
+        // if (d.location.length > 0) {
+        //     createMarker(d.location[0].place_id, d.location[0].name, d.location[0].formatted_address, d.location[0].lat, d.location[0].lng);
+        // }
     }
     fitBounds();
 }
@@ -213,7 +216,7 @@ export default function History() {
     script1 = document.createElement("script");
     useEffect(() => {
         loadScript(
-            `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=visualization&language=en`,
+            `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
             () => handleScriptLoad(mapRef)
         );
     }, []);

@@ -169,9 +169,7 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
         }
     });
     data.forEach(d => createMarker(d.place_id, d.name, d.formatted_address, d.lat, d.lng, 1));
-    if (data.length > 0) {
-        map.setCenter({ lat: data[0].lat, lng: data[0].lng });
-    }
+    fitBounds();
     autoComplete.setFields(["address_component", "adr_address", "formatted_address", "geometry.location", "icon", "name", "place_id", "type", "url"]);
     autoComplete.addListener("place_changed", () => handlePlaceSelect(updateQuery));
     window.google.maps.event.addListener(map, "click", function (event) {
@@ -224,7 +222,7 @@ const fitBounds = () => {
     }
     let latlngbounds = new window.google.maps.LatLngBounds();
     for (let i = 0; i < markers.length; i++) {
-        latlngbounds.extend(markers[i].getPosition());
+        latlngbounds.extend(new window.google.maps.LatLng(markers[i].position.lat(), markers[i].position.lng()));
     }
     map.fitBounds(latlngbounds);
 }
