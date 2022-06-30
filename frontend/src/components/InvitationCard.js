@@ -6,14 +6,14 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import Collapse from '@mui/material/Collapse';
 import Place from './Place';
 import ScheduleSelector from 'react-schedule-selector/dist/lib/ScheduleSelector';
+import Dialog from '@mui/material/Dialog';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -28,10 +28,10 @@ const ExpandMore = styled((props) => {
 
 export default function InvitationCard({invitation}) {
     const [expanded, setExpanded] = React.useState(false);
-
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
+
 
     return (
     <Box sx={{minWidth: 275, margin: 5}}>
@@ -43,7 +43,6 @@ export default function InvitationCard({invitation}) {
                         src={invitation.creator.profilePictureLink}
                     />
                 }
-                // title={fakeMeetup.title}
                 title={invitation.creator.username}
             />
             <CardContent>
@@ -57,7 +56,6 @@ export default function InvitationCard({invitation}) {
                     {invitation.description}
                 </Typography>
             </CardContent>
-            <Collapse in={!expanded} timeout="auto" unmountOnExit>
             <CardActions disableSpacing>
                 <IconButton aria-label="Accept">
                 <CheckIcon />
@@ -65,29 +63,36 @@ export default function InvitationCard({invitation}) {
                 <IconButton aria-label="Decline">
                 <CloseIcon />
                 </IconButton>
+                
                 <ExpandMore
                 expand={expanded}
                 onClick={handleExpandClick}
                 aria-expanded={expanded}
                 aria-label="View More"
                 >
-                <ExpandMoreIcon />
+                <ArrowForwardIcon />
                 </ExpandMore>
             </CardActions>
-            </Collapse>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <Box sx={{minWidth: 800, margin: 0}}>
+            <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'}>
                 <CardContent>
+                <Typography variant="h6" gutterBottom>
+                    Title: {invitation.title}
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                    Details:
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    {invitation.description}
+                </Typography>
+                <Box sx={{minWidth: 800, margin: 0}}>
                 <Typography variant="h6" gutterBottom>
                     {invitation.location.length === 0 ? "No Location Selected" : 
                         invitation.location.length === 1 ? "Location (1 Selected)" : 
                             "Locations (" + invitation.location.length + " Selected)"}
-                    {/* Location {locationInfo.length === 0 ? "NA" : ""} */}
                 </Typography>
                 {invitation.location.map((item) => {
                     return (<Place key={item.place_id} item={item} deleteButton={false}/>);
                 })}
-                {/* <Place key={meetup.location.place_id} item={fakeLocation} deleteButton={false} /> */}
                 <Typography variant="h6" gutterBottom>
                     Timezone: {invitation.schedule.timezone.value}
                 </Typography>
@@ -107,7 +112,6 @@ export default function InvitationCard({invitation}) {
                     //     dispatch(updateSchedule(newScheduleArray));
                     // }}
                 />
-                </CardContent>
                 <CardActions disableSpacing>
                 <IconButton aria-label="Accept">
                 <CheckIcon />
@@ -119,13 +123,14 @@ export default function InvitationCard({invitation}) {
                 expand={expanded}
                 onClick={handleExpandClick}
                 aria-expanded={expanded}
-                aria-label="View More"
+                aria-label="View less"
                 >
-                <ExpandMoreIcon />
+                <ArrowForwardIcon />
                 </ExpandMore>
             </CardActions>
             </Box>
-            </Collapse>
+            </CardContent>
+            </Dialog>
         </Card>
     </Box>
     );
