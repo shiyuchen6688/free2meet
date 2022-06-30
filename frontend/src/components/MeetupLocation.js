@@ -16,10 +16,11 @@ let dispatch;
 let map;
 let data;
 let infoWindow;
+let markers = [];
 const k1 = "AIzaSyDHH_p0fbbZSRyr";
 const k2 = "HqvLAc5WcM7Ic26ypP4";
 const k = k1 + k2;
-const darkStyle = [
+export const darkStyle = [
     { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
     { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
     { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
@@ -120,6 +121,7 @@ const loadScript = (url, callback) => {
 };
 
 function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
+    markers = [];
     autoComplete = new window.google.maps.places.Autocomplete(autoCompleteRef.current, {});
     map = new window.google.maps.Map(mapRef.current, {
         center: { lat: 49.265395, lng: -123.246727 },
@@ -169,7 +171,8 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
         }
     });
     data.forEach(d => createMarker(d.place_id, d.name, d.formatted_address, d.lat, d.lng, 1));
-    if (data.length > 0) {
+    fitBounds();
+    if (markers.length === 1) {
         map.setCenter({ lat: data[0].lat, lng: data[0].lng });
     }
     autoComplete.setFields(["address_component", "adr_address", "formatted_address", "geometry.location", "icon", "name", "place_id", "type", "url"]);
@@ -185,8 +188,6 @@ function handleScriptLoad(updateQuery, autoCompleteRef, mapRef) {
         });
     });
 }
-
-let markers = [];
 
 function createMarker(id, name, formatted_address, lat, lng, para) {
     if (para === 0) {
@@ -224,7 +225,7 @@ const fitBounds = () => {
     }
     let latlngbounds = new window.google.maps.LatLngBounds();
     for (let i = 0; i < markers.length; i++) {
-        latlngbounds.extend(markers[i].getPosition());
+        latlngbounds.extend(new window.google.maps.LatLng(markers[i].position.lat(), markers[i].position.lng()));
     }
     map.fitBounds(latlngbounds);
 }
