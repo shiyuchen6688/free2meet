@@ -8,9 +8,6 @@ const queries = {
     getMeetupById: async (id) => {
         return await Meetup.findById(id);
     },
-    getMeetupByUserId: async (id) => {
-        return await Meetup.find({ creator: id });
-    },
     getMeetupByUserName: async (name) => {
         return await Meetup.find({ creator: name });
     },
@@ -20,17 +17,17 @@ const queries = {
     addMeetup: async (meetup) => {
         return await Meetup.create(meetup);
     },
-    getUsers: async () => {
+    getAllUsers: async () => {
         return await User.find({});
     },
-    getUserById: async (id) => {
-        return await User.findById(id);
+    getUserByEmail: async (email) => {
+        return await User.findOne({ email: email });
+    },
+    getUserByUsername: async (username) => {
+        return await User.findOne({ username: username });
     },
     addUser: async (user) => {
         return await User.create(user);
-    },
-    signIn: async (user) => {
-        return await User.findOne({ username: user.username });
     }
 };
 
