@@ -6,7 +6,7 @@ var queries = require('../model/queries');
 /** Schema of meetup include:
  *  title, description, availabiliyt times (schedule), locations, invited users (invitees), creater user
  */
-
+/** 
 let meetups = [
     {
         id: uuid(),
@@ -446,6 +446,7 @@ let meetups = [
         }
     }
 ];
+*/
 
 // let meetups = [{title: "Party 3", 
 // id: 3,
@@ -529,7 +530,8 @@ router.post('/', function (req, res, next) {
         schedule: req.body.schedule,
         location: req.body.location,
         invitees: req.body.invitees,
-        creator: req.body.creator
+        creator: req.body.creator,
+        state: "PENDING"
     }
     queries.addMeetup(meetup).then(function (meetup) {
         return res.send(meetup);

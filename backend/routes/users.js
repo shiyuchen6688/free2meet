@@ -58,6 +58,8 @@ router.post('/register', function (req, res, next) {
                 // encrypt password
                 user.password = bcrypt.hash(user.password, 10).then((password) => {
                     user.password = password;
+                    user.friends = [];
+                    user.acceptedMeetups = [];
                     queries.addUser(user).then(user => {
                         return res.status(200).send(user);
                     })

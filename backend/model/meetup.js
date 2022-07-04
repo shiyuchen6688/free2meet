@@ -1,18 +1,11 @@
 const mongoose = require('mongoose');
 
-const subSchemaAddressComponents = new mongoose.Schema({
-    long_name: String,
-    short_name: String,
-    types: [String]
-});
-
-const subSchemaInvitees = new mongoose.Schema({
-    email: String,
-    username: String
-});
-
 const subSchemaLocation = new mongoose.Schema({
-    address_components: [subSchemaAddressComponents],
+    address_components: [{
+        long_name: String,
+        short_name: String,
+        types: [String]
+    }],
     adr_address: String,
     formatted_address: String,
     geometry: {
@@ -52,11 +45,19 @@ const meetupSchema = new mongoose.Schema({
         hourlyChunk: Number,
         timeInterval: [Number, Number]
     },
-    invitees: [subSchemaInvitees],
+    invitees: [{
+        email: String,
+        username: String
+    }],
     creator: {
         email: String,
         username: String
-    }
+    },
+    // PENDING - The invitation has been sent and is awaiting action by the invitee or inviter.
+    // ACCEPTED - The invitation has been accepted by the invitee.
+    // REJECTED - The invitation has been rejected by the invitee.
+    // WITHDRAWN - The invitation has been withdrawn by the inviter.
+    state: String
 });
 
 const Meetup = mongoose.model('Meetup', meetupSchema);
