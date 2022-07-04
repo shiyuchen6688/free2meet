@@ -225,7 +225,7 @@ export default function History() {
 
     function mapJSONToCard(eventJSON) {
         return (
-            <Box sx={{ minWidth: 275, maxWidth: 600, margin: 5 }} key={eventJSON.id}>
+            <Box sx={{ minWidth: 275, maxWidth: 600, margin: 5 }} key={eventJSON._id}>
                 <Card variant="outlined">
                     <CardHeader
                         avatar={
@@ -244,7 +244,7 @@ export default function History() {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" onClick={e => navigate(`/meetup/${eventJSON.id}`)}>View</Button>
+                        <Button size="small" onClick={e => navigate(`/meetup/${eventJSON._id}`)}>View</Button>
                     </CardActions>
                 </Card>
             </Box >

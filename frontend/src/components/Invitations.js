@@ -51,7 +51,7 @@ export default function Meetups() {
                     alignItems="center"
                 >
                 {invitations.map(invitation => (
-                    <InvitationCard key={invitation.id} invitation={invitation} />
+                    <InvitationCard key={invitation._id} invitation={invitation} />
                 ))}
                 {/* <InvitationCard />
                 <InvitationCard />
