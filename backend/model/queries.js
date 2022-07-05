@@ -44,11 +44,11 @@ const queries = {
         await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
         return checkIfMeetupIsComplete(meetup);
     },
-    acceptMeetup: async (userEmail, meetup, availableLocations, availableTimeSlot) => {
+    acceptMeetup: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
         // remove meetup from user's meetupsPending
         await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsPending: meetup } }, { new: true });
         // add meetup to user's meetupsAccepted
-        let a = { meetupId: meetup, availableLocations: availableLocations, availableTimeSlot: availableTimeSlot };
+        let a = { meetupId: meetup, availableLocations: availableLocations, availableTimeSlot: availableTimeSlots };
         await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true });
         return checkIfMeetupIsComplete(meetup);
     },
@@ -119,8 +119,8 @@ const queries = {
         let user = await User.findOne({ email: userEmail });
         return user.meetupsCreated;
     },
-    resetPassword: async (email, newPassword) => {
-        return await User.findOneAndUpdate({ email: email }, { password: newPassword }, { new: true });
+    updateUser: async (userEmail, user) => {
+        return await User.findOneAndUpdate({ email: userEmail }, user, { new: true });
     }
 };
 
