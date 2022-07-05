@@ -20,7 +20,8 @@ export default function MeetupInvitation() {
     // TODO: All frineds here.
     const options = [
         { value: 'friend_0', label: 'Sam', uid: 'sam@gmail.com' },
-        { value: 'friend_1', label: 'Amy', uid: 'amy@gmail.com' }
+        { value: 'friend_1', label: 'Amy', uid: 'amy@gmail.com' },
+        { value: 'friend_2', label: 'a', uid: 'a' }
     ];
 
     let handleChange = (newValue) => {

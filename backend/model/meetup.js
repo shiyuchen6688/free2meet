@@ -16,7 +16,7 @@ const subSchemaLocation = new mongoose.Schema({
     },
     icon: String,
     name: String,
-    place_id: String,
+    place_id: String, // Primary key
     types: [String],
     url: String,
     lat: Number,
@@ -24,7 +24,7 @@ const subSchemaLocation = new mongoose.Schema({
 });
 
 const meetupSchema = new mongoose.Schema({
-    id: String,
+    id: String, // Primary key
     timestamp: String,
     title: String,
     description: String,

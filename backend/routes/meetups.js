@@ -541,8 +541,21 @@ router.post('/', function (req, res, next) {
         console.log(meetup.id)
         queries.addMeetupToUserCreator(creatorEmail, uid).then(function (user) {
             console.log("meetup added to user");
-            // TODO: add meetup to invitees meetupsPending field and send email to invitees
-            return res.send(meetup);
+            console.log(111);
+            console.log(req.body.invitees);
+            console.log(222);
+            let emails = req.body.invitees.map(function (invitee) {
+                return invitee.uid;
+            });
+            console.log(666, emails);
+            queries.addMeetupToInvitees(emails, uid).then(function (invitees) {
+                console.log("meetup added to invitees");
+                // TODO: send email to invitees
+                return res.send(meetup);
+            }).catch(function (err) {
+                console.log(err);
+                return res.send(err);
+            });
         }).catch(function (err) {
             console.log(err);
             return res.send(err);
