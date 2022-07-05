@@ -42,7 +42,8 @@ const queries = {
         await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsPending: meetup } }, { new: true });
         // add meetup to user's meetupsDeclined
         await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
-        return checkIfMeetupIsComplete(meetup);
+        // await checkIfMeetupIsComplete(meetup);
+        return await this.getMeetupsDeclined(userEmail);
     },
     acceptMeetup: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
         // remove meetup from user's meetupsPending
@@ -50,10 +51,11 @@ const queries = {
         // add meetup to user's meetupsAccepted
         let a = { meetupId: meetup, availableLocations: availableLocations, availableTimeSlot: availableTimeSlots };
         await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true });
-        return checkIfMeetupIsComplete(meetup);
+        // await checkIfMeetupIsComplete(meetup);
+        return await this.getMeetupsAccepted(userEmail);
     },
     checkIfMeetupIsComplete: async (meetup) => {
-        // find invitees' emails and check if their pending meetups contain the meetup and update state to COMPLETED if no pending meetups remain
+        // find the number pending meetups ids and update state to COMPLETED if no pending meetups remain
         let invitees = await User.find({ meetupsPending: meetup });
         if (invitees.length === 0) {
             await Meetup.findOneAndUpdate({ id: meetup }, { state: 'COMPLETED' }, { new: true });
@@ -80,28 +82,30 @@ const queries = {
         await User.findOneAndUpdate({ email: userEmail }, { $push: { friends: friendEmail } }, { new: true });
         // add user to friend's friends
         await User.findOneAndUpdate({ email: friendEmail }, { $push: { friends: userEmail } }, { new: true });
-        return true;
+        let newFriends = await getFriends(userEmail);
+        let newFriendRequests = await getFriendRequests(userEmail);
+        return { friends: newFriends, friendRequests: newFriendRequests };
     },
     declineFriendRequest: async (userEmail, friendEmail) => {
         // remove friend request from user's friendRequests
         await User.findOneAndUpdate({ email: userEmail }, { $pull: { friendRequests: friendEmail } }, { new: true });
         // remove friend request from friend's friendRequestsSent
         await User.findOneAndUpdate({ email: friendEmail }, { $pull: { friendRequestsSent: userEmail } }, { new: true });
-        return true;
+        return await this.getFriendRequests(userEmail);
     },
     sendFriendRequest: async (userEmail, friendEmail) => {
         // add friend request to user's friendRequests
         await User.findOneAndUpdate({ email: userEmail }, { $push: { friendRequests: friendEmail } }, { new: true });
         // add friend request to friend's friendRequestsSent
         await User.findOneAndUpdate({ email: friendEmail }, { $push: { friendRequestsSent: userEmail } }, { new: true });
-        return true;
+        return await this.getFriendRequestsSent(userEmail);
     },
     deleteFriend: async (userEmail, friendEmail) => {
         // remove friend from user's friends
         await User.findOneAndUpdate({ email: userEmail }, { $pull: { friends: friendEmail } }, { new: true });
         // remove user from friend's friends
         await User.findOneAndUpdate({ email: friendEmail }, { $pull: { friends: userEmail } }, { new: true });
-        return true;
+        return await this.getFriends(userEmail);
     },
     getMeetupsPending: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
