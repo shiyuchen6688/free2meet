@@ -28,6 +28,10 @@ const queries = {
     },
     addUser: async (user) => {
         return await User.create(user);
+    },
+    addMeetupToUserCreator: async (userEmail, meetup) => {
+        let a = { meetupsCreated: meetup, state: "PENDING" , bestLocation: "", bestTime: [] };
+        return await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsCreated: a } }, { new: true });
     }
 };
 

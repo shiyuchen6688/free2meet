@@ -24,6 +24,7 @@ const subSchemaLocation = new mongoose.Schema({
 });
 
 const meetupSchema = new mongoose.Schema({
+    id: String,
     timestamp: String,
     title: String,
     description: String,
@@ -52,12 +53,7 @@ const meetupSchema = new mongoose.Schema({
     creator: {
         email: String,
         username: String
-    },
-    // PENDING - The invitation has been sent and is awaiting action by the invitee or inviter.
-    // ACCEPTED - The invitation has been accepted by the invitee.
-    // REJECTED - The invitation has been rejected by the invitee.
-    // WITHDRAWN - The invitation has been withdrawn by the inviter.
-    state: String
+    }
 });
 
 const Meetup = mongoose.model('Meetup', meetupSchema);
