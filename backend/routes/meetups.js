@@ -523,18 +523,33 @@ router.get(`/meetup`, function (req, res, next) {
 router.post('/', function (req, res, next) {
     //   console.log("a")
     //   console.log(req)
+    let uid = uuid();
+    let creatorEmail = req.body.creator.email;
     let meetup = {
+        id: uid,
         timestamp: Date.now(),
         title: req.body.title,
         description: req.body.description,
         schedule: req.body.schedule,
         location: req.body.location,
         invitees: req.body.invitees,
-        creator: req.body.creator,
-        state: "PENDING"
+        creator: req.body.creator
     }
+    
     queries.addMeetup(meetup).then(function (meetup) {
-        return res.send(meetup);
+        console.log("meetup added");
+        console.log(meetup.id)
+        queries.addMeetupToUserCreator(creatorEmail, uid).then(function (user) {
+            console.log("meetup added to user");
+            // TODO: add meetup to invitees meetupsPending field and send email to invitees
+            return res.send(meetup);
+        }).catch(function (err) {
+            console.log(err);
+            return res.send(err);
+        });
+    }).catch(function (err) {
+        console.log(err);
+        return res.send(err);
     });
 });
 
