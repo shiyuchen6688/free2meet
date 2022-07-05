@@ -1,6 +1,12 @@
 const initState = {
     schedule: [],
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    timezone: {
+        abbrev: "PDT",
+        altName: "Pacific Daylight Time",
+        label: "(GMT-7:00) Pacific Time",
+        offset: -7,
+        value: "America/Los_Angeles"
+    },
     startDate: JSON.parse(JSON.stringify(new Date())),
     selectionScheme: 'linear',
     numDaysInput: 7,
@@ -11,7 +17,7 @@ const initState = {
 };
 
 const createMeetupScheduleReducer = (state = initState, action) => {
-    let newState = {...state};
+    let newState = { ...state };
     switch (action.type) {
         case "UPDATE_SCHEDULE":
             newState.schedule = action.newSchedule;
@@ -37,7 +43,7 @@ const createMeetupScheduleReducer = (state = initState, action) => {
             return newState;
         case "UPDATE_TIME_INTERVAL":
             newState.timeInterval = action.newTimeInterval;
-            return newState;    
+            return newState;
         case "UPDATE_NUM_DAYS":
             newState.schedule = [];
             newState.numDays = action.newNumDays;
