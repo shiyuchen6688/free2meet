@@ -539,14 +539,6 @@ router.post('/', function (req, res, next) {
         bestTime: null
     }
 
-    // fix the timezone if it is not selected
-    if (typeof (meetup.schedule.timezone) === "string") {
-        meetup.schedule.timezone = {
-            value: 'America/Dawson',
-            label: '(GMT-7:00) Dawson, Yukon',
-            offset: -7
-        }
-    }
     queries.addMeetup(meetup).then(function (meetup) {
         console.log("meetup added");
         queries.addMeetupToUserCreator(creatorEmail, uid).then(function (user) {
