@@ -53,7 +53,7 @@ const resetPassword = async (email, password) => {
     });
 
     const data = await response.json()
-    
+
     if (!response.ok) {
         console.log('Error in resetPassword')
     }
@@ -61,7 +61,7 @@ const resetPassword = async (email, password) => {
 }
 
 // get meetups created by a user given user email
-const getMeetupsByUser = async (email) => {
+const getMeetupsCreated = async (email) => {
     const response = await fetch(`http://localhost:3001/${email}/meetups/created`, {
         method: 'GET',
         headers: {
@@ -73,7 +73,7 @@ const getMeetupsByUser = async (email) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in getMeetupsByUser')
+        console.log('Error in getMeetupsCreated')
     }
     return data
 }
@@ -89,7 +89,7 @@ const getMeetupsPending = async (email) => {
     });
 
     const data = await response.json()
-    
+
     if (!response.ok) {
         console.log('Error in getMeetupsPending')
     }
@@ -215,7 +215,7 @@ const getFriendRequestsSent = async (email) => {
             'x-access-token': localStorage.getItem("token")
         },
     });
-    
+
     const data = await response.json()
 
     if (!response.ok) {
@@ -272,7 +272,7 @@ const sendFriendRequest = async (email, friendEmail) => {
         },
         body: JSON.stringify({ friendEmail })
     });
-    
+
     const data = await response.json()
 
     if (!response.ok) {
@@ -300,11 +300,11 @@ const deleteFriend = async (email, friendEmail) => {
     return data
 }
 
-export default {
+const exportedService = {
     login,
     register,
     resetPassword,
-    getMeetupsByUser,
+    getMeetupsCreated,
     getMeetupsPending,
     getMeetupsAccepted,
     getMeetupsDeclined,
@@ -318,3 +318,5 @@ export default {
     sendFriendRequest,
     deleteFriend
 }
+
+export default exportedService;
