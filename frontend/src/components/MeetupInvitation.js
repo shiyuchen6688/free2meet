@@ -7,7 +7,7 @@ import CreatableSelect from 'react-select/creatable';
 import "../App.css";
 import Place from './Place';
 import { useSelector, useDispatch } from 'react-redux';
-import {changeInvitee} from '../redux/actions/actions';
+import { changeInvitee } from '../redux/actions/actions';
 
 export default function MeetupInvitation() {
     const dispatch = useDispatch();
@@ -42,7 +42,7 @@ export default function MeetupInvitation() {
                     {titleAndDetailInfo["meetup-description"] === "" ? "NA" : titleAndDetailInfo["meetup-description"]}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                    Add Friends
+                    Add Friends:
                 </Typography>
                 <div>
                     <CreatableSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
@@ -52,17 +52,19 @@ export default function MeetupInvitation() {
                     />
                 </div>
                 <Typography variant="h6" gutterBottom>
-                    Location {locationInfo.length === 0 ? "NA" : ""}
+                    {locationInfo.length === 0 ? "No Location Selected" :
+                        locationInfo.length === 1 ? "Location (1 Selected):" :
+                            "Locations (" + locationInfo.length + " Selected):"}
                 </Typography>
                 {locationInfo.map((item) => {
                     return (<Place key={item.place_id} item={item} />);
                 })}
                 <Typography variant="h6" gutterBottom>
-                    Timezone: {allScheduleInfo.timezone.value === undefined ?
-                        allScheduleInfo.timezone : allScheduleInfo.timezone.value}
+                    Time Zone: {allScheduleInfo.timezone.altName === undefined ?
+                        allScheduleInfo.timezone.value : allScheduleInfo.timezone.altName}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                    Time Availability {allScheduleInfo.schedule.length === 0 ? "NA" : ""}
+                    Time Availability: {allScheduleInfo.schedule.length === 0 ? "Not Selected" : ""}
                 </Typography>
                 {allScheduleInfo.schedule.length !== 0 && <div>
                     <ScheduleSelector
