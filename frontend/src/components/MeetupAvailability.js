@@ -138,7 +138,7 @@ export default function MeetupAvailability() {
                 </div>
 
                 <Typography variant="h6" gutterBottom>
-                    Time zone: {allScheduleInfo.timezone.altName === undefined ?
+                    Time Zone: {allScheduleInfo.timezone.altName === undefined ?
                         allScheduleInfo.timezone.value : allScheduleInfo.timezone.altName}
                 </Typography>
                 <div>
