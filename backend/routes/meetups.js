@@ -533,21 +533,20 @@ router.post('/', function (req, res, next) {
         schedule: req.body.schedule,
         location: req.body.location,
         invitees: req.body.invitees,
-        creator: req.body.creator
+        creator: req.body.creator,
+        state: "PENDING",
+        bestLocation: null,
+        bestTime: null
     }
-    
+
     queries.addMeetup(meetup).then(function (meetup) {
         console.log("meetup added");
-        console.log(meetup.id)
         queries.addMeetupToUserCreator(creatorEmail, uid).then(function (user) {
             console.log("meetup added to user");
-            console.log(111);
-            console.log(req.body.invitees);
-            console.log(222);
             let emails = req.body.invitees.map(function (invitee) {
                 return invitee.uid;
             });
-            console.log(666, emails);
+            // console.log(emails);
             queries.addMeetupToInvitees(emails, uid).then(function (invitees) {
                 console.log("meetup added to invitees");
                 // TODO: send email to invitees
@@ -565,7 +564,6 @@ router.post('/', function (req, res, next) {
         return res.send(err);
     });
 });
-
 
 
 module.exports = router;
