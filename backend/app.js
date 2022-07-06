@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+var generateData = require('./generate-data');
 
 var indexRouter = require('./routes/index');
 var meetupsRouter = require('./routes/meetups');
@@ -19,6 +20,9 @@ mongoose.connect('mongodb+srv://free2meet:free2meet@cluster0.ustzz.mongodb.net/?
 }).catch(err => {
     console.log('Error connecting to MongoDB: ', err.message);
 });
+
+// generate mock data
+generateData();
 
 // Enable Cors
 app.use(cors());
