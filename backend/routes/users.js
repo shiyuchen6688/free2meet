@@ -124,7 +124,7 @@ router.get('/:email', verifyJWT, (req, res) => {
 })
 
 // reset password of a user given user email and new password
-router.post('/reset-password', verifyJWT, (req, res) => {
+router.post('/reset-password', (req, res) => {
     queries.getUserByEmail(req.body.email).then(user => {
         if (user) {
             bcrypt.hash(req.body.password, 10).then((password) => {
@@ -142,7 +142,7 @@ router.post('/reset-password', verifyJWT, (req, res) => {
 });
 
 // get meetups created by a user given user email
-router.get('/:email/meetups/created', verifyJWT, (req, res) => {
+router.get('/:email/meetups/created', (req, res) => {
     const email = req.params.email;
     queries.getMeetupsCreated(email).then(meetups => {
         return res.send(meetups);
@@ -152,7 +152,7 @@ router.get('/:email/meetups/created', verifyJWT, (req, res) => {
 });
 
 // get pending meetups for a user given user email
-router.get('/:email/meetups/pending', verifyJWT, function (req, res, next) {
+router.get('/:email/meetups/pending', function (req, res, next) {
     const email = req.params.email;
     queries.getMeetupsPending(email).then(meetups => {
         return res.send(meetups);
@@ -162,7 +162,7 @@ router.get('/:email/meetups/pending', verifyJWT, function (req, res, next) {
 });
 
 // get accepted meetups for a user given user email
-router.get('/:email/meetups/accepted', verifyJWT, function (req, res, next) {
+router.get('/:email/meetups/accepted', function (req, res, next) {
     const email = req.params.email;
     queries.getMeetupsAccepted(email).then(meetups => {
         return res.send(meetups);
@@ -172,7 +172,7 @@ router.get('/:email/meetups/accepted', verifyJWT, function (req, res, next) {
 });
 
 // get declined meetups for a user given user email
-router.get('/:email/meetups/declined', verifyJWT, function (req, res, next) {
+router.get('/:email/meetups/declined', function (req, res, next) {
     const email = req.params.email;
     queries.getMeetupsDeclined(email).then(meetups => {
         return res.send(meetups);
@@ -182,7 +182,7 @@ router.get('/:email/meetups/declined', verifyJWT, function (req, res, next) {
 });
 
 // accept a pending meetup for a user given user email and meetup id and availbale locations and time slots
-router.post('/:email/meetups/pending/accept', verifyJWT, function (req, res, next) {
+router.post('/:email/meetups/pending/accept', function (req, res, next) {
     const email = req.params.email;
     const meetupId = req.body.meetupId;
     const availableLocations = req.body.availableLocations;
@@ -195,7 +195,7 @@ router.post('/:email/meetups/pending/accept', verifyJWT, function (req, res, nex
 });
 
 // decline a pending meetup for a user given user email and meetup id
-router.post('/:email/meetups/pending/decline', verifyJWT, function (req, res, next) {
+router.post('/:email/meetups/pending/decline', function (req, res, next) {
     const email = req.params.email;
     const meetupId = req.body.meetupId;
     queries.declineMeetup(email, meetupId).then(meetup => {
@@ -216,7 +216,7 @@ router.get('/:email/friends/', function (req, res, next) {
 });
 
 // get all friend requests for a user given user email
-router.get('/:email/friends/requests', verifyJWT, function (req, res, next) {
+router.get('/:email/friends/requests', function (req, res, next) {
     const email = req.params.email;
     queries.getFriendRequests(email).then(friendRequests => {
         return res.send(friendRequests);
@@ -226,7 +226,7 @@ router.get('/:email/friends/requests', verifyJWT, function (req, res, next) {
 });
 
 // get all friend requests sent for a user given user email
-router.get('/:email/friends/requests/sent', verifyJWT, function (req, res, next) {
+router.get('/:email/friends/requests/sent', function (req, res, next) {
     const email = req.params.email;
     queries.getFriendRequestsSent(email).then(friendRequestsSent => {
         return res.send(friendRequestsSent);
@@ -236,7 +236,7 @@ router.get('/:email/friends/requests/sent', verifyJWT, function (req, res, next)
 });
 
 // accept a friend request for a user given user email and friend email
-router.post('/:email/friends/requests/accept', verifyJWT, function (req, res, next) {
+router.post('/:email/friends/requests/accept', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
     queries.acceptFriendRequest(email, friendEmail).then(friend => {
@@ -247,7 +247,7 @@ router.post('/:email/friends/requests/accept', verifyJWT, function (req, res, ne
 });
 
 // decline a friend request for a user given user email and friend email
-router.post('/:email/friends/requests/decline', verifyJWT, function (req, res, next) {
+router.post('/:email/friends/requests/decline', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
     queries.declineFriendRequest(email, friendEmail).then(friend => {
@@ -258,7 +258,7 @@ router.post('/:email/friends/requests/decline', verifyJWT, function (req, res, n
 });
 
 // send a friend request for a user given user email and friend email
-router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next) {
+router.post('/:email/friends/requests/send', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
     queries.sendFriendRequest(email, friendEmail).then(friend => {
@@ -269,7 +269,7 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
 });
 
 // delete a friend for a user given user email and friend email
-router.post('/:email/friends/delete', verifyJWT, function (req, res, next) {
+router.post('/:email/friends/delete', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
     queries.deleteFriend(email, friendEmail).then(friend => {

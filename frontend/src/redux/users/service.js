@@ -43,7 +43,7 @@ const register = async (user) => {
 
 // reset password of a user given user email and new password
 const resetPassword = async (email, password) => {
-    const response = await fetch('http://localhost:3001/reset-password', {
+    const response = await fetch('http://localhost:3001/users/reset-password', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const resetPassword = async (email, password) => {
 
 // get meetups created by a user given user email
 const getMeetupsCreated = async (email) => {
-    const response = await fetch(`http://localhost:3001/${email}/meetups/created`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/meetups/created`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ const getMeetupsCreated = async (email) => {
 
 // get pending meetups for a user given user email
 const getMeetupsPending = async (email) => {
-    const response = await fetch(`http://localhost:3001/${email}/meetups/pending`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/meetups/pending`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ const getMeetupsPending = async (email) => {
 
 // get accepted meetups for a user given user email
 const getMeetupsAccepted = async (email) => {
-    const response = await fetch(`http://localhost:3001/${email}/meetups/accepted`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/meetups/accepted`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ const getMeetupsAccepted = async (email) => {
 
 // get declined meetups for a user given user email
 const getMeetupsDeclined = async (email) => {
-    const response = await fetch(`http://localhost:3001/${email}/meetups/declined`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/meetups/declined`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ const getMeetupsDeclined = async (email) => {
 
 // accept a pending meetup for a user given user email and meetup id and availbale locations and time slots
 const acceptMeetup = async (email, meetupId, availableLocations, availableTimeSlots) => {
-    const response = await fetch(`http://localhost:3001/${email}/meetups/pending/accept`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/meetups/pending/accept`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ const acceptMeetup = async (email, meetupId, availableLocations, availableTimeSl
 
 // decline a pending meetup for a user given user email and meetup id
 const declineMeetup = async (email, meetupId) => {
-    const response = await fetch(`http://localhost:3001/${email}/meetups/pending/decline`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/meetups/pending/decline`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ const getFriends = async (email) => {
 
 // get all friend requests for a user given user email
 const getFriendRequests = async (email) => {
-    const response = await fetch(`http://localhost:3001/${email}/friends/requests`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/friends/requests`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -208,7 +208,7 @@ const getFriendRequests = async (email) => {
 
 // get all friend requests for a user given user email
 const getFriendRequestsSent = async (email) => {
-    const response = await fetch(`http://localhost:3001/${email}/friends/requests/sent`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/friends/requests/sent`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -226,7 +226,7 @@ const getFriendRequestsSent = async (email) => {
 
 // accept a friend request for a user given user email and friend email
 const acceptFriendRequest = async (email, friendEmail) => {
-    const response = await fetch(`http://localhost:3001/${email}/friends/requests/accept`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/friends/requests/accept`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -245,7 +245,7 @@ const acceptFriendRequest = async (email, friendEmail) => {
 
 // decline a friend request for a user given user email and friend email
 const declineFriendRequest = async (email, friendEmail) => {
-    const response = await fetch(`http://localhost:3001/${email}/friends/requests/decline`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/friends/requests/decline`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -264,7 +264,7 @@ const declineFriendRequest = async (email, friendEmail) => {
 
 // send a friend request for a user given user email and friend email
 const sendFriendRequest = async (email, friendEmail) => {
-    const response = await fetch(`http://localhost:3001/${email}/friends/requests/send`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/friends/requests/send`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -283,7 +283,7 @@ const sendFriendRequest = async (email, friendEmail) => {
 
 // delete a friend for a user given user email and friend email
 const deleteFriend = async (email, friendEmail) => {
-    const response = await fetch(`http://localhost:3001/${email}/friends/delete`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/friends/delete`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
