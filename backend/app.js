@@ -21,7 +21,7 @@ mongoose.connect('mongodb+srv://free2meet:free2meet@cluster0.ustzz.mongodb.net/?
     console.log('Error connecting to MongoDB: ', err.message);
 });
 
-// generate mock data
+// generate mock data for testing (users and meetups)
 generateData();
 
 // Enable Cors
