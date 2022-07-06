@@ -155,7 +155,6 @@ async function generateData() {
                         "establishment"
                     ],
                     "url": "https://maps.google.com/?cid=14383886875425940211",
-                    "html_attributions": [],
                     "lat": 49.26060520000001,
                     "lng": -123.2459939
                 }
@@ -330,7 +329,6 @@ async function generateData() {
                         "establishment"
                     ],
                     "url": "https://maps.google.com/?cid=22637017824277851",
-                    "html_attributions": [],
                     "lat": 49.2780937,
                     "lng": -122.9198833
                 }
@@ -464,7 +462,6 @@ async function generateData() {
                         "establishment"
                     ],
                     "url": "https://maps.google.com/?cid=22637017824277851",
-                    "html_attributions": [],
                     "lat": 49.2780937,
                     "lng": -122.9198833
                 }

@@ -8,9 +8,6 @@ const queries = {
     getMeetupById: async (id) => {
         return await Meetup.findById(id);
     },
-    getMeetupByUserName: async (name) => {
-        return await Meetup.find({ creator: name });
-    },
     getMeetupByUserEmail: async (email) => {
         return await Meetup.find({ creator: email });
     },
@@ -22,9 +19,6 @@ const queries = {
     },
     getUserByEmail: async (email) => {
         return await User.findOne({ email: email });
-    },
-    getUserByUsername: async (username) => {
-        return await User.findOne({ username: username });
     },
     addUser: async (user) => {
         return await User.create(user);
