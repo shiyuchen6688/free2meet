@@ -94,7 +94,8 @@ export default function InvitationCard({invitation}) {
                     return (<Place key={item.place_id} item={item} deleteButton={false}/>);
                 })}
                 <Typography variant="h6" gutterBottom>
-                    Timezone: {invitation.schedule.timezone.value}
+                    Time Zone: {invitation.schedule.timezone.altName === undefined ?
+                        invitation.schedule.timezone.value : invitation.schedule.timezone.altName}
                 </Typography>
                 <ScheduleSelector
                     selection={invitation.schedule.schedule}

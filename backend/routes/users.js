@@ -7,14 +7,21 @@ const queries = require('../model/queries');
 require('dotenv').config()
 
 /** Schema of user include:
- *  username (unique key for user), password (encryption needed?), email address...
+    email (Primary Key), username, password, friends, friendRequests, friendRequestsSent, meetupsCreated, meetupsPending, meetupsAccepted, meetupsDeclined
  */
 
 // let users = [
 //     {
 //         email: "a",
 //         username: "a",
-//         password: "$2a$10$FKPFoOsz.td5FTaOs5kr7eot3WGjEo3pFP2e7eOBSW5Dw0Mry3yF6" // hash for b
+//         password: "$2a$10$FKPFoOsz.td5FTaOs5kr7eot3WGjEo3pFP2e7eOBSW5Dw0Mry3yF6" // hash for b,
+//         friends: [],
+//         friendRequests: [],
+//         friendRequestsSent: [],
+//         meetupsCreated: [],
+//         meetupsPending: [],
+//         meetupsAccepted: [],
+//         meetupsDeclined: []
 //     }
 // ]
 
@@ -25,11 +32,10 @@ router.get('/', function (req, res, next) {
     });
 });
 
-
 /* add (register) a new user */
 router.post('/register', function (req, res, next) {
     // get user from req
-    const user = req.body
+    const user = req.body;
 
     // TODO: verify user information (password strong? email valid?)
 
@@ -40,21 +46,15 @@ router.post('/register', function (req, res, next) {
     let takenUserName1;
     let takenEmail1;
     queries.getUserByUsername(user.username).then(takenUserName => {
-        // console.log(takenUserName)
-        // console.log(1111)
         takenUserName1 = takenUserName;
         queries.getUserByEmail(user.email).then(takenEmail => {
-            // console.log(takenEmail)
-            // console.log(2222)
             takenEmail1 = takenEmail;
             if (takenUserName1 !== null || takenEmail1 !== null) {
-                // console.log(3333)
                 return res.json({
                     status: "error",
                     message: "Username or Email already taken"
                 })
             } else {
-                // console.log(4444)
                 // encrypt password
                 user.password = bcrypt.hash(user.password, 10).then((password) => {
                     user.password = password;
@@ -85,12 +85,10 @@ router.post('/login', (req, res) => {
     let matchStoredUser;
     queries.getUserByEmail(user.email).then(result => {
         matchStoredUser = result;
-        // console.log("matchStoredUser", matchStoredUser)
         if (!result) {
             return res.status(404).send(new Error("Email does not exist"))
         }
         bcrypt.compare(user.password, matchStoredUser.password).then(passwordCorrect => {
-            // console.log(passwordCorrect)
             if (passwordCorrect) {
                 let payload = {
                     username: matchStoredUser.username,
@@ -111,7 +109,6 @@ router.post('/login', (req, res) => {
                             username: matchStoredUser.username,
                             email: matchStoredUser.email
                         })
-
                     }
                 )
             } else {
