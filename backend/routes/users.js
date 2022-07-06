@@ -206,7 +206,7 @@ router.post('/:email/meetups/pending/decline', verifyJWT, function (req, res, ne
 });
 
 // get all friends for a user given user email
-router.get('/:email/friends', verifyJWT, function (req, res, next) {
+router.get('/:email/friends/', function (req, res, next) {
     const email = req.params.email;
     queries.getFriends(email).then(friends => {
         return res.send(friends);

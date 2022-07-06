@@ -8,6 +8,7 @@ import "../App.css";
 import Place from './Place';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeInvitee } from '../redux/actions/actions';
+import { getFriendsAsync } from '../redux/users/thunks';
 
 export default function MeetupInvitation() {
     const dispatch = useDispatch();
@@ -16,14 +17,16 @@ export default function MeetupInvitation() {
     const locationInfo = useSelector(state => state.createMeetupLocationReducer);
     const invitationInfo = useSelector(state => state.createMeetupInvitationReducer);
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const currentUser = useSelector(state => state.usersReducer);
+    React.useEffect(() => {
+        dispatch(getFriendsAsync(currentUser.email));
+    }, []);
 
-    // TODO: All frineds here.
-    const options = [
-        { value: 'friend_0', label: 'Sam', uid: 'sam@gmail.com' },
-        { value: 'friend_1', label: 'Amy', uid: 'amy@gmail.com' },
-        { value: 'friend_2', label: 'a', uid: 'a' },
-        { value: 'friend_3', label: 'c', uid: 'c' }
-    ];
+    // convert currentUser.friends to an array of objects with the following properties:
+    // { value: friend.email, label: friend.email, uid: friend.email }
+    const friends = currentUser.friends.map(friend => {
+        return { value: friend, label: friend, uid: friend };
+    });
 
     let handleChange = (newValue) => {
         dispatch(changeInvitee(newValue));
@@ -48,7 +51,7 @@ export default function MeetupInvitation() {
                     <CreatableSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
                         isMulti
                         onChange={handleChange}
-                        options={options}
+                        options={friends}
                     />
                 </div>
                 <Typography variant="h6" gutterBottom>

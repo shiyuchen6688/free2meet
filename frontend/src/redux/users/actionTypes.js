@@ -8,7 +8,7 @@ export const actionTypes = {
     GET_MEETUPS_DECLINED: 'users/getMeetupsDeclined',
     ACCEPT_MEETUP: 'users/acceptMeetup',
     DECLINE_MEETUP: 'users/declineMeetup',
-    GET_FRIENDS: 'users/getFriends',
+    GET_FRIENDS: 'users/friends',
     GET_FRIEND_REQUESTS: 'users/getFriendRequests',
     GET_FRIEND_REQUESTS_SENT: 'users/getFriendRequestsSent',
     SEND_FRIEND_REQUEST: 'users/sendFriendRequest',

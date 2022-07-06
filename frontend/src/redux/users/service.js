@@ -172,7 +172,7 @@ const declineMeetup = async (email, meetupId) => {
 
 // get all friends for a user given user email
 const getFriends = async (email) => {
-    const response = await fetch(`http://localhost:3001/${email}/friends`, {
+    const response = await fetch(`http://localhost:3001/users/${email}/friends`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
