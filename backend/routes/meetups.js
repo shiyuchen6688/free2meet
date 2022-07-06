@@ -24,10 +24,15 @@ router.get(`/meetup`, function (req, res, next) {
 
 /* add a new meetup */
 router.post('/', function (req, res, next) {
-    //   console.log("a")
-    //   console.log(req)
     let uid = uuid();
     let creatorEmail = req.body.creator.email;
+    let inviteesModified = req.body.invitees;
+    // change invitees label to username
+    // change invitees uid to email
+    for (let i = 0; i < inviteesModified.length; i++) {
+        inviteesModified[i].username = inviteesModified[i].label;
+        inviteesModified[i].email = inviteesModified[i].uid;
+    }
     let meetup = {
         id: uid,
         timestamp: Date.now(),
@@ -35,7 +40,7 @@ router.post('/', function (req, res, next) {
         description: req.body.description,
         schedule: req.body.schedule,
         location: req.body.location,
-        invitees: req.body.invitees,
+        invitees: inviteesModified,
         creator: req.body.creator,
         state: "PENDING",
         bestLocation: null,
@@ -49,7 +54,6 @@ router.post('/', function (req, res, next) {
             let emails = req.body.invitees.map(function (invitee) {
                 return invitee.uid;
             });
-            // console.log(emails);
             queries.addMeetupToInvitees(emails, uid).then(function (invitees) {
                 console.log("meetup added to invitees");
                 // TODO: send email to invitees

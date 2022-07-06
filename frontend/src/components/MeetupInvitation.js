@@ -22,13 +22,12 @@ export default function MeetupInvitation() {
         dispatch(getFriendsAsync(currentUser.email));
     }, []);
 
-    // convert currentUser.friends to an array of objects with the following properties:
-    // { value: friend.email, label: friend.email, uid: friend.email }
     const friends = currentUser.friends.map(friend => {
-        return { value: friend, label: friend, uid: friend };
+        return {  label: friend.username, uid: friend.email };
     });
 
     let handleChange = (newValue) => {
+        console.log(newValue);
         dispatch(changeInvitee(newValue));
     };
 

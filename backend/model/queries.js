@@ -59,7 +59,14 @@ const queries = {
     },
     getFriends: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        return user.friends;
+        let emails = user.friends;
+        // get user friends' usernames from emails
+        let friends = await User.find({ email: { $in: emails } });
+        // keep friends username and email fields
+        let friendsUsernames = friends.map(function (friend) {
+            return { username: friend.username, email: friend.email };
+        });
+        return friendsUsernames;
     },
     getFriendRequests: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
