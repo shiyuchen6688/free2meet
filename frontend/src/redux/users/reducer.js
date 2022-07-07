@@ -116,7 +116,7 @@ const usersSlice = createSlice({
             })
             .addCase(getMeetupsAcceptedAsync.fulfilled, (state, action) => {
                 state.getMeetupsAccepted = REQUEST_STATE.FULFILLED;
-                state.meetupsAccepted = action.payload.meetupsAccepted;
+                state.meetupsAccepted = action.payload;
             })
             .addCase(getMeetupsAcceptedAsync.rejected, (state, action) => {
                 state.getMeetupsAccepted = REQUEST_STATE.REJECTED;
@@ -128,7 +128,7 @@ const usersSlice = createSlice({
             })
             .addCase(getMeetupsDeclinedAsync.fulfilled, (state, action) => {
                 state.getMeetupsDeclined = REQUEST_STATE.FULFILLED;
-                state.meetupsDeclined = action.payload.meetupsDeclined;
+                state.meetupsDeclined = action.payload;
             })
             .addCase(getMeetupsDeclinedAsync.rejected, (state, action) => {
                 state.getMeetupsDeclined = REQUEST_STATE.REJECTED;
