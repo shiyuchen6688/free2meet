@@ -8,7 +8,7 @@ const INITIAL_STATE = {
     meetupsCreated: [],
     meetupsPending: [],
     meetupsAccepted: [],
-    meetupsRejected: [],
+    meetupsDeclined: [],
     friends: [],
     friendsRequests: [],
     friendsRequestsSent: [],
@@ -116,7 +116,7 @@ const usersSlice = createSlice({
             })
             .addCase(getMeetupsAcceptedAsync.fulfilled, (state, action) => {
                 state.getMeetupsAccepted = REQUEST_STATE.FULFILLED;
-                state.meetupsAccepted = action.payload;
+                state.meetupsAccepted = action.payload.meetupsAccepted;
             })
             .addCase(getMeetupsAcceptedAsync.rejected, (state, action) => {
                 state.getMeetupsAccepted = REQUEST_STATE.REJECTED;
@@ -128,7 +128,7 @@ const usersSlice = createSlice({
             })
             .addCase(getMeetupsDeclinedAsync.fulfilled, (state, action) => {
                 state.getMeetupsDeclined = REQUEST_STATE.FULFILLED;
-                state.meetupsRejected = action.payload;
+                state.meetupsDeclined = action.payload.meetupsDeclined;
             })
             .addCase(getMeetupsDeclinedAsync.rejected, (state, action) => {
                 state.getMeetupsDeclined = REQUEST_STATE.REJECTED;
@@ -140,7 +140,8 @@ const usersSlice = createSlice({
             })
             .addCase(acceptMeetupAsync.fulfilled, (state, action) => {
                 state.acceptMeetup = REQUEST_STATE.FULFILLED;
-                state.meetupsAccepted = action.payload;
+                state.meetupsAccepted = action.payload.meetupsAccepted;
+                state.meetupsPending = action.payload.meetupsPending;
             })
             .addCase(acceptMeetupAsync.rejected, (state, action) => {
                 state.acceptMeetup = REQUEST_STATE.REJECTED;
@@ -152,7 +153,8 @@ const usersSlice = createSlice({
             })
             .addCase(declineMeetupAsync.fulfilled, (state, action) => {
                 state.declineMeetup = REQUEST_STATE.FULFILLED;
-                state.meetupsRejected = action.payload;
+                state.meetupsDeclined = action.payload.meetupsDeclined;
+                state.meetupsPending = action.payload.meetupsPending;
             })
             .addCase(declineMeetupAsync.rejected, (state, action) => {
                 state.declineMeetup = REQUEST_STATE.REJECTED;
