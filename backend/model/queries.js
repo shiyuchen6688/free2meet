@@ -147,27 +147,27 @@ const queries = {
         await User.findOneAndUpdate({ email: friendEmail }, { $pull: { friends: userEmail } }, { new: true });
         return await this.getFriends(userEmail);
     },
-    // Given a user email, returns all meetups they are invited to but have not yet accepted or declined
+    // Given a user email, returns all meetups the user are invited to but have not yet accepted or declined
     getMeetupsPending: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsPending } });
     },
-    // Given a user email, returns all meetups they are invited to and have accepted
+    // Given a user email, returns all meetups the user are invited to and have accepted
     getMeetupsAccepted: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsAccepted } });
     },
-    // Given a user email, returns all meetups they are invited to and have declined
+    // Given a user email, returns all meetups the user are invited to and have declined
     getMeetupsDeclined: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsDeclined } });
     },
-    // Given a user email, returns all meetups they created
+    // Given a user email, returns all meetups the user created
     getMeetupsCreated: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsCreated } });
     },
-    // Given a user email and new user info, returns all fields of updated user info
+    // Given a user email and new user object, returns updated user object
     updateUser: async (userEmail, user) => {
         return await User.findOneAndUpdate({ email: userEmail }, user, { new: true });
     }
