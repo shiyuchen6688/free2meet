@@ -20,14 +20,13 @@ export default function MeetupInvitation() {
     const currentUser = useSelector(state => state.usersReducer);
     React.useEffect(() => {
         dispatch(getFriendsAsync(currentUser.email));
-    }, []);
+    }, [dispatch, currentUser.email]);
 
     const friends = currentUser.friends.map(friend => {
         return {  label: friend.username, uid: friend.email };
     });
 
     let handleChange = (newValue) => {
-        console.log(newValue);
         dispatch(changeInvitee(newValue));
     };
 

@@ -9,7 +9,7 @@ import { Paper } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
-import { getInvitationsAsync } from '../redux/invitations/thunks';
+import { getMeetupsPendingAsync } from '../redux/users/thunks';
 import { useEffect } from 'react';
 
 export default function Meetups() {
@@ -24,11 +24,11 @@ export default function Meetups() {
             }),
         [prefersDarkMode],
     );
-
-    const invitations = useSelector(state => state.invitationsReducer.list);
+    const currentUser = useSelector(state => state.usersReducer);
+    const invitations = useSelector(state => state.usersReducer.meetupsPending);
     useEffect(() => {
-        dispatch(getInvitationsAsync());
-    }, [dispatch]);
+        dispatch(getMeetupsPendingAsync(currentUser.email));
+    }, [dispatch, currentUser.email]);
 
     return (
         <ThemeProvider theme={theme}>

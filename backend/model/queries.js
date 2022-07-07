@@ -110,19 +110,19 @@ const queries = {
     },
     getMeetupsPending: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        return user.meetupsPending;
+        return await Meetup.find({ id: { $in: user.meetupsPending } });
     },
     getMeetupsAccepted: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        return user.meetupsAccepted;
+        return await Meetup.find({ id: { $in: user.meetupsAccepted } });
     },
     getMeetupsDeclined: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        return user.meetupsDeclined;
+        return await Meetup.find({ id: { $in: user.meetupsDeclined } });
     },
     getMeetupsCreated: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        return user.meetupsCreated;
+        return await Meetup.find({ id: { $in: user.meetupsCreated } });
     },
     updateUser: async (userEmail, user) => {
         return await User.findOneAndUpdate({ email: userEmail }, user, { new: true });
