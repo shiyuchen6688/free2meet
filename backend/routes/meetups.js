@@ -46,18 +46,44 @@ router.post('/', function (req, res, next) {
         bestLocation: null,
         bestTime: null
     }
-
-    queries.addMeetup(meetup).then(function (meetup) {
-        console.log("meetup added");
-        queries.addMeetupToUserCreator(creatorEmail, uid).then(function (user) {
-            console.log("meetup added to user");
-            let emails = req.body.invitees.map(function (invitee) {
-                return invitee.uid;
+    // if creator is in invitees return error
+    for (let i = 0; i < inviteesModified.length; i++) {
+        if (inviteesModified[i].email === creatorEmail) {
+            return res.send({
+                error: "Creator cannot be invited to meetup"
             });
-            queries.addMeetupToInvitees(emails, uid).then(function (invitees) {
-                console.log("meetup added to invitees");
-                // TODO: send email to invitees
-                return res.send(meetup);
+        }
+    }
+    // if invitees emails are not in creator's friends return error
+    queries.getFriends(creatorEmail).then(function (friends) {
+        for (let i = 0; i < inviteesModified.length; i++) {
+            let isFriend = false;
+            for (let j = 0; j < friends.length; j++) {
+                if (inviteesModified[i].email === friends[j].email) {
+                    isFriend = true;
+                }
+            }
+            if (!isFriend) {
+                return res.send({
+                    error: "Invitee is not a friend"
+                });
+            }
+        }
+        queries.addMeetup(meetup).then(function (meetup) {
+            console.log("meetup added");
+            queries.addMeetupToUserCreator(creatorEmail, uid).then(function (user) {
+                console.log("meetup added to user");
+                let emails = req.body.invitees.map(function (invitee) {
+                    return invitee.uid;
+                });
+                queries.addMeetupToInvitees(emails, uid).then(function (invitees) {
+                    console.log("meetup added to invitees");
+                    // TODO: send email to invitees
+                    return res.send(meetup);
+                }).catch(function (err) {
+                    console.log(err);
+                    return res.send(err);
+                });
             }).catch(function (err) {
                 console.log(err);
                 return res.send(err);
@@ -71,6 +97,5 @@ router.post('/', function (req, res, next) {
         return res.send(err);
     });
 });
-
 
 module.exports = router;
