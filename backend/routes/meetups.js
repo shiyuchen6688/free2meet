@@ -46,6 +46,10 @@ router.post('/', function (req, res, next) {
         bestLocation: null,
         bestTime: null
     }
+    // if invitees is empty, set state to COMPLETED
+    if (inviteesModified.length === 0) {
+        meetup.state = "COMPLETED";
+    }
     // if creator is in invitees return error
     for (let i = 0; i < inviteesModified.length; i++) {
         if (inviteesModified[i].email === creatorEmail) {
