@@ -28,12 +28,12 @@ export default function Meetups() {
     const invitations = useSelector(state => state.usersReducer.meetupsPending);
     const acceptedMeetups = useSelector(state => state.usersReducer.meetupsAccepted);
     const declinedMeetups = useSelector(state => state.usersReducer.meetupsDeclined);
-    const createdMeetups = useSelector(state => state.usersReducer.meetupsCreated);
+    // const createdMeetups = useSelector(state => state.usersReducer.meetupsCreated);
     useEffect(() => {
         dispatch(getMeetupsPendingAsync(currentUser.email));
         dispatch(getMeetupsAcceptedAsync(currentUser.email));
         dispatch(getMeetupsDeclinedAsync(currentUser.email));
-        dispatch(getMeetupsCreatedAsync(currentUser.email));
+        // dispatch(getMeetupsCreatedAsync(currentUser.email));
     }, [dispatch, currentUser.email]);
 
     return (
@@ -43,11 +43,8 @@ export default function Meetups() {
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    {/* <Typography component="h1" variant="h5" align="center">
-                    TODO: Better arrangement when viewing one invitation
-                </Typography> */}
-                    <Typography component="h1" variant="h4" align="center">
-                        Pending Invitations
+                    <Typography component="h5" variant="h5" align="center">
+                        Pending Invitations ({invitations.length})
                     </Typography>
                     <Grid
                         container
@@ -57,14 +54,13 @@ export default function Meetups() {
                         alignItems="center"
                     >
                         {invitations.map(invitation => (
-                            <InvitationCard key={invitation._id} invitation={invitation} />
+                            <InvitationCard key={invitation.id} invitation={invitation} />
                         ))}
-                        {/* <InvitationCard />
-                <InvitationCard />
-                <InvitationCard /> */}
                     </Grid>
-                    <Typography component="h1" variant="h4" align="center">
-                        Processed Invitations
+                </Paper>
+                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                    <Typography component="h5" variant="h5" align="center">
+                        Accepted Invitations ({acceptedMeetups.length})
                     </Typography>
                     <Grid
                         container
@@ -73,8 +69,25 @@ export default function Meetups() {
                         justifyContent="center"
                         alignItems="center"
                     >
-                        {/* <InvitationCard />
-                <InvitationCard /> */}
+                        {acceptedMeetups.map(invitation => (
+                            <InvitationCard key={invitation.id} invitation={invitation} />
+                        ))}
+                    </Grid>
+                </Paper>
+                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                    <Typography component="h5" variant="h5" align="center">
+                        Declined Invitations ({declinedMeetups.length})
+                    </Typography>
+                    <Grid
+                        container
+                        spacing={2}
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        {declinedMeetups.map(invitation => (
+                            <InvitationCard key={invitation.id} invitation={invitation} />
+                        ))}
                     </Grid>
                 </Paper>
             </Container>
