@@ -10,10 +10,6 @@ const queries = {
     getMeetupById: async (id) => {
         return await Meetup.findById(id);
     },
-    // Given a user email, returns all meetups the user created
-    getMeetupByUserEmail: async (email) => {
-        return await Meetup.find({ creator: email });
-    },
     // Given a new meetup, returns the meetup
     addMeetup: async (meetup) => {
         return await Meetup.create(meetup);
