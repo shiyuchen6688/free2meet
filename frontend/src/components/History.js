@@ -90,97 +90,98 @@ const peopleJSON = [
         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
     },]
 
+/* COMMENT OUT FOR NOW FOR GOOGLE MAP. DO NOT DELETE */
 // for google map <<<<<--------------------------------------------------------------
-let script;
-let map;
-let locations;
-let firstLoadDarkMode;
-let markers = [];
-const k1 = "AIzaSyDHH_p0fbbZSRyr";
-const k2 = "HqvLAc5WcM7Ic26ypP4";
-const k = k1 + k2;
+// let script;
+// let map;
+// let locations;
+// let firstLoadDarkMode;
+// let markers = [];
+// const k1 = "AIzaSyDHH_p0fbbZSRyr";
+// const k2 = "HqvLAc5WcM7Ic26ypP4";
+// const k = k1 + k2;
 
-const loadScript = (url, callback) => {
-    if (map) {
-        callback();
-        return;
-    }
-    script.type = "text/javascript";
-    if (script.readyState) {
-        script.onreadystatechange = function () {
-            if (script.readyState === "loaded" || script.readyState === "complete") {
-                script.onreadystatechange = null;
-                callback();
-            }
-        };
-    } else {
-        script.onload = () => callback();
-    }
-    script.src = url;
-};
+// const loadScript = (url, callback) => {
+//     if (map) {
+//         callback();
+//         return;
+//     }
+//     script.type = "text/javascript";
+//     if (script.readyState) {
+//         script.onreadystatechange = function () {
+//             if (script.readyState === "loaded" || script.readyState === "complete") {
+//                 script.onreadystatechange = null;
+//                 callback();
+//             }
+//         };
+//     } else {
+//         script.onload = () => callback();
+//     }
+//     script.src = url;
+// };
 
-function handleScriptLoad(mapRef) {
-    map = new window.google.maps.Map(mapRef.current, {
-        center: { lat: 49.265395, lng: -123.246727 },
-        zoom: 15,
-        styles: firstLoadDarkMode ? darkStyle : [],
-    });
-    markers = [];
-    for (let i = 0; i < locations.length; i++) {
-        const d = locations[i];
-        for (let j = 0; j < d.location.length; j++) {
-            createMarker(d.location[j].place_id, d.location[j].name, d.location[j].formatted_address, d.location[j].lat, d.location[j].lng);
-        }
-        // if (d.location.length > 0) {
-        //     createMarker(d.location[0].place_id, d.location[0].name, d.location[0].formatted_address, d.location[0].lat, d.location[0].lng);
-        // }
-    }
-    fitBounds();
-}
+// function handleScriptLoad(mapRef) {
+//     map = new window.google.maps.Map(mapRef.current, {
+//         center: { lat: 49.265395, lng: -123.246727 },
+//         zoom: 15,
+//         styles: firstLoadDarkMode ? darkStyle : [],
+//     });
+//     markers = [];
+//     for (let i = 0; i < locations.length; i++) {
+//         const d = locations[i];
+//         for (let j = 0; j < d.location.length; j++) {
+//             createMarker(d.location[j].place_id, d.location[j].name, d.location[j].formatted_address, d.location[j].lat, d.location[j].lng);
+//         }
+//         // if (d.location.length > 0) {
+//         //     createMarker(d.location[0].place_id, d.location[0].name, d.location[0].formatted_address, d.location[0].lat, d.location[0].lng);
+//         // }
+//     }
+//     fitBounds();
+// }
 
-function createMarker(id, name, formatted_address, lat, lng) {
-    for (let i = 0; i < markers.length; i++) {
-        if (id === markers[i].id) {
-            markers[i].times++;
-            return;
-        }
-    }
-    let marker = new window.google.maps.Marker({
-        id: id,
-        times: 1,
-        position: new window.google.maps.LatLng(lat, lng),
-        map: map,
-        draggable: false,
-        animation: window.google.maps.Animation.DROP
-    });
-    window.google.maps.event.addListener(marker, 'click', function () {
-        let s = marker.times === 1 ? "" : "s";
-        let infowindow = new window.google.maps.InfoWindow({
-            content: '<div class="infoWindow" style="color:#000">' +
-                '<h3>' + name + '</h3>' +
-                '<p>You have been here for ' + marker.times + ' time' + s + '!</p>' +
-                '<p>' + formatted_address + '</p>' +
-                '</div>'
-        });
-        infowindow.open(map, marker);
-    });
-    markers.push(marker);
-}
+// function createMarker(id, name, formatted_address, lat, lng) {
+//     for (let i = 0; i < markers.length; i++) {
+//         if (id === markers[i].id) {
+//             markers[i].times++;
+//             return;
+//         }
+//     }
+//     let marker = new window.google.maps.Marker({
+//         id: id,
+//         times: 1,
+//         position: new window.google.maps.LatLng(lat, lng),
+//         map: map,
+//         draggable: false,
+//         animation: window.google.maps.Animation.DROP
+//     });
+//     window.google.maps.event.addListener(marker, 'click', function () {
+//         let s = marker.times === 1 ? "" : "s";
+//         let infowindow = new window.google.maps.InfoWindow({
+//             content: '<div class="infoWindow" style="color:#000">' +
+//                 '<h3>' + name + '</h3>' +
+//                 '<p>You have been here for ' + marker.times + ' time' + s + '!</p>' +
+//                 '<p>' + formatted_address + '</p>' +
+//                 '</div>'
+//         });
+//         infowindow.open(map, marker);
+//     });
+//     markers.push(marker);
+// }
 
-const fitBounds = () => {
-    if (markers.length === 0) {
-        return;
-    } else if (markers.length === 1) {
-        map.panTo({ lat: markers[0].position.lat(), lng: markers[0].position.lng() });
-        map.setZoom(15);
-        return;
-    }
-    let latlngbounds = new window.google.maps.LatLngBounds();
-    for (let i = 0; i < markers.length; i++) {
-        latlngbounds.extend(new window.google.maps.LatLng(markers[i].position.lat(), markers[i].position.lng()));
-    }
-    map.fitBounds(latlngbounds);
-}
+// const fitBounds = () => {
+//     if (markers.length === 0) {
+//         return;
+//     } else if (markers.length === 1) {
+//         map.panTo({ lat: markers[0].position.lat(), lng: markers[0].position.lng() });
+//         map.setZoom(15);
+//         return;
+//     }
+//     let latlngbounds = new window.google.maps.LatLngBounds();
+//     for (let i = 0; i < markers.length; i++) {
+//         latlngbounds.extend(new window.google.maps.LatLng(markers[i].position.lat(), markers[i].position.lng()));
+//     }
+//     map.fitBounds(latlngbounds);
+// }
 // for google map -------------------------------------------------------------->>>>>
 
 export default function History() {
@@ -192,7 +193,8 @@ export default function History() {
     const navigate = useNavigate();
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    firstLoadDarkMode = prefersDarkMode; // for google map
+    /* COMMENT OUT FOR NOW FOR GOOGLE MAP. DO NOT DELETE */
+    // firstLoadDarkMode = prefersDarkMode; // for google map
     const theme = React.useMemo(
         () =>
             createTheme({
@@ -203,24 +205,25 @@ export default function History() {
         [prefersDarkMode],
     );
 
+    /* COMMENT OUT FOR NOW FOR GOOGLE MAP. DO NOT DELETE */
     // for google map <<<<<--------------------------------------------------------------
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            map.setOptions({ styles: darkStyle });
-        } else {
-            map.setOptions({ styles: [] });
-        }
-    });
-    locations = eventsJSON;
-    const mapRef = useRef(null);
-    script = document.createElement("script");
-    useEffect(() => {
-        loadScript(
-            `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
-            () => handleScriptLoad(mapRef)
-        );
-    }, []);
-    document.getElementsByTagName("head")[0].appendChild(script);
+    // window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    //     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    //         map.setOptions({ styles: darkStyle });
+    //     } else {
+    //         map.setOptions({ styles: [] });
+    //     }
+    // });
+    // locations = eventsJSON;
+    // const mapRef = useRef(null);
+    // script = document.createElement("script");
+    // useEffect(() => {
+    //     loadScript(
+    //         `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
+    //         () => handleScriptLoad(mapRef)
+    //     );
+    // }, []);
+    // document.getElementsByTagName("head")[0].appendChild(script);
     // for google map -------------------------------------------------------------->>>>>
 
     function mapJSONToCard(eventJSON) {
@@ -278,14 +281,15 @@ export default function History() {
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h4" align="center">
+                    {/* COMMENT OUT FOR NOW FOR GOOGLE MAP. DO NOT DELETE */}
+                    {/* <Typography component="h1" variant="h4" align="center">
                         Past Locations
                     </Typography>
                     <Typography component="h1" variant="body1" align="center">
                         Click on the marker to see more information!
                     </Typography>
                     <div ref={mapRef} id='map' />
-                    <Button variant="outlined" fullWidth sx={{ my: 1 }} onClick={fitBounds}>Display All Locations On The Map</Button>
+                    <Button variant="outlined" fullWidth sx={{ my: 1 }} onClick={fitBounds}>Display All Locations On The Map</Button> */}
 
                     <Typography component="h1" variant="h4" align="center">
                         Past Events
