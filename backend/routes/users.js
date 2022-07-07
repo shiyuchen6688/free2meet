@@ -125,19 +125,22 @@ router.get('/:email', verifyJWT, (req, res) => {
 
 // reset password of a user given user email and new password
 router.post('/reset-password', (req, res) => {
+    // check if user exists
     queries.getUserByEmail(req.body.email).then(user => {
         if (user) {
+            // encrypt password
             bcrypt.hash(req.body.password, 10).then((password) => {
                 user.password = password;
+                // update user
                 queries.updateUser(user).then(user => {
                     return res.status(200).send(user);
                 })
             })
         } else {
-            return res.status(404).send(new Error("Email does not exist"))
+            return res.status(404).send(new Error("Email (user) does not exist"));
         }
     }).catch(err => {
-        return res.status(404).send(err)
+        return res.status(404).send(err);
     });
 });
 
@@ -147,7 +150,7 @@ router.get('/:email/meetups/created', (req, res) => {
     queries.getMeetupsCreated(email).then(meetups => {
         return res.send(meetups);
     }).catch(err => {
-        return res.status(404).send(err)
+        return res.status(404).send(err);
     });
 });
 
@@ -157,7 +160,7 @@ router.get('/:email/meetups/pending', function (req, res, next) {
     queries.getMeetupsPending(email).then(meetups => {
         return res.send(meetups);
     }).catch(err => {
-        return res.status(404).send(err)
+        return res.status(404).send(err);
     });
 });
 
@@ -167,7 +170,7 @@ router.get('/:email/meetups/accepted', function (req, res, next) {
     queries.getMeetupsAccepted(email).then(meetups => {
         return res.send(meetups);
     }).catch(err => {
-        return res.status(404).send(err)
+        return res.status(404).send(err);
     });
 });
 
@@ -177,7 +180,7 @@ router.get('/:email/meetups/declined', function (req, res, next) {
     queries.getMeetupsDeclined(email).then(meetups => {
         return res.send(meetups);
     }).catch(err => {
-        return res.status(404).send(err)
+        return res.status(404).send(err);
     });
 });
 
@@ -187,8 +190,23 @@ router.post('/:email/meetups/pending/accept', function (req, res, next) {
     const meetupId = req.body.meetupId;
     const availableLocations = req.body.availableLocations;
     const availableTimeSlots = req.body.availableTimeSlots;
-    queries.acceptMeetup(email, meetupId, availableLocations, availableTimeSlots).then(meetup => {
-        return res.send(meetup);
+    // check if meetup exists
+    queries.getMeetupById(meetupId).then(meetup => {
+        if (meetup) {
+            // check if meetup is pending
+            if (meetup.status === "PENDING") {
+                // accept meetup
+                queries.acceptMeetup(email, meetupId, availableLocations, availableTimeSlots).then(meetup => {
+                    return res.send(meetup);
+                }).catch(err => {
+                    return res.status(404).send(err);
+                });
+            } else {
+                return res.status(404).send(new Error("Meetup is not pending"));
+            }
+        } else {
+            return res.status(404).send(new Error("Meetup does not exist"));
+        }
     }).catch(err => {
         return res.status(404).send(err);
     });
@@ -198,8 +216,23 @@ router.post('/:email/meetups/pending/accept', function (req, res, next) {
 router.post('/:email/meetups/pending/decline', function (req, res, next) {
     const email = req.params.email;
     const meetupId = req.body.meetupId;
-    queries.declineMeetup(email, meetupId).then(meetup => {
-        return res.send(meetup);
+    // check if meetup exists
+    queries.getMeetupById(meetupId).then(meetup => {
+        if (meetup) {
+            // check if meetup is pending
+            if (meetup.status === "PENDING") {
+                // decline meetup
+                queries.declineMeetup(email, meetupId).then(meetup => {
+                    return res.send(meetup);
+                }).catch(err => {
+                    return res.status(404).send(err);
+                });
+            } else {
+                return res.status(404).send(new Error("Meetup is not pending"));
+            }
+        } else {
+            return res.status(404).send(new Error("Meetup does not exist"));
+        }
     }).catch(err => {
         return res.status(404).send(err);
     });
@@ -239,10 +272,18 @@ router.get('/:email/friends/requests/sent', function (req, res, next) {
 router.post('/:email/friends/requests/accept', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
-    queries.acceptFriendRequest(email, friendEmail).then(friend => {
-        return res.send(friend);
-    }).catch(err => {
-        return res.status(404).send(err);
+    // check if friend request exists
+    queries.getFriendRequest(email, friendEmail).then(friendRequest => {
+        if (friendRequest) {
+            // accept friend request
+            queries.acceptFriendRequest(email, friendEmail).then(friendRequest => {
+                return res.send(friendRequest);
+            }).catch(err => {
+                return res.status(404).send(err);
+            });
+        } else {
+            return res.status(404).send(new Error("Friend request does not exist"));
+        }
     });
 });
 
@@ -250,8 +291,18 @@ router.post('/:email/friends/requests/accept', function (req, res, next) {
 router.post('/:email/friends/requests/decline', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
-    queries.declineFriendRequest(email, friendEmail).then(friend => {
-        return res.send(friend);
+    // check if friend request exists
+    queries.getFriendRequest(email, friendEmail).then(friendRequest => {
+        if (friendRequest) {
+            // delete friend request
+            queries.declineFriendRequest(email, friendEmail).then(friend => {
+                return res.send(friend);
+            }).catch(err => {
+                return res.status(404).send(err);
+            });
+        } else {
+            return res.status(404).send(new Error("Friend request does not exist"));
+        }
     }).catch(err => {
         return res.status(404).send(err);
     });
@@ -261,8 +312,34 @@ router.post('/:email/friends/requests/decline', function (req, res, next) {
 router.post('/:email/friends/requests/send', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
-    queries.sendFriendRequest(email, friendEmail).then(friend => {
-        return res.send(friend);
+    // check if friend is a user in the database
+    queries.getUserByEmail(friendEmail).then(friend => {
+        if (friend) {
+            // check if friend request already exists
+            queries.getFriendRequest(email, friendEmail).then(friendRequest => {
+                if (friendRequest) {
+                    return res.status(404).send(new Error("Friend request already exists"));
+                } else {
+                    // check if friend already exists
+                    queries.getFriend(email, friendEmail).then(friend => {
+                        if (friend) {
+                            return res.status(404).send(new Error("Friend already exists"));
+                        } else {
+                            // send friend request
+                            queries.sendFriendRequest(email, friendEmail).then(friend => {
+                                return res.send(friend);
+                            }).catch(err => {
+                                return res.status(404).send(err);
+                            });
+                        }
+                    }).catch(err => {
+                        return res.status(404).send(err);
+                    });
+                }
+            });
+        } else {
+            return res.status(404).send(new Error("Friend does not exist"));
+        }
     }).catch(err => {
         return res.status(404).send(err);
     });
@@ -272,8 +349,27 @@ router.post('/:email/friends/requests/send', function (req, res, next) {
 router.post('/:email/friends/delete', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
-    queries.deleteFriend(email, friendEmail).then(friend => {
-        return res.send(friend);
+    // check if friend is a user in the database
+    queries.getUserByEmail(friendEmail).then(friend => {
+        if (friend) {
+            // check if the friend exists
+            queries.getFriend(email, friendEmail).then(friend => {
+                if (friend) {
+                    // delete friend
+                    queries.deleteFriend(email, friendEmail).then(friend => {
+                        return res.send(friend);
+                    }).catch(err => {
+                        return res.status(404).send(err);
+                    });
+                } else {
+                    return res.status(404).send(new Error("Friend does not exist"));
+                }
+            }).catch(err => {
+                return res.status(404).send(err);
+            });
+        } else {
+            return res.status(404).send(new Error("Friend does not exist"));
+        }
     }).catch(err => {
         return res.status(404).send(err);
     });
