@@ -37,7 +37,7 @@ const queries = {
         }
     },
     // Given a user email and a meetup id, returns all the meetups that the user has accepted
-    declineMeetup: async (userEmail, meetup) => {
+    declineInvitation: async (userEmail, meetup) => {
         // remove meetup from user's meetupsPending
         await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsPending: meetup } }, { new: true });
         // add meetup to user's meetupsDeclined
@@ -50,7 +50,7 @@ const queries = {
         return { meetupsPending: meetupsPending, meetupsDeclined: meetupsDeclined };
     },
     // Given a user email and a meetup id and availability (locations and time slots), returns all pending and accepted meetups for that user
-    acceptMeetup: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
+    acceptInvitation: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
         // remove meetup from user's meetupsPending
         await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsPending: meetup } }, { new: true });
         // add meetup to user's meetupsAccepted
@@ -148,22 +148,22 @@ const queries = {
         return await this.getFriends(userEmail);
     },
     // Given a user email, returns all meetups the user are invited to but have not yet accepted or declined
-    getMeetupsPending: async (userEmail) => {
+    getInvitationsPending: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsPending } });
     },
     // Given a user email, returns all meetups the user are invited to and have accepted
-    getMeetupsAccepted: async (userEmail) => {
+    getInvitationsAccepted: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsAccepted } });
     },
     // Given a user email, returns all meetups the user are invited to and have declined
-    getMeetupsDeclined: async (userEmail) => {
+    getInvitationsDeclined: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsDeclined } });
     },
     // Given a user email, returns all meetups the user created
-    getMeetupsCreated: async (userEmail) => {
+    getInvitationsCreated: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsCreated } });
     },

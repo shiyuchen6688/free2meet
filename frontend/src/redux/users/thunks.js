@@ -24,48 +24,6 @@ export const resetPasswordAsync = createAsyncThunk(
     }
 );
 
-export const getMeetupsCreatedAsync = createAsyncThunk(
-    actionTypes.GET_MEETUPS_CREATED,
-    async (email) => {
-        return await UsersService.getMeetupsCreated(email)
-    }
-);
-
-export const getMeetupsPendingAsync = createAsyncThunk(
-    actionTypes.GET_MEETUPS_PENDING,
-    async (email) => {
-        return await UsersService.getMeetupsPending(email)
-    }
-);
-
-export const getMeetupsAcceptedAsync = createAsyncThunk(
-    actionTypes.GET_MEETUPS_ACCEPTED,
-    async (email) => {
-        return await UsersService.getMeetupsAccepted(email)
-    }
-);
-
-export const getMeetupsDeclinedAsync = createAsyncThunk(
-    actionTypes.GET_MEETUPS_DECLINED,
-    async (email) => {
-        return await UsersService.getMeetupsDeclined(email)
-    }
-);
-
-export const acceptMeetupAsync = createAsyncThunk(
-    actionTypes.ACCEPT_MEETUP,
-    async (email, meetupId, availableLocations, availableTimeSlots) => {
-        return await UsersService.acceptMeetup(email, meetupId, availableLocations, availableTimeSlots)
-    }
-);
-
-export const declineMeetupAsync = createAsyncThunk(
-    actionTypes.DECLINE_MEETUP,
-    async (email, meetupId) => {
-        return await UsersService.declineMeetup(email, meetupId)
-    }
-);
-
 export const getFriendsAsync = createAsyncThunk(
     actionTypes.GET_FRIENDS,
     async (email) => {
