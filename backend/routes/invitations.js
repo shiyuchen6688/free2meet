@@ -10,8 +10,8 @@ require('dotenv').config()
 // get pending invitations for a user given user email
 router.get('/:email/pending', function (req, res, next) {
     const email = req.params.email;
-    queries.getMeetupsPending(email).then(meetups => {
-        return res.send(meetups);
+    queries.getInvitationsPending(email).then(invitations => {
+        return res.send(invitations);
     }).catch(err => {
         return res.status(404).send(err);
     });
@@ -20,8 +20,8 @@ router.get('/:email/pending', function (req, res, next) {
 // get accepted invitations for a user given user email
 router.get('/:email/accepted', function (req, res, next) {
     const email = req.params.email;
-    queries.getMeetupsAccepted(email).then(meetups => {
-        return res.send(meetups);
+    queries.getInvitationsAccepted(email).then(invitations => {
+        return res.send(invitations);
     }).catch(err => {
         return res.status(404).send(err);
     });
@@ -30,8 +30,8 @@ router.get('/:email/accepted', function (req, res, next) {
 // get declined invitations for a user given user email
 router.get('/:email/declined', function (req, res, next) {
     const email = req.params.email;
-    queries.getMeetupsDeclined(email).then(meetups => {
-        return res.send(meetups);
+    queries.getInvitationsDeclined(email).then(invitations => {
+        return res.send(invitations);
     }).catch(err => {
         return res.status(404).send(err);
     });

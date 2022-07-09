@@ -148,22 +148,22 @@ const queries = {
         return await this.getFriends(userEmail);
     },
     // Given a user email, returns all meetups the user are invited to but have not yet accepted or declined
-    getMeetupsPending: async (userEmail) => {
+    getInvitationsPending: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsPending } });
     },
     // Given a user email, returns all meetups the user are invited to and have accepted
-    getMeetupsAccepted: async (userEmail) => {
+    getInvitationsAccepted: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsAccepted } });
     },
     // Given a user email, returns all meetups the user are invited to and have declined
-    getMeetupsDeclined: async (userEmail) => {
+    getInvitationsDeclined: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsDeclined } });
     },
     // Given a user email, returns all meetups the user created
-    getMeetupsCreated: async (userEmail) => {
+    getInvitationsCreated: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
         return await Meetup.find({ id: { $in: user.meetupsCreated } });
     },
