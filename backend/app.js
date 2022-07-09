@@ -9,6 +9,7 @@ var generateData = require('./generate-data');
 var indexRouter = require('./routes/index');
 var meetupsRouter = require('./routes/meetups');
 var userRouter = require('./routes/users');
+var invitationsRouter = require('./routes/invitations');
 
 var app = express();
 
@@ -36,5 +37,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/meetups', meetupsRouter);
 app.use('/users', userRouter);
+app.use('/invitations', invitationsRouter);
 
 module.exports = app;

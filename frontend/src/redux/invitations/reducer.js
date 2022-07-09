@@ -5,9 +5,9 @@ import { getInvitationsAsync, getInvitationsAcceptedAsync, getInvitationsDecline
 
 const INITIAL_STATE = {
     list: [],
-    meetupsPending: [],
-    meetupsAccepted: [],
-    meetupsDeclined: [],
+    invitationsPending: [],
+    invitationsAccepted: [],
+    invitationsDeclined: [],
     getInvitations: REQUEST_STATE.IDLE,
     getInvitationsPending: REQUEST_STATE.IDLE,
     getInvitationsAccepted: REQUEST_STATE.IDLE,
@@ -41,7 +41,7 @@ const invitationsSlice = createSlice({
             })
             .addCase(getInvitationsAcceptedAsync.fulfilled, (state, action) => {
                 state.getInvitations = REQUEST_STATE.FULFILLED;
-                state.list = action.payload;
+                state.invitationsAccepted = action.payload;
             })
             .addCase(getInvitationsAcceptedAsync.rejected, (state, action) => {
                 state.getInvitations = REQUEST_STATE.REJECTED;
@@ -53,7 +53,7 @@ const invitationsSlice = createSlice({
             })
             .addCase(getInvitationsDeclinedAsync.fulfilled, (state, action) => {
                 state.getInvitations = REQUEST_STATE.FULFILLED;
-                state.list = action.payload;
+                state.invitationsDeclined = action.payload;
             })
             .addCase(getInvitationsDeclinedAsync.rejected, (state, action) => {
                 state.getInvitations = REQUEST_STATE.REJECTED;
@@ -65,7 +65,7 @@ const invitationsSlice = createSlice({
             })
             .addCase(getInvitationsPendingAsync.fulfilled, (state, action) => {
                 state.getInvitations = REQUEST_STATE.FULFILLED;
-                state.list = action.payload;
+                state.invitationsPending = action.payload;
             })
             .addCase(getInvitationsPendingAsync.rejected, (state, action) => {
                 state.getInvitations = REQUEST_STATE.REJECTED;

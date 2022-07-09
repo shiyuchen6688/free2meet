@@ -18,7 +18,7 @@ const getInvitations = async () => {
 
 // get pending invitations for a user given user email
 const getInvitationsPending = async (email) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/meetups/pending`, {
+    const response = await fetch(`http://localhost:3001/invitations/${email}/pending`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const getInvitationsPending = async (email) => {
 
 // get accepted invitations for a user given user email
 const getInvitationsAccepted = async (email) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/invitations/accepted`, {
+    const response = await fetch(`http://localhost:3001/invitations/${email}/accepted`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const getInvitationsAccepted = async (email) => {
 
 // get declined invitations for a user given user email
 const getInvitationsDeclined = async (email) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/invitations/declined`, {
+    const response = await fetch(`http://localhost:3001/invitations/${email}/declined`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const getInvitationsDeclined = async (email) => {
 
 // accept a pending invitation for a user given user email and invitation id and availbale locations and time slots
 const acceptInvitation = async (email, invitationID, availableLocations, availableTimeSlots) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/invitation/pending/accept`, {
+    const response = await fetch(`http://localhost:3001/invitations/${email}/pending/accept`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const acceptInvitation = async (email, invitationID, availableLocations, availab
 
 // decline a pending invitation for a user given user email and invitation id
 const declineInvitation = async (email, invitationID) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/invitation/pending/decline`, {
+    const response = await fetch(`http://localhost:3001/invitations/${email}/pending/decline`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

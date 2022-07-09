@@ -25,9 +25,9 @@ export default function Meetups() {
         [prefersDarkMode],
     );
     const currentUser = useSelector(state => state.usersReducer);
-    const pendingInvitations = useSelector(state => state.invitationsReducer.meetupsPending);
-    const acceptedInvitations = useSelector(state => state.invitationsReducer.meetupsAccepted);
-    const declinedInvitations = useSelector(state => state.invitationsReducer.meetupsDeclined);
+    const pendingInvitations = useSelector(state => state.invitationsReducer.invitationsPending);
+    const acceptedInvitations = useSelector(state => state.invitationsReducer.invitationsAccepted);
+    const declinedInvitations = useSelector(state => state.invitationsReducer.invitationsDeclined);
     // const createdMeetups = useSelector(state => state.usersReducer.meetupsCreated);
     useEffect(() => {
         dispatch(getInvitationsPendingAsync(currentUser.email));
