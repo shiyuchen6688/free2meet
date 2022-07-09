@@ -14,6 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Place from './Place';
 import ScheduleSelector from 'react-schedule-selector/dist/lib/ScheduleSelector';
 import Dialog from '@mui/material/Dialog';
+import Grow from '@mui/material/Grow';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -88,7 +89,7 @@ export default function InvitationCard({invitation}) {
                 <ArrowForwardIcon />
                 </ExpandMore>
             </CardActions>
-            <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'}>
+            <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'} TransitionComponent={Grow}>
                 <CardContent>
                 <Typography variant="h6" gutterBottom>
                     Title: {invitation.title}
