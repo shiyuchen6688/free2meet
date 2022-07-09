@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 // var jwt = require('jsonwebtoken')
 // const bcrypt = require('bcrypt');
-// var verifyJWT = require('../middlewares/auth');
+// var verifyJWT = require('../mIDdlewares/auth');
 const queries = require('../model/queries');
 require('dotenv').config()
 
@@ -37,54 +37,54 @@ router.get('/:email/declined', function (req, res, next) {
     });
 });
 
-// accept a pending meetup for a user given user email and meetup id and availbale locations and time slots
-router.post('/:email/pending/accept', function (req, res, next) {
+// accept a pending invitation for a user given user email and invitation ID and availbale locations and time slots
+router.post('/:email/accept', function (req, res, next) {
     const email = req.params.email;
-    const meetupId = req.body.meetupId;
+    const invitationID = req.body.invitationID;
     const availableLocations = req.body.availableLocations;
     const availableTimeSlots = req.body.availableTimeSlots;
-    // check if meetup exists
-    queries.getMeetupById(meetupId).then(meetup => {
-        if (meetup) {
-            // check if meetup is pending
-            if (meetup.status === "PENDING") {
-                // accept meetup
-                queries.acceptMeetup(email, meetupId, availableLocations, availableTimeSlots).then(meetup => {
-                    return res.send(meetup);
+    // check if invitation exists
+    queries.getInvitationByID(invitationID).then(invitation => {
+        if (invitation) {
+            // check if invitation is pending
+            if (invitation.status === "PENDING") {
+                // accept invitation
+                queries.acceptInvitation(email, invitationID, availableLocations, availableTimeSlots).then(invitation => {
+                    return res.send(invitation);
                 }).catch(err => {
                     return res.status(404).send(err);
                 });
             } else {
-                return res.status(404).send(new Error("Meetup is not pending"));
+                return res.status(404).send(new Error("invitation is not pending"));
             }
         } else {
-            return res.status(404).send(new Error("Meetup does not exist"));
+            return res.status(404).send(new Error("invitation does not exist"));
         }
     }).catch(err => {
         return res.status(404).send(err);
     });
 });
 
-// decline a pending meetup for a user given user email and meetup id
-router.post('/:email/pending/decline', function (req, res, next) {
+// decline a pending invitation for a user given user email and invitation ID
+router.post('/:email/decline', function (req, res, next) {
     const email = req.params.email;
-    const meetupId = req.body.meetupId;
-    // check if meetup exists
-    queries.getMeetupById(meetupId).then(meetup => {
-        if (meetup) {
-            // check if meetup is pending
-            if (meetup.status === "PENDING") {
-                // decline meetup
-                queries.declineMeetup(email, meetupId).then(meetup => {
-                    return res.send(meetup);
+    const invitationID = req.body.invitationID;
+    // check if invitation exists
+    queries.getInvitationByID(invitationID).then(invitation => {
+        if (invitation) {
+            // check if invitation is pending
+            if (invitation.status === "PENDING") {
+                // decline invitation
+                queries.declineInvitation(email, invitationID).then(invitation => {
+                    return res.send(invitation);
                 }).catch(err => {
                     return res.status(404).send(err);
                 });
             } else {
-                return res.status(404).send(new Error("Meetup is not pending"));
+                return res.status(404).send(new Error("invitation is not pending"));
             }
         } else {
-            return res.status(404).send(new Error("Meetup does not exist"));
+            return res.status(404).send(new Error("invitation does not exist"));
         }
     }).catch(err => {
         return res.status(404).send(err);

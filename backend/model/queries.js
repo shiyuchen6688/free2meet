@@ -37,7 +37,7 @@ const queries = {
         }
     },
     // Given a user email and a meetup id, returns all the meetups that the user has accepted
-    declineMeetup: async (userEmail, meetup) => {
+    declineInvitation: async (userEmail, meetup) => {
         // remove meetup from user's meetupsPending
         await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsPending: meetup } }, { new: true });
         // add meetup to user's meetupsDeclined
@@ -50,7 +50,7 @@ const queries = {
         return { meetupsPending: meetupsPending, meetupsDeclined: meetupsDeclined };
     },
     // Given a user email and a meetup id and availability (locations and time slots), returns all pending and accepted meetups for that user
-    acceptMeetup: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
+    acceptInvitation: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
         // remove meetup from user's meetupsPending
         await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsPending: meetup } }, { new: true });
         // add meetup to user's meetupsAccepted
