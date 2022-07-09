@@ -17,7 +17,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
 
-export default function Meetups() {
+export default function Invitations() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -50,9 +50,9 @@ export default function Meetups() {
 
     const refresh = () => {
         console.log('refreshing');
-        dispatch(getMeetupsPendingAsync(currentUser.email));
-        dispatch(getMeetupsAcceptedAsync(currentUser.email));
-        dispatch(getMeetupsDeclinedAsync(currentUser.email));
+        dispatch(getInvitationsPendingAsync(currentUser.email));
+        dispatch(getInvitationsAcceptedAsync(currentUser.email));
+        dispatch(getInvitationsDeclinedAsync(currentUser.email));
         // dispatch(getMeetupsCreatedAsync(currentUser.email));
     }
 
