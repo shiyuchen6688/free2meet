@@ -78,97 +78,6 @@ const getMeetupsCreated = async (email) => {
     return data
 }
 
-// get pending meetups for a user given user email
-const getMeetupsPending = async (email) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/meetups/pending`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem("token")
-        },
-    });
-
-    const data = await response.json()
-
-    if (!response.ok) {
-        console.log('Error in getMeetupsPending')
-    }
-    return data
-}
-
-// get accepted meetups for a user given user email
-const getMeetupsAccepted = async (email) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/meetups/accepted`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem("token")
-        },
-    });
-
-    const data = await response.json()
-
-    if (!response.ok) {
-        console.log('Error in getMeetupsAccepted')
-    }
-    return data
-}
-
-// get declined meetups for a user given user email
-const getMeetupsDeclined = async (email) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/meetups/declined`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem("token")
-        },
-    });
-
-    const data = await response.json()
-
-    if (!response.ok) {
-        console.log('Error in getMeetupsDeclined')
-    }
-    return data
-}
-
-// accept a pending meetup for a user given user email and meetup id and availbale locations and time slots
-const acceptMeetup = async (email, meetupId, availableLocations, availableTimeSlots) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/meetups/pending/accept`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem("token")
-        },
-        body: JSON.stringify({ meetupId, availableLocations, availableTimeSlots })
-    });
-
-    const data = await response.json()
-
-    if (!response.ok) {
-        console.log('Error in acceptMeetup')
-    }
-    return data
-}
-
-// decline a pending meetup for a user given user email and meetup id
-const declineMeetup = async (email, meetupId) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/meetups/pending/decline`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem("token")
-        },
-        body: JSON.stringify({ meetupId })
-    });
-
-    const data = await response.json()
-
-    if (!response.ok) {
-        console.log('Error in declineMeetup')
-    }
-    return data
-}
 
 // get all friends for a user given user email
 const getFriends = async (email) => {
@@ -305,11 +214,6 @@ const exportedService = {
     register,
     resetPassword,
     getMeetupsCreated,
-    getMeetupsPending,
-    getMeetupsAccepted,
-    getMeetupsDeclined,
-    acceptMeetup,
-    declineMeetup,
     getFriends,
     getFriendRequests,
     getFriendRequestsSent,

@@ -5,20 +5,12 @@ import { declineMeetupAsync, getFriendsAsync, getMeetupsDeclinedAsync, getMeetup
 const INITIAL_STATE = {
     username: null,
     email: null,
-    meetupsCreated: [],
-    meetupsPending: [],
-    meetupsAccepted: [],
-    meetupsDeclined: [],
     friends: [],
     friendsRequests: [],
     friendsRequestsSent: [],
     signin: REQUEST_STATE.IDLE,
     register: REQUEST_STATE.IDLE,
     resetPassword: REQUEST_STATE.IDLE,
-    getMeetupsCreated: REQUEST_STATE.IDLE,
-    getMeetupsPending: REQUEST_STATE.IDLE,
-    getMeetupsAccepted: REQUEST_STATE.IDLE,
-    getMeetupsDeclined: REQUEST_STATE.IDLE,
     getFriends: REQUEST_STATE.IDLE,
     getFriendRequests: REQUEST_STATE.IDLE,
     getFriendRequestsSent: REQUEST_STATE.IDLE,
@@ -26,8 +18,6 @@ const INITIAL_STATE = {
     declineFriendRequest: REQUEST_STATE.IDLE,
     sendFriendRequest: REQUEST_STATE.IDLE,
     deleteFriend: REQUEST_STATE.IDLE,
-    acceptMeetup: REQUEST_STATE.IDLE,
-    declineMeetup: REQUEST_STATE.IDLE,
     error: null
 };
 
@@ -84,80 +74,6 @@ const usersSlice = createSlice({
             })
             .addCase(resetPasswordAsync.rejected, (state, action) => {
                 state.resetPassword = REQUEST_STATE.REJECTED;
-                state.error = action.error;
-            })
-            .addCase(getMeetupsCreatedAsync.pending, (state) => {
-                state.getMeetupsCreated = REQUEST_STATE.PENDING;
-                state.error = null;
-            })
-            .addCase(getMeetupsCreatedAsync.fulfilled, (state, action) => {
-                state.getMeetupsCreated = REQUEST_STATE.FULFILLED;
-                state.meetupsCreated = action.payload;
-            })
-            .addCase(getMeetupsCreatedAsync.rejected, (state, action) => {
-                state.getMeetupsCreated = REQUEST_STATE.REJECTED;
-                state.error = action.error;
-            })
-            .addCase(getMeetupsPendingAsync.pending, (state) => {
-                state.getMeetupsPending = REQUEST_STATE.PENDING;
-                state.error = null;
-            })
-            .addCase(getMeetupsPendingAsync.fulfilled, (state, action) => {
-                state.getMeetupsPending = REQUEST_STATE.FULFILLED;
-                state.meetupsPending = action.payload;
-            })
-            .addCase(getMeetupsPendingAsync.rejected, (state, action) => {
-                state.getMeetupsPending = REQUEST_STATE.REJECTED;
-                state.error = action.error;
-            })
-            .addCase(getMeetupsAcceptedAsync.pending, (state) => {
-                state.getMeetupsAccepted = REQUEST_STATE.PENDING;
-                state.error = null;
-            })
-            .addCase(getMeetupsAcceptedAsync.fulfilled, (state, action) => {
-                state.getMeetupsAccepted = REQUEST_STATE.FULFILLED;
-                state.meetupsAccepted = action.payload;
-            })
-            .addCase(getMeetupsAcceptedAsync.rejected, (state, action) => {
-                state.getMeetupsAccepted = REQUEST_STATE.REJECTED;
-                state.error = action.error;
-            })
-            .addCase(getMeetupsDeclinedAsync.pending, (state) => {
-                state.getMeetupsDeclined = REQUEST_STATE.PENDING;
-                state.error = null;
-            })
-            .addCase(getMeetupsDeclinedAsync.fulfilled, (state, action) => {
-                state.getMeetupsDeclined = REQUEST_STATE.FULFILLED;
-                state.meetupsDeclined = action.payload;
-            })
-            .addCase(getMeetupsDeclinedAsync.rejected, (state, action) => {
-                state.getMeetupsDeclined = REQUEST_STATE.REJECTED;
-                state.error = action.error;
-            })
-            .addCase(acceptMeetupAsync.pending, (state) => {
-                state.acceptMeetup = REQUEST_STATE.PENDING;
-                state.error = null;
-            })
-            .addCase(acceptMeetupAsync.fulfilled, (state, action) => {
-                state.acceptMeetup = REQUEST_STATE.FULFILLED;
-                state.meetupsAccepted = action.payload.meetupsAccepted;
-                state.meetupsPending = action.payload.meetupsPending;
-            })
-            .addCase(acceptMeetupAsync.rejected, (state, action) => {
-                state.acceptMeetup = REQUEST_STATE.REJECTED;
-                state.error = action.error;
-            })
-            .addCase(declineMeetupAsync.pending, (state) => {
-                state.declineMeetup = REQUEST_STATE.PENDING;
-                state.error = null;
-            })
-            .addCase(declineMeetupAsync.fulfilled, (state, action) => {
-                state.declineMeetup = REQUEST_STATE.FULFILLED;
-                state.meetupsDeclined = action.payload.meetupsDeclined;
-                state.meetupsPending = action.payload.meetupsPending;
-            })
-            .addCase(declineMeetupAsync.rejected, (state, action) => {
-                state.declineMeetup = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
             .addCase(acceptFriendRequestAsync.pending, (state) => {

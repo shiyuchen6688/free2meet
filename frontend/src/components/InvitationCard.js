@@ -22,14 +22,23 @@ const ExpandMore = styled((props) => {
     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
+        duration: theme.transitions.duration.shortest,
     }),
   }));
 
 export default function InvitationCard({invitation}) {
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
-      setExpanded(!expanded);
+        setExpanded(!expanded);
+    };
+
+    const handleAcceptClick = () => {
+        console.log(invitation._id);
+        console.log("Accepted");
+    };
+
+    const handleDeclineClick = () => {
+        console.log("Declined");
     };
 
 
@@ -57,10 +66,16 @@ export default function InvitationCard({invitation}) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="Accept">
+                <IconButton
+                aria-label="Accept"
+                onClick={handleAcceptClick}
+                >
                 <CheckIcon />
                 </IconButton>
-                <IconButton aria-label="Decline">
+                <IconButton
+                aria-label="Decline"
+                onClick={handleDeclineClick}
+                >
                 <CloseIcon />
                 </IconButton>
                 
@@ -114,10 +129,16 @@ export default function InvitationCard({invitation}) {
                     // }}
                 />
                 <CardActions disableSpacing>
-                <IconButton aria-label="Accept">
+                <IconButton
+                aria-label="Accept"
+                onClick={handleAcceptClick}
+                >
                 <CheckIcon />
                 </IconButton>
-                <IconButton aria-label="Decline">
+                <IconButton
+                aria-label="Decline"
+                onClick={handleDeclineClick}
+                >
                 <CloseIcon />
                 </IconButton>
                 <ExpandMore
