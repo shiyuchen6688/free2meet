@@ -37,9 +37,11 @@ const queries = {
     },
     // Given an array of emails, add the meetup to the meetupsPending of the user's invitees
     addMeetupToInvitees: async (invitees, meetup) => {
+        let promises = [];
         for (let i = 0; i < invitees.length; i++) {
-            return await User.findOneAndUpdate({ email: invitees[i] }, { $push: { meetupsPending: meetup } }, { new: true });
+            promises.push(User.findOneAndUpdate({ email: invitees[i] }, { $push: { meetupsPending: meetup } }, { new: true }));
         }
+        return Promise.all(promises);
     },
     // Given a user email, returns all meetups the user are invited to but have not yet accepted or declined
     getInvitationsPending: async (userEmail) => {

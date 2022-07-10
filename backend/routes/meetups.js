@@ -78,7 +78,7 @@ router.post('/', function (req, res, next) {
             queries.addMeetupToUserCreator(creatorEmail, uid).then(function (user) {
                 console.log("meetup added to user");
                 let emails = req.body.invitees.map(function (invitee) {
-                    return invitee.uid;
+                    return invitee.value;
                 });
                 queries.addMeetupToInvitees(emails, uid).then(function (invitees) {
                     console.log("meetup added to invitees");
