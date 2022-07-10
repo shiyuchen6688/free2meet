@@ -41,7 +41,7 @@ const queries = {
         for (let i = 0; i < invitees.length; i++) {
             promises.push(User.findOneAndUpdate({ email: invitees[i] }, { $push: { meetupsPending: meetup } }, { new: true }));
         }
-        return Promise.all(promises);
+        return await Promise.all(promises);
     },
     // Given a user email, returns all meetups the user are invited to but have not yet accepted or declined
     getInvitationsPending: async (userEmail) => {
