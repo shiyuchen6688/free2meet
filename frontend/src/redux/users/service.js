@@ -96,7 +96,7 @@ const changeUsername = async (email, password, newUsername) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in changeEmail')
+        console.log('Error in changeUsername')
     }
     return data
 }
