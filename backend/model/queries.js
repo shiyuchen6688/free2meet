@@ -95,13 +95,13 @@ const queries = {
             // add meetup to user's meetupsDeclined
             await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
         }
-        // get all pending meetups for user
-        let meetupsPending = await queries.getInvitationsPending(userEmail);
-        // get all declined meetups for user
-        let meetupsDeclined = await queries.getInvitationsDeclined(userEmail);
-        // get all accepted meetups for user
-        let meetupsAccepted = await queries.getInvitationsAccepted(userEmail);
-        await queries.checkIfMeetupIsComplete(meetup);
+        // get all pending & accepted & declined meetups for user (run in parallel)
+        let promises = [];
+        promises.push(queries.getInvitationsPending(userEmail));
+        promises.push(queries.getInvitationsAccepted(userEmail));
+        promises.push(queries.getInvitationsDeclined(userEmail));
+        promises.push(queries.checkIfMeetupIsComplete(meetup));
+        let [meetupsPending, meetupsAccepted, meetupsDeclined] = await Promise.all(promises);
         return { invitationsPending: meetupsPending, invitationsDeclined: meetupsDeclined, invitationsAccepted: meetupsAccepted };
     },
     // Given a user email and a meetup id and availability (locations and time slots), returns all pending and accepted meetups for that user
@@ -120,12 +120,13 @@ const queries = {
             let a = { meetupId: meetup, availableLocations: availableLocations, availableTimeSlot: availableTimeSlots };
             await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true });
         }
-        // get all pending meetups for user
-        let meetupsPending = await queries.getInvitationsPending(userEmail);
-        // get all accepted meetups for user
-        let meetupsAccepted = await queries.getInvitationsAccepted(userEmail);
-        // get all declined meetups for user
-        let meetupsDeclined = await queries.getInvitationsDeclined(userEmail);
+        // get all pending & accepted & declined meetups for user (run in parallel)
+        let promises = [];
+        promises.push(queries.getInvitationsPending(userEmail));
+        promises.push(queries.getInvitationsAccepted(userEmail));
+        promises.push(queries.getInvitationsDeclined(userEmail));
+        promises.push(queries.checkIfMeetupIsComplete(meetup));
+        let [meetupsPending, meetupsAccepted, meetupsDeclined] = await Promise.all(promises);
         return { invitationsPending: meetupsPending, invitationsAccepted: meetupsAccepted, invitationsDeclined: meetupsDeclined };
     },
     // Given a meetupId, returns all users who have not accepted or declined the meetup

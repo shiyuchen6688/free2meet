@@ -82,7 +82,7 @@ export default function Invitations() {
                         alignItems="center"
                     >
                         {pendingInvitations.map(invitation => (
-                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email}/>
+                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="pending"/>
                         ))}
                     </Grid>
                 </Paper>
@@ -98,7 +98,7 @@ export default function Invitations() {
                         alignItems="center"
                     >
                         {acceptedInvitations.map(invitation => (
-                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email}/>
+                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="accepted"/>
                         ))}
                     </Grid>
                 </Paper>
@@ -114,7 +114,7 @@ export default function Invitations() {
                         alignItems="center"
                     >
                         {declinedInvitations.map(invitation => (
-                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email}/>
+                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="declined"/>
                         ))}
                     </Grid>
                 </Paper>
