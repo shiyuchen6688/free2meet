@@ -144,18 +144,18 @@ router.patch('/reset-password', (req, res) => {
     });
 });
 
-router.patch('/:email/change-password', async function (req, res, next) {
+router.put('/:email/change-password', async function (req, res, next) {
     const email = req.params.email;
     const { oldPassword, newPassword } = req.body
     queries.getUserByEmail(email).then(matchedUser => {
-        if (user) {
+        if (matchedUser) {
             bcrypt.compare(oldPassword, matchedUser.password).then(passwordCorrect => {
                 if (passwordCorrect) {
                     bcrypt.hash(newPassword, 10).then(encryptedNewPassword => {
                         matchedUser.password = encryptedNewPassword
                         // update user
-                        queries.updateUser(matchedUser).then(user => {
-                            return res.status(200).send(matchedUser)
+                        queries.patchUser(email, { password: encryptedNewPassword }).then(user => {
+                            return res.status(200).send(user)
                         })
                     })
                 } else {
@@ -169,24 +169,38 @@ router.patch('/:email/change-password', async function (req, res, next) {
 })
 
 
-router.patch('/:email/change-email', async function (req, res, next) {
+router.patch('/:email/change-username', async function (req, res, next) {
     const email = req.params.email;
-    const { passwrod, newEmail } = req.body
+    const { password, newUsername } = req.body
+    console.log(req.body)
+
+    // check if newEmail already exist
+    queries.getUserByUsername(newUsername).then(matchedUser => {
+        if (matchedUser) {
+            return res.status(404).send(new Error("Username already used by another user"))
+        }
+    })
+
+
+    // update email of exisitng user
     queries.getUserByEmail(email).then(matchedUser => {
-        if (user) {
-            bcrypt.compare(passwrod, matchedUser.password).then(passwordCorrect => {
+        if (matchedUser) {
+            bcrypt.compare(password, matchedUser.password).then(passwordCorrect => {
                 if (passwordCorrect) {
-                    matchedUser.email = newEmail
+                    matchedUser.username = newUsername
                     // update user
-                    queries.updateUser(matchedUser).then(user => {
-                        return res.status(200).send(matchedUser)
+                    console.log(email, matchedUser)
+                    queries.patchUser(email, { username: newUsername }).then(user => {
+                        return res.status(200).send(user)
                     })
+
+                    // update all meetups that containe this user
                 } else {
                     return res.status(404).send(new Error("Password is incorrect"))
                 }
             })
         } else {
-            return res.status(404).send(new Error("Email does not exist"))
+            return res.status(404).send(new Error("User does not exist"))
         }
     })
 })

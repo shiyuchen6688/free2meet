@@ -6,7 +6,7 @@ import {
     loginAsync, registerAsync, resetPasswordAsync, getFriendRequestsAsync,
     getFriendRequestsSentAsync, acceptFriendRequestAsync, declineFriendRequestAsync,
     sendFriendRequestAsync, deleteFriendAsync, acceptMeetupAsync,
-    changePasswordAsync, changeEmailAsync
+    changePasswordAsync, changeUsernameAsync
 } from './thunks';
 
 const INITIAL_STATE = {
@@ -26,7 +26,7 @@ const INITIAL_STATE = {
     sendFriendRequest: REQUEST_STATE.IDLE,
     deleteFriend: REQUEST_STATE.IDLE,
     changePassword: REQUEST_STATE.IDLE,
-    changeEmail: REQUEST_STATE.IDLE,
+    changeUsername: REQUEST_STATE.IDLE,
     error: null
 };
 
@@ -181,16 +181,16 @@ const usersSlice = createSlice({
                 state.changePassword = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
-            .addCase(changeEmailAsync.pending, (state) => {
-                state.changeEmail = REQUEST_STATE.PENDING;
+            .addCase(changeUsernameAsync.pending, (state) => {
+                state.changeUsername = REQUEST_STATE.PENDING;
                 state.error = null;
             })
-            .addCase(changeEmailAsync.fulfilled, (state, action) => {
-                state.changeEmail = REQUEST_STATE.FULFILLED;
-                state.email = action.payload.email
+            .addCase(changeUsernameAsync.fulfilled, (state, action) => {
+                state.changeUsername = REQUEST_STATE.FULFILLED;
+                state.username = action.payload.username
             })
-            .addCase(changeEmailAsync.rejected, (state, action) => {
-                state.changeEmail = REQUEST_STATE.REJECTED;
+            .addCase(changeUsernameAsync.rejected, (state, action) => {
+                state.changeUsername = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
     }

@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
-import { changePasswordAsync, changeEmailAsync } from '../redux/users/thunks';
+import { changePasswordAsync, changeUsernameAsync } from '../redux/users/thunks';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -30,7 +30,7 @@ export default function UserProfile(prop) {
     const [toChange, setToChange] = React.useState(null);
 
     let [password, setPassword] = React.useState("");
-    let [newEmail, setNewEmail] = React.useState("");
+    let [newUsername, setNewUsername] = React.useState("");
     let [oldPassword, setOldPassword] = React.useState("");
     let [newPassword, setNewPassword] = React.useState("");
 
@@ -47,10 +47,13 @@ export default function UserProfile(prop) {
     };
 
     const update = () => {
+        console.log("in update", email)
+        console.log("in update", password)
+        console.log("in update", newUsername)
         if (toChange == "email") {
-            dispatch(changeEmailAsync(email, password, newEmail))
+            dispatch(changeUsernameAsync({ email, password, newUsername }))
         } else if (toChange == "password") {
-            dispatch(changePasswordAsync(email, oldPassword, newPassword))
+            dispatch(changePasswordAsync({ email, oldPassword, newPassword }))
         }
     }
 
@@ -65,14 +68,14 @@ export default function UserProfile(prop) {
             <DialogTitle>{"Welcome"}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Hello, {currentUser.username}! You can change your password or email here.
+                    Hello, {currentUser.username}! You can change your password or username here.
                 </DialogContentText>
 
                 <DialogContentText>
                     <Button variant="text" onClick={e => {
                         setToChange("email")
                         handleFullScreenClickOpen()
-                    }}>Change Email</Button>
+                    }}>Change Username</Button>
                 </DialogContentText>
 
                 <DialogContentText>
@@ -84,8 +87,8 @@ export default function UserProfile(prop) {
             </DialogContent>
 
             {/* <ChangeForm toChange={toChange} open={fullScreenOpen} handleClose={handleFullScreenClose}
-                password={password} newEmail={newEmail} oldPassword={oldPassword} newPassword={newPassword}
-                setPassword={setPassword} setNewEmail={setNewEmail} setOldPassword={setOldPassword} setNewPassword={setNewPassword}
+                password={password} newUsername={newUsername} oldPassword={oldPassword} newPassword={newPassword}
+                setPassword={setPassword} setNewUsername={setNewUsername} setOldPassword={setOldPassword} setNewPassword={setNewPassword}
             /> */}
             {/* Change Form */}
             <Dialog
@@ -107,7 +110,10 @@ export default function UserProfile(prop) {
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                             {"Change " + toChange}
                         </Typography>
-                        <Button autoFocus type="contained" onClick={handleFullScreenClose} endIcon={<SendIcon />}>
+                        <Button autoFocus type="contained" onClick={e => {
+                            update()
+                            handleFullScreenClose()
+                        }} endIcon={<SendIcon />}>
                             Update
                         </Button>
                     </Toolbar>
@@ -133,13 +139,13 @@ export default function UserProfile(prop) {
                             <TextField
                                 autoFocus
                                 margin="dense"
-                                id="new_email"
-                                label="New Email Address"
-                                type="email"
+                                id="new_usernsme"
+                                label="New Username"
+                                type="text"
                                 fullWidth
                                 variant="standard"
-                                value={newEmail}
-                                onChange={e => setNewEmail(e.target.value)}
+                                value={newUsername}
+                                onChange={e => setNewUsername(e.target.value)}
                             />
                         </div>
                     ) : (
@@ -187,8 +193,8 @@ export default function UserProfile(prop) {
 
 
 // function ChangeForm(prop) {
-//     let { toChange, open, handleClose, password, newEmail, oldPassword, newPassword,
-//         setPassword, setNewEmail, setOldPassword, setNewPassword } = prop
+//     let { toChange, open, handleClose, password, newUsername, oldPassword, newPassword,
+//         setPassword, setNewUsername, setOldPassword, setNewPassword } = prop
 
 
 //     return (
@@ -242,8 +248,8 @@ export default function UserProfile(prop) {
 //                             type="email"
 //                             fullWidth
 //                             variant="standard"
-//                             value={newEmail}
-//                             onChange={e => setNewEmail(e.target.value)}
+//                             value={newUsername}
+//                             onChange={e => setnewUsername(e.target.value)}
 //                         />
 //                     </div>
 //                 ) : (

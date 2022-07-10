@@ -75,14 +75,16 @@ export const deleteFriendAsync = createAsyncThunk(
 
 export const changePasswordAsync = createAsyncThunk(
     actionTypes.CHANGE_PASSWORD,
-    async (email, oldPassword, newPassword) => {
+    async ({ email, oldPassword, newPassword }) => {
+        console.log("email", email)
         return await UsersService.changePassword(email, oldPassword, newPassword)
     }
 );
 
-export const changeEmailAsync = createAsyncThunk(
-    actionTypes.CHANGE_EMAIL,
-    async (email, password, newEmail) => {
-        return await UsersService.changeEmail(email, password, newEmail)
+export const changeUsernameAsync = createAsyncThunk(
+    actionTypes.CHANGE_USERNAME,
+    async ({ email, password, newUsername }) => {
+        console.log("changeUsernameAsync")
+        return await UsersService.changeUsername(email, password, newUsername)
     }
 );
