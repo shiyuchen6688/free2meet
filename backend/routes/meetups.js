@@ -27,11 +27,17 @@ router.post('/', function (req, res, next) {
     let uid = uuid();
     let creatorEmail = req.body.creator.email;
     let inviteesModified = req.body.invitees;
-    // change invitees label to username
-    // change invitees value to email
     for (let i = 0; i < inviteesModified.length; i++) {
+        // change invitees label to username
         inviteesModified[i].username = inviteesModified[i].label;
+        // change invitees value to email
         inviteesModified[i].email = inviteesModified[i].value;
+        // if creator is in invitees return error
+        if (inviteesModified[i].email === creatorEmail) {
+            return res.send({
+                error: "Creator cannot be invited to meetup"
+            });
+        }
     }
     let meetup = {
         id: uid,
@@ -50,14 +56,6 @@ router.post('/', function (req, res, next) {
     if (inviteesModified.length === 0) {
         meetup.state = "COMPLETED";
     }
-    // if creator is in invitees return error
-    for (let i = 0; i < inviteesModified.length; i++) {
-        if (inviteesModified[i].email === creatorEmail) {
-            return res.send({
-                error: "Creator cannot be invited to meetup"
-            });
-        }
-    }
     // if invitees emails are not in creator's friends return error
     queries.getFriends(creatorEmail).then(function (friends) {
         for (let i = 0; i < inviteesModified.length; i++) {
@@ -73,28 +71,12 @@ router.post('/', function (req, res, next) {
                 });
             }
         }
-        queries.addMeetup(meetup).then(function (meetup) {
-            console.log("meetup added");
-            queries.addMeetupToUserCreator(creatorEmail, uid).then(function (user) {
-                console.log("meetup added to user");
-                let emails = req.body.invitees.map(function (invitee) {
-                    return invitee.value;
-                });
-                queries.addMeetupToInvitees(emails, uid).then(function (invitees) {
-                    console.log("meetup added to invitees");
-                    // TODO: send email to invitees
-                    return res.send(meetup);
-                }).catch(function (err) {
-                    console.log(err);
-                    return res.send(err);
-                });
-            }).catch(function (err) {
-                console.log(err);
-                return res.send(err);
-            });
-        }).catch(function (err) {
-            console.log(err);
-            return res.send(err);
+        let emails = req.body.invitees.map(function (invitee) {
+            return invitee.value;
+        });
+        // TODO: futher optimize parallelization
+        queries.addMeetup(meetup, emails).then(function (meetup) {
+            return res.send(meetup);
         });
     }).catch(function (err) {
         console.log(err);
