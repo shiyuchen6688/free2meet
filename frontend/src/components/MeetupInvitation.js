@@ -23,7 +23,7 @@ export default function MeetupInvitation() {
     }, [dispatch, currentUser.email]);
 
     const friends = currentUser.friends.map(friend => {
-        return {  label: friend.username, uid: friend.email };
+        return {  label: friend.username, value: friend.email };
     });
 
     let handleChange = (newValue) => {

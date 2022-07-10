@@ -28,10 +28,10 @@ router.post('/', function (req, res, next) {
     let creatorEmail = req.body.creator.email;
     let inviteesModified = req.body.invitees;
     // change invitees label to username
-    // change invitees uid to email
+    // change invitees value to email
     for (let i = 0; i < inviteesModified.length; i++) {
         inviteesModified[i].username = inviteesModified[i].label;
-        inviteesModified[i].email = inviteesModified[i].uid;
+        inviteesModified[i].email = inviteesModified[i].value;
     }
     let meetup = {
         id: uid,
