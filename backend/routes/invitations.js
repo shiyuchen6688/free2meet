@@ -1,8 +1,5 @@
 var express = require('express');
 var router = express.Router();
-// var jwt = require('jsonwebtoken')
-// const bcrypt = require('bcrypt');
-// var verifyJWT = require('../mIDdlewares/auth');
 const queries = require('../model/queries');
 require('dotenv').config()
 
@@ -44,19 +41,14 @@ router.post('/:email/accept', function (req, res, next) {
     const availableLocations = req.body.availableLocations;
     const availableTimeSlots = req.body.availableTimeSlots;
     // check if invitation exists
-    queries.getInvitationByID(invitationID).then(invitation => {
+    queries.getMeetupById(invitationID).then(invitation => {
         if (invitation) {
-            // check if invitation is pending
-            if (invitation.status === "PENDING") {
-                // accept invitation
-                queries.acceptInvitation(email, invitationID, availableLocations, availableTimeSlots).then(invitation => {
-                    return res.send(invitation);
-                }).catch(err => {
-                    return res.status(404).send(err);
-                });
-            } else {
-                return res.status(404).send(new Error("invitation is not pending"));
-            }
+            // accept invitation
+            queries.acceptInvitation(email, invitation.id, availableLocations, availableTimeSlots).then(invitation => {
+                return res.send(invitation);
+            }).catch(err => {
+                return res.status(404).send(err);
+            });
         } else {
             return res.status(404).send(new Error("invitation does not exist"));
         }
@@ -70,19 +62,13 @@ router.post('/:email/decline', function (req, res, next) {
     const email = req.params.email;
     const invitationID = req.body.invitationID;
     // check if invitation exists
-    queries.getInvitationByID(invitationID).then(invitation => {
+    queries.getMeetupById(invitationID).then(invitation => {
         if (invitation) {
-            // check if invitation is pending
-            if (invitation.status === "PENDING") {
-                // decline invitation
-                queries.declineInvitation(email, invitationID).then(invitation => {
-                    return res.send(invitation);
-                }).catch(err => {
-                    return res.status(404).send(err);
-                });
-            } else {
-                return res.status(404).send(new Error("invitation is not pending"));
-            }
+            queries.declineInvitation(email, invitation.id).then(invitation => {
+                return res.send(invitation);
+            }).catch(err => {
+                return res.status(404).send(err);
+            });
         } else {
             return res.status(404).send(new Error("invitation does not exist"));
         }

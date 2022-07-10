@@ -15,6 +15,9 @@ import Place from './Place';
 import ScheduleSelector from 'react-schedule-selector/dist/lib/ScheduleSelector';
 import Dialog from '@mui/material/Dialog';
 import Grow from '@mui/material/Grow';
+import { acceptInvitationAsync, declineInvitationAsync } from '../redux/invitations/thunks';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -27,19 +30,21 @@ const ExpandMore = styled((props) => {
     }),
   }));
 
-export default function InvitationCard({invitation}) {
+export default function InvitationCard({invitation, userEmail}) {
+    const dispatch = useDispatch();
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
     const handleAcceptClick = () => {
-        console.log(invitation._id);
         console.log("Accepted");
+        dispatch(acceptInvitationAsync({email:userEmail, invitationId:invitation._id}));
     };
 
     const handleDeclineClick = () => {
         console.log("Declined");
+        dispatch(declineInvitationAsync({email:userEmail, invitationId:invitation._id}));
     };
 
 
