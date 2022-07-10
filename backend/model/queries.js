@@ -10,18 +10,9 @@ const queries = {
     getMeetupById: async (id) => {
         return await Meetup.findById(id);
     },
-    // Given a new meetup, adds it to the database
-    addMeetup: async (meetup, emails) => {
-        let promises = [];
-        // Add the meetup to the database
-        promises.push(Meetup.create(meetup));
-        // Add the meetup to creator's meetupsCreated
-        promises.push(User.findOneAndUpdate({ email: meetup.creator.email }, { $push: { meetupsCreated: meetup.id } }, { new: true }));
-        // Add the meetup to all invitees' meetupsPending
-        for (let i = 0; i < emails.length; i++) {
-            promises.push(User.findOneAndUpdate({ email: emails[i] }, { $push: { meetupsPending: meetup.id } }, { new: true }));
-        }
-        return await Promise.all(promises);
+    // Given a new meetup, returns the meetup
+    addMeetup: async (meetup) => {
+        return await Meetup.create(meetup);
     },
     // Given a user email, returns all meetups the user created
     getMeetupsCreated: async (userEmail) => {
@@ -39,6 +30,18 @@ const queries = {
     // Given a user info, returns the user object
     addUser: async (user) => {
         return await User.create(user);
+    },
+    // Given a user email and a meetup, returns the updated user object
+    addMeetupToUserCreator: async (userEmail, meetup) => {
+        return await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsCreated: meetup } }, { new: true });
+    },
+    // Given an array of emails, add the meetup to the meetupsPending of the user's invitees
+    addMeetupToInvitees: async (invitees, meetup) => {
+        let promises = [];
+        for (let i = 0; i < invitees.length; i++) {
+            promises.push(User.findOneAndUpdate({ email: invitees[i] }, { $push: { meetupsPending: meetup } }, { new: true }));
+        }
+        return Promise.all(promises);
     },
     // Given a user email, returns all meetups the user are invited to but have not yet accepted or declined
     getInvitationsPending: async (userEmail) => {
@@ -90,7 +93,7 @@ const queries = {
             await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
         } else if (invitationState === 'accepted') {
             // remove meetup from user's meetupsAccepted
-            await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsAccepted: { meetupId: meetup } } }, { new: true });
+            await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsAccepted: {meetupId: meetup }} }, { new: true });
             // add meetup to user's meetupsDeclined
             await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
         }
@@ -160,7 +163,7 @@ const queries = {
         // keep friends username and email fields
         return friendRequests.map(function (friend) {
             return { username: friend.username, email: friend.email };
-        });
+        });        
     },
     // Given a user email, returns the usernames and emails of all the users who received the user's friend requests
     getFriendRequestsSent: async (userEmail) => {
