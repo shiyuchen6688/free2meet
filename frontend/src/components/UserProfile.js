@@ -15,6 +15,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import { changePasswordAsync, changeUsernameAsync } from '../redux/users/thunks';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -50,12 +52,16 @@ export default function UserProfile(prop) {
         console.log("in update", email)
         console.log("in update", password)
         console.log("in update", newUsername)
-        if (toChange == "email") {
+        if (toChange == "username") {
             dispatch(changeUsernameAsync({ email, password, newUsername }))
         } else if (toChange == "password") {
             dispatch(changePasswordAsync({ email, oldPassword, newPassword }))
         }
     }
+
+    // errors
+    let error = useSelector(state => state.usersReducer.error)
+    console.log(error)
 
 
     return (
@@ -66,6 +72,16 @@ export default function UserProfile(prop) {
             onClose={handleClose}
         >
             <DialogTitle>{"Welcome"}</DialogTitle>
+
+            {error && (
+                <DialogContentText>
+                    <Alert severity="error">
+                        <AlertTitle>Error</AlertTitle>
+                        {error.message} — <strong>request failed, please retry!</strong>
+                    </Alert>
+                </DialogContentText>
+            )}
+
             <DialogContent>
                 <DialogContentText>
                     Hello, {currentUser.username}! You can change your password or username here.
@@ -73,7 +89,7 @@ export default function UserProfile(prop) {
 
                 <DialogContentText>
                     <Button variant="text" onClick={e => {
-                        setToChange("email")
+                        setToChange("username")
                         handleFullScreenClickOpen()
                     }}>Change Username</Button>
                 </DialogContentText>
@@ -121,9 +137,9 @@ export default function UserProfile(prop) {
                 <DialogContent>
                     <DialogContentText>
                         {"To change your " + toChange + ", please enter your " +
-                            (toChange == "email" ? "password" : "old password") + " and new " + toChange}
+                            (toChange == "username" ? "password" : "old password") + " and new " + toChange}
                     </DialogContentText>
-                    {toChange == "email" ? (
+                    {toChange == "username" ? (
                         <div>
                             <TextField
                                 autoFocus

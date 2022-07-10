@@ -75,6 +75,8 @@ const changePassword = async (email, oldPassword, newPassword) => {
 
     if (!response.ok) {
         console.log('Error in changePassword')
+        const errorMsg = data?.message;
+        throw new Error(errorMsg)
     }
     return data
 };
@@ -97,6 +99,9 @@ const changeUsername = async (email, password, newUsername) => {
 
     if (!response.ok) {
         console.log('Error in changeUsername')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }
