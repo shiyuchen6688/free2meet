@@ -43,8 +43,6 @@ router.post('/:email/accept', function (req, res, next) {
     // check if invitation exists
     queries.getMeetupById(invitationID).then(invitation => {
         if (invitation) {
-            console.log("accepting invitation");
-            console.log(invitation.state);
             // check if invitation is pending
             if (invitation.state === "PENDING") {
                 // accept invitation
