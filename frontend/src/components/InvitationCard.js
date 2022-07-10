@@ -30,7 +30,7 @@ const ExpandMore = styled((props) => {
     }),
   }));
 
-export default function InvitationCard({invitation, userEmail}) {
+export default function InvitationCard({invitation, userEmail, state}) {
     const dispatch = useDispatch();
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
@@ -75,12 +75,14 @@ export default function InvitationCard({invitation, userEmail}) {
                 <IconButton
                 aria-label="Accept"
                 onClick={handleAcceptClick}
+                disabled={state === "accepted"}
                 >
                 <CheckIcon />
                 </IconButton>
                 <IconButton
                 aria-label="Decline"
                 onClick={handleDeclineClick}
+                disabled={state === "declined"}
                 >
                 <CloseIcon />
                 </IconButton>
