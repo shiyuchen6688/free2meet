@@ -11,15 +11,15 @@ export const getInvitationsAsync = createAsyncThunk(
 
 export const acceptInvitationAsync = createAsyncThunk(
     actionTypes.ACCEPT_INVITATION,
-    async (email, invitationID) => {
-        return await InvitationsService.acceptInvitation(email, invitationID);
+    async (info) => {
+        return await InvitationsService.acceptInvitation(info.email, info.invitationId);
     }
 );
 
 export const declineInvitationAsync = createAsyncThunk(
     actionTypes.DECLINE_INVITATION,
-    async (email, invitationID) => {
-        return await InvitationsService.declineInvitation(email, invitationID);
+    async (info) => {
+        return await InvitationsService.declineInvitation(info.email, info.invitationId);
     }
 );
 

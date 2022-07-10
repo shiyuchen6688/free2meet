@@ -36,6 +36,26 @@ const queries = {
             return await User.findOneAndUpdate({ email: invitees[i] }, { $push: { meetupsPending: meetup } }, { new: true });
         }
     },
+    // Given a user email, returns all meetups the user are invited to but have not yet accepted or declined
+    getInvitationsPending: async (userEmail) => {
+        let user = await User.findOne({ email: userEmail });
+        return await Meetup.find({ id: { $in: user.meetupsPending } });
+    },
+    // Given a user email, returns all meetups the user are invited to and have accepted
+    getInvitationsAccepted: async (userEmail) => {
+        let user = await User.findOne({ email: userEmail });
+        return await Meetup.find({ id: { $in: user.meetupsAccepted.id } });
+    },
+    // Given a user email, returns all meetups the user are invited to and have declined
+    getInvitationsDeclined: async (userEmail) => {
+        let user = await User.findOne({ email: userEmail });
+        return await Meetup.find({ id: { $in: user.meetupsDeclined } });
+    },
+    // Given a user email, returns all meetups the user created
+    getInvitationsCreated: async (userEmail) => {
+        let user = await User.findOne({ email: userEmail });
+        return await Meetup.find({ id: { $in: user.meetupsCreated } });
+    },
     // Given a user email and a meetup id, returns all the meetups that the user has accepted
     declineInvitation: async (userEmail, meetup) => {
         // remove meetup from user's meetupsPending
@@ -43,11 +63,12 @@ const queries = {
         // add meetup to user's meetupsDeclined
         await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
         // get all pending meetups for user
-        let meetupsPending = await this.getMeetupsPending(userEmail);
+        let user = await User.findOne({ email: userEmail });
+        let meetupsPending = await Meetup.find({ id: { $in: user.meetupsPending } });
         // get all declined meetups for user
-        let meetupsDeclined = await this.getMeetupsDeclined(userEmail);
+        let meetupsDeclined = await Meetup.find({ id: { $in: user.meetupsDeclined } });
         // await checkIfMeetupIsComplete(meetup);
-        return { meetupsPending: meetupsPending, meetupsDeclined: meetupsDeclined };
+        return { invitationsPending: meetupsPending, invitationsDeclined: meetupsDeclined };
     },
     // Given a user email and a meetup id and availability (locations and time slots), returns all pending and accepted meetups for that user
     acceptInvitation: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
@@ -57,11 +78,16 @@ const queries = {
         let a = { meetupId: meetup, availableLocations: availableLocations, availableTimeSlot: availableTimeSlots };
         await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true });
         // get all pending meetups for user
-        let meetupsPending = await this.getMeetupsPending(userEmail);
+        // let meetupsPending = await this.getInvitationsPending(userEmail);
+        let user = await User.findOne({ email: userEmail });
+        let meetupsPending = await Meetup.find({ id: { $in: user.meetupsPending } });
         // get all accepted meetups for user
-        let meetupsAccepted = await this.getMeetupsAccepted(userEmail);
-        // await checkIfMeetupIsComplete(meetup);
-        return { meetupsPending: meetupsPending, meetupsAccepted: meetupsAccepted };
+        let ids = [];
+        for (let i = 0; i < user.meetupsAccepted.length; i++) {
+            ids.push(user.meetupsAccepted[i].meetupId);
+        }
+        let meetupsAccepted = await Meetup.find({ id: { $in: ids } });
+        return { invitationsPending: meetupsPending, invitationsAccepted: meetupsAccepted };
     },
     // Given a meetupId, returns all users who have not accepted or declined the meetup
     checkIfMeetupIsComplete: async (meetupId) => {
@@ -146,26 +172,6 @@ const queries = {
         // remove user from friend's friends
         await User.findOneAndUpdate({ email: friendEmail }, { $pull: { friends: userEmail } }, { new: true });
         return await this.getFriends(userEmail);
-    },
-    // Given a user email, returns all meetups the user are invited to but have not yet accepted or declined
-    getInvitationsPending: async (userEmail) => {
-        let user = await User.findOne({ email: userEmail });
-        return await Meetup.find({ id: { $in: user.meetupsPending } });
-    },
-    // Given a user email, returns all meetups the user are invited to and have accepted
-    getInvitationsAccepted: async (userEmail) => {
-        let user = await User.findOne({ email: userEmail });
-        return await Meetup.find({ id: { $in: user.meetupsAccepted } });
-    },
-    // Given a user email, returns all meetups the user are invited to and have declined
-    getInvitationsDeclined: async (userEmail) => {
-        let user = await User.findOne({ email: userEmail });
-        return await Meetup.find({ id: { $in: user.meetupsDeclined } });
-    },
-    // Given a user email, returns all meetups the user created
-    getInvitationsCreated: async (userEmail) => {
-        let user = await User.findOne({ email: userEmail });
-        return await Meetup.find({ id: { $in: user.meetupsCreated } });
     },
     // Given a user email and new user object, returns updated user object
     updateUser: async (userEmail, user) => {

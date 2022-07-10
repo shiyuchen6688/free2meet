@@ -36,63 +36,65 @@ const invitationsSlice = createSlice({
                 state.error = action.error;
             })
             .addCase(getInvitationsAcceptedAsync.pending, (state) => {
-                state.getInvitations = REQUEST_STATE.PENDING;
+                state.getInvitationsAccepted = REQUEST_STATE.PENDING;
                 state.error = null;
             })
             .addCase(getInvitationsAcceptedAsync.fulfilled, (state, action) => {
-                state.getInvitations = REQUEST_STATE.FULFILLED;
+                state.getInvitationsAccepted = REQUEST_STATE.FULFILLED;
                 state.invitationsAccepted = action.payload;
             })
             .addCase(getInvitationsAcceptedAsync.rejected, (state, action) => {
-                state.getInvitations = REQUEST_STATE.REJECTED;
+                state.getInvitationsAccepted = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
             .addCase(getInvitationsDeclinedAsync.pending, (state) => {
-                state.getInvitations = REQUEST_STATE.PENDING;
+                state.getInvitationsDeclined = REQUEST_STATE.PENDING;
                 state.error = null;
             })
             .addCase(getInvitationsDeclinedAsync.fulfilled, (state, action) => {
-                state.getInvitations = REQUEST_STATE.FULFILLED;
+                state.getInvitationsDeclined = REQUEST_STATE.FULFILLED;
                 state.invitationsDeclined = action.payload;
             })
             .addCase(getInvitationsDeclinedAsync.rejected, (state, action) => {
-                state.getInvitations = REQUEST_STATE.REJECTED;
+                state.getInvitationsDeclined = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
             .addCase(getInvitationsPendingAsync.pending, (state) => {
-                state.getInvitations = REQUEST_STATE.PENDING;
+                state.getInvitationsPending = REQUEST_STATE.PENDING;
                 state.error = null;
             })
             .addCase(getInvitationsPendingAsync.fulfilled, (state, action) => {
-                state.getInvitations = REQUEST_STATE.FULFILLED;
+                state.getInvitationsPending = REQUEST_STATE.FULFILLED;
                 state.invitationsPending = action.payload;
             })
             .addCase(getInvitationsPendingAsync.rejected, (state, action) => {
-                state.getInvitations = REQUEST_STATE.REJECTED;
+                state.getInvitationsPending = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
             .addCase(acceptInvitationAsync.pending, (state) => {
-                state.getInvitations = REQUEST_STATE.PENDING;
+                state.acceptInvitation = REQUEST_STATE.PENDING;
                 state.error = null;
             })
             .addCase(acceptInvitationAsync.fulfilled, (state, action) => {
-                state.getInvitations = REQUEST_STATE.FULFILLED;
-                state.list = action.payload;
+                state.acceptInvitation = REQUEST_STATE.FULFILLED;
+                state.invitationsPending = action.payload.invitationsPending;
+                state.invitationsAccepted = action.payload.invitationsAccepted;
             })
             .addCase(acceptInvitationAsync.rejected, (state, action) => {
-                state.getInvitations = REQUEST_STATE.REJECTED;
+                state.acceptInvitation = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
             .addCase(declineInvitationAsync.pending, (state) => {
-                state.getInvitations = REQUEST_STATE.PENDING;
+                state.declineInvitation = REQUEST_STATE.PENDING;
                 state.error = null;
             })
             .addCase(declineInvitationAsync.fulfilled, (state, action) => {
-                state.getInvitations = REQUEST_STATE.FULFILLED;
-                state.list = action.payload;
+                state.declineInvitation = REQUEST_STATE.FULFILLED;
+                state.invitationsPending = action.payload.invitationsPending;
+                state.invitationsDeclined = action.payload.invitationsDeclined;
             })
             .addCase(declineInvitationAsync.rejected, (state, action) => {
-                state.getInvitations = REQUEST_STATE.REJECTED;
+                state.declineInvitation = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             });
     }
