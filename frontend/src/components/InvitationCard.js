@@ -38,7 +38,6 @@ export default function InvitationCard({invitation, userEmail}) {
     };
 
     const handleAcceptClick = () => {
-        console.log(invitation._id);
         console.log("Accepted");
         dispatch(acceptInvitationAsync({email:userEmail, invitationId:invitation._id}));
     };

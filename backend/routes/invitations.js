@@ -43,17 +43,12 @@ router.post('/:email/accept', function (req, res, next) {
     // check if invitation exists
     queries.getMeetupById(invitationID).then(invitation => {
         if (invitation) {
-            // check if invitation is pending
-            if (invitation.state === "PENDING") {
-                // accept invitation
-                queries.acceptInvitation(email, invitation.id, availableLocations, availableTimeSlots).then(invitation => {
-                    return res.send(invitation);
-                }).catch(err => {
-                    return res.status(404).send(err);
-                });
-            } else {
-                return res.status(404).send(new Error("invitation is not pending"));
-            }
+            // accept invitation
+            queries.acceptInvitation(email, invitation.id, availableLocations, availableTimeSlots).then(invitation => {
+                return res.send(invitation);
+            }).catch(err => {
+                return res.status(404).send(err);
+            });
         } else {
             return res.status(404).send(new Error("invitation does not exist"));
         }
@@ -69,17 +64,11 @@ router.post('/:email/decline', function (req, res, next) {
     // check if invitation exists
     queries.getMeetupById(invitationID).then(invitation => {
         if (invitation) {
-            // check if invitation is pending
-            if (invitation.state === "PENDING") {
-                // decline invitation
-                queries.declineInvitation(email, invitation.id).then(invitation => {
-                    return res.send(invitation);
-                }).catch(err => {
-                    return res.status(404).send(err);
-                });
-            } else {
-                return res.status(404).send(new Error("invitation is not pending"));
-            }
+            queries.declineInvitation(email, invitation.id).then(invitation => {
+                return res.send(invitation);
+            }).catch(err => {
+                return res.status(404).send(err);
+            });
         } else {
             return res.status(404).send(new Error("invitation does not exist"));
         }

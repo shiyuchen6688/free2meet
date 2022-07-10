@@ -79,6 +79,7 @@ const invitationsSlice = createSlice({
                 state.acceptInvitation = REQUEST_STATE.FULFILLED;
                 state.invitationsPending = action.payload.invitationsPending;
                 state.invitationsAccepted = action.payload.invitationsAccepted;
+                state.invitationsDeclined = action.payload.invitationsDeclined;
             })
             .addCase(acceptInvitationAsync.rejected, (state, action) => {
                 state.acceptInvitation = REQUEST_STATE.REJECTED;
@@ -92,6 +93,7 @@ const invitationsSlice = createSlice({
                 state.declineInvitation = REQUEST_STATE.FULFILLED;
                 state.invitationsPending = action.payload.invitationsPending;
                 state.invitationsDeclined = action.payload.invitationsDeclined;
+                state.invitationsAccepted = action.payload.invitationsAccepted;
             })
             .addCase(declineInvitationAsync.rejected, (state, action) => {
                 state.declineInvitation = REQUEST_STATE.REJECTED;
