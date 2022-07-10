@@ -44,7 +44,7 @@ const register = async (user) => {
 // reset password of a user given user email and new password
 const resetPassword = async (email, password) => {
     const response = await fetch('http://localhost:3001/users/reset-password', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'x-access-token': localStorage.getItem("token")
@@ -56,6 +56,52 @@ const resetPassword = async (email, password) => {
 
     if (!response.ok) {
         console.log('Error in resetPassword')
+    }
+    return data
+}
+
+// user change password in profile page
+const changePassword = async (email, oldPassword, newPassword) => {
+    const response = await fetch(`http://localhost:3001/users/${email}/change-password`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        },
+        body: JSON.stringify({ oldPassword, newPassword })
+    });
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        console.log('Error in changePassword')
+        const errorMsg = data?.message;
+        throw new Error(errorMsg)
+    }
+    return data
+};
+
+// user change email in profile page
+const changeUsername = async (email, password, newUsername) => {
+    console.log("email", email)
+    console.log("password", password)
+    console.log("newUsername", newUsername)
+    const response = await fetch(`http://localhost:3001/users/${email}/change-username`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        },
+        body: JSON.stringify({ password, newUsername })
+    });
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        console.log('Error in changeUsername')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }
@@ -220,7 +266,9 @@ const exportedService = {
     acceptFriendRequest,
     declineFriendRequest,
     sendFriendRequest,
-    deleteFriend
+    deleteFriend,
+    changeUsername,
+    changePassword
 }
 
 export default exportedService;

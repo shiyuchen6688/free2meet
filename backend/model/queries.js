@@ -27,6 +27,10 @@ const queries = {
     getUserByEmail: async (email) => {
         return await User.findOne({ email: email });
     },
+    // Given a username, returns the user object
+    getUserByUsername: async (username) => {
+        return await User.findOne({ username: username });
+    },
     // Given a user info, returns the user object
     addUser: async (user) => {
         return await User.create(user);
@@ -93,7 +97,7 @@ const queries = {
             await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
         } else if (invitationState === 'accepted') {
             // remove meetup from user's meetupsAccepted
-            await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsAccepted: {meetupId: meetup }} }, { new: true });
+            await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsAccepted: { meetupId: meetup } } }, { new: true });
             // add meetup to user's meetupsDeclined
             await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
         }
@@ -163,7 +167,7 @@ const queries = {
         // keep friends username and email fields
         return friendRequests.map(function (friend) {
             return { username: friend.username, email: friend.email };
-        });        
+        });
     },
     // Given a user email, returns the usernames and emails of all the users who received the user's friend requests
     getFriendRequestsSent: async (userEmail) => {
@@ -218,6 +222,9 @@ const queries = {
     // Given a user email and new user object, returns updated user object
     updateUser: async (userEmail, user) => {
         return await User.findOneAndUpdate({ email: userEmail }, user, { new: true });
+    },
+    patchUser: async (userEmail, newField) => {
+        return await User.findOneAndUpdate({ email: userEmail }, newField, { new: true });
     }
 };
 

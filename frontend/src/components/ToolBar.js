@@ -1,7 +1,5 @@
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import Logout from '@mui/icons-material/Logout';
-import PersonIcon from '@mui/icons-material/Person';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -13,7 +11,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Slide from '@mui/material/Slide';
@@ -25,6 +22,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { logout } from '../redux/users/reducer';
+import UserProfile from './UserProfile';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -52,8 +50,8 @@ export default function ToolBar() {
     }
 
     const settings = [
-        { text: 'Profile', actions: handleClickOpen, icon: <PersonIcon /> },
-        { text: 'Logout', actions: onSignOut, icon: <Logout /> }
+        { text: 'Profile', actions: handleClickOpen },
+        { text: 'Logout', actions: onSignOut }
     ];
 
     const pages = [
@@ -98,7 +96,7 @@ export default function ToolBar() {
                 <Box sx={{ flexGrow: 0, m: 2 }}>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar>{currentUser.username.charAt(0)}</Avatar>
+                            <Avatar alt="" src="" />
                         </IconButton>
                     </Tooltip>
                     <Menu
@@ -118,30 +116,13 @@ export default function ToolBar() {
                     >
                         {settings.map((setting) => (
                             <MenuItem key={setting.text} onClick={setting.actions}>
-                                <ListItemIcon>
-                                    {setting.icon}
-                                </ListItemIcon>
                                 <Typography textAlign="center">{setting.text}</Typography>
                             </MenuItem>
                         ))}
                     </Menu>
                 </Box>
-                <Dialog
-                    open={open}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    onClose={handleClose}
-                >
-                    <DialogTitle>{"Welcome"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Hello, {currentUser.username}!
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Close</Button>
-                    </DialogActions>
-                </Dialog>
+
+                <UserProfile open={open} handleClose={handleClose} currentUser={currentUser} />
             </Toolbar>
         </AppBar>
     )

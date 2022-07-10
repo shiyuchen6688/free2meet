@@ -19,7 +19,7 @@ async function generateData() {
     const passwordForA = await bcrypt.hash('b', 10);
     const passwordForC = await bcrypt.hash('c', 10);
     const passwordForD = await bcrypt.hash('d', 10);
-    
+
     // create users
     const users = [
         {
@@ -239,12 +239,12 @@ async function generateData() {
             "invitees": [
                 {
                     "email": "a",
-                    "username": "a"
+                    // "username": "a"
                 }
             ],
             "creator": {
                 "email": "q",
-                "username": "q"
+                // "username": "q"
             },
             state: "PENDING",
             bestLocation: null,
@@ -372,12 +372,12 @@ async function generateData() {
             "invitees": [
                 {
                     "email": "a",
-                    "username": "a"
+                    // "username": "a"
                 }
             ],
             "creator": {
                 "email": "d",
-                "username": "d"
+                // "username": "d"
             },
             state: "PENDING",
             bestLocation: null,
@@ -503,16 +503,16 @@ async function generateData() {
             "invitees": [
                 {
                     "email": "q",
-                    "username": "q"
+                    // "username": "q"
                 },
                 {
                     "email": "d",
-                    "username": "d"
+                    // "username": "d"
                 }
             ],
             "creator": {
                 "email": "a",
-                "username": "a"
+                // "username": "a"
             },
             state: "PENDING",
             bestLocation: null,
