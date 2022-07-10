@@ -18,6 +18,8 @@ const INITIAL_STATE = {
     declineFriendRequest: REQUEST_STATE.IDLE,
     sendFriendRequest: REQUEST_STATE.IDLE,
     deleteFriend: REQUEST_STATE.IDLE,
+    changePassword: REQUEST_STATE.IDLE,
+    changeEmail: REQUEST_STATE.IDLE,
     error: null
 };
 

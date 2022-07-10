@@ -44,7 +44,7 @@ const register = async (user) => {
 // reset password of a user given user email and new password
 const resetPassword = async (email, password) => {
     const response = await fetch('http://localhost:3001/users/reset-password', {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             'x-access-token': localStorage.getItem("token")
@@ -56,6 +56,44 @@ const resetPassword = async (email, password) => {
 
     if (!response.ok) {
         console.log('Error in resetPassword')
+    }
+    return data
+}
+
+// user change password in profile page
+const changePassword = async (email, oldPassword, newPassword) => {
+    const response = await fetch(`http://localhost:3001/users/${email}/change-password`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        },
+        body: JSON.stringify({ oldPassword, newPassword })
+    });
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        console.log('Error in changePassword')
+    }
+    return data
+};
+
+// user change email in profile page
+const changeEmail = async (email, password, newEmail) => {
+    const response = await fetch(`http://localhost:3001/users/${email}/change-email`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        },
+        body: JSON.stringify({ password, newEmail })
+    });
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        console.log('Error in changeEmail')
     }
     return data
 }

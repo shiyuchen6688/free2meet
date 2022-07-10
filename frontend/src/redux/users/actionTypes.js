@@ -9,4 +9,6 @@ export const actionTypes = {
     DELETE_FRIEND: 'users/friends/delete',
     ACCEPT_FRIEND_REQUEST: 'users/friends/requests/accept',
     DECLINE_FRIEND_REQUEST: 'users/friends/requests/decline',
+    CHANGE_PASSWORD: 'users/changeaPassword',
+    CHANGE_EMAIL: 'users/changeEmail',
 }

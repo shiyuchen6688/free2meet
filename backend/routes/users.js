@@ -124,7 +124,7 @@ router.get('/:email', verifyJWT, (req, res) => {
 })
 
 // reset password of a user given user email and new password
-router.post('/reset-password', (req, res) => {
+router.patch('/reset-password', (req, res) => {
     // check if user exists
     queries.getUserByEmail(req.body.email).then(user => {
         if (user) {
@@ -143,6 +143,10 @@ router.post('/reset-password', (req, res) => {
         return res.status(404).send(err);
     });
 });
+
+router.patch('/:email/change-password', async function (req, res, next) {
+    const email = req.params.email;
+})
 
 // get meetups created by a user given user email
 // router.get('/:email/meetups/created', (req, res) => {
