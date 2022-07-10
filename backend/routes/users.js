@@ -146,6 +146,49 @@ router.patch('/reset-password', (req, res) => {
 
 router.patch('/:email/change-password', async function (req, res, next) {
     const email = req.params.email;
+    const { oldPassword, newPassword } = req.body
+    queries.getUserByEmail(email).then(matchedUser => {
+        if (user) {
+            bcrypt.compare(oldPassword, matchedUser.password).then(passwordCorrect => {
+                if (passwordCorrect) {
+                    bcrypt.hash(newPassword, 10).then(encryptedNewPassword => {
+                        matchedUser.password = encryptedNewPassword
+                        // update user
+                        queries.updateUser(matchedUser).then(user => {
+                            return res.status(200).send(matchedUser)
+                        })
+                    })
+                } else {
+                    return res.status(404).send(new Error("Old Password is incorrect"))
+                }
+            })
+        } else {
+            return res.status(404).send(new Error("Email does not exist"))
+        }
+    })
+})
+
+
+router.patch('/:email/change-email', async function (req, res, next) {
+    const email = req.params.email;
+    const { passwrod, newEmail } = req.body
+    queries.getUserByEmail(email).then(matchedUser => {
+        if (user) {
+            bcrypt.compare(passwrod, matchedUser.password).then(passwordCorrect => {
+                if (passwordCorrect) {
+                    matchedUser.email = newEmail
+                    // update user
+                    queries.updateUser(matchedUser).then(user => {
+                        return res.status(200).send(matchedUser)
+                    })
+                } else {
+                    return res.status(404).send(new Error("Password is incorrect"))
+                }
+            })
+        } else {
+            return res.status(404).send(new Error("Email does not exist"))
+        }
+    })
 })
 
 // get meetups created by a user given user email

@@ -15,7 +15,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import { changePasswordAsync, changeEmailAsync } from '../redux/users/thunks';
-import { useSelector } from 'react-redux';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -30,10 +29,10 @@ export default function UserProfile(prop) {
     const [fullScreenOpen, setFullScreenOpen] = React.useState(false);
     const [toChange, setToChange] = React.useState(null);
 
-    let { password, setPassword } = React.useState("");
-    let { newEmail, setNewEmail } = React.useState("");
-    let { oldPassword, setOldPassword } = React.useState("");
-    let { newPassword, setNewPassword } = React.useState("");
+    let [password, setPassword] = React.useState("");
+    let [newEmail, setNewEmail] = React.useState("");
+    let [oldPassword, setOldPassword] = React.useState("");
+    let [newPassword, setNewPassword] = React.useState("");
 
 
     const dispatch = useDispatch();
@@ -84,16 +83,101 @@ export default function UserProfile(prop) {
                 </DialogContentText>
             </DialogContent>
 
-            <ChangeForm toChange={toChange} open={fullScreenOpen} handleClose={handleFullScreenClose}
+            {/* <ChangeForm toChange={toChange} open={fullScreenOpen} handleClose={handleFullScreenClose}
                 password={password} newEmail={newEmail} oldPassword={oldPassword} newPassword={newPassword}
                 setPassword={setPassword} setNewEmail={setNewEmail} setOldPassword={setOldPassword} setNewPassword={setNewPassword}
-            />
+            /> */}
+            {/* Change Form */}
+            <Dialog
+                fullScreen
+                open={fullScreenOpen}
+                onClose={handleFullScreenClose}
+                TransitionComponent={Transition}
+            >
+                <AppBar sx={{ position: 'relative' }}>
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleFullScreenClose}
+                            aria-label="close"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                            {"Change " + toChange}
+                        </Typography>
+                        <Button autoFocus type="contained" onClick={handleFullScreenClose} endIcon={<SendIcon />}>
+                            Update
+                        </Button>
+                    </Toolbar>
+                </AppBar>
+                <DialogContent>
+                    <DialogContentText>
+                        {"To change your " + toChange + ", please enter your " +
+                            (toChange == "email" ? "password" : "old password") + " and new " + toChange}
+                    </DialogContentText>
+                    {toChange == "email" ? (
+                        <div>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                label="Password"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="new_email"
+                                label="New Email Address"
+                                type="email"
+                                fullWidth
+                                variant="standard"
+                                value={newEmail}
+                                onChange={e => setNewEmail(e.target.value)}
+                            />
+                        </div>
+                    ) : (
+                        <div>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="old_password"
+                                label="Old Password"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={oldPassword}
+                                onChange={e => setOldPassword(e.target.value)}
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="new_password"
+                                label="New Password"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={newPassword}
+                                onChange={e => setNewPassword(e.target.value)}
+                            />
+                        </div>
+                    )}
+
+                </DialogContent>
+
+
+            </Dialog>
 
 
 
             <DialogActions>
                 <Button onClick={e => {
-                    update()
                     handleClose()
                 }}>Close</Button>
             </DialogActions>
@@ -102,97 +186,97 @@ export default function UserProfile(prop) {
 }
 
 
-function ChangeForm(prop) {
-    let { toChange, open, handleClose, password, newEmail, oldPassword, newPassword,
-        setPassword, setNewEmail, setOldPassword, setNewPassword } = prop
+// function ChangeForm(prop) {
+//     let { toChange, open, handleClose, password, newEmail, oldPassword, newPassword,
+//         setPassword, setNewEmail, setOldPassword, setNewPassword } = prop
 
 
-    return (
-        <Dialog
-            fullScreen
-            open={open}
-            onClose={handleClose}
-            TransitionComponent={Transition}
-        >
-            <AppBar sx={{ position: 'relative' }}>
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label="close"
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        {"Change " + toChange}
-                    </Typography>
-                    <Button autoFocus type="contained" onClick={handleClose} endIcon={<SendIcon />}>
-                        Update
-                    </Button>
-                </Toolbar>
-            </AppBar>
-            <DialogContent>
-                <DialogContentText>
-                    {"To change your " + toChange + ", please enter your " +
-                        (toChange == "email" ? "password" : "old password") + " and new " + toChange}
-                </DialogContentText>
-                {toChange == "email" ? (
-                    <div>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="password"
-                            label="Password"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="new_email"
-                            label="New Email Address"
-                            type="email"
-                            fullWidth
-                            variant="standard"
-                            value={newEmail}
-                            onChange={e => setNewEmail(e.target.value)}
-                        />
-                    </div>
-                ) : (
-                    <div>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="old_password"
-                            label="Old Password"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                            value={oldPassword}
-                            onChange={e => setOldPassword(e.target.value)}
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="new_password"
-                            label="New Password"
-                            type="text"
-                            fullWidth
-                            variant="standard"
-                            value={newPassword}
-                            onChange={e => setNewPassword(e.target.value)}
-                        />
-                    </div>
-                )}
+//     return (
+//         <Dialog
+//             fullScreen
+//             open={open}
+//             onClose={handleClose}
+//             TransitionComponent={Transition}
+//         >
+//             <AppBar sx={{ position: 'relative' }}>
+//                 <Toolbar>
+//                     <IconButton
+//                         edge="start"
+//                         color="inherit"
+//                         onClick={handleClose}
+//                         aria-label="close"
+//                     >
+//                         <CloseIcon />
+//                     </IconButton>
+//                     <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+//                         {"Change " + toChange}
+//                     </Typography>
+//                     <Button autoFocus type="contained" onClick={handleClose} endIcon={<SendIcon />}>
+//                         Update
+//                     </Button>
+//                 </Toolbar>
+//             </AppBar>
+//             <DialogContent>
+//                 <DialogContentText>
+//                     {"To change your " + toChange + ", please enter your " +
+//                         (toChange == "email" ? "password" : "old password") + " and new " + toChange}
+//                 </DialogContentText>
+//                 {toChange == "email" ? (
+//                     <div>
+//                         <TextField
+//                             autoFocus
+//                             margin="dense"
+//                             id="password"
+//                             label="Password"
+//                             type="text"
+//                             fullWidth
+//                             variant="standard"
+//                             value={password}
+//                             onChange={e => setPassword(e.target.value)}
+//                         />
+//                         <TextField
+//                             autoFocus
+//                             margin="dense"
+//                             id="new_email"
+//                             label="New Email Address"
+//                             type="email"
+//                             fullWidth
+//                             variant="standard"
+//                             value={newEmail}
+//                             onChange={e => setNewEmail(e.target.value)}
+//                         />
+//                     </div>
+//                 ) : (
+//                     <div>
+//                         <TextField
+//                             autoFocus
+//                             margin="dense"
+//                             id="old_password"
+//                             label="Old Password"
+//                             type="text"
+//                             fullWidth
+//                             variant="standard"
+//                             value={oldPassword}
+//                             onChange={e => setOldPassword(e.target.value)}
+//                         />
+//                         <TextField
+//                             autoFocus
+//                             margin="dense"
+//                             id="new_password"
+//                             label="New Password"
+//                             type="text"
+//                             fullWidth
+//                             variant="standard"
+//                             value={newPassword}
+//                             onChange={e => setNewPassword(e.target.value)}
+//                         />
+//                     </div>
+//                 )}
 
-            </DialogContent>
+//             </DialogContent>
 
 
-        </Dialog>
-    )
-}
+//         </Dialog>
+//     )
+// }
 

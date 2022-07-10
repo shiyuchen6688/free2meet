@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATE } from '../utils';
-import { declineMeetupAsync, getFriendsAsync, getMeetupsDeclinedAsync, getMeetupsAcceptedAsync, getMeetupsCreatedAsync, getMeetupsPendingAsync, loginAsync, registerAsync, resetPasswordAsync, getFriendRequestsAsync, getFriendRequestsSentAsync, acceptFriendRequestAsync, declineFriendRequestAsync, sendFriendRequestAsync, deleteFriendAsync, acceptMeetupAsync } from './thunks';
+import {
+    declineMeetupAsync, getFriendsAsync, getMeetupsDeclinedAsync,
+    getMeetupsAcceptedAsync, getMeetupsCreatedAsync, getMeetupsPendingAsync,
+    loginAsync, registerAsync, resetPasswordAsync, getFriendRequestsAsync,
+    getFriendRequestsSentAsync, acceptFriendRequestAsync, declineFriendRequestAsync,
+    sendFriendRequestAsync, deleteFriendAsync, acceptMeetupAsync,
+    changePasswordAsync, changeEmailAsync
+} from './thunks';
 
 const INITIAL_STATE = {
     username: null,
@@ -161,6 +168,29 @@ const usersSlice = createSlice({
             })
             .addCase(deleteFriendAsync.rejected, (state, action) => {
                 state.deleteFriend = REQUEST_STATE.REJECTED;
+                state.error = action.error;
+            })
+            .addCase(changePasswordAsync.pending, (state) => {
+                state.changePassword = REQUEST_STATE.PENDING;
+                state.error = null;
+            })
+            .addCase(changePasswordAsync.fulfilled, (state, action) => {
+                state.changePassword = REQUEST_STATE.FULFILLED;
+            })
+            .addCase(changePasswordAsync.rejected, (state, action) => {
+                state.changePassword = REQUEST_STATE.REJECTED;
+                state.error = action.error;
+            })
+            .addCase(changeEmailAsync.pending, (state) => {
+                state.changeEmail = REQUEST_STATE.PENDING;
+                state.error = null;
+            })
+            .addCase(changeEmailAsync.fulfilled, (state, action) => {
+                state.changeEmail = REQUEST_STATE.FULFILLED;
+                state.email = action.payload.email
+            })
+            .addCase(changeEmailAsync.rejected, (state, action) => {
+                state.changeEmail = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
     }
