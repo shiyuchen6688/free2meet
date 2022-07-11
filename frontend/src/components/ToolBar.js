@@ -23,10 +23,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { logout } from '../redux/users/reducer';
 import UserProfile from './UserProfile';
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="down" ref={ref} {...props} />;
-});
+import Logout from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import ListItemIcon from '@mui/material/ListItemIcon';
 
 export default function ToolBar() {
     const theme = useTheme();
@@ -50,8 +49,8 @@ export default function ToolBar() {
     }
 
     const settings = [
-        { text: 'Profile', actions: handleClickOpen },
-        { text: 'Logout', actions: onSignOut }
+        { text: 'Profile', actions: handleClickOpen, icon: <PersonIcon /> },
+        { text: 'Logout', actions: onSignOut, icon: <Logout />  }
     ];
 
     const pages = [
@@ -96,7 +95,7 @@ export default function ToolBar() {
                 <Box sx={{ flexGrow: 0, m: 2 }}>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="" src="" />
+                        <Avatar>{currentUser.username.charAt(0)}</Avatar>
                         </IconButton>
                     </Tooltip>
                     <Menu
@@ -116,6 +115,9 @@ export default function ToolBar() {
                     >
                         {settings.map((setting) => (
                             <MenuItem key={setting.text} onClick={setting.actions}>
+                                <ListItemIcon>
+                                    {setting.icon}
+                                </ListItemIcon>
                                 <Typography textAlign="center">{setting.text}</Typography>
                             </MenuItem>
                         ))}

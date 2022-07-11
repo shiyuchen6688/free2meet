@@ -4,11 +4,27 @@ const User = require('./user');
 const queries = {
     // Returns all meetups
     getAllMeetups: async () => {
-        return await Meetup.find({});
+        let meetups = await Meetup.find({});
+        // for each meetup, find the creator's email, get the creator's username, change the creator's email to {email: creatorEmail, username: creatorUsername}
+        for (let i = 0; i < meetups.length; i++) {
+            let username = null;
+            let email = meetups[i].creator;
+            let user = await User.findOne({ email: email });
+            username = user.username;
+            meetups[i] = { ...meetups[i]._doc, creator: { email: email, username: username } };
+        }
+        return meetups;
     },
     // Given a meetup id, returns the meetup
     getMeetupById: async (id) => {
-        return await Meetup.findById(id);
+        let meetup = await Meetup.findById(id);
+        // find the creator's email, get the creator's username, change the creator's email to {email: creatorEmail, username: creatorUsername}
+        let username = null;
+        let email = meetup.creator;
+        let user = await User.findOne({ email: email });
+        username = user.username;
+        meetup = { ...meetup._doc, creator: { email: email, username: username } };
+        return meetup;
     },
     // Given a new meetup, returns the meetup
     addMeetup: async (meetup) => {
@@ -17,7 +33,16 @@ const queries = {
     // Given a user email, returns all meetups the user created
     getMeetupsCreated: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        return await Meetup.find({ id: { $in: user.meetupsCreated } });
+        let meetups = await Meetup.find({ id: { $in: user.meetupsCreated } });
+        // for each meetup, find the creator's email, get the creator's username, change the creator's email to {email: creatorEmail, username: creatorUsername}
+        for (let i = 0; i < meetups.length; i++) {
+            let username = null;
+            let email = meetups[i].creator;
+            let user = await User.findOne({ email: email });
+            username = user.username;
+            meetups[i] = { ...meetups[i]._doc, creator: { email: email, username: username } };
+        }
+        return meetups;
     },
     // Returns a list of all users
     getAllUsers: async () => {
@@ -39,7 +64,7 @@ const queries = {
     addMeetupToUserCreator: async (userEmail, meetup) => {
         return await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsCreated: meetup } }, { new: true });
     },
-    // Given an array of emails, add the meetup to the meetupsPending of the user's invitees
+    // Given an array of emails and meetupID, add the meetup to the meetupsPending of the user's invitees
     addMeetupToInvitees: async (invitees, meetup) => {
         let promises = [];
         for (let i = 0; i < invitees.length; i++) {
@@ -50,7 +75,16 @@ const queries = {
     // Given a user email, returns all meetups the user are invited to but have not yet accepted or declined
     getInvitationsPending: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        return await Meetup.find({ id: { $in: user.meetupsPending } });
+        let meetups = await Meetup.find({ id: { $in: user.meetupsPending } });
+        // for each meetup, find the creator's email, get the creator's username, change the creator's email to {email: creatorEmail, username: creatorUsername}
+        for (let i = 0; i < meetups.length; i++) {
+            let username = null;
+            let email = meetups[i].creator;
+            let user = await User.findOne({ email: email });
+            username = user.username;
+            meetups[i] = { ...meetups[i]._doc, creator: { email: email, username: username } };
+        }
+        return meetups;
     },
     // Given a user email, returns all meetups the user are invited to and have accepted
     getInvitationsAccepted: async (userEmail) => {
@@ -60,13 +94,30 @@ const queries = {
         for (let i = 0; i < user.meetupsAccepted.length; i++) {
             ids.push(user.meetupsAccepted[i].meetupId);
         }
-        let meetupsAccepted = await Meetup.find({ id: { $in: ids } });
-        return meetupsAccepted;
+        let meetups = await Meetup.find({ id: { $in: ids } });
+        // for each meetup, find the creator's email, get the creator's username, change the creator's email to {email: creatorEmail, username: creatorUsername}
+        for (let i = 0; i < meetups.length; i++) {
+            let username = null;
+            let email = meetups[i].creator;
+            let user = await User.findOne({ email: email });
+            username = user.username;
+            meetups[i] = { ...meetups[i]._doc, creator: { email: email, username: username } };
+        }
+        return meetups;
     },
     // Given a user email, returns all meetups the user are invited to and have declined
     getInvitationsDeclined: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        return await Meetup.find({ id: { $in: user.meetupsDeclined } });
+        let meetups = await Meetup.find({ id: { $in: user.meetupsDeclined } });
+        // for each meetup, find the creator's email, get the creator's username, change the creator's email to {email: creatorEmail, username: creatorUsername}
+        for (let i = 0; i < meetups.length; i++) {
+            let username = null;
+            let email = meetups[i].creator;
+            let user = await User.findOne({ email: email });
+            username = user.username;
+            meetups[i] = { ...meetups[i]._doc, creator: { email: email, username: username } };
+        }
+        return meetups;
     },
     getInvitationState: async (userEmail, meetupId) => {
         let user = await User.findOne({ email: userEmail });

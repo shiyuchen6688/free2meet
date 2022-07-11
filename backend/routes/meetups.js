@@ -26,12 +26,9 @@ router.get(`/meetup`, function (req, res, next) {
 router.post('/', function (req, res, next) {
     let uid = uuid();
     let creatorEmail = req.body.creator.email;
-    let inviteesModified = req.body.invitees;
-    // change invitees label to username
-    // change invitees value to email
-    for (let i = 0; i < inviteesModified.length; i++) {
-        inviteesModified[i].username = inviteesModified[i].label;
-        inviteesModified[i].email = inviteesModified[i].value;
+    let inviteesModified = [];
+    for (let i = 0; i < req.body.invitees.length; i++) {
+        inviteesModified.push(req.body.invitees[i].value);
     }
     let meetup = {
         id: uid,
@@ -41,7 +38,7 @@ router.post('/', function (req, res, next) {
         schedule: req.body.schedule,
         location: req.body.location,
         invitees: inviteesModified,
-        creator: req.body.creator,
+        creator: creatorEmail,
         state: "PENDING",
         bestLocation: null,
         bestTime: null
@@ -52,7 +49,7 @@ router.post('/', function (req, res, next) {
     }
     // if creator is in invitees return error
     for (let i = 0; i < inviteesModified.length; i++) {
-        if (inviteesModified[i].email === creatorEmail) {
+        if (inviteesModified[i] === creatorEmail) {
             return res.send({
                 error: "Creator cannot be invited to meetup"
             });
@@ -60,10 +57,12 @@ router.post('/', function (req, res, next) {
     }
     // if invitees emails are not in creator's friends return error
     queries.getFriends(creatorEmail).then(function (friends) {
+        console.log(friends);
+        console.log(inviteesModified);
         for (let i = 0; i < inviteesModified.length; i++) {
             let isFriend = false;
             for (let j = 0; j < friends.length; j++) {
-                if (inviteesModified[i].email === friends[j].email) {
+                if (inviteesModified[i] === friends[j].email) {
                     isFriend = true;
                 }
             }
@@ -77,10 +76,7 @@ router.post('/', function (req, res, next) {
             console.log("meetup added");
             queries.addMeetupToUserCreator(creatorEmail, uid).then(function (user) {
                 console.log("meetup added to user");
-                let emails = req.body.invitees.map(function (invitee) {
-                    return invitee.value;
-                });
-                queries.addMeetupToInvitees(emails, uid).then(function (invitees) {
+                queries.addMeetupToInvitees(inviteesModified, uid).then(function (invitees) {
                     console.log("meetup added to invitees");
                     // TODO: send email to invitees
                     return res.send(meetup);

@@ -236,16 +236,8 @@ async function generateData() {
                     18
                 ]
             },
-            "invitees": [
-                {
-                    "email": "a",
-                    // "username": "a"
-                }
-            ],
-            "creator": {
-                "email": "q",
-                // "username": "q"
-            },
+            "invitees": ["a"],
+            "creator": "q",
             state: "PENDING",
             bestLocation: null,
             bestTime: null
@@ -369,16 +361,8 @@ async function generateData() {
                     18
                 ]
             },
-            "invitees": [
-                {
-                    "email": "a",
-                    // "username": "a"
-                }
-            ],
-            "creator": {
-                "email": "d",
-                // "username": "d"
-            },
+            "invitees": ["a"],
+            "creator": "d",
             state: "PENDING",
             bestLocation: null,
             bestTime: null
@@ -500,20 +484,8 @@ async function generateData() {
                     18
                 ]
             },
-            "invitees": [
-                {
-                    "email": "q",
-                    // "username": "q"
-                },
-                {
-                    "email": "d",
-                    // "username": "d"
-                }
-            ],
-            "creator": {
-                "email": "a",
-                // "username": "a"
-            },
+            "invitees": ["q","d"],
+            "creator": "a",
             state: "PENDING",
             bestLocation: null,
             bestTime: null
