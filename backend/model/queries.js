@@ -323,7 +323,7 @@ const queries = {
     },
     patchUser: async (userEmail, newField) => {
         // update user's username in cache
-        userCache.set(userEmail, user.username);
+        userCache.set(userEmail, newField.username);
         return await User.findOneAndUpdate({ email: userEmail }, newField, { new: true });
     }
 };
