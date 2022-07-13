@@ -122,7 +122,7 @@ export default function InvitationCard({invitation, userEmail, state}) {
                         invitation.schedule.timezone.value : invitation.schedule.timezone.altName}
                 </Typography>
                 <ScheduleSelector
-                    selection={invitation.schedule.schedule}
+                    pastSelection={invitation.schedule.schedule}
                     selectionScheme={invitation.schedule.selectionScheme}
                     startDate={invitation.schedule.startDate}
                     numDays={invitation.schedule.numDays}

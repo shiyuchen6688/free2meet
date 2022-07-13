@@ -71,6 +71,19 @@ a.set("2022-07-13T19:30:00.000Z", 2);
 a.set("2022-07-13T20:00:00.000Z", 1);
 a.set("2022-07-13T20:30:00.000Z", 5);
 
+let b = {
+    "2022-07-16T15:00:00.000Z": 1,
+    "2022-07-16T16:00:00.000Z": 1,
+    "2022-07-16T17:00:00.000Z": 1,
+    "2022-07-16T18:00:00.000Z": 1,
+    "2022-07-16T19:00:00.000Z": 1,
+    "2022-07-16T20:00:00.000Z": 1,
+    "2022-07-16T21:00:00.000Z": 1,
+    "2022-07-16T22:00:00.000Z": 1,
+    "2022-07-16T23:00:00.000Z": 1,
+    "2022-07-17T00:00:00.000Z": 1
+}
+
 export default function Meetups() {
     const [schedule, handleDateChange] = useState([]);
     // state = { schedule: [] };
@@ -94,8 +107,8 @@ export default function Meetups() {
             <h1>TODO: this page should display a list of meetups the user created or accepted</h1>
             <ScheduleSelectorCard>
           <ScheduleSelector
-            pastSelection={a}
-            minTime={12}
+            pastSelection={b}
+            minTime={8}
             maxTime={20}
             numDays={7}
             selection={schedule}

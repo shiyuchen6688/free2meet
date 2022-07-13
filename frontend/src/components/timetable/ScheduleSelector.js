@@ -138,7 +138,7 @@ export default class ScheduleSelector extends React.Component {
 
   static defaultProps = {
     selection: [],
-    pastSelection: new Map(),
+    pastSelection: {},
     selectionScheme: 'square',
     numDays: 7,
     minTime: 9,
@@ -146,7 +146,7 @@ export default class ScheduleSelector extends React.Component {
     hourlyChunks: 1,
     startDate: new Date(),
     timeFormat: 'ha',
-    dateFormat: 'm/d',
+    dateFormat: 'M/d',
     margin: 3,
     selectedColor: colors('blue', 5),
     unselectedColor: colors('grey', 1),
@@ -185,8 +185,13 @@ export default class ScheduleSelector extends React.Component {
       }
       this.dates.push(currentDay)
     }
-
-    this.pastSelection = props.pastSelection
+    let pastSelectionMap = new Map();
+    let pastSelectionKeys = Object.keys(props.pastSelection);
+    let pastSelectionObject = props.pastSelection;
+    for (let i = 0; i < pastSelectionKeys.length; i++) {
+      pastSelectionMap.set(pastSelectionKeys[i], pastSelectionObject[pastSelectionKeys[i]]);
+    }
+    this.pastSelection = pastSelectionMap;
 
     this.state = {
       selectionDraft: [...this.props.selection], // copy it over

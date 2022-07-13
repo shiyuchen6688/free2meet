@@ -7,7 +7,8 @@ const getInvitations = async () => {
         },
     });
 
-    const data = await response.json()
+    const data = await response.json();
+    console.log(data);
 
     if (!response.ok) {
         console.log('Error in getInvitations')
@@ -26,7 +27,17 @@ const getInvitationsPending = async (email) => {
         },
     });
 
-    const data = await response.json()
+    const data = await response.json();
+
+    for (let i = 0; i < data.length; i++) {
+        let newSchedule = {};
+        let keys = Object.keys(data[i].schedule.schedule);
+        for (let j = 0; j < keys.length; j++) {
+            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        }
+        data[i].schedule.schedule = newSchedule;
+    }
+
 
     if (!response.ok) {
         console.log('Error in getInvitationsPending')
@@ -44,7 +55,16 @@ const getInvitationsAccepted = async (email) => {
         },
     });
 
-    const data = await response.json()
+    const data = await response.json();
+    
+    for (let i = 0; i < data.length; i++) {
+        let newSchedule = {};
+        let keys = Object.keys(data[i].schedule.schedule);
+        for (let j = 0; j < keys.length; j++) {
+            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        }
+        data[i].schedule.schedule = newSchedule;
+    }
 
     if (!response.ok) {
         console.log('Error in getInvitationsAccepted')
@@ -62,7 +82,16 @@ const getInvitationsDeclined = async (email) => {
         },
     });
 
-    const data = await response.json()
+    const data = await response.json();
+    
+    for (let i = 0; i < data.length; i++) {
+        let newSchedule = {};
+        let keys = Object.keys(data[i].schedule.schedule);
+        for (let j = 0; j < keys.length; j++) {
+            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        }
+        data[i].schedule.schedule = newSchedule;
+    }
 
     if (!response.ok) {
         console.log('Error in getInvitationsDeclined')
@@ -83,6 +112,15 @@ const acceptInvitation = async (email, invitationID, availableLocations, availab
 
     const data = await response.json()
 
+    for (let i = 0; i < data.length; i++) {
+        let newSchedule = {};
+        let keys = Object.keys(data[i].schedule.schedule);
+        for (let j = 0; j < keys.length; j++) {
+            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        }
+        data[i].schedule.schedule = newSchedule;
+    }
+
     if (!response.ok) {
         console.log('Error in acceptInvitation')
     }
@@ -101,6 +139,15 @@ const declineInvitation = async (email, invitationID) => {
     });
 
     const data = await response.json()
+
+        for (let i = 0; i < data.length; i++) {
+        let newSchedule = {};
+        let keys = Object.keys(data[i].schedule.schedule);
+        for (let j = 0; j < keys.length; j++) {
+            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        }
+        data[i].schedule.schedule = newSchedule;
+    }
 
     if (!response.ok) {
         console.log('Error in declineMeetup')
