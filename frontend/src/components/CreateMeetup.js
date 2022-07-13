@@ -56,6 +56,10 @@ export default function CreateMeetup() {
 
         // At the last step, submit the newlly created meetup to backup
         if (activeStep === (steps.length - 1)) {
+            let meetupScheduleMap = new Map();
+            for (let i = 0; i < meetupSchedule.schedule.length; i++) {
+                meetupScheduleMap.set(meetupSchedule.schedule[i], 1);
+            }
             dispatch(addMeetupAsync({
                 title: titleAndDetailInput['meetup-title'],
                 description: titleAndDetailInput['meetup-description'],
