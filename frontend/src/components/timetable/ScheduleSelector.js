@@ -4,12 +4,12 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 // Import only the methods we need from date-fns in order to keep build size small
-import addMinutes from 'date-fns/addMinutes'
-import addHours from 'date-fns/addHours'
-import addDays from 'date-fns/addDays'
-import startOfDay from 'date-fns/startOfDay'
-import isSameMinute from 'date-fns/isSameMinute'
-import formatDate from 'date-fns/format'
+import addMinutes from 'date-fns-1/src/add_minutes'
+import addHours from 'date-fns-1/src/add_hours'
+import addDays from 'date-fns-1/src/add_days'
+import startOfDay from 'date-fns-1/src/start_of_day'
+import isSameMinute from 'date-fns-1/src/is_same_minute'
+import formatDate from 'date-fns-1/src/format'
 
 import { Text, Subtitle } from './typography'
 // import colors from './colors'

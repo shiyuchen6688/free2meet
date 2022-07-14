@@ -1,7 +1,7 @@
 // @flow
 
-import startOfDay from 'date-fns/startOfDay'
-import isAfter from 'date-fns/isAfter'
+import startOfDay from 'date-fns-1/src/start_of_day'
+import isAfter from 'date-fns-1/src/is_after'
 
 // Helper function that uses date-fns methods to determine if a date is between two other dates
 export const dateHourIsBetween = (start, candidate, end) =>
