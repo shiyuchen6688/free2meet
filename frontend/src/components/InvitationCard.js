@@ -38,9 +38,11 @@ export default function InvitationCard({invitation, userEmail, state}) {
         setExpanded(!expanded);
     };
 
+    const [availableTimeSlots, setAvailableTimeSlots] = React.useState([]);
+
     const handleAcceptClick = () => {
         console.log("Accepted");
-        dispatch(acceptInvitationAsync({email:userEmail, invitationId:invitation._id}));
+        dispatch(acceptInvitationAsync({email:userEmail, invitationId:invitation._id, availableTimeslots:[]}));
     };
 
     const handleDeclineClick = () => {
@@ -122,6 +124,7 @@ export default function InvitationCard({invitation, userEmail, state}) {
                         invitation.schedule.timezone.value : invitation.schedule.timezone.altName}
                 </Typography>
                 <ScheduleSelector
+                    selection={availableTimeSlots}
                     pastSelection={invitation.schedule.schedule}
                     selectionScheme={invitation.schedule.selectionScheme}
                     startDate={invitation.schedule.startDate}
@@ -130,12 +133,7 @@ export default function InvitationCard({invitation, userEmail, state}) {
                     maxTime={invitation.schedule.timeInterval[1]}
                     hourlyChunks={invitation.schedule.hourlyChunk}
                     timeFormat={"h:mma"}
-                    // onChange={(newSchedule) => {
-                    //     let newScheduleArray = newSchedule.map((slot) => {
-                    //         return JSON.parse(JSON.stringify(slot));
-                    //     });
-                    //     dispatch(updateSchedule(newScheduleArray));
-                    // }}
+                    onChange={setAvailableTimeSlots}
                 />
                 <CardActions disableSpacing>
                 <IconButton
