@@ -164,13 +164,13 @@ const declineInvitation = async (info) => {
     return data
 }
 
-
-
-export default {
+const exportObject = {
     getInvitations,
     getInvitationsPending,
     getInvitationsAccepted,
     getInvitationsDeclined,
     acceptInvitation,
     declineInvitation,
-}
+};
+
+export default exportObject;

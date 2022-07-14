@@ -17,7 +17,8 @@ import ScheduleSelector from './timetable/ScheduleSelector';
 import Dialog from '@mui/material/Dialog';
 import Grow from '@mui/material/Grow';
 import { acceptInvitationAsync, declineInvitationAsync } from '../redux/invitations/thunks';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+// import { useEffect } from 'react';
 
 
 const ExpandMore = styled((props) => {
@@ -55,7 +56,6 @@ export default function InvitationCard({invitation, userEmail, state}) {
     let pastSelection = {...invitation.schedule.schedule};
     let selected = [];
     let pastSelectionKeys = Object.keys(pastSelection);
-    // console.log(pastSelectionKeys);
     for (let i = 0; i < pastSelectionKeys.length; i++) {
         let participants = pastSelection[pastSelectionKeys[i]];
         if (participants.includes(userEmail)) {
@@ -64,12 +64,11 @@ export default function InvitationCard({invitation, userEmail, state}) {
         }
     }
 
-    // console.log(selected);
-    // console.log(i);
-    // console.log(pastSelectionKeys.length);
-    // if (selected.length !== 0 && i === pastSelectionKeys.length) {
-    //     setAvailableTimeSlots(selected);
-    // }
+    // useEffect(() => {
+    //     if (state === "accepted" && selected.length !== 0 && pastSelectionKeys.length === selected.length) {
+    //         setAvailableTimeSlots(selected);
+    //     }
+    // }, [state]);
 
     return (
     <Box sx={{minWidth: 275, margin: 5}}>
@@ -159,12 +158,14 @@ export default function InvitationCard({invitation, userEmail, state}) {
                 <IconButton
                 aria-label="Accept"
                 onClick={handleAcceptClick}
+                disabled={state === "accepted"}
                 >
                 <CheckIcon />
                 </IconButton>
                 <IconButton
                 aria-label="Decline"
                 onClick={handleDeclineClick}
+                disabled={state === "declined"}
                 >
                 <CloseIcon />
                 </IconButton>
