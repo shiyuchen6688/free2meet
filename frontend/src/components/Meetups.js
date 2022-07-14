@@ -8,7 +8,6 @@ import ScheduleSelector from './timetable/ScheduleSelector';
 import { useState } from 'react';
 
 
-
 const GlobalStyle = createGlobalStyle`
 body {
   font-family: sans-serif;
@@ -57,36 +56,21 @@ margin: 5px;
 `
 
 
-let a = new Map();
-a.set("2022-07-17T21:00:00.000Z", 10);
-a.set("2022-07-17T21:30:00.000Z", 2);
-a.set("2022-07-17T22:00:00.000Z", 1);
-a.set("2022-07-17T22:30:00.000Z", 5);
-a.set("2022-07-16T21:00:00.000Z", 1);
-a.set("2022-07-16T21:30:00.000Z", 2);
-a.set("2022-07-16T22:00:00.000Z", 3);
-a.set("2022-07-16T22:30:00.000Z", 5);
-a.set("2022-07-13T19:00:00.000Z", 4);
-a.set("2022-07-13T19:30:00.000Z", 2);
-a.set("2022-07-13T20:00:00.000Z", 1);
-a.set("2022-07-13T20:30:00.000Z", 5);
-
 let b = {
-    "2022-07-16T15:00:00.000Z": 1,
-    "2022-07-16T16:00:00.000Z": 1,
-    "2022-07-16T17:00:00.000Z": 1,
+    "2022-07-16T15:00:00.000Z": 5,
+    "2022-07-16T16:00:00.000Z": 4,
+    "2022-07-16T17:00:00.000Z": 3,
     "2022-07-16T18:00:00.000Z": 1,
     "2022-07-16T19:00:00.000Z": 1,
-    "2022-07-16T20:00:00.000Z": 1,
+    "2022-07-16T20:00:00.000Z": 2,
     "2022-07-16T21:00:00.000Z": 1,
-    "2022-07-16T22:00:00.000Z": 1,
+    "2022-07-16T22:00:00.000Z": 4,
     "2022-07-16T23:00:00.000Z": 1,
     "2022-07-17T00:00:00.000Z": 1
 }
 
 export default function Meetups() {
     const [schedule, handleDateChange] = useState([]);
-    // state = { schedule: [] };
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const theme = React.useMemo(
@@ -112,10 +96,8 @@ export default function Meetups() {
             maxTime={20}
             numDays={7}
             selection={schedule}
-            onChange={(newSchedule) => {
-                handleDateChange(newSchedule);
-                }}
-            hourlyChunks={2}
+            onChange={handleDateChange}
+            hourlyChunks={1}
             timeFormat="h:mma"
             selectionScheme="linear"
           />
