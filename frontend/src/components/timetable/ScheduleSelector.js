@@ -189,7 +189,7 @@ export default class ScheduleSelector extends React.Component {
     let pastSelectionKeys = Object.keys(props.pastSelection);
     let pastSelectionObject = props.pastSelection;
     for (let i = 0; i < pastSelectionKeys.length; i++) {
-      pastSelectionMap.set(pastSelectionKeys[i], pastSelectionObject[pastSelectionKeys[i]]);
+      pastSelectionMap.set(pastSelectionKeys[i], pastSelectionObject[pastSelectionKeys[i]].length);
     }
     this.pastSelection = pastSelectionMap;
 

@@ -59,7 +59,7 @@ export default function CreateMeetup() {
             let newMeetupSchedule = {};
             for (let i = 0; i < meetupSchedule.schedule.length; i++) {
                 let date = meetupSchedule.schedule[i].replace('.', '|');
-                newMeetupSchedule[date] = 1;
+                newMeetupSchedule[date] = [creator.email];
             }
             let meetupScheduleCopy = {...meetupSchedule};
             meetupScheduleCopy.schedule = newMeetupSchedule;

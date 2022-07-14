@@ -42,14 +42,34 @@ export default function InvitationCard({invitation, userEmail, state}) {
 
     const handleAcceptClick = () => {
         console.log("Accepted");
-        dispatch(acceptInvitationAsync({email:userEmail, invitationId:invitation._id, availableTimeslots:[]}));
+        let info = {email:userEmail, invitationId:invitation._id, availableTimeslots:availableTimeSlots};
+        dispatch(acceptInvitationAsync(info));
     };
 
     const handleDeclineClick = () => {
         console.log("Declined");
-        dispatch(declineInvitationAsync({email:userEmail, invitationId:invitation._id}));
+        let info = {email:userEmail, invitationId:invitation._id, availableTimeslots:selected};
+        dispatch(declineInvitationAsync(info));
     };
 
+    let pastSelection = {...invitation.schedule.schedule};
+    let selected = [];
+    let pastSelectionKeys = Object.keys(pastSelection);
+    // console.log(pastSelectionKeys);
+    for (let i = 0; i < pastSelectionKeys.length; i++) {
+        let participants = pastSelection[pastSelectionKeys[i]];
+        if (participants.includes(userEmail)) {
+            let timeslot = pastSelectionKeys[i].replace('.', '|');
+            selected.push(timeslot);
+        }
+    }
+
+    // console.log(selected);
+    // console.log(i);
+    // console.log(pastSelectionKeys.length);
+    // if (selected.length !== 0 && i === pastSelectionKeys.length) {
+    //     setAvailableTimeSlots(selected);
+    // }
 
     return (
     <Box sx={{minWidth: 275, margin: 5}}>
@@ -125,7 +145,7 @@ export default function InvitationCard({invitation, userEmail, state}) {
                 </Typography>
                 <ScheduleSelector
                     selection={availableTimeSlots}
-                    pastSelection={invitation.schedule.schedule}
+                    pastSelection={pastSelection}
                     selectionScheme={invitation.schedule.selectionScheme}
                     startDate={invitation.schedule.startDate}
                     numDays={invitation.schedule.numDays}
