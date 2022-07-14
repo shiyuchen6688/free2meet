@@ -24,7 +24,7 @@ export default function Explore() {
     const USER_ID = currentUser.email;
     const NICKNAME = currentUser.email;
     const THEME = prefersDarkMode ? 'dark' : 'light';
-    
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -37,6 +37,8 @@ export default function Explore() {
                     theme={THEME}
                     useReaction={true}
                     useMessageGrouping={true}
+                    showSearchIcon={true}
+                    replyType={'QUOTE_REPLY'}
                 />
             </div>
         </ThemeProvider>
