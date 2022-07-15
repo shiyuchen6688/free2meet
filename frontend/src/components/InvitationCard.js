@@ -12,7 +12,6 @@ import { styled } from '@mui/material/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import Place from './Place';
-// import ScheduleSelector from 'react-schedule-selector/dist/lib/ScheduleSelector';
 import ScheduleSelector from './timetable/ScheduleSelector';
 import Dialog from '@mui/material/Dialog';
 import Grow from '@mui/material/Grow';
@@ -131,12 +130,13 @@ export default function InvitationCard({invitation, userEmail, state}) {
                 </Typography>
                 <Box sx={{minWidth: 800, margin: 0}}>
                 <Typography variant="h6" gutterBottom>
-                    {invitation.location.length === 0 ? "No Location Selected" : 
+                    {/* {invitation.location.length === 0 ? "No Location Selected" : 
                         invitation.location.length === 1 ? "Location (1 Selected)" : 
-                            "Locations (" + invitation.location.length + " Selected)"}
+                            "Locations (" + invitation.location.length + " Selected)"} */}
+                    {"Location(s):"}
                 </Typography>
                 {invitation.location.map((item) => {
-                    return (<Place key={item.place_id} item={item} deleteButton={false}/>);
+                    return (<Place key={item.place_id} item={item} invitation={true}/>);
                 })}
                 <Typography variant="h6" gutterBottom>
                     Time Zone: {invitation.schedule.timezone.altName === undefined ?
