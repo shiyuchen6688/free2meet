@@ -13,10 +13,8 @@ const queries = {
             let username = null;
             let email = meetups[i].creator;
             if (userCache.has(email)) {
-                console.log("Cache hit");
                 username = userCache.get(email);
             } else {
-                console.log("Cache miss");
                 let user = await User.findOne({ email: email });
                 username = user.username;
                 userCache.set(email, username);
@@ -32,10 +30,8 @@ const queries = {
         let username = null;
         let email = meetup.creator;
         if (userCache.has(email)) {
-            console.log("Cache hit");
             username = userCache.get(email);
         } else {
-            console.log("Cache miss");
             let user = await User.findOne({ email: email });
             username = user.username;
             userCache.set(email, username);
@@ -56,10 +52,8 @@ const queries = {
             let username = null;
             let email = meetups[i].creator;
             if (userCache.has(email)) {
-                console.log("Cache hit");
                 username = userCache.get(email);
             } else {
-                console.log("Cache miss");
                 let user = await User.findOne({ email: email });
                 username = user.username;
                 userCache.set(email, username);
@@ -105,10 +99,8 @@ const queries = {
             let username = null;
             let email = meetups[i].creator;
             if (userCache.has(email)) {
-                console.log("Cache hit");
                 username = userCache.get(email);
             } else {
-                console.log("Cache miss");
                 let user = await User.findOne({ email: email });
                 username = user.username;
                 userCache.set(email, username);
@@ -131,10 +123,8 @@ const queries = {
             let username = null;
             let email = meetups[i].creator;
             if (userCache.has(email)) {
-                console.log("Cache hit");
                 username = userCache.get(email);
             } else {
-                console.log("Cache miss");
                 let user = await User.findOne({ email: email });
                 username = user.username;
                 userCache.set(email, username);
@@ -152,10 +142,8 @@ const queries = {
             let username = null;
             let email = meetups[i].creator;
             if (userCache.has(email)) {
-                console.log("Cache hit");
                 username = userCache.get(email);
             } else {
-                console.log("Cache miss");
                 let user = await User.findOne({ email: email });
                 username = user.username;
                 userCache.set(email, username);
