@@ -7,7 +7,8 @@ const getInvitations = async () => {
         },
     });
 
-    const data = await response.json()
+    const data = await response.json();
+    console.log(data);
 
     if (!response.ok) {
         console.log('Error in getInvitations')
@@ -26,7 +27,17 @@ const getInvitationsPending = async (email) => {
         },
     });
 
-    const data = await response.json()
+    const data = await response.json();
+
+    for (let i = 0; i < data.length; i++) {
+        let newSchedule = {};
+        let keys = Object.keys(data[i].schedule.schedule);
+        for (let j = 0; j < keys.length; j++) {
+            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        }
+        data[i].schedule.schedule = newSchedule;
+    }
+
 
     if (!response.ok) {
         console.log('Error in getInvitationsPending')
@@ -44,7 +55,16 @@ const getInvitationsAccepted = async (email) => {
         },
     });
 
-    const data = await response.json()
+    const data = await response.json();
+    
+    for (let i = 0; i < data.length; i++) {
+        let newSchedule = {};
+        let keys = Object.keys(data[i].schedule.schedule);
+        for (let j = 0; j < keys.length; j++) {
+            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        }
+        data[i].schedule.schedule = newSchedule;
+    }
 
     if (!response.ok) {
         console.log('Error in getInvitationsAccepted')
@@ -62,7 +82,16 @@ const getInvitationsDeclined = async (email) => {
         },
     });
 
-    const data = await response.json()
+    const data = await response.json();
+    
+    for (let i = 0; i < data.length; i++) {
+        let newSchedule = {};
+        let keys = Object.keys(data[i].schedule.schedule);
+        for (let j = 0; j < keys.length; j++) {
+            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        }
+        data[i].schedule.schedule = newSchedule;
+    }
 
     if (!response.ok) {
         console.log('Error in getInvitationsDeclined')
@@ -71,17 +100,32 @@ const getInvitationsDeclined = async (email) => {
 }
 
 // accept a pending invitation for a user given user email and invitation id and availbale locations and time slots
-const acceptInvitation = async (email, invitationID, availableLocations, availableTimeSlots) => {
-    const response = await fetch(`http://localhost:3001/invitations/${email}/accept`, {
+// info contains email, invitationID, availableLocations, availableTimeSlots
+const acceptInvitation = async (info) => {
+    const response = await fetch(`http://localhost:3001/invitations/${info.email}/accept`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'x-access-token': localStorage.getItem("token")
         },
-        body: JSON.stringify({ invitationID, availableLocations, availableTimeSlots })
+        body: JSON.stringify(info)
     });
 
     const data = await response.json()
+
+    let types = ['invitationsAccepted', 'invitationsPending', 'invitationsDeclined']
+    for (let a = 0; a < types.length; a++) {
+        for (let i = 0; i < data[types[a]].length; i++) {
+            let newSchedule = {};
+            let keys = Object.keys(data[types[a]][i].schedule.schedule);
+            for (let j = 0; j < keys.length; j++) {
+                newSchedule[keys[j].replace('|', '.')] = data[types[a]][i].schedule.schedule[keys[j]];
+            }
+            data[types[a]][i].schedule.schedule = newSchedule;
+        }
+    }
+
+    console.log(data);
 
     if (!response.ok) {
         console.log('Error in acceptInvitation')
@@ -90,17 +134,29 @@ const acceptInvitation = async (email, invitationID, availableLocations, availab
 }
 
 // decline a pending invitation for a user given user email and invitation id
-const declineInvitation = async (email, invitationID) => {
-    const response = await fetch(`http://localhost:3001/invitations/${email}/decline`, {
+const declineInvitation = async (info) => {
+    const response = await fetch(`http://localhost:3001/invitations/${info.email}/decline`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'x-access-token': localStorage.getItem("token")
         },
-        body: JSON.stringify({ invitationID })
+        body: JSON.stringify( info )
     });
 
     const data = await response.json()
+
+    let types = ['invitationsAccepted', 'invitationsPending', 'invitationsDeclined']
+    for (let a = 0; a < types.length; a++) {
+        for (let i = 0; i < data[types[a]].length; i++) {
+            let newSchedule = {};
+            let keys = Object.keys(data[types[a]][i].schedule.schedule);
+            for (let j = 0; j < keys.length; j++) {
+                newSchedule[keys[j].replace('|', '.')] = data[types[a]][i].schedule.schedule[keys[j]];
+            }
+            data[types[a]][i].schedule.schedule = newSchedule;
+        }
+    }
 
     if (!response.ok) {
         console.log('Error in declineMeetup')
@@ -108,13 +164,13 @@ const declineInvitation = async (email, invitationID) => {
     return data
 }
 
-
-
-export default {
+const exportObject = {
     getInvitations,
     getInvitationsPending,
     getInvitationsAccepted,
     getInvitationsDeclined,
     acceptInvitation,
     declineInvitation,
-}
+};
+
+export default exportObject;
