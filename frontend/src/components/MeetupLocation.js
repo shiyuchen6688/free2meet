@@ -101,11 +101,24 @@ export const darkStyle = [
     },
 ];
 
-const loadScript = (url, callback) => {
-    if (autoComplete || map) {
-        callback();
-        return;
+function removeGoogleMapScript() {
+    let keywords = ['maps.googleapis'];
+    // Remove google from BOM (window object)
+    window.google = undefined;
+    // Remove google map scripts from DOM
+    let scripts = document.head.getElementsByTagName("script");
+    for (let i = scripts.length - 1; i >= 0; i--) {
+        let scriptSource = scripts[i].getAttribute('src');
+        if (scriptSource != null) {
+            if (keywords.filter(item => scriptSource.includes(item)).length) {
+                scripts[i].remove();
+            }
+        }
     }
+}
+
+const loadScript = (url, callback) => {
+    removeGoogleMapScript();
     script.type = "text/javascript";
     if (script.readyState) {
         script.onreadystatechange = function () {
