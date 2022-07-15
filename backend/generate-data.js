@@ -3,20 +3,6 @@ const bcrypt = require('bcrypt');
 const Meetup = require('./model/meetup');
 const User = require('./model/user');
 
-let a = {};
-a["2022-07-17T21:00:00|000Z"] = 10;
-a["2022-07-17T21:30:00|000Z"] = 1;
-a["2022-07-17T22:00:00|000Z"] = 5;
-a["2022-07-17T22:30:00|000Z"] = 4;
-a["2022-07-16T21:00:00|000Z"] = 3;
-a["2022-07-16T21:30:00|000Z"] = 2;
-a["2022-07-16T22:00:00|000Z"] = 1;
-a["2022-07-16T22:30:00|000Z"] = 1;
-a["2022-07-13T19:00:00|000Z"] = 1;
-a["2022-07-13T19:30:00|000Z"] = 1;
-a["2022-07-13T20:00:00|000Z"] = 1;
-a["2022-07-13T20:30:00|000Z"] = 1;
-
 let scheduleA = {
     "2022-07-14T15:00:00|000Z": [
         "a"
@@ -485,7 +471,8 @@ async function generateData() {
                     ],
                     "url": "https://maps.google.com/?cid=14383886875425940211",
                     "lat": 49.26060520000001,
-                    "lng": -123.2459939
+                    "lng": -123.2459939,
+                    "selected": ["q"]
                 }
             ],
             "schedule": {
@@ -594,7 +581,8 @@ async function generateData() {
                     ],
                     "url": "https://maps.google.com/?cid=22637017824277851",
                     "lat": 49.2780937,
-                    "lng": -122.9198833
+                    "lng": -122.9198833,
+                    "selected": ["d"]
                 }
             ],
             "schedule": {
@@ -701,7 +689,8 @@ async function generateData() {
                     ],
                     "url": "https://maps.google.com/?cid=22637017824277851",
                     "lat": 49.2780937,
-                    "lng": -122.9198833
+                    "lng": -122.9198833,
+                    "selected": ["a"]
                 }
             ],
             "schedule": {

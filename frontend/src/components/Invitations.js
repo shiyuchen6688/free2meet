@@ -16,6 +16,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
+import { updateInvitationsLocations } from '../redux/actions/actions';
 
 export default function Invitations() {
     const dispatch = useDispatch();
@@ -31,6 +32,7 @@ export default function Invitations() {
         [prefersDarkMode],
     );
     const currentUser = useSelector(state => state.usersReducer);
+    const locSelection = useSelector(state => state.invitationsCardsReducer);
     const pendingInvitations = useSelector(state => state.invitationsReducer.invitationsPending);
     const acceptedInvitations = useSelector(state => state.invitationsReducer.invitationsAccepted);
     const declinedInvitations = useSelector(state => state.invitationsReducer.invitationsDeclined);
@@ -39,8 +41,25 @@ export default function Invitations() {
         dispatch(getInvitationsPendingAsync(currentUser.email));
         dispatch(getInvitationsAcceptedAsync(currentUser.email));
         dispatch(getInvitationsDeclinedAsync(currentUser.email));
-        // dispatch(getMeetupsCreatedAsync(currentUser.email));
+        // dispatch(getMeetupsCreatedAsync(currentUser.email));    
     }, [dispatch, currentUser.email]);
+
+    useEffect(() => {
+        let allLocSelection = {};
+        let allInvitations = [...pendingInvitations, ...acceptedInvitations, ...declinedInvitations];
+        for (let i = 0; i < allInvitations.length; i++) {
+            let allLoc = [...allInvitations[i].location];
+            console.log(allLoc);
+            let allLocSelected = {};
+            for (let j = 0; j < allLoc.length; j++) {
+                allLocSelected[allLoc[j].place_id] = allLoc[j].selected;
+            }
+            console.log(allLocSelected);
+            allLocSelection[allInvitations[i].id] = allLocSelected;
+        }
+        dispatch(updateInvitationsLocations(allLocSelection));
+    // eslint-disable-next-line
+    }, [dispatch, pendingInvitations.length, acceptedInvitations.length, declinedInvitations.length]);
 
     const fabStyle = {
         bottom: theme.spacing(6),
@@ -55,7 +74,7 @@ export default function Invitations() {
         dispatch(getInvitationsDeclinedAsync(currentUser.email));
         // dispatch(getMeetupsCreatedAsync(currentUser.email));
     }
-
+    
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -82,7 +101,12 @@ export default function Invitations() {
                         alignItems="center"
                     >
                         {pendingInvitations.map(invitation => (
-                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="pending"/>
+                            <InvitationCard 
+                            key={invitation.id} 
+                            invitation={invitation} 
+                            userEmail={currentUser.email} 
+                            state="pending"
+                            locSelection={locSelection[invitation.id]}/>
                         ))}
                     </Grid>
                 </Paper>
@@ -98,7 +122,12 @@ export default function Invitations() {
                         alignItems="center"
                     >
                         {acceptedInvitations.map(invitation => (
-                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="accepted"/>
+                            <InvitationCard 
+                            key={invitation.id} 
+                            invitation={invitation} 
+                            userEmail={currentUser.email} 
+                            state="accepted"
+                            locSelection={locSelection[invitation.id]}/>
                         ))}
                     </Grid>
                 </Paper>
@@ -114,7 +143,12 @@ export default function Invitations() {
                         alignItems="center"
                     >
                         {declinedInvitations.map(invitation => (
-                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="declined"/>
+                            <InvitationCard 
+                            key={invitation.id} 
+                            invitation={invitation} 
+                            userEmail={currentUser.email} 
+                            state="declined"
+                            locSelection={locSelection[invitation.id]}/>
                         ))}
                     </Grid>
                 </Paper>

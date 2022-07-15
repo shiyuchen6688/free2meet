@@ -11,14 +11,12 @@ import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import Place from './Place';
-// import ScheduleSelector from 'react-schedule-selector/dist/lib/ScheduleSelector';
 import ScheduleSelector from './timetable/ScheduleSelector';
 import Dialog from '@mui/material/Dialog';
 import Grow from '@mui/material/Grow';
 import { acceptInvitationAsync, declineInvitationAsync } from '../redux/invitations/thunks';
 import { useDispatch } from 'react-redux';
-// import { useEffect } from 'react';
+import PlaceInvitation from './PlaceInvitation';
 
 
 const ExpandMore = styled((props) => {
@@ -32,13 +30,13 @@ const ExpandMore = styled((props) => {
     }),
   }));
 
-export default function InvitationCard({invitation, userEmail, state}) {
+export default function InvitationCard({invitation, userEmail, state, locSelection}) {
     const dispatch = useDispatch();
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-
+    console.log(locSelection);
     const [availableTimeSlots, setAvailableTimeSlots] = React.useState([]);
 
     const handleAcceptClick = () => {
@@ -136,7 +134,7 @@ export default function InvitationCard({invitation, userEmail, state}) {
                             "Locations (" + invitation.location.length + " Selected)"}
                 </Typography>
                 {invitation.location.map((item) => {
-                    return (<Place key={item.place_id} item={item} deleteButton={false}/>);
+                    return (<PlaceInvitation key={item.place_id} item={item} inInvitationCard={true}/>);
                 })}
                 <Typography variant="h6" gutterBottom>
                     Time Zone: {invitation.schedule.timezone.altName === undefined ?

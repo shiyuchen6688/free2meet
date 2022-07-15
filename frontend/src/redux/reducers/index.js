@@ -6,7 +6,7 @@ import createMeetupInvitationReducer from "./createMeetupInvitationReducer";
 import meetupsReducer from "../meetups/reducer";
 import usersReducer from "../users/reducer";
 import invitationsReducer from "../invitations/reducer";
-
+import invitationsCardsReducer from "./invitationsCardsReducer"
 
 export default combineReducers({
     createMeetupLocationReducer,
@@ -14,6 +14,7 @@ export default combineReducers({
     createMeetupScheduleReducer,
     createMeetupInvitationReducer,
     invitationsReducer,
+    invitationsCardsReducer,
     meetupsReducer,
     usersReducer
 });

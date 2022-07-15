@@ -63,10 +63,12 @@ export default function CreateMeetup() {
             }
             let meetupScheduleCopy = {...meetupSchedule};
             meetupScheduleCopy.schedule = newMeetupSchedule;
+            let meetupLocationCopy = {...meetupLocation};
+            meetupLocationCopy['selected'] = [creator.email];
             dispatch(addMeetupAsync({
                 title: titleAndDetailInput['meetup-title'],
                 description: titleAndDetailInput['meetup-description'],
-                location: meetupLocation,
+                location: meetupLocationCopy,
                 schedule: meetupScheduleCopy,
                 invitees: meetupInvitation,
                 creator: creator

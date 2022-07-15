@@ -20,7 +20,8 @@ const subSchemaLocation = new mongoose.Schema({
     types: [String],
     url: String,
     lat: Number,
-    lng: Number
+    lng: Number,
+    selected: [String]
 });
 
 const meetupSchema = new mongoose.Schema({

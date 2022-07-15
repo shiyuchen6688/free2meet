@@ -74,3 +74,11 @@ export const changeInvitee = (invitees) => {
         payload: invitees
     }
 };
+
+// Update selected locations in invitations cards page
+export const updateInvitationsLocations = (newInputValue) => {
+    return {
+        type: "UPDATE_INVITATIONS_LOCATIONS",
+        payload: newInputValue
+    }
+}
