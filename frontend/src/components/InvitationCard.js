@@ -12,11 +12,13 @@ import { styled } from '@mui/material/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import Place from './Place';
-import ScheduleSelector from 'react-schedule-selector/dist/lib/ScheduleSelector';
+// import ScheduleSelector from 'react-schedule-selector/dist/lib/ScheduleSelector';
+import ScheduleSelector from './timetable/ScheduleSelector';
 import Dialog from '@mui/material/Dialog';
 import Grow from '@mui/material/Grow';
 import { acceptInvitationAsync, declineInvitationAsync } from '../redux/invitations/thunks';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+// import { useEffect } from 'react';
 
 
 const ExpandMore = styled((props) => {
@@ -37,16 +39,36 @@ export default function InvitationCard({invitation, userEmail, state}) {
         setExpanded(!expanded);
     };
 
+    const [availableTimeSlots, setAvailableTimeSlots] = React.useState([]);
+
     const handleAcceptClick = () => {
         console.log("Accepted");
-        dispatch(acceptInvitationAsync({email:userEmail, invitationId:invitation._id}));
+        let info = {email:userEmail, invitationId:invitation._id, availableTimeslots:availableTimeSlots};
+        dispatch(acceptInvitationAsync(info));
     };
 
     const handleDeclineClick = () => {
         console.log("Declined");
-        dispatch(declineInvitationAsync({email:userEmail, invitationId:invitation._id}));
+        let info = {email:userEmail, invitationId:invitation._id, availableTimeslots:selected};
+        dispatch(declineInvitationAsync(info));
     };
 
+    let pastSelection = {...invitation.schedule.schedule};
+    let selected = [];
+    let pastSelectionKeys = Object.keys(pastSelection);
+    for (let i = 0; i < pastSelectionKeys.length; i++) {
+        let participants = pastSelection[pastSelectionKeys[i]];
+        if (participants.includes(userEmail)) {
+            let timeslot = pastSelectionKeys[i].replace('.', '|');
+            selected.push(timeslot);
+        }
+    }
+
+    // useEffect(() => {
+    //     if (state === "accepted" && selected.length !== 0 && pastSelectionKeys.length === selected.length) {
+    //         setAvailableTimeSlots(selected);
+    //     }
+    // }, [state]);
 
     return (
     <Box sx={{minWidth: 275, margin: 5}}>
@@ -121,7 +143,8 @@ export default function InvitationCard({invitation, userEmail, state}) {
                         invitation.schedule.timezone.value : invitation.schedule.timezone.altName}
                 </Typography>
                 <ScheduleSelector
-                    selection={invitation.schedule.schedule}
+                    selection={availableTimeSlots}
+                    pastSelection={pastSelection}
                     selectionScheme={invitation.schedule.selectionScheme}
                     startDate={invitation.schedule.startDate}
                     numDays={invitation.schedule.numDays}
@@ -129,23 +152,20 @@ export default function InvitationCard({invitation, userEmail, state}) {
                     maxTime={invitation.schedule.timeInterval[1]}
                     hourlyChunks={invitation.schedule.hourlyChunk}
                     timeFormat={"h:mma"}
-                    // onChange={(newSchedule) => {
-                    //     let newScheduleArray = newSchedule.map((slot) => {
-                    //         return JSON.parse(JSON.stringify(slot));
-                    //     });
-                    //     dispatch(updateSchedule(newScheduleArray));
-                    // }}
+                    onChange={setAvailableTimeSlots}
                 />
                 <CardActions disableSpacing>
                 <IconButton
                 aria-label="Accept"
                 onClick={handleAcceptClick}
+                disabled={state === "accepted"}
                 >
                 <CheckIcon />
                 </IconButton>
                 <IconButton
                 aria-label="Decline"
                 onClick={handleDeclineClick}
+                disabled={state === "declined"}
                 >
                 <CloseIcon />
                 </IconButton>

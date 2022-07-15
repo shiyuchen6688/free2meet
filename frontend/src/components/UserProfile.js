@@ -61,7 +61,7 @@ export default function UserProfile(prop) {
 
     // errors
     let error = useSelector(state => state.usersReducer.error)
-    console.log(error)
+    // console.log(error)
 
 
     return (

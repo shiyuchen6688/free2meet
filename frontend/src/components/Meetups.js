@@ -3,6 +3,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import ToolBar from './ToolBar';
+import styled, { createGlobalStyle } from 'styled-components'
+import ScheduleSelector from './timetable/ScheduleSelector';
+import { useState } from 'react';
+
 
 export default function Meetups() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -15,6 +19,7 @@ export default function Meetups() {
             }),
         [prefersDarkMode],
     );
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />

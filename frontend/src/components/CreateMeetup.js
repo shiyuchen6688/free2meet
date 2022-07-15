@@ -56,11 +56,18 @@ export default function CreateMeetup() {
 
         // At the last step, submit the newlly created meetup to backup
         if (activeStep === (steps.length - 1)) {
+            let newMeetupSchedule = {};
+            for (let i = 0; i < meetupSchedule.schedule.length; i++) {
+                let date = meetupSchedule.schedule[i].replace('.', '|');
+                newMeetupSchedule[date] = [creator.email];
+            }
+            let meetupScheduleCopy = {...meetupSchedule};
+            meetupScheduleCopy.schedule = newMeetupSchedule;
             dispatch(addMeetupAsync({
                 title: titleAndDetailInput['meetup-title'],
                 description: titleAndDetailInput['meetup-description'],
                 location: meetupLocation,
-                schedule: meetupSchedule,
+                schedule: meetupScheduleCopy,
                 invitees: meetupInvitation,
                 creator: creator
             }));

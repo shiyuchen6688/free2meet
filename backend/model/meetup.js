@@ -30,7 +30,7 @@ const meetupSchema = new mongoose.Schema({
     description: String,
     location: [subSchemaLocation],
     schedule: {
-        schedule: [String],
+        schedule: Object,
         timezone: {
             value: String,
             label: String,

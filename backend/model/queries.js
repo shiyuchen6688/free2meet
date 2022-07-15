@@ -171,8 +171,37 @@ const queries = {
         }
         return 'invalid';
     },
+    // Given a user email, a meetup id and a timeslot, push the user email to meetup's schedule.schedule[timeslot]
+    addUserToTimeslots: async (userEmail, meetupId, timeslots) => {
+        let meetup = await Meetup.findOne({ id: meetupId });
+        for (let i = 0; i < timeslots.length; i++) {
+            try {
+                meetup.schedule.schedule[timeslots[i]].push(userEmail);
+            } catch {
+                meetup.schedule.schedule[timeslots[i]] = [userEmail];
+            }
+        }
+        await Meetup.findOneAndUpdate({ id: meetupId }, { $set: { schedule: meetup.schedule } }, { new: true });
+        return meetup;
+    },
+    // Given a user email, a meetup id and a timeslot, remove the user email from meetup's schedule.schedule[timeslot]
+    removeUserFromTimeslots: async (userEmail, meetupId, timeslots) => {
+        let meetup = await Meetup.findOne({ id: meetupId });
+        for (let i = 0; i < timeslots.length; i++) {
+            let index = meetup.schedule.schedule[timeslots[i]].indexOf(userEmail);
+            if (index > -1) {
+                meetup.schedule.schedule[timeslots[i]].splice(index, 1);
+                if (meetup.schedule.schedule[timeslots[i]].length === 0) {
+                    delete meetup.schedule.schedule[timeslots[i]];
+                }
+            }
+        }
+        await Meetup.findOneAndUpdate({ id: meetupId }, { $set: { schedule: meetup.schedule } }, { new: true });
+        return meetup;
+    },
     // Given a user email and a meetup id, returns all the meetups that the user has accepted
-    declineInvitation: async (userEmail, meetup) => {
+    declineInvitation: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
+        console.log("Declining invitation");
         let invitationState = await queries.getInvitationState(userEmail, meetup);
         if (invitationState === 'pending') {
             // remove meetup from user's meetupsPending
@@ -182,8 +211,10 @@ const queries = {
         } else if (invitationState === 'accepted') {
             // remove meetup from user's meetupsAccepted
             await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsAccepted: { meetupId: meetup } } }, { new: true });
-            // add meetup to user's meetupsDeclined
+            // add meetup to user's meetupsDeclined]
             await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
+            await queries.removeUserFromTimeslots(userEmail, meetup, availableTimeSlots);
+            await Meetup.findOneAndUpdate({ id: meetup }, { $pull: { attendees: userEmail } }, { new: true });
         }
         // get all pending & accepted & declined meetups for user (run in parallel)
         let promises = [];
@@ -196,6 +227,7 @@ const queries = {
     },
     // Given a user email and a meetup id and availability (locations and time slots), returns all pending and accepted meetups for that user
     acceptInvitation: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
+        console.log("acceptInvitation");
         let invitationState = await queries.getInvitationState(userEmail, meetup);
         if (invitationState === 'pending') {
             // remove meetup from user's meetupsPending
@@ -203,12 +235,16 @@ const queries = {
             // add meetup to user's meetupsAccepted
             let a = { meetupId: meetup, availableLocations: availableLocations, availableTimeSlot: availableTimeSlots };
             await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true });
+            await queries.addUserToTimeslots(userEmail, meetup, availableTimeSlots);
+            await Meetup.findOneAndUpdate({ id: meetup }, { $push: { attendees: userEmail } }, { new: true });
         } else if (invitationState === 'declined') {
             // remove meetup from user's meetupsDeclined
             await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsDeclined: meetup } }, { new: true });
             // add meetup to user's meetupsAccepted
             let a = { meetupId: meetup, availableLocations: availableLocations, availableTimeSlot: availableTimeSlots };
             await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true });
+            await queries.addUserToTimeslots(userEmail, meetup, availableTimeSlots);
+            await Meetup.findOneAndUpdate({ id: meetup }, { $push: { attendees: userEmail } }, { new: true });
         }
         // get all pending & accepted & declined meetups for user (run in parallel)
         let promises = [];
