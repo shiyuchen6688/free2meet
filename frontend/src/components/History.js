@@ -298,7 +298,6 @@ export default function History() {
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    {/* COMMENT OUT FOR NOW FOR GOOGLE MAP. DO NOT DELETE */}
                     <Typography component="h1" variant="h4" align="center">
                         Past Locations
                     </Typography>
