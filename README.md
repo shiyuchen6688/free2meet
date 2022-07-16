@@ -66,5 +66,5 @@
 
 ## Prototypes
 ![Image1](https://github.com/shiyuchen6688/free2meet/blob/main/p1.jpg?raw=true)
-![Image2](https://github.com/shiyuchen6688/free2meet/main/prototypes/p2.jpg?raw=true)
+![Image2](https://github.com/shiyuchen6688/free2meet/blob/main/p2.jpg?raw=true)
 ![Image3](https://github.com/shiyuchen6688/free2meet/blob/main/p3.jpg?raw=true)
