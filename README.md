@@ -34,9 +34,9 @@
 ## Project Task Requirements
 
 - Minimal requirements
-	- An account system that could handle signing up, logging in, and deleting account. It should also store user's personal information with different visibility. (i.e. Password/User ID are not supposed to be public; Timezone/Email can be public given users' permissions).
+	- An account system that could handle signing up, logging in, and deleting account. It should also store user's personal information with different visibility. (i.e. password/friendlist are not supposed to be public; username/email can be public given users' permissions).
 	- A posting system that could handle posting a new event, joining an existing event, delete a posted event.
-	- A scheduling system that contains all the time slots information for each event and each user. It should calculate and return time slots that all participating users are available for each event.
+	- A scheduling system that contains the timezone infomation and the time slots information for each event and each user. It should calculate and return time slots that all participating users are available for each event.
 	- A tracing system that could trace all events joined, all people met, etc.
 	- User-friend frontend. Every webpage should contain all the necessary information and functions with appropriate layout, and needs to be responsive and interactive.
 -  Standard requirements
@@ -49,8 +49,7 @@
 	- Incorporate Google Maps API to let users easily add a location to their events. 
 - Stretch requirements
 	- A smarter recommender system that coule automatically generate best times and location for meetup based on existing user inputs.
-	- A timezone adjusting system that could adjuest availability based on different timezone (useful for remote meetings).
-	- A chat system such that user could create different spaces (i.e. workspace, gamespace, etc.) with different group members and different visibility (i.e. public/invitation only). Users could explore and join public spaces.
+	- A chat system such that user could create different spaces (i.e. workspace, gamespace, etc.) with different group members. Users can edit space name and space profile picture. Users can send text and files in the space they created. Images, videos and links files can be previewed and downloaded; other formats of files can be downloaded. Users can also react to the messages in the space with emojis and quote-reply messages. Users can search for messages in the space. Operators kick users out of the space, promote members to operators, demote other operators to members, mute certain users, freeze/unfreeze the space so that only operators can send messages. Operators and members can invite users to join the space, and they can leave the space if they want. Message senders can also delete and edit their own messages.
 	- Implement use of JSON web token to securely send user data between the website and the server. 
 
 ## Project Tasks
@@ -66,6 +65,6 @@
   - Create UI that allows only the creator of the post to delete the event post
 
 ## Prototypes
-![Image1](https://github.com/shiyuchen6688/free2meet/blob/prototypes/p1.jpg?raw=true)
-![Image2](https://github.com/shiyuchen6688/free2meet/blob/prototypes/p2.jpg?raw=true)
-![Image3](https://github.com/shiyuchen6688/free2meet/blob/prototypes/p3.jpg?raw=true)
+![Image1](https://github.com/shiyuchen6688/free2meet/blob/main/p1.jpg?raw=true)
+![Image2](https://github.com/shiyuchen6688/free2meet/main/prototypes/p2.jpg?raw=true)
+![Image3](https://github.com/shiyuchen6688/free2meet/blob/main/p3.jpg?raw=true)
