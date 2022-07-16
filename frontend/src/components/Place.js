@@ -32,6 +32,8 @@ export default function Place({ item, deleteMarker, focusPlace, zoom, invitation
             <CardActionArea onClick={()=>{
                 if (invitation) {
                     setSelected(!selected);
+                } else if (focusPlace) {
+                    focusPlace(item.lat, item.lng);
                 }
             }}>
                 <CardHeader
