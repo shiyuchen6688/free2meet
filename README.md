@@ -36,7 +36,7 @@
 - Minimal requirements
 	- An account system that could handle signing up, logging in, and deleting account. It should also store user's personal information with different visibility. (i.e. Password/User ID are not supposed to be public; Timezone/Email can be public given users' permissions).
 	- A posting system that could handle posting a new event, joining an existing event, delete a posted event.
-	- A scheduling system that contains all the time slots information for each event and each user. It should calculate and return time slots that all participating users are available for each event and automatically detect people's timezones to facilitate meetings between participants across time zones. 
+	- A scheduling system that contains the timezone infomation and the time slots information for each event and each user. It should calculate and return time slots that all participating users are available for each event.
 	- A tracing system that could trace all events joined, all people met, etc.
 	- User-friend frontend. Every webpage should contain all the necessary information and functions with appropriate layout, and needs to be responsive and interactive.
 -  Standard requirements
