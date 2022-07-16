@@ -36,7 +36,7 @@
 - Minimal requirements
 	- An account system that could handle signing up, logging in, and deleting account. It should also store user's personal information with different visibility. (i.e. Password/User ID are not supposed to be public; Timezone/Email can be public given users' permissions).
 	- A posting system that could handle posting a new event, joining an existing event, delete a posted event.
-	- A scheduling system that contains all the time slots information for each event and each user. It should calculate and return time slots that all participating users are available for each event.
+	- A scheduling system that contains all the time slots information for each event and each user. It should calculate and return time slots that all participating users are available for each event and automatically detect people's timezones to facilitate meetings between participants across time zones. 
 	- A tracing system that could trace all events joined, all people met, etc.
 	- User-friend frontend. Every webpage should contain all the necessary information and functions with appropriate layout, and needs to be responsive and interactive.
 -  Standard requirements
@@ -49,7 +49,6 @@
 	- Incorporate Google Maps API to let users easily add a location to their events. 
 - Stretch requirements
 	- A smarter recommender system that coule automatically generate best times and location for meetup based on existing user inputs.
-	- A timezone adjusting system that could adjuest availability based on different timezone (useful for remote meetings).
 	- A chat system such that user could create different spaces (i.e. workspace, gamespace, etc.) with different group members and different visibility (i.e. public/invitation only). Users could explore and join public spaces.
 	- Implement use of JSON web token to securely send user data between the website and the server. 
 
