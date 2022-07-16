@@ -146,7 +146,7 @@ export default class ScheduleSelector extends React.Component {
     hourlyChunks: 1,
     startDate: new Date(),
     timeFormat: 'ha',
-    dateFormat: 'M/d',
+    dateFormat: 'MM/DD',
     margin: 3,
     selectedColor: colors('blue', 5),
     unselectedColor: colors('grey', 1),
