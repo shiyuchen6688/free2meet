@@ -236,7 +236,7 @@ export default function History() {
             `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
             () => handleScriptLoad(mapRef)
         );
-    }, []);
+    }, [eventsJSON.length]);
     document.getElementsByTagName("head")[0].appendChild(script);
     // for google map -------------------------------------------------------------->>>>>
 
