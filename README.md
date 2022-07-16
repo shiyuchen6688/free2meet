@@ -40,16 +40,18 @@
 	- A tracing system that could trace all events joined, all people met, etc.
 	- User-friend frontend. Every webpage should contain all the necessary information and functions with appropriate layout, and needs to be responsive and interactive.
 -  Standard requirements
-	- A connection system that could handle adding friends, removing friends, assigning relationship, and changing relationship. Users could choose information/events visibility based on connection/relationship.
+	- A connection system that could handle adding friends and removing friends.
 	- An invitation system that could invite users to join an event. Users would be able to view the event and decide whether to join or not with the invitation.
-	- A grouping system such that user could create different spaces (i.e. workspace, gamespace, etc.) with different group members and different visibility (i.e. public/invitation only). Users could explore and join public spaces.
+	- Profile page for each user and customized avatar.
 	- A recommender system that could recommend/filter attendees based on location and meetup history, and time slots based on the current attendees' time availability.
 	- Visualization of location and time information for each event.
 	- A tagging system such that users/events/spaces could have different tags.
+	- Incorporate Google Maps API to let users easily add a location to their events. 
 - Stretch requirements
 	- A smarter recommender system that coule automatically generate best times and location for meetup based on existing user inputs.
 	- A timezone adjusting system that could adjuest availability based on different timezone (useful for remote meetings).
-	- Profile page for each user and customized avatar.
+	- A chat system such that user could create different spaces (i.e. workspace, gamespace, etc.) with different group members and different visibility (i.e. public/invitation only). Users could explore and join public spaces.
+	- Implement use of JSON web token to securely send user data between the website and the server. 
 
 ## Project Tasks
 
