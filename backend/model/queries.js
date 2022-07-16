@@ -174,11 +174,13 @@ const queries = {
     // Given a user email, a meetup id and a timeslot, push the user email to meetup's schedule.schedule[timeslot]
     addUserToTimeslots: async (userEmail, meetupId, timeslots) => {
         let meetup = await Meetup.findOne({ id: meetupId });
-        for (let i = 0; i < timeslots.length; i++) {
-            try {
-                meetup.schedule.schedule[timeslots[i]].push(userEmail);
-            } catch {
-                meetup.schedule.schedule[timeslots[i]] = [userEmail];
+        if (meetup.schedule.schedule !== undefined) {
+            for (let i = 0; i < timeslots.length; i++) {
+                try {
+                    meetup.schedule.schedule[timeslots[i]].push(userEmail);
+                } catch {
+                    meetup.schedule.schedule[timeslots[i]] = [userEmail];
+                }
             }
         }
         await Meetup.findOneAndUpdate({ id: meetupId }, { $set: { schedule: meetup.schedule } }, { new: true });
@@ -187,12 +189,14 @@ const queries = {
     // Given a user email, a meetup id and a timeslot, remove the user email from meetup's schedule.schedule[timeslot]
     removeUserFromTimeslots: async (userEmail, meetupId, timeslots) => {
         let meetup = await Meetup.findOne({ id: meetupId });
-        for (let i = 0; i < timeslots.length; i++) {
-            let index = meetup.schedule.schedule[timeslots[i]].indexOf(userEmail);
-            if (index > -1) {
-                meetup.schedule.schedule[timeslots[i]].splice(index, 1);
-                if (meetup.schedule.schedule[timeslots[i]].length === 0) {
-                    delete meetup.schedule.schedule[timeslots[i]];
+        if (meetup.schedule.schedule !== undefined) {
+            for (let i = 0; i < timeslots.length; i++) {
+                let index = meetup.schedule.schedule[timeslots[i]].indexOf(userEmail);
+                if (index > -1) {
+                    meetup.schedule.schedule[timeslots[i]].splice(index, 1);
+                    if (meetup.schedule.schedule[timeslots[i]].length === 0) {
+                        delete meetup.schedule.schedule[timeslots[i]];
+                    }
                 }
             }
         }

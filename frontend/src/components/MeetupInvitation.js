@@ -20,6 +20,8 @@ export default function MeetupInvitation() {
     const currentUser = useSelector(state => state.usersReducer);
     React.useEffect(() => {
         dispatch(getFriendsAsync(currentUser.email));
+        // clear the state so that the frontend can be consistent with the redux state
+        handleChange([]);
     }, [dispatch, currentUser.email]);
 
     const friends = currentUser.friends.map(friend => {
