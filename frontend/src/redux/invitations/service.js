@@ -31,9 +31,11 @@ const getInvitationsPending = async (email) => {
 
     for (let i = 0; i < data.length; i++) {
         let newSchedule = {};
-        let keys = Object.keys(data[i].schedule.schedule);
-        for (let j = 0; j < keys.length; j++) {
-            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        if (data[i].schedule.schedule !== undefined) {
+            let keys = Object.keys(data[i].schedule.schedule);
+            for (let j = 0; j < keys.length; j++) {
+                newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+            }
         }
         data[i].schedule.schedule = newSchedule;
     }
@@ -56,12 +58,14 @@ const getInvitationsAccepted = async (email) => {
     });
 
     const data = await response.json();
-    
+
     for (let i = 0; i < data.length; i++) {
         let newSchedule = {};
-        let keys = Object.keys(data[i].schedule.schedule);
-        for (let j = 0; j < keys.length; j++) {
-            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        if (data[i].schedule.schedule !== undefined) {
+            let keys = Object.keys(data[i].schedule.schedule);
+            for (let j = 0; j < keys.length; j++) {
+                newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+            }
         }
         data[i].schedule.schedule = newSchedule;
     }
@@ -83,12 +87,14 @@ const getInvitationsDeclined = async (email) => {
     });
 
     const data = await response.json();
-    
+
     for (let i = 0; i < data.length; i++) {
         let newSchedule = {};
-        let keys = Object.keys(data[i].schedule.schedule);
-        for (let j = 0; j < keys.length; j++) {
-            newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+        if (data[i].schedule.schedule !== undefined) {
+            let keys = Object.keys(data[i].schedule.schedule);
+            for (let j = 0; j < keys.length; j++) {
+                newSchedule[keys[j].replace('|', '.')] = data[i].schedule.schedule[keys[j]];
+            }
         }
         data[i].schedule.schedule = newSchedule;
     }
@@ -117,9 +123,11 @@ const acceptInvitation = async (info) => {
     for (let a = 0; a < types.length; a++) {
         for (let i = 0; i < data[types[a]].length; i++) {
             let newSchedule = {};
-            let keys = Object.keys(data[types[a]][i].schedule.schedule);
-            for (let j = 0; j < keys.length; j++) {
-                newSchedule[keys[j].replace('|', '.')] = data[types[a]][i].schedule.schedule[keys[j]];
+            if (data[types[a]][i].schedule.schedule !== undefined) {
+                let keys = Object.keys(data[types[a]][i].schedule.schedule);
+                for (let j = 0; j < keys.length; j++) {
+                    newSchedule[keys[j].replace('|', '.')] = data[types[a]][i].schedule.schedule[keys[j]];
+                }
             }
             data[types[a]][i].schedule.schedule = newSchedule;
         }
@@ -141,7 +149,7 @@ const declineInvitation = async (info) => {
             'Content-Type': 'application/json',
             'x-access-token': localStorage.getItem("token")
         },
-        body: JSON.stringify( info )
+        body: JSON.stringify(info)
     });
 
     const data = await response.json()
@@ -150,9 +158,11 @@ const declineInvitation = async (info) => {
     for (let a = 0; a < types.length; a++) {
         for (let i = 0; i < data[types[a]].length; i++) {
             let newSchedule = {};
-            let keys = Object.keys(data[types[a]][i].schedule.schedule);
-            for (let j = 0; j < keys.length; j++) {
-                newSchedule[keys[j].replace('|', '.')] = data[types[a]][i].schedule.schedule[keys[j]];
+            if (data[types[a]][i].schedule.schedule !== undefined) {
+                let keys = Object.keys(data[types[a]][i].schedule.schedule);
+                for (let j = 0; j < keys.length; j++) {
+                    newSchedule[keys[j].replace('|', '.')] = data[types[a]][i].schedule.schedule[keys[j]];
+                }
             }
             data[types[a]][i].schedule.schedule = newSchedule;
         }
