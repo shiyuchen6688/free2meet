@@ -88,3 +88,11 @@ export const changeUsernameAsync = createAsyncThunk(
         return await UsersService.changeUsername(email, password, newUsername)
     }
 );
+
+export const getMeetupsCreatedAsync = createAsyncThunk(
+    actionTypes.GET_MEETUPS_CREATED,
+    async(email) => {
+        console.log("getMeetupsCreatedAsync")
+        return await UsersService.getMeetupsCreated(email);
+    }
+)

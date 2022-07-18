@@ -73,14 +73,14 @@ export default function UserProfile(prop) {
         >
             <DialogTitle>{"Welcome"}</DialogTitle>
 
-            {error && (
+            {/* {error && (
                 <DialogContentText>
                     <Alert severity="error">
                         <AlertTitle>Error</AlertTitle>
                         {error.message} — <strong>request failed, please retry!</strong>
                     </Alert>
                 </DialogContentText>
-            )}
+            )} */}
 
             <DialogContent>
                 <DialogContentText>

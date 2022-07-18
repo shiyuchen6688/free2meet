@@ -12,6 +12,7 @@ import {
 const INITIAL_STATE = {
     username: null,
     email: null,
+    list: [],
     friends: [],
     friendsRequests: [],
     friendsRequestsSent: [],
@@ -27,6 +28,7 @@ const INITIAL_STATE = {
     deleteFriend: REQUEST_STATE.IDLE,
     changePassword: REQUEST_STATE.IDLE,
     changeUsername: REQUEST_STATE.IDLE,
+    getMeetupsAcceptedAsync: REQUEST_STATE.IDLE,
     error: null
 };
 
@@ -191,6 +193,18 @@ const usersSlice = createSlice({
             })
             .addCase(changeUsernameAsync.rejected, (state, action) => {
                 state.changeUsername = REQUEST_STATE.REJECTED;
+                state.error = action.error;
+            })
+            .addCase(getMeetupsCreatedAsync.pending, (state) => {
+                state.getMeetupsCreatedAsync = REQUEST_STATE.PENDING;
+                state.error = null;
+            })
+            .addCase(getMeetupsCreatedAsync.fulfilled, (state, action) => {
+                state.getMeetupsCreatedAsync = REQUEST_STATE.FULFILLED;
+                state.list = action.payload
+            })
+            .addCase(getMeetupsCreatedAsync.rejected, (state, action) => {
+                state.getMeetupsCreatedAsync = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
     }

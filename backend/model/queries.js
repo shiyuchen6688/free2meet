@@ -46,6 +46,7 @@ const queries = {
     // Given a user email, returns all meetups the user created
     getMeetupsCreated: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
+        console.log(user);
         let meetups = await Meetup.find({ id: { $in: user.meetupsCreated } });
         // for each meetup, find the creator's email, get the creator's username, change the creator's email to {email: creatorEmail, username: creatorUsername}
         for (let i = 0; i < meetups.length; i++) {
@@ -60,6 +61,7 @@ const queries = {
             }
             meetups[i] = { ...meetups[i]._doc, creator: { email: email, username: username } };
         }
+        console.log(meetups);
         return meetups;
     },
     // Returns a list of all users
