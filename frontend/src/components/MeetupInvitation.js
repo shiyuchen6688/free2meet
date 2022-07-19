@@ -1,4 +1,5 @@
 import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 import { Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -80,7 +81,7 @@ export default function MeetupInvitation() {
                         timeFormat={"h:mma"}
                         renderDateCell={(time, selected, innerRef) => (
                             <div style={{ textAlign: 'center' }} ref={innerRef}>
-                                {selected ? <CheckIcon /> : ""}
+                                {selected ? <CheckIcon style={{ color: "green" }} /> : <ClearIcon style={{ color: "red" }} />}
                             </div>
                         )}
                     />
