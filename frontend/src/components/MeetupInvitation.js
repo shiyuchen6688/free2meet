@@ -1,14 +1,15 @@
+import CheckIcon from '@mui/icons-material/Check';
 import { Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ScheduleSelector from 'react-schedule-selector';
 import CreatableSelect from 'react-select/creatable';
 import "../App.css";
-import Place from './Place';
-import { useSelector, useDispatch } from 'react-redux';
 import { changeInvitee } from '../redux/actions/actions';
 import { getFriendsAsync } from '../redux/users/thunks';
+import Place from './Place';
 
 export default function MeetupInvitation() {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export default function MeetupInvitation() {
     }, [dispatch, currentUser.email]);
 
     const friends = currentUser.friends.map(friend => {
-        return {  label: friend.username, value: friend.email };
+        return { label: friend.username, value: friend.email };
     });
 
     let handleChange = (newValue) => {
@@ -69,7 +70,7 @@ export default function MeetupInvitation() {
                 <Typography variant="h6" gutterBottom>
                     Time Availability: {allScheduleInfo.schedule.length === 0 ? "Not Selected" : ""}
                 </Typography>
-                {allScheduleInfo.schedule.length !== 0 && <div>
+                {allScheduleInfo.schedule.length !== 0 && <div style={{ pointerEvents: "none" }}>
                     <ScheduleSelector
                         selection={allScheduleInfo.schedule}
                         numDays={allScheduleInfo.numDays}
@@ -79,7 +80,7 @@ export default function MeetupInvitation() {
                         timeFormat={"h:mma"}
                         renderDateCell={(time, selected, innerRef) => (
                             <div style={{ textAlign: 'center' }} ref={innerRef}>
-                                {selected ? '✅' : '❌'}
+                                {selected ? <CheckIcon /> : ""}
                             </div>
                         )}
                     />

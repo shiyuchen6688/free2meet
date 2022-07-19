@@ -38,6 +38,7 @@
 .dropdownMeunDark {
   filter: invert(1);
   color: black;
+  z-index: 1;
 }
 
 .custom-map-control-button {
