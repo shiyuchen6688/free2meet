@@ -117,7 +117,6 @@ function removeGoogleMapScript() {
 }
 
 const loadScript = (url, callback) => {
-    removeGoogleMapScript();
     script.type = "text/javascript";
     if (script.readyState) {
         script.onreadystatechange = function () {
@@ -232,10 +231,13 @@ export default function History() {
     const mapRef = useRef(null);
     script = document.createElement("script");
     useEffect(() => {
-        loadScript(
-            `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
-            () => handleScriptLoad(mapRef)
-        );
+        removeGoogleMapScript();
+        if (eventsJSON.length > 0) {
+            loadScript(
+                `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
+                () => handleScriptLoad(mapRef)
+            );
+        }
     }, [eventsJSON.length]);
     document.getElementsByTagName("head")[0].appendChild(script);
     // for google map -------------------------------------------------------------->>>>>
@@ -298,14 +300,21 @@ export default function History() {
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+
                     <Typography component="h1" variant="h4" align="center">
                         Past Locations
                     </Typography>
-                    <Typography component="h1" variant="body1" align="center">
-                        Click on the marker to see more information!
-                    </Typography>
-                    <div ref={mapRef} id='map' />
-                    <Button variant="outlined" fullWidth sx={{ my: 1 }} onClick={fitBounds}>Display All Locations On The Map</Button>
+                    {eventsJSON.length === 0 ? <Typography component="h1" variant="body1" align="center">
+                        No past locations
+                    </Typography> :
+                        <>
+                            <Typography component="h1" variant="body1" align="center">
+                                Click on the marker to see more information!
+                            </Typography>
+                            <div ref={mapRef} id='map' />
+                            <Button variant="outlined" fullWidth sx={{ my: 1 }} onClick={fitBounds}>Display All Locations On The Map</Button>
+                        </>
+                    }
 
                     <Typography component="h1" variant="h4" align="center">
                         Past Events

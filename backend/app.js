@@ -23,7 +23,7 @@ mongoose.connect('mongodb+srv://free2meet:free2meet@cluster0.ustzz.mongodb.net/?
 });
 
 // generate mock data for testing (users and meetups)
-// generateData();
+generateData();
 
 // Enable Cors
 app.use(cors());
