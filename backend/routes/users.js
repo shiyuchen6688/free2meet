@@ -360,8 +360,20 @@ router.post('/:email/friends/delete', function (req, res, next) {
 router.delete('/:email/delete-account', async function (req, res, next) {
     const email = req.params.email;
 
-    deleteResult = await queries.deleteUserByEmail(email)
+    // delete meetups this user created
+    meetupsCreated = await queries.getMeetupsCreated(email)
+    for (m of meetupsCreated) {
+        await queries.deleteMeetupById(m.id)
+    }
 
+    // delete user from meetups that invited this user
+    meetupsInvited = await queries.getMeetupsByInvitedUser(email)
+    for (m of meetupsInvited) {
+        await queries.deleteUserFromMeetupInvitees(email, m)
+    }
+
+    // delete user
+    deleteResult = await queries.deleteUserByEmail(email)
     return res.status(200).send(deleteResult)
 })
 module.exports = router;
