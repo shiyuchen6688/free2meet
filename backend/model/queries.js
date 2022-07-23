@@ -383,6 +383,7 @@ const queries = {
     },
     // Delete user by email
     deleteUserByEmail: async (userEmail) => {
+        userCache.delete(userEmail);
         return await User.findOneAndDelete({ email: userEmail })
     }
 };
