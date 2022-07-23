@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
-import { changePasswordAsync, changeUsernameAsync } from '../redux/users/thunks';
+import { changePasswordAsync, changeUsernameAsync, deleteUserAccountAsync } from '../redux/users/thunks';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 
@@ -59,6 +59,11 @@ export default function UserProfile(prop) {
         }
     }
 
+    // Delete account of current user
+    const deleteAccount = () => {
+        dispatch(deleteUserAccountAsync(currentUser.email))
+    }
+
     // errors
     let error = useSelector(state => state.usersReducer.error)
     // console.log(error)
@@ -73,14 +78,6 @@ export default function UserProfile(prop) {
         >
             <DialogTitle>{"Welcome"}</DialogTitle>
 
-            {/* {error && (
-                <DialogContentText>
-                    <Alert severity="error">
-                        <AlertTitle>Error</AlertTitle>
-                        {error.message} — <strong>request failed, please retry!</strong>
-                    </Alert>
-                </DialogContentText>
-            )} */}
 
             <DialogContent>
                 <DialogContentText>
@@ -100,12 +97,14 @@ export default function UserProfile(prop) {
                         handleFullScreenClickOpen()
                     }}>Change Password</Button>
                 </DialogContentText>
+
+                <DialogContentText>
+                    <Button variant="text" onClick={e => {
+                        deleteAccount()
+                    }}>Delete Account</Button>
+                </DialogContentText>
             </DialogContent>
 
-            {/* <ChangeForm toChange={toChange} open={fullScreenOpen} handleClose={handleFullScreenClose}
-                password={password} newUsername={newUsername} oldPassword={oldPassword} newPassword={newPassword}
-                setPassword={setPassword} setNewUsername={setNewUsername} setOldPassword={setOldPassword} setNewPassword={setNewPassword}
-            /> */}
             {/* Change Form */}
             <Dialog
                 fullScreen
@@ -207,98 +206,4 @@ export default function UserProfile(prop) {
     )
 }
 
-
-// function ChangeForm(prop) {
-//     let { toChange, open, handleClose, password, newUsername, oldPassword, newPassword,
-//         setPassword, setNewUsername, setOldPassword, setNewPassword } = prop
-
-
-//     return (
-//         <Dialog
-//             fullScreen
-//             open={open}
-//             onClose={handleClose}
-//             TransitionComponent={Transition}
-//         >
-//             <AppBar sx={{ position: 'relative' }}>
-//                 <Toolbar>
-//                     <IconButton
-//                         edge="start"
-//                         color="inherit"
-//                         onClick={handleClose}
-//                         aria-label="close"
-//                     >
-//                         <CloseIcon />
-//                     </IconButton>
-//                     <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-//                         {"Change " + toChange}
-//                     </Typography>
-//                     <Button autoFocus type="contained" onClick={handleClose} endIcon={<SendIcon />}>
-//                         Update
-//                     </Button>
-//                 </Toolbar>
-//             </AppBar>
-//             <DialogContent>
-//                 <DialogContentText>
-//                     {"To change your " + toChange + ", please enter your " +
-//                         (toChange == "email" ? "password" : "old password") + " and new " + toChange}
-//                 </DialogContentText>
-//                 {toChange == "email" ? (
-//                     <div>
-//                         <TextField
-//                             autoFocus
-//                             margin="dense"
-//                             id="password"
-//                             label="Password"
-//                             type="text"
-//                             fullWidth
-//                             variant="standard"
-//                             value={password}
-//                             onChange={e => setPassword(e.target.value)}
-//                         />
-//                         <TextField
-//                             autoFocus
-//                             margin="dense"
-//                             id="new_email"
-//                             label="New Email Address"
-//                             type="email"
-//                             fullWidth
-//                             variant="standard"
-//                             value={newUsername}
-//                             onChange={e => setnewUsername(e.target.value)}
-//                         />
-//                     </div>
-//                 ) : (
-//                     <div>
-//                         <TextField
-//                             autoFocus
-//                             margin="dense"
-//                             id="old_password"
-//                             label="Old Password"
-//                             type="text"
-//                             fullWidth
-//                             variant="standard"
-//                             value={oldPassword}
-//                             onChange={e => setOldPassword(e.target.value)}
-//                         />
-//                         <TextField
-//                             autoFocus
-//                             margin="dense"
-//                             id="new_password"
-//                             label="New Password"
-//                             type="text"
-//                             fullWidth
-//                             variant="standard"
-//                             value={newPassword}
-//                             onChange={e => setNewPassword(e.target.value)}
-//                         />
-//                     </div>
-//                 )}
-
-//             </DialogContent>
-
-
-//         </Dialog>
-//     )
-// }
 

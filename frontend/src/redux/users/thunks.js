@@ -91,8 +91,16 @@ export const changeUsernameAsync = createAsyncThunk(
 
 export const getMeetupsCreatedAsync = createAsyncThunk(
     actionTypes.GET_MEETUPS_CREATED,
-    async(email) => {
+    async (email) => {
         console.log("getMeetupsCreatedAsync")
         return await UsersService.getMeetupsCreated(email);
+    }
+)
+
+export const deleteUserAccountAsync = createAsyncThunk(
+    actionTypes.DELETE_USER_ACCOUNT,
+    async (email) => {
+        console.log("deleteUserAccountAsync", email)
+        return await UsersService.deleteUserAccount(email);
     }
 )
