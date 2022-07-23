@@ -255,6 +255,23 @@ const deleteFriend = async (email, friendEmail) => {
     return data
 }
 
+// Delete user's account
+const deleteUserAccount = async (userEmail) => {
+    const response = await fetch(`http://localhost:3001/users/${userEmail}/delete-account`, {
+        method: 'DELETE'
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        console.log('Error in deleteUser')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+        throw new Error(errorMsg)
+    }
+    return data
+}
+
 const exportedService = {
     login,
     register,
@@ -268,7 +285,8 @@ const exportedService = {
     sendFriendRequest,
     deleteFriend,
     changeUsername,
-    changePassword
+    changePassword,
+    deleteUserAccount
 }
 
 export default exportedService;

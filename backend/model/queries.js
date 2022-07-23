@@ -355,6 +355,10 @@ const queries = {
         // update user's username in cache
         userCache.set(userEmail, newField.username);
         return await User.findOneAndUpdate({ email: userEmail }, newField, { new: true });
+    },
+    // Delete user by email
+    deleteUserByEmail: async (userEmail) => {
+        return await User.findOneAndDelete({ email: userEmail })
     }
 };
 

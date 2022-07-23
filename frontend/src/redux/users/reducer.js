@@ -6,7 +6,7 @@ import {
     loginAsync, registerAsync, resetPasswordAsync, getFriendRequestsAsync,
     getFriendRequestsSentAsync, acceptFriendRequestAsync, declineFriendRequestAsync,
     sendFriendRequestAsync, deleteFriendAsync, acceptMeetupAsync,
-    changePasswordAsync, changeUsernameAsync
+    changePasswordAsync, changeUsernameAsync, deleteUserAccountAsync
 } from './thunks';
 
 const INITIAL_STATE = {
@@ -29,6 +29,7 @@ const INITIAL_STATE = {
     changePassword: REQUEST_STATE.IDLE,
     changeUsername: REQUEST_STATE.IDLE,
     getMeetupsAcceptedAsync: REQUEST_STATE.IDLE,
+    deleteUserAccountAsync: REQUEST_STATE.IDLE,
     error: null
 };
 
@@ -205,6 +206,25 @@ const usersSlice = createSlice({
             })
             .addCase(getMeetupsCreatedAsync.rejected, (state, action) => {
                 state.getMeetupsCreatedAsync = REQUEST_STATE.REJECTED;
+                state.error = action.error;
+            })
+            .addCase(deleteUserAccountAsync.pending, (state) => {
+                state.deleteUserAccountAsync = REQUEST_STATE.PENDING;
+                state.error = null;
+            })
+            .addCase(deleteUserAccountAsync.fulfilled, (state, action) => {
+                state.deleteUserAccountAsync = REQUEST_STATE.FULFILLED;
+                let deletedUser = action.payload
+                if (deletedUser.username == state.username) {
+                    console.log("deleting user")
+                    state.username = null
+                    state.email = null
+                    window.localStorage.removeItem('token');
+                    window.location.reload(false);
+                }
+            })
+            .addCase(deleteUserAccountAsync.rejected, (state, action) => {
+                state.deleteUserAccountAsync = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
     }

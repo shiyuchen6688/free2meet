@@ -357,4 +357,11 @@ router.post('/:email/friends/delete', function (req, res, next) {
     });
 });
 
+router.delete('/:email/delete-account', async function (req, res, next) {
+    const email = req.params.email;
+
+    deleteResult = await queries.deleteUserByEmail(email)
+
+    return res.status(200).send(deleteResult)
+})
 module.exports = router;
