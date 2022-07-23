@@ -64,6 +64,31 @@ const queries = {
         console.log(meetups);
         return meetups;
     },
+    // Given a user email, returns all meetups that invited the user
+    // include all pending, accepted and decline
+    getMeetupsByInvitedUser: async (userEmail) => {
+        let user = await User.findOne({ email: userEmail });
+
+        let meetupsPending = await Meetup.find({ id: { $in: user.meetupsPending } });
+
+        meetupsAcceptedIds = user.meetupsAccepted.map(m => String(m.meetupId))
+        let meetupsAccepted = await Meetup.find({ id: { $in: meetupsAcceptedIds } });
+
+        let meetupsDeclined = await Meetup.find({ id: { $in: user.meetupsDeclined } });
+
+        let allInvitedMeetup = meetupsPending.concat(meetupsAccepted, meetupsDeclined);
+        return allInvitedMeetup
+    },
+    // Remove a user from invitees of a meetup
+    deleteUserFromMeetupInvitees: async (userEmail, meetup) => {
+        let newInvitees = meetup.invitees.filter(inviteeEmail => inviteeEmail != userEmail)
+        return await Meetup.findOneAndUpdate({ id: meetup.id }, { invitees: newInvitees })
+
+    },
+    // Delete meetups by id
+    deleteMeetupById: async (meetupId) => {
+        return await Meetup.findOneAndRemove({ id: meetupId })
+    },
     // Returns a list of all users
     getAllUsers: async () => {
         return await User.find({});
