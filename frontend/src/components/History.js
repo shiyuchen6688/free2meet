@@ -10,6 +10,14 @@ import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import FormLabel from '@mui/material/FormLabel';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
@@ -19,76 +27,24 @@ import { useNavigate } from "react-router-dom";
 import { getMeetupsAsync } from '../redux/meetups/thunks';
 import { darkStyle } from './MeetupLocation';
 import ToolBar from './ToolBar';
+import { getFriendsAsync } from '../redux/users/thunks';
 
-// const eventsJSON = [{title: "Party 3", 
-//                     id: 3,
-//                     description: "a description of party 1...", 
-//                     startDate: "2022-07-03", 
-//                     startTime: "12:00PM", 
-//                     endDate: "2022-07-03", 
-//                     endTime: "08:00PM", 
-//                     host: 
-//                         {
-//                             userID: 1, 
-//                             profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-//                         }, 
-//                     attendees: [
-//                         {userID: 2, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}, 
-//                         {userID: 3, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}, 
-//                         {userID: 4, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}
-//                     ]},
-//                     {title: "Party 2", 
-//                     id: 2,
-//                     description: "a description of party 2...", 
-//                     startDate: "2022-07-02", 
-//                     startTime: "12:01PM", 
-//                     endDate: "2022-07-02", 
-//                     endTime: "08:01PM", 
-//                     host: 
-//                         {
-//                             userID: 5, 
-//                             profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-//                         }, 
-//                     attendees: [
-//                         {userID: 6, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}, 
-//                         {userID: 7, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}, 
-//                         {userID: 8, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}
-//                     ]},
-//                     {title: "Party 1", 
-//                     id: 1,
-//                     description: "a description of party 3...", 
-//                     startDate: "2022-07-01", 
-//                     startTime: "12:02PM", 
-//                     endDate: "2022-07-01", 
-//                     endTime: "08:02PM", 
-//                     host: 
-//                         {
-//                             userID: 9, 
-//                             profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-//                         }, 
-//                     attendees: [
-//                         {userID: 10, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}, 
-//                         {userID: 11, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}, 
-//                         {userID: 12, profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}
-//                     ]},
-//                 ];
-
-const peopleJSON = [
-    {
-        name: "Person 1",
-        userID: 1,
-        profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-    },
-    {
-        name: "Person 2",
-        userID: 2,
-        profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-    },
-    {
-        name: "Person 3",
-        userID: 3,
-        profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-    },]
+// const peopleJSON = [
+//     {
+//         name: "Person 1",
+//         userID: 1,
+//         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+//     },
+//     {
+//         name: "Person 2",
+//         userID: 2,
+//         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+//     },
+//     {
+//         name: "Person 3",
+//         userID: 3,
+//         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+//     },]
 
 // for google map <<<<<--------------------------------------------------------------
 let script;
@@ -201,10 +157,25 @@ const fitBounds = () => {
 
 export default function History() {
     const dispatch = useDispatch();
+
+    const email = useSelector(state => state.usersReducer.email);
+
+    let fbp = "";
+
+    const [filterByPerson, setFilterByPerson] = useState("");
+    
+    const [filterPeopleOption, setFilterPeopleOption] = useState("all");
+
+    const peopleJSON = useSelector(state => state.usersReducer.friends);
+    useEffect(() => {
+        dispatch(getFriendsAsync(email));
+        console.log(peopleJSON);
+    }, [dispatch]);
     const eventsJSON = useSelector(state => state.meetupsReducer.list);
     useEffect(() => {
-        dispatch(getMeetupsAsync());
-    }, [dispatch]);
+        console.log(email);
+        dispatch(getMeetupsAsync({filterPeopleOption, filterByPerson, email}));
+    }, [dispatch, filterPeopleOption, filterByPerson, email]);
     const navigate = useNavigate();
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -242,6 +213,14 @@ export default function History() {
     document.getElementsByTagName("head")[0].appendChild(script);
     // for google map -------------------------------------------------------------->>>>>
 
+    function refreshCards() {
+        console.log("Refresh Cards");
+        console.log("filterPeopleOption", filterPeopleOption);
+        console.log("filter by person", filterByPerson);
+        console.log(typeof filterByPerson);
+        dispatch(getMeetupsAsync({filterPeopleOption, filterByPerson, email}));
+    }
+    
     function mapJSONToCard(eventJSON) {
         return (
             <Box sx={{ minWidth: 275, maxWidth: 600, margin: 5 }} key={eventJSON._id}>
@@ -294,6 +273,10 @@ export default function History() {
         );
     }
 
+    function mapPeopleToSelect(peopleJSON) {
+        return <MenuItem key={peopleJSON.email} value={peopleJSON.email}>{peopleJSON.username}</MenuItem>
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -326,6 +309,31 @@ export default function History() {
                         justifyContent="center"
                         alignItems="center"
                     >
+                        <FormControl>
+                            <FormLabel id="events-people-filter">Show:</FormLabel>
+                            <RadioGroup
+                              aria-labelledby="events-people-filter"
+                              value={filterPeopleOption}
+                              name="events-people-filter-group"
+                              onChange={e => {setFilterPeopleOption(e.target.value)}}
+                            >
+                              <FormControlLabel key="all" value="all" control={<Radio />} label="All" />
+                              <FormControlLabel key="created-by-me" value="created-by-me" control={<Radio />} label="Created By Me" />
+                              <FormControlLabel key="attended-by-me" value="attended-by-me" control={<Radio />} label="Attended By Me" />
+                              <FormControlLabel key="custom" value="custom" control={<Radio />} label="Custom" />
+                            </RadioGroup>
+                            <Select
+                              labelId="events-person-select"
+                              id="events-person-select"
+                              value={filterByPerson}
+                              disabled={filterPeopleOption !== "custom"}
+                              label="Filter By Person"
+                              onChange={e => {setFilterByPerson(e.target.value)}}
+                            >
+                                {peopleJSON.map(mapPeopleToSelect)}
+                            </Select>
+                            {console.log(filterByPerson)}
+                        </FormControl>
                         {eventsJSON.map(mapJSONToCard)}
                     </Grid>
 

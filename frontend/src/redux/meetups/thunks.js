@@ -5,8 +5,9 @@ import MeetupsService from './service';
 
 export const getMeetupsAsync = createAsyncThunk(
     actionTypes.GET_MEETUPS,
-    async () => {
-        return await MeetupsService.getMeetups();
+    async ({filterPeopleOption, filterByPerson, email}) => {
+        console.log(filterByPerson);
+        return await MeetupsService.getMeetups(filterPeopleOption, filterByPerson, email);
     }
 );
 

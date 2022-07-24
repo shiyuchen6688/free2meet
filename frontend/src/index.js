@@ -27,7 +27,7 @@ root.render(
         <Routes>
 
           <Route path="/" element={<App />} />
-          <Route path="/meetups" element={<Meetups />} />
+          {/* <Route path="/meetups" element={<Meetups />} /> */}
           <Route path="/meetup/:id" element={<Meetup />} />
           <Route path="/meetups/new" element={<CreateMeetup />} />
           <Route path="/invitations" element={<Invitations />} />
