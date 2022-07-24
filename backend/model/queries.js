@@ -46,7 +46,9 @@ const queries = {
     // Given a user email, returns all meetups the user created
     getMeetupsCreated: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        console.log(user);
+        if (user === null) {
+            return;
+        }
         let meetups = await Meetup.find({ id: { $in: user.meetupsCreated } });
         // for each meetup, find the creator's email, get the creator's username, change the creator's email to {email: creatorEmail, username: creatorUsername}
         for (let i = 0; i < meetups.length; i++) {
@@ -68,7 +70,9 @@ const queries = {
     // include all pending, accepted and decline
     getMeetupsByInvitedUser: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-
+        if (user === null) {
+            return;
+        }
         let meetupsPending = await Meetup.find({ id: { $in: user.meetupsPending } });
 
         meetupsAcceptedIds = user.meetupsAccepted.map(m => String(m.meetupId))

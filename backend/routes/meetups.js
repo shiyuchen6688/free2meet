@@ -9,9 +9,38 @@ var queries = require('../model/queries');
 
 /* get all meetups listing. */
 router.get('/', function (req, res, next) {
-    queries.getAllMeetups().then(function (meetups) {
-        return res.send(meetups);
-    });
+    const option = req.query.filterPeopleOption;
+    const person = req.query.filterByPerson;
+    const self = req.query.selfEmail;
+    console.log(option, person, self);
+    if (option === null || option === undefined || option === "all") {
+        queries.getAllMeetups().then(function (meetups) {
+            return res.send(meetups);
+        });
+    }
+    if (option === "created-by-me") {
+        queries.getMeetupsCreated(self).then(function (meetups) {
+            return res.send(meetups);
+        })
+    }
+    if (option === "attended-by-me") {
+        queries.getMeetupsByInvitedUser(self).then(function (meetups) {
+            return res.send(meetups);
+        })
+    }
+    if (option === "custom") {
+        queries.getMeetupsByInvitedUser(person).then(function (meetups) {
+            queries.getMeetupsCreated(person).then(function (meetups2) {
+                if (meetups === undefined) {
+                    return res.send(meetups2);
+                }
+                if (meetups2 === undefined) {
+                    return res.send(meetups);
+                }
+                return res.send(meetups2.concat(meetups));
+            })
+        })
+    }
 });
 
 /* get a single meetup by id. */

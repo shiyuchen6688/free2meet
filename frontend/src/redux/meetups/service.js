@@ -1,6 +1,8 @@
 // Get all meetups
-const getMeetups = async () => {
-    const response = await fetch('http://localhost:3001/meetups', {
+const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
+    console.log("filter by person");
+    console.log(filterByPerson);
+    const response = await fetch(`http://localhost:3001/meetups?filterPeopleOption=${filterPeopleOption}&filterByPerson=${filterByPerson}&selfEmail=${email}`, {
         method: 'GET',
         headers: {
             'x-access-token': localStorage.getItem("token")
