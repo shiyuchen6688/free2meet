@@ -59,8 +59,8 @@ router.post('/register', function (req, res, next) {
                 user.password = bcrypt.hash(user.password, 10).then((password) => {
                     user.password = password;
                     user.friends = [];
-                    user.friendsRequests = [];
-                    user.friendsRequestsSent = [];
+                    user.friendRequests = [];
+                    user.friendRequestsSent = [];
                     user.meetupsCreated = [];
                     user.meetupsPending = [];
                     user.meetupsAccepted = [];
@@ -234,6 +234,7 @@ router.get('/:email/friends/', function (req, res, next) {
 router.get('/:email/friends/requests', function (req, res, next) {
     const email = req.params.email;
     queries.getFriendRequests(email).then(friendRequests => {
+        console.log("friendRequests", friendRequests)
         return res.send(friendRequests);
     }).catch(err => {
         return res.status(404).send(err);
@@ -253,18 +254,25 @@ router.get('/:email/friends/requests/sent', function (req, res, next) {
 // accept a friend request for a user given user email and friend email
 router.post('/:email/friends/requests/accept', function (req, res, next) {
     const email = req.params.email;
-    const friendEmail = req.body.friendEmail;
+    const friendEmail = req.body.friendEmail; // fromEmail, friend sent my the request
     // check if friend request exists
-    queries.getFriendRequest(email, friendEmail).then(friendRequest => {
+    queries.getFriendRequestReceived(email, friendEmail).then(friendRequest => {
         if (friendRequest) {
             // accept friend request
             queries.acceptFriendRequest(email, friendEmail).then(friendRequest => {
                 return res.send(friendRequest);
             }).catch(err => {
+                console.log(err)
                 return res.status(404).send(err);
             });
         } else {
-            return res.status(404).send(new Error("Friend request does not exist"));
+            console.log("Friend request does not exist")
+            return res.status(404).send(
+                {
+                    message: "Friend request does not exist",
+                    error: new Error("Friend request does not exist")
+                }
+            );
         }
     });
 });
@@ -272,9 +280,9 @@ router.post('/:email/friends/requests/accept', function (req, res, next) {
 // decline a friend request for a user given user email and friend email
 router.post('/:email/friends/requests/decline', function (req, res, next) {
     const email = req.params.email;
-    const friendEmail = req.body.friendEmail;
+    const friendEmail = req.body.friendEmail; // fromEmail
     // check if friend request exists
-    queries.getFriendRequest(email, friendEmail).then(friendRequest => {
+    queries.getFriendRequestReceived(email, friendEmail).then(friendRequest => {
         if (friendRequest) {
             // delete friend request
             queries.declineFriendRequest(email, friendEmail).then(friend => {
@@ -291,7 +299,7 @@ router.post('/:email/friends/requests/decline', function (req, res, next) {
 });
 
 // send a friend request for a user given user email and friend email
-router.post('/:email/friends/:friendEmail/requests/send', function (req, res, next) {
+router.post('/:email/friends/requests/send', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
     console.log(email, friendEmail)
@@ -299,14 +307,14 @@ router.post('/:email/friends/:friendEmail/requests/send', function (req, res, ne
     queries.getUserByEmail(friendEmail).then(friend => {
         if (friend) {
             // check if friend request already exists
-            queries.getFriendRequest(email, friendEmail).then(friendRequest => {
+            queries.getFriendRequestSent(email, friendEmail).then(friendRequest => {
                 if (friendRequest) {
                     console.log("Friend request already exists")
                     return res.status(404).send(new Error("Friend request already exists"));
                 } else {
                     // check if friend already exists
-                    queries.getFriend(email, friendEmail).then(friend => {
-                        if (friend) {
+                    queries.isFriend(email, friendEmail).then(isFriend => {
+                        if (isFriend) {
                             console.log("Friend already exists")
                             return res.status(404).send(new Error("Friend already exists"));
                         } else {
@@ -314,19 +322,22 @@ router.post('/:email/friends/:friendEmail/requests/send', function (req, res, ne
                             queries.sendFriendRequest(email, friendEmail).then(friend => {
                                 return res.send(friend);
                             }).catch(err => {
-                                console.log("Send error")
+                                console.log(err)
                                 return res.status(404).send(err);
                             });
                         }
                     }).catch(err => {
+                        console.log(err)
                         return res.status(404).send(err);
                     });
                 }
             });
         } else {
+            console.log("Friend does not exist")
             return res.status(404).send(new Error("Friend does not exist"));
         }
     }).catch(err => {
+        console.log(err)
         return res.status(404).send(err);
     });
 });
@@ -339,18 +350,20 @@ router.post('/:email/friends/delete', function (req, res, next) {
     queries.getUserByEmail(friendEmail).then(friend => {
         if (friend) {
             // check if the friend exists
-            queries.getFriend(email, friendEmail).then(friend => {
-                if (friend) {
+            queries.isFriend(email, friendEmail).then(isFriend => {
+                if (isFriend) {
                     // delete friend
                     queries.deleteFriend(email, friendEmail).then(friend => {
                         return res.send(friend);
                     }).catch(err => {
+                        console.log(err)
                         return res.status(404).send(err);
                     });
                 } else {
                     return res.status(404).send(new Error("Friend does not exist"));
                 }
             }).catch(err => {
+                console.log(err)
                 return res.status(404).send(err);
             });
         } else {

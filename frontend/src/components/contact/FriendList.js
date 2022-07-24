@@ -14,9 +14,12 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 import { Avatar } from '@mui/material';
 
-import { getFriendsAsync } from '../../redux/users/thunks';
+import { getFriendsAsync, deleteFriendAsync } from '../../redux/users/thunks';
 
 export default function FriendList() {
     // get user information 
@@ -91,6 +94,21 @@ export default function FriendList() {
 
 function FriendCard(props) {
     const { friend, userEmail } = props
+    const friendEmail = friend.email
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+
+    // Delete friend handler
+    const handleDeleteFriend = () => {
+        console.log("handleDeleteFriend", userEmail)
+        dispatch(deleteFriendAsync({ email: userEmail, friendEmail }))
+        navigate("/contact")
+    }
+
+
+
     return (
         <Box sx={{ minWidth: 275, margin: 5 }}>
             <Card variant="outlined">
@@ -111,7 +129,16 @@ function FriendCard(props) {
                     </Typography>
                 </CardContent>
 
-                {/* # TODO: delete friend */}
+                {/* delete friend */}
+                <CardActions disableSpacing>
+
+                    <IconButton
+                        aria-label="delete-friend"
+                        onClick={handleDeleteFriend}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </CardActions>
 
             </Card>
         </Box>

@@ -17,25 +17,31 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import { Avatar } from '@mui/material';
+import CardActions from '@mui/material/CardActions';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 
 import {
     getFriendRequestsAsync, getFriendRequestsSentAsync,
-    sendFriendRequestAsync
+    sendFriendRequestAsync, acceptFriendRequestAsync,
+    declineFriendRequestAsync
 } from '../../redux/users/thunks';
 
 export default function FriendRequest() {
     // get user information 
     const currentUserEmail = useSelector(state => state.usersReducer.email);
-    const friendsRequestsReceived = useSelector(state => state.usersReducer.friendsRequests);
-    const friendsRequestsSent = useSelector(state => state.usersReducer.friendsRequestsSent);
+    const friendRequestsReceived = useSelector(state => state.usersReducer.friendRequests);
+    const friendRequestsSent = useSelector(state => state.usersReducer.friendRequestsSent);
 
-    console.log("friendsRequestsReceived", friendsRequestsReceived)
-    console.log("friendsRequestsSent", friendsRequestsSent)
+    console.log("friendRequestsReceived", friendRequestsReceived)
+    console.log("friendRequestsSent", friendRequestsSent)
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log("userEffect get friend request info")
         dispatch(getFriendRequestsAsync(currentUserEmail));
         dispatch(getFriendRequestsSentAsync(currentUserEmail));
     }, [dispatch, currentUserEmail]);
@@ -43,6 +49,7 @@ export default function FriendRequest() {
     const refresh = () => {
         dispatch(getFriendRequestsAsync(currentUserEmail));
         dispatch(getFriendRequestsSentAsync(currentUserEmail));
+        navigate("/contact")
     }
 
 
@@ -69,7 +76,8 @@ export default function FriendRequest() {
 
     // TODO: Send friend request to friendEmail
     const handleSendFriendRequest = () => {
-        dispatch(sendFriendRequestAsync({ currentUserEmail, friendEmail }))
+        console.log({ currentUserEmail, friendEmail })
+        dispatch(sendFriendRequestAsync({ email: currentUserEmail, friendEmail }))
         navigate("/contact")
     }
 
@@ -123,7 +131,7 @@ export default function FriendRequest() {
             {/* Request Sent */}
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                 <Typography component="h5" variant="h5" align="center">
-                    Friend Request Sent ({friendsRequestsSent.length})
+                    Friend Request Sent ({friendRequestsSent.length})
                 </Typography>
                 <Grid
                     container
@@ -132,8 +140,8 @@ export default function FriendRequest() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    {friendsRequestsSent.map(friend => (
-                        <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} state="pending" />
+                    {friendRequestsSent.map(friend => (
+                        <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} type="request-sent" state="pending" />
                     ))}
                 </Grid>
             </Paper>
@@ -141,7 +149,7 @@ export default function FriendRequest() {
             {/* Request Received */}
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                 <Typography component="h5" variant="h5" align="center">
-                    Friend Request Received ({friendsRequestsReceived.length})
+                    Friend Request Received ({friendRequestsReceived.length})
                 </Typography>
                 <Grid
                     container
@@ -150,8 +158,8 @@ export default function FriendRequest() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    {friendsRequestsReceived.map(friend => (
-                        <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} state="pending" />
+                    {friendRequestsReceived.map(friend => (
+                        <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} type="request-received" state="pending" />
                     ))}
                 </Grid>
             </Paper>
@@ -165,7 +173,22 @@ export default function FriendRequest() {
 }
 
 function FriendCard(props) {
-    const { friend, userEmail } = props
+    const { friend, userEmail, type } = props
+    let friendEmail = friend.email
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleAcceptClick = () => {
+        dispatch(acceptFriendRequestAsync({ email: userEmail, friendEmail }))
+        navigate("/contact")
+    }
+
+    const handleDeclineClick = () => {
+        dispatch(declineFriendRequestAsync({ email: userEmail, friendEmail }))
+        navigate("/contact")
+    }
+
     return (
         <Box sx={{ minWidth: 275, margin: 5 }}>
             <Card variant="outlined">
@@ -177,14 +200,33 @@ function FriendCard(props) {
                             src={friend.profilePictureLink}
                         />
                     }
-                    title={friend.username}
+                    title={friendEmail}
                 />
 
                 <CardContent>
                     <Typography variant="h6" gutterBottom>
-                        Friend Email: {friend.email}
+                        Friend Email: {friendEmail}
                     </Typography>
                 </CardContent>
+
+                {type === "request-received" ? (
+
+                    <CardActions disableSpacing>
+                        <IconButton
+                            aria-label="accept-friend"
+                            onClick={handleAcceptClick}
+                        >
+                            <CheckIcon />
+                        </IconButton>
+                        <IconButton
+                            aria-label="decline-friend"
+                            onClick={handleDeclineClick}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+
+                    </CardActions>
+                ) : null}
 
 
             </Card>

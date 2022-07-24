@@ -157,7 +157,11 @@ const getFriendRequests = async (email) => {
 
     if (!response.ok) {
         console.log('Error in getFriendRequests')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+        throw new Error(errorMsg)
     }
+    console.log(data)
     return data
 }
 
@@ -181,6 +185,7 @@ const getFriendRequestsSent = async (email) => {
 
 // accept a friend request for a user given user email and friend email
 const acceptFriendRequest = async (email, friendEmail) => {
+    console.log("acceptFriendRequest", email, friendEmail)
     const response = await fetch(`http://localhost:3001/users/${email}/friends/requests/accept`, {
         method: 'POST',
         headers: {
@@ -233,6 +238,7 @@ const sendFriendRequest = async (email, friendEmail) => {
 
     if (!response.ok) {
         console.log('Error in sendFriendRequest')
+        console.log(data)
         const errorMsg = data?.message;
         console.log(errorMsg)
         throw new Error(errorMsg)
@@ -242,6 +248,7 @@ const sendFriendRequest = async (email, friendEmail) => {
 
 // delete a friend for a user given user email and friend email
 const deleteFriend = async (email, friendEmail) => {
+    console.log(email)
     const response = await fetch(`http://localhost:3001/users/${email}/friends/delete`, {
         method: 'POST',
         headers: {
@@ -255,6 +262,9 @@ const deleteFriend = async (email, friendEmail) => {
 
     if (!response.ok) {
         console.log('Error in deleteFriend')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }

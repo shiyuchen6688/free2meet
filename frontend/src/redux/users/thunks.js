@@ -62,6 +62,7 @@ export const declineFriendRequestAsync = createAsyncThunk(
 export const sendFriendRequestAsync = createAsyncThunk(
     actionTypes.SEND_FRIEND_REQUEST,
     async ({ email, friendEmail }) => {
+        console.log(email, friendEmail)
         return await UsersService.sendFriendRequest(email, friendEmail)
     }
 );
@@ -69,6 +70,7 @@ export const sendFriendRequestAsync = createAsyncThunk(
 export const deleteFriendAsync = createAsyncThunk(
     actionTypes.DELETE_FRIEND,
     async ({ email, friendEmail }) => {
+        console.log("deleteFriendAsync", email)
         return await UsersService.deleteFriend(email, friendEmail)
     }
 );
