@@ -47,28 +47,28 @@ export const getFriendRequestsSentAsync = createAsyncThunk(
 
 export const acceptFriendRequestAsync = createAsyncThunk(
     actionTypes.ACCEPT_FRIEND_REQUEST,
-    async (email, friendEmail) => {
+    async ({ email, friendEmail }) => {
         return await UsersService.acceptFriendRequest(email, friendEmail)
     }
 );
 
 export const declineFriendRequestAsync = createAsyncThunk(
     actionTypes.DECLINE_FRIEND_REQUEST,
-    async (email, friendEmail) => {
+    async ({ email, friendEmail }) => {
         return await UsersService.declineFriendRequest(email, friendEmail)
     }
 );
 
 export const sendFriendRequestAsync = createAsyncThunk(
     actionTypes.SEND_FRIEND_REQUEST,
-    async (email, friendEmail) => {
+    async ({ email, friendEmail }) => {
         return await UsersService.sendFriendRequest(email, friendEmail)
     }
 );
 
 export const deleteFriendAsync = createAsyncThunk(
     actionTypes.DELETE_FRIEND,
-    async (email, friendEmail) => {
+    async ({ email, friendEmail }) => {
         return await UsersService.deleteFriend(email, friendEmail)
     }
 );

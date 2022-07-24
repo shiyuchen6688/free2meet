@@ -291,26 +291,30 @@ router.post('/:email/friends/requests/decline', function (req, res, next) {
 });
 
 // send a friend request for a user given user email and friend email
-router.post('/:email/friends/requests/send', function (req, res, next) {
+router.post('/:email/friends/:friendEmail/requests/send', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
+    console.log(email, friendEmail)
     // check if friend is a user in the database
     queries.getUserByEmail(friendEmail).then(friend => {
         if (friend) {
             // check if friend request already exists
             queries.getFriendRequest(email, friendEmail).then(friendRequest => {
                 if (friendRequest) {
+                    console.log("Friend request already exists")
                     return res.status(404).send(new Error("Friend request already exists"));
                 } else {
                     // check if friend already exists
                     queries.getFriend(email, friendEmail).then(friend => {
                         if (friend) {
+                            console.log("Friend already exists")
                             return res.status(404).send(new Error("Friend already exists"));
                         } else {
                             // send friend request
                             queries.sendFriendRequest(email, friendEmail).then(friend => {
                                 return res.send(friend);
                             }).catch(err => {
+                                console.log("Send error")
                                 return res.status(404).send(err);
                             });
                         }

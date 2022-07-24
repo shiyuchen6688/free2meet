@@ -19,7 +19,7 @@ import { Avatar } from '@mui/material';
 import { getFriendsAsync } from '../../redux/users/thunks';
 
 export default function FriendList() {
-    // get user information // TODO: change to real command
+    // get user information 
     const currentUserEmail = useSelector(state => state.usersReducer.email);
     const friendList = useSelector(state => state.usersReducer.friends);
 

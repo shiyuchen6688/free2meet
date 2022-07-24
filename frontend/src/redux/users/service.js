@@ -219,6 +219,7 @@ const declineFriendRequest = async (email, friendEmail) => {
 
 // send a friend request for a user given user email and friend email
 const sendFriendRequest = async (email, friendEmail) => {
+    console.log(email, friendEmail)
     const response = await fetch(`http://localhost:3001/users/${email}/friends/requests/send`, {
         method: 'POST',
         headers: {
@@ -232,6 +233,9 @@ const sendFriendRequest = async (email, friendEmail) => {
 
     if (!response.ok) {
         console.log('Error in sendFriendRequest')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }

@@ -11,6 +11,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Chat from './Chat';
 import FriendList from './FriendList';
+import FriendRequest from './FriendRequest';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -80,9 +81,11 @@ export default function Contact() {
                 <TabPanel value={value} index={0}>
                     <FriendList />
                 </TabPanel>
+
                 <TabPanel value={value} index={1}>
-                    {/* <FriendList /> */}
+                    <FriendRequest />
                 </TabPanel>
+
                 <TabPanel value={value} index={2}>
                     <Chat />
                 </TabPanel>
