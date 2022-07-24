@@ -300,6 +300,12 @@ const queries = {
             return { username: invitee.username, email: invitee.email };
         });
     },
+    // check is user is friend with friendEmail
+    isFriend: async (userEmail, friendEmail) => {
+        let user = await User.findOne({ email: userEmail })
+        console.log(userEmail, friendEmail)
+        return user.friends.includes(friendEmail)
+    },
     // Given a user email, returns the usernames and emails of all the friends of the user
     getFriends: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
@@ -309,6 +315,25 @@ const queries = {
         return friends.map(function (friend) {
             return { username: friend.username, email: friend.email };
         });
+    },
+    // return user and friend email if reqeust exist, otherwise return Null
+    getFriendRequestSent: async (userEmail, friendEmail) => {
+        let user = await User.findOne({ email: userEmail });
+        let requestExist = user.friendRequestsSent && user.friendRequestsSent.includes(friendEmail)
+        if (requestExist) {
+            return { userEmail, friendEmail }
+        }
+        return null
+    },
+    // return user and friend email if reqeust exist, otherwise return Null
+    getFriendRequestReceived: async (userEmail, fromEmail) => {
+        let user = await User.findOne({ email: userEmail });
+        console.log(user)
+        let requestExist = user.friendRequests && user.friendRequests.includes(fromEmail)
+        if (requestExist) {
+            return { userEmail, fromEmail }
+        }
+        return null
     },
     // Given a user email, returns the usernames and emails of all the users who have sent the user a friend request
     getFriendRequests: async (userEmail) => {
@@ -357,10 +382,11 @@ const queries = {
     // Given a user email and a friend email, returns updated friend request sent list (including username and email) of the user
     sendFriendRequest: async (userEmail, friendEmail) => {
         // add friend request to user's friendRequests
-        await User.findOneAndUpdate({ email: userEmail }, { $push: { friendRequests: friendEmail } }, { new: true });
+        await User.findOneAndUpdate({ email: userEmail }, { $push: { friendRequestsSent: friendEmail } }, { new: true });
         // add friend request to friend's friendRequestsSent
-        await User.findOneAndUpdate({ email: friendEmail }, { $push: { friendRequestsSent: userEmail } }, { new: true });
-        return await queries.getFriendRequestsSent(userEmail);
+        await User.findOneAndUpdate({ email: friendEmail }, { $push: { friendRequests: userEmail } }, { new: true });
+        // return await queries.getFriendRequestsSent(userEmail);
+        return await queries.getUserByEmail(userEmail).friendRequestsSent;
     },
     // Given a user email and a friend email, returns usernames and emails of all friends of the user
     deleteFriend: async (userEmail, friendEmail) => {

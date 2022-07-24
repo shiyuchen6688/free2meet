@@ -14,8 +14,8 @@ const INITIAL_STATE = {
     email: null,
     list: [],
     friends: [],
-    friendsRequests: [],
-    friendsRequestsSent: [],
+    friendRequests: [],
+    friendRequestsSent: [],
     signin: REQUEST_STATE.IDLE,
     register: REQUEST_STATE.IDLE,
     resetPassword: REQUEST_STATE.IDLE,
@@ -95,7 +95,7 @@ const usersSlice = createSlice({
             .addCase(acceptFriendRequestAsync.fulfilled, (state, action) => {
                 state.acceptFriendRequest = REQUEST_STATE.FULFILLED;
                 state.friends = action.payload.friends;
-                state.friendsRequests = action.payload.friendsRequests;
+                state.friendRequests = action.payload.friendRequests;
             })
             .addCase(acceptFriendRequestAsync.rejected, (state, action) => {
                 state.acceptFriendRequest = REQUEST_STATE.REJECTED;
@@ -107,7 +107,7 @@ const usersSlice = createSlice({
             })
             .addCase(declineFriendRequestAsync.fulfilled, (state, action) => {
                 state.declineFriendRequest = REQUEST_STATE.FULFILLED;
-                state.friendsRequests = action.payload;
+                state.friendRequests = action.payload;
             })
             .addCase(declineFriendRequestAsync.rejected, (state, action) => {
                 state.declineFriendRequest = REQUEST_STATE.REJECTED;
@@ -155,7 +155,7 @@ const usersSlice = createSlice({
             })
             .addCase(sendFriendRequestAsync.fulfilled, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.FULFILLED;
-                state.friendsRequestsSent = action.payload;
+                state.friendRequestsSent = action.payload;
             })
             .addCase(sendFriendRequestAsync.rejected, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.REJECTED;

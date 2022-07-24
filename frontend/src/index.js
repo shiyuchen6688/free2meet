@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import App from './App';
 import CreateMeetup from './components/CreateMeetup';
-import Explore from './components/Explore';
+import Contact from './components/contact/Contact';
 import History from './components/History';
 import './index.css';
 import Invitations from './components/Invitations';
@@ -32,7 +32,7 @@ root.render(
           <Route path="/meetups/new" element={<CreateMeetup />} />
           <Route path="/invitations" element={<Invitations />} />
           <Route path="/history" element={<History />} />
-          <Route path="/explore" element={<Explore />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/signup" element={<Signup />} />
           {/* <Route path="meetups" element={<TODO />}>
                 <Route path=":meetupId" element={<TODO />} />

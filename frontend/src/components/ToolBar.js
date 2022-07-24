@@ -47,7 +47,7 @@ export default function ToolBar() {
         { text: 'View Existing Meetups', actions: () => navigate("/meetups") },
         { text: 'View Invitations', actions: () => navigate("/invitations") },
         { text: 'View Full History', actions: () => navigate("/history") },
-        { text: 'Explore', actions: () => navigate("/explore") },
+        { text: 'Contact', actions: () => navigate("/contact") },
     ];
 
     const [user, setUser] = React.useState(null);
