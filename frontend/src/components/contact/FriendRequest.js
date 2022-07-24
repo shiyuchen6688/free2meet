@@ -90,9 +90,6 @@ export default function FriendRequest() {
                 <Fab color="primary" aria-label="fresh" onClick={refresh}>
                     <AutorenewIcon />
                 </Fab>
-                <Fab color="secondary" aria-label="add" onClick={() => navigate("/contact")}>
-                    <AddIcon />
-                </Fab>
             </Box>
 
             {/* Send Friend Request */}
@@ -112,7 +109,6 @@ export default function FriendRequest() {
                         id="friend-email"
                         name="friend-email"
                         label="Friend Email"
-                        fullWidth
                         variant="standard"
                         defaultValue={friendEmail}
                         onChange={e => setFriendEmail(e.target.value)}
@@ -140,7 +136,7 @@ export default function FriendRequest() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    {friendRequestsSent.map(friend => (
+                    {friendRequestsSent.slice().sort((a, b) => a.username.localeCompare(b.username)).map(friend => (
                         <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} type="request-sent" state="pending" />
                     ))}
                 </Grid>
@@ -158,7 +154,7 @@ export default function FriendRequest() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    {friendRequestsReceived.map(friend => (
+                    {friendRequestsReceived.slice().sort((a, b) => a.username.localeCompare(b.username)).map(friend => (
                         <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} type="request-received" state="pending" />
                     ))}
                 </Grid>
