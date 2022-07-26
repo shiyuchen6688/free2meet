@@ -164,7 +164,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                             <Typography variant="h6" gutterBottom>
                                 {"Location(s):"}
                             </Typography>
-                            <Places placesList={invitation.location} selection={invitationLocationSelection} updateMethod={updateSelection} />
+                            <Places placesList={invitation.location} selection={invitationLocationSelection} updateMethod={updateSelection} invitationState={state === 'pending' || state === 'declined'} />
                             <Typography variant="h6" gutterBottom>
                                 Time Zone: {invitation.schedule.timezone.altName === undefined ?
                                     invitation.schedule.timezone.value : invitation.schedule.timezone.altName}

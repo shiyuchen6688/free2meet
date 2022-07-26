@@ -1,14 +1,14 @@
 import React from 'react'
 import Place from './Place'
 
-function Places({placesList, selection, updateMethod}) {
+function Places({placesList, selection, updateMethod, invitationState}) {
     return (
         <div>
             {placesList.map(place => (
                 <Place 
                 key={place.place_id} 
                 item={place} 
-                invitation={true} 
+                invitation={invitationState} 
                 currentSelection={selection} 
                 updateMethod={updateMethod}/>
             ))}
