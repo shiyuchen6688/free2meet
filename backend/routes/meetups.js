@@ -127,4 +127,14 @@ router.post('/', function (req, res, next) {
     });
 });
 
+// get meetups created by a user given user email
+router.get('/:email/created', (req, res) => {
+    const email = req.params.email;
+    queries.getMeetupsCreated(email).then(meetups => {
+        return res.send(meetups);
+    }).catch(err => {
+        return res.status(404).send(err);
+    });
+});
+
 module.exports = router;

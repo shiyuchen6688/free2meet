@@ -47,10 +47,29 @@ const addMeetup = async (meetup) => {
     return data
 }
 
+// get meetups created by a user given user email
+const getMeetupsCreated = async (email) => {
+    const response = await fetch(`http://localhost:3001/meetups/${email}/created`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        },
+    });
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        console.log('Error in getMeetupsCreated')
+    }
+    return data
+}
+
 const exportedService = {
     getMeetups,
     getMeetup,
-    addMeetup
+    addMeetup,
+    getMeetupsCreated
 }
 
 export default exportedService;
