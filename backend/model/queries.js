@@ -355,6 +355,13 @@ const queries = {
             }
             // delete repeated locations
             maxLocationsIds = [...new Set(maxLocationsIds)];
+            // if no invitee selected the location, then use creator selected locations instead
+            if (maxLocationsIds.length === 0) {
+                let meetup = await Meetup.findOne({ id: meetupId });
+                for (let i = 0; i < meetup.location.length; i++) {
+                    maxLocationsIds.push(meetup.location[i].place_id);
+                }
+            }
             // find time slots with the most users, if multiple time slots have the same number of users, find all time slots
             let maxTimeSlots = 0;
             let maxTimeSlotsArray = [];
@@ -376,6 +383,13 @@ const queries = {
             }
             // delete repeated time slots
             maxTimeSlotsArray = [...new Set(maxTimeSlotsArray)];
+            // if no invitee selected the time slot, then use creator selected time slots instead
+            if (maxTimeSlotsArray.length === 0) {
+                let meetup = await Meetup.findOne({ id: meetupId });
+                if (meetup.schedule.schedule !== undefined) {
+                    maxTimeSlotsArray = Object.keys(meetup.schedule.schedule);
+                }
+            }
             // update meetup with best location and time slot
             await Meetup.findOneAndUpdate({ id: meetupId }, { bestLocation: maxLocationsIds, bestTime: maxTimeSlotsArray }, { new: true });
         }
