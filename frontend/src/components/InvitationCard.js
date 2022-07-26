@@ -55,13 +55,20 @@ export default function InvitationCard({ invitation, userEmail, state }) {
 
     const handleAcceptClick = () => {
         console.log("Accepted");
-        let info = { email: userEmail, invitationId: invitation._id, availableTimeslots: availableTimeSlots, availableLocations: invitationLocationSelection };
+        let invitationLocationSelectionCopy = {...invitationLocationSelection};
+        let availableLocations = [];
+        for (let key in invitationLocationSelectionCopy) {
+            if (invitationLocationSelectionCopy[key]) {
+                availableLocations.push(key);
+            }
+        }
+        let info = { email: userEmail, invitationId: invitation._id, availableTimeslots: availableTimeSlots, availableLocations: availableLocations };
         dispatch(acceptInvitationAsync(info));
     };
 
     const handleDeclineClick = () => {
         console.log("Declined");
-        let info = { email: userEmail, invitationId: invitation._id, availableTimeslots: selected, availableLocations: invitationLocationSelection };
+        let info = { email: userEmail, invitationId: invitation._id, availableTimeslots: selected, availableLocations: selectedLocations };
         dispatch(declineInvitationAsync(info));
     };
 
@@ -74,6 +81,16 @@ export default function InvitationCard({ invitation, userEmail, state }) {
             if (participants.includes(userEmail)) {
                 let timeslot = pastSelectionKeys[i].replace('.', '|');
                 selected.push(timeslot);
+            }
+        }
+    }
+
+    let pastLocationSelection = [ ...invitation.location ];
+    let selectedLocations = [];
+    if (invitation.location !== undefined) {
+        for (let i = 0; i < pastLocationSelection.length; i++) {
+            if (pastLocationSelection[i].attendees.includes(userEmail)) {
+                selectedLocations.push(pastLocationSelection[i].place_id);
             }
         }
     }
