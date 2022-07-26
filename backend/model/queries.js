@@ -87,7 +87,6 @@ const queries = {
     deleteUserFromMeetupInvitees: async (userEmail, meetup) => {
         let newInvitees = meetup.invitees.filter(inviteeEmail => inviteeEmail != userEmail)
         return await Meetup.findOneAndUpdate({ id: meetup.id }, { invitees: newInvitees })
-
     },
     // Delete meetups by id
     deleteMeetupById: async (meetupId) => {
@@ -337,8 +336,7 @@ const queries = {
             await Meetup.findOneAndUpdate({ id: meetupId }, { state: 'COMPLETED' }, { new: true });
             // find all users who have accepted the meetup
             let users = await User.find({ meetupsAccepted: { $elemMatch: { meetupId: meetupId } } });
-            // calculate best location
-            // find the location with the most users
+            // find a location with the most users
             let maxUsers = 0;
             let maxLocation = '';
             for (let i = 0; i < users.length; i++) {
