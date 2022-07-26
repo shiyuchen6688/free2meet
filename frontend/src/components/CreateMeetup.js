@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -10,16 +11,15 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
+import Confetti from "react-confetti";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import { addMeetupAsync } from '../redux/meetups/thunks';
 import MeetupAvailability from './MeetupAvailability';
 import MeetupInvitation from './MeetupInvitation';
 import MeetupLocation from './MeetupLocation';
 import MeetupTitleAndDetail from './MeetupTitleAndDetail';
 import ToolBar from './ToolBar';
-import Confetti from "react-confetti";
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from "react-router-dom";
-import { addMeetupAsync } from '../redux/meetups/thunks';
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
 
@@ -61,7 +61,7 @@ export default function CreateMeetup() {
                 let date = meetupSchedule.schedule[i].replace('.', '|');
                 newMeetupSchedule[date] = [creator.email];
             }
-            let meetupScheduleCopy = {...meetupSchedule};
+            let meetupScheduleCopy = { ...meetupSchedule };
             let meetupLocationCopy = JSON.parse(JSON.stringify(meetupLocation));
             for (let i = 0; i < meetupLocationCopy.length; i++) {
                 meetupLocationCopy[i]['attendees'] = [creator.email];
@@ -125,15 +125,17 @@ export default function CreateMeetup() {
                                 <Typography variant="h5" gutterBottom>
                                     Your Meetup {titleAndDetailInput["meetup-title"]} has been created, enjoy!
                                 </Typography>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{ mt: 3, mb: 2 }}
-                                    onClick={e => navigate("/")}
-                                >
-                                    Finish
-                                </Button>
+                                <Grid container justifyContent="flex-end">
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{ mt: 3, mb: 2 }}
+                                        onClick={e => navigate("/")}
+                                    >
+                                        Finish
+                                    </Button>
+                                </Grid>
+
                             </>
                         ) : (
                             <>
