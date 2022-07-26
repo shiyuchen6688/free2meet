@@ -303,6 +303,9 @@ router.post('/:email/friends/requests/send', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
     console.log(email, friendEmail)
+    if (email === friendEmail) {
+        return res.status(404).send({ error: "User email cannot equal to friend email" });
+    }
     // check if friend is a user in the database
     queries.getUserByEmail(friendEmail).then(friend => {
         if (friend) {
