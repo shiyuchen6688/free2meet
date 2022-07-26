@@ -353,6 +353,9 @@ const queries = {
                     }
                 }
             }
+            if (maxLocation === '') {
+                maxLocation = null;
+            }
             // find time slots with the most users, if multiple time slots have the same number of users, find all time slots
             let maxTimeSlots = 0;
             let maxTimeSlotsArray = [];

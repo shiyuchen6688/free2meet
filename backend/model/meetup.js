@@ -52,8 +52,8 @@ const meetupSchema = new mongoose.Schema({
     // PENDING - The invitation has been sent and is awaiting action by the invitees.
     // COMPLETED - The invitation has been either accepted or declined by all invitees and the best time has been calculated.
     state: String,
-    bestLocation: String, // place_id of best location only if state is COMPLETED
-    bestTime: [String] // best time to meetup only if state is COMPLETED
+    bestLocation: String, // place_ids of locations that are the best for the meetup
+    bestTime: [String] // best times for the meetup
 });
 
 const Meetup = mongoose.model('Meetup', meetupSchema);
