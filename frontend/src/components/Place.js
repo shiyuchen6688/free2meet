@@ -11,7 +11,7 @@ import {CardActionArea} from '@mui/material';
 
 export default function Place({ item, deleteMarker, focusPlace, zoom, invitation=false, currentSelection=undefined, updateMethod=undefined }) {
     const dispatch = useDispatch();
-    const [selected, setSelected] = React.useState(currentSelection[item.place_id]);
+    const [selected, setSelected] = React.useState(invitation ? currentSelection[item.place_id] : undefined);
     const focusButton = <Button onClick={() => {
         focusPlace(item.lat, item.lng);
     }}>
