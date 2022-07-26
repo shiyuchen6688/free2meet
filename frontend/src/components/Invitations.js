@@ -34,12 +34,10 @@ export default function Invitations() {
     const pendingInvitations = useSelector(state => state.invitationsReducer.invitationsPending);
     const acceptedInvitations = useSelector(state => state.invitationsReducer.invitationsAccepted);
     const declinedInvitations = useSelector(state => state.invitationsReducer.invitationsDeclined);
-    // const createdMeetups = useSelector(state => state.usersReducer.meetupsCreated);
     useEffect(() => {
         dispatch(getInvitationsPendingAsync(currentUser.email));
         dispatch(getInvitationsAcceptedAsync(currentUser.email));
         dispatch(getInvitationsDeclinedAsync(currentUser.email));
-        // dispatch(getMeetupsCreatedAsync(currentUser.email));
     }, [dispatch, currentUser.email]);
 
     const fabStyle = {
@@ -53,7 +51,6 @@ export default function Invitations() {
         dispatch(getInvitationsPendingAsync(currentUser.email));
         dispatch(getInvitationsAcceptedAsync(currentUser.email));
         dispatch(getInvitationsDeclinedAsync(currentUser.email));
-        // dispatch(getMeetupsCreatedAsync(currentUser.email));
     }
 
     return (

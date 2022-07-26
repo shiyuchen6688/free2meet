@@ -10,7 +10,7 @@ const INITIAL_STATE = {
     getMeetups: REQUEST_STATE.IDLE,
     addMeetup: REQUEST_STATE.IDLE,
     getMeetup: REQUEST_STATE.IDLE,
-    MeetupsCreated: REQUEST_STATE.IDLE,
+    meetupsCreated: REQUEST_STATE.IDLE,
     error: null
 };
 
@@ -57,15 +57,15 @@ const meetupsSlice = createSlice({
                 state.error = action.error;
             })
             .addCase(getMeetupsCreatedAsync.pending, (state) => {
-                state.MeetupsCreated = REQUEST_STATE.PENDING;
+                state.getMeetupsCreatedAsync = REQUEST_STATE.PENDING;
                 state.error = null;
             })
             .addCase(getMeetupsCreatedAsync.fulfilled, (state, action) => {
-                state.MeetupsCreated = REQUEST_STATE.FULFILLED;
-                state.list = action.payload
+                state.getMeetupsCreatedAsync = REQUEST_STATE.FULFILLED;
+                state.meetupsCreated = action.payload;
             })
             .addCase(getMeetupsCreatedAsync.rejected, (state, action) => {
-                state.MeetupsCreated = REQUEST_STATE.REJECTED;
+                state.getMeetupsCreatedAsync = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
     }
