@@ -353,9 +353,9 @@ const queries = {
                     }
                 }
             }
-            // find the time slot with the most users
+            // find time slots with the most users, if multiple time slots have the same number of users, find all time slots
             let maxTimeSlots = 0;
-            let maxTimeSlot = '';
+            let maxTimeSlotsArray = [];
             for (let i = 0; i < users.length; i++) {
                 let user = users[i];
                 let userTimeSlots = user.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot;
@@ -364,12 +364,16 @@ const queries = {
                     let usersAtTimeSlot = users.filter(u => u.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot.includes(timeSlot));
                     if (usersAtTimeSlot.length > maxTimeSlots) {
                         maxTimeSlots = usersAtTimeSlot.length;
-                        maxTimeSlot = timeSlot;
+                        maxTimeSlotsArray = [timeSlot];
+                    } else if (usersAtTimeSlot.length === maxTimeSlots) {
+                        maxTimeSlotsArray.push(timeSlot);
                     }
                 }
             }
+            // delete repeated time slots
+            maxTimeSlotsArray = [...new Set(maxTimeSlotsArray)];
             // update meetup with best location and time slot
-            await Meetup.findOneAndUpdate({ id: meetupId }, { bestLocation: maxLocation, bestTimeSlot: maxTimeSlot }, { new: true });
+            await Meetup.findOneAndUpdate({ id: meetupId }, { bestLocation: maxLocation, bestTime: maxTimeSlotsArray }, { new: true });
         }
         // returns username and email fields for each invitee who have not accepted or declined the meetup
         return inviteesNoDecisions.map(invitee => {
