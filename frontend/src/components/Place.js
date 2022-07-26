@@ -9,9 +9,9 @@ import { deleteLocation } from '../redux/actions/actions';
 import React from 'react';
 import {CardActionArea} from '@mui/material';
 
-export default function Place({ item, deleteMarker, focusPlace, zoom, invitation=false }) {
+export default function Place({ item, deleteMarker, focusPlace, zoom, invitation=false, currentSelection=undefined, updateMethod=undefined }) {
     const dispatch = useDispatch();
-    const [selected, setSelected] = React.useState(false);
+    const [selected, setSelected] = React.useState(invitation ? currentSelection[item.place_id] : undefined);
     const focusButton = <Button onClick={() => {
         focusPlace(item.lat, item.lng);
     }}>
@@ -32,6 +32,8 @@ export default function Place({ item, deleteMarker, focusPlace, zoom, invitation
             <CardActionArea onClick={()=>{
                 if (invitation) {
                     setSelected(!selected);
+                    updateMethod(item.place_id, selected);
+                    console.log(currentSelection);
                 } else if (focusPlace) {
                     focusPlace(item.lat, item.lng);
                 }
