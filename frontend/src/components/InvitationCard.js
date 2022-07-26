@@ -11,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import Place from './Place';
+import Places from './Places';
 import ScheduleSelector from './timetable/ScheduleSelector';
 import Dialog from '@mui/material/Dialog';
 import Grow from '@mui/material/Grow';
@@ -40,15 +40,28 @@ export default function InvitationCard({ invitation, userEmail, state }) {
 
     const [availableTimeSlots, setAvailableTimeSlots] = React.useState([]);
 
+    const initLocationSelection = {};
+    invitation.location.map((item) => {
+        initLocationSelection[item.place_id] = false;
+    });
+
+    const [invitationLocationSelection, setInvitationLocationSelection] = React.useState(initLocationSelection);
+
+    const updateSelection = (place_id, selected) => {
+        const newSelection = {...invitationLocationSelection};
+        newSelection[place_id] = !selected;
+        setInvitationLocationSelection(newSelection);
+    }
+
     const handleAcceptClick = () => {
         console.log("Accepted");
-        let info = { email: userEmail, invitationId: invitation._id, availableTimeslots: availableTimeSlots };
+        let info = { email: userEmail, invitationId: invitation._id, availableTimeslots: availableTimeSlots, availableLocations: invitationLocationSelection };
         dispatch(acceptInvitationAsync(info));
     };
 
     const handleDeclineClick = () => {
         console.log("Declined");
-        let info = { email: userEmail, invitationId: invitation._id, availableTimeslots: selected };
+        let info = { email: userEmail, invitationId: invitation._id, availableTimeslots: selected, availableLocations: invitationLocationSelection };
         dispatch(declineInvitationAsync(info));
     };
 
@@ -132,14 +145,9 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                         </Typography>
                         <Box sx={{ minWidth: 800, margin: 0 }}>
                             <Typography variant="h6" gutterBottom>
-                                {/* {invitation.location.length === 0 ? "No Location Selected" : 
-                        invitation.location.length === 1 ? "Location (1 Selected)" : 
-                            "Locations (" + invitation.location.length + " Selected)"} */}
                                 {"Location(s):"}
                             </Typography>
-                            {invitation.location.map((item) => {
-                                return (<Place key={item.place_id} item={item} invitation={true} />);
-                            })}
+                            <Places placesList={invitation.location} selection={invitationLocationSelection} updateMethod={updateSelection} />
                             <Typography variant="h6" gutterBottom>
                                 Time Zone: {invitation.schedule.timezone.altName === undefined ?
                                     invitation.schedule.timezone.value : invitation.schedule.timezone.altName}
