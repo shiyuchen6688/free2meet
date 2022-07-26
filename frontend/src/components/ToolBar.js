@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { logout } from '../redux/users/reducer';
 import UserProfile from './UserProfile';
+import { useEffect } from 'react';
+import  { Navigate } from 'react-router-dom'
 
 export default function ToolBar() {
     const navigate = useNavigate();
@@ -61,56 +63,58 @@ export default function ToolBar() {
     };
 
     return (
-        <AppBar
-            position="sticky"
-            color="default"
-            sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
-        >
-            <Toolbar sx={{ flexWrap: 'wrap' }}>
-                <Typography variant="h6" color="inherit" noWrap align='left' sx={{ flexGrow: 1 }}>
-                    free2meet
-                </Typography>
-                <Box sx={{ flexGrow: 1, flexWrap: 'wrap', display: { xs: 'flex' } }}>
-                    {pages.map((page) => (
-                        <MenuItem key={page.text} onClick={page.actions} >
-                            <Typography textAlign="center">{page.text}</Typography>
-                        </MenuItem>
-                    ))}
-                </Box>
-                <Box sx={{ flexGrow: 0, m: 2 }}>
-                    <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar>{currentUser.username.charAt(0)}</Avatar>
-                        </IconButton>
-                    </Tooltip>
-                    <Menu
-                        sx={{ mt: '45px' }}
-                        anchorEl={user}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(user)}
-                        onClose={handleCloseUserMenu}
-                    >
-                        {settings.map((setting) => (
-                            <MenuItem key={setting.text} onClick={setting.actions}>
-                                <ListItemIcon>
-                                    {setting.icon}
-                                </ListItemIcon>
-                                <Typography textAlign="center">{setting.text}</Typography>
+        <div>
+            {currentUser.username === null ? <Navigate to="/" /> :
+            <AppBar
+                position="sticky"
+                color="default"
+                sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
+            >
+                <Toolbar sx={{ flexWrap: 'wrap' }}>
+                    <Typography variant="h6" color="inherit" noWrap align='left' sx={{ flexGrow: 1 }}>
+                        free2meet
+                    </Typography>
+                    <Box sx={{ flexGrow: 1, flexWrap: 'wrap', display: { xs: 'flex' } }}>
+                        {pages.map((page) => (
+                            <MenuItem key={page.text} onClick={page.actions} >
+                                <Typography textAlign="center">{page.text}</Typography>
                             </MenuItem>
                         ))}
-                    </Menu>
-                </Box>
-
-                <UserProfile open={open} handleClose={handleClose} currentUser={currentUser} />
-            </Toolbar>
-        </AppBar>
+                    </Box>
+                    <Box sx={{ flexGrow: 0, m: 2 }}>
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                <Avatar>{currentUser.username.charAt(0)}</Avatar>
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            anchorEl={user}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(user)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map((setting) => (
+                                <MenuItem key={setting.text} onClick={setting.actions}>
+                                    <ListItemIcon>
+                                        {setting.icon}
+                                    </ListItemIcon>
+                                    <Typography textAlign="center">{setting.text}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+                    <UserProfile open={open} handleClose={handleClose} currentUser={currentUser} />
+                </Toolbar>
+            </AppBar>}
+        </div>
     )
 }
