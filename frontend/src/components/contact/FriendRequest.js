@@ -6,7 +6,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Fab from '@mui/material/Fab';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
@@ -38,7 +37,6 @@ export default function FriendRequest() {
     console.log("friendRequestsSent", friendRequestsSent)
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     useEffect(() => {
         console.log("userEffect get friend request info")
@@ -49,10 +47,7 @@ export default function FriendRequest() {
     const refresh = () => {
         dispatch(getFriendRequestsAsync(currentUserEmail));
         dispatch(getFriendRequestsSentAsync(currentUserEmail));
-        navigate("/contact")
     }
-
-
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const theme = React.useMemo(
@@ -77,12 +72,10 @@ export default function FriendRequest() {
     // TODO: Send friend request to friendEmail
     const handleSendFriendRequest = () => {
         console.log({ currentUserEmail, friendEmail })
-        dispatch(sendFriendRequestAsync({ email: currentUserEmail, friendEmail }))
-        navigate("/contact")
+        dispatch(sendFriendRequestAsync({ email: currentUserEmail, friendEmail })).then(() => {
+            refresh();
+        });
     }
-
-
-
 
     return (
         <ThemeProvider theme={theme}>
@@ -159,10 +152,6 @@ export default function FriendRequest() {
                     ))}
                 </Grid>
             </Paper>
-
-
-
-
         </ThemeProvider>
     )
 
@@ -177,12 +166,10 @@ function FriendCard(props) {
 
     const handleAcceptClick = () => {
         dispatch(acceptFriendRequestAsync({ email: userEmail, friendEmail }))
-        navigate("/contact")
     }
 
     const handleDeclineClick = () => {
         dispatch(declineFriendRequestAsync({ email: userEmail, friendEmail }))
-        navigate("/contact")
     }
 
     return (
