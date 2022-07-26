@@ -209,17 +209,6 @@ router.patch('/:email/change-username', async function (req, res, next) {
 
 })
 
-// get meetups created by a user given user email
-router.get('/:email/meetups/created', (req, res) => {
-    const email = req.params.email;
-    queries.getMeetupsCreated(email).then(meetups => {
-        return res.send(meetups);
-    }).catch(err => {
-        return res.status(404).send(err);
-    });
-});
-
-
 // get all friends for a user given user email
 router.get('/:email/friends/', function (req, res, next) {
     const email = req.params.email;

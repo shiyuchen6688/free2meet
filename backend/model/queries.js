@@ -63,7 +63,7 @@ const queries = {
             }
             meetups[i] = { ...meetups[i]._doc, creator: { email: email, username: username } };
         }
-        console.log(meetups);
+        // console.log(meetups);
         return meetups;
     },
     // Given a user email, returns all meetups that invited the user

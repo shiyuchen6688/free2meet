@@ -11,6 +11,5 @@ export const actionTypes = {
     DECLINE_FRIEND_REQUEST: 'users/friends/requests/decline',
     CHANGE_PASSWORD: 'users/changeaPassword',
     CHANGE_USERNAME: 'users/changeUsername',
-    GET_MEETUPS_CREATED: 'users/getMeetupsCreated',
     DELETE_USER_ACCOUNT: 'users/deleteUserAccount'
 }

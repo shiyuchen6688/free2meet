@@ -24,3 +24,11 @@ export const getMeetupAsync = createAsyncThunk(
         return await MeetupsService.getMeetup(id);
     }
 )
+
+export const getMeetupsCreatedAsync = createAsyncThunk(
+    actionTypes.GET_MEETUPS_CREATED,
+    async (email) => {
+        console.log("getMeetupsCreatedAsync")
+        return await MeetupsService.getMeetupsCreated(email);
+    }
+)

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATE } from '../utils';
-import { addMeetupAsync, getMeetupsAsync, getMeetupAsync } from './thunks';
+import { addMeetupAsync, getMeetupsAsync, getMeetupAsync, getMeetupsCreatedAsync } from './thunks';
 
 
 
@@ -10,6 +10,7 @@ const INITIAL_STATE = {
     getMeetups: REQUEST_STATE.IDLE,
     addMeetup: REQUEST_STATE.IDLE,
     getMeetup: REQUEST_STATE.IDLE,
+    MeetupsCreated: REQUEST_STATE.IDLE,
     error: null
 };
 
@@ -53,6 +54,18 @@ const meetupsSlice = createSlice({
             })
             .addCase(addMeetupAsync.rejected, (state, action) => {
                 state.addMeetup = REQUEST_STATE.REJECTED;
+                state.error = action.error;
+            })
+            .addCase(getMeetupsCreatedAsync.pending, (state) => {
+                state.MeetupsCreated = REQUEST_STATE.PENDING;
+                state.error = null;
+            })
+            .addCase(getMeetupsCreatedAsync.fulfilled, (state, action) => {
+                state.MeetupsCreated = REQUEST_STATE.FULFILLED;
+                state.list = action.payload
+            })
+            .addCase(getMeetupsCreatedAsync.rejected, (state, action) => {
+                state.MeetupsCreated = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
     }
