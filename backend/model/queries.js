@@ -367,17 +367,15 @@ const queries = {
             for (let i = 0; i < users.length; i++) {
                 let user = users[i];
                 let userTimeSlots = user.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot;
-                if (userTimeSlots !== undefined) {
-                    for (let j = 0; j < userTimeSlots.length; j++) {
-                        if (maxTimeSlotsArray.indexOf(userTimeSlots[j]) === -1) {
-                            let timeSlot = userTimeSlots[j];
-                            let usersAtTimeSlot = users.filter(u => u.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot.includes(timeSlot));
-                            if (usersAtTimeSlot.length > maxTimeSlots) {
-                                maxTimeSlots = usersAtTimeSlot.length;
-                                maxTimeSlotsArray = [timeSlot];
-                            } else if (usersAtTimeSlot.length === maxTimeSlots) {
-                                maxTimeSlotsArray.push(timeSlot);
-                            }
+                for (let j = 0; j < userTimeSlots.length; j++) {
+                    if (maxTimeSlotsArray.indexOf(userTimeSlots[j]) === -1) {
+                        let timeSlot = userTimeSlots[j];
+                        let usersAtTimeSlot = users.filter(u => u.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot.includes(timeSlot));
+                        if (usersAtTimeSlot.length > maxTimeSlots) {
+                            maxTimeSlots = usersAtTimeSlot.length;
+                            maxTimeSlotsArray = [timeSlot];
+                        } else if (usersAtTimeSlot.length === maxTimeSlots) {
+                            maxTimeSlotsArray.push(timeSlot);
                         }
                     }
                 }
