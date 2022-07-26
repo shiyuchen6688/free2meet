@@ -333,10 +333,9 @@ const queries = {
         let inviteesNoDecisions = await User.find({ meetupsPending: meetupId });
         // if there are no invitees, then the meetup is complete
         if (inviteesNoDecisions.length === 0) {
-            await Meetup.findOneAndUpdate({ id: meetupId }, { state: 'COMPLETED' }, { new: true });
+            let meetup = await Meetup.findOneAndUpdate({ id: meetupId }, { state: 'COMPLETED' }, { new: true });
             // find all users who have accepted the meetup
             let users = await User.find({ meetupsAccepted: { $elemMatch: { meetupId: meetupId } } });
-            let meetup = null;
             // find locations with the most users, if multiple locations have the same number of users, find all locations
             let maxLocations = 0;
             let maxLocationsIds = [];
@@ -358,9 +357,6 @@ const queries = {
             }
             // if no invitee selected the location, then use creator selected locations instead
             if (maxLocationsIds.length === 0) {
-                if (meetup === null) {
-                    meetup = await Meetup.findOne({ id: meetupId });
-                }
                 for (let i = 0; i < meetup.location.length; i++) {
                     maxLocationsIds.push(meetup.location[i].place_id);
                 }
@@ -388,9 +384,6 @@ const queries = {
             }
             // if no invitee selected the time slot, then use creator selected time slots instead
             if (maxTimeSlotsArray.length === 0) {
-                if (meetup === null) {
-                    meetup = await Meetup.findOne({ id: meetupId });
-                }
                 if (meetup.schedule.schedule !== undefined) {
                     maxTimeSlotsArray = Object.keys(meetup.schedule.schedule);
                 }
