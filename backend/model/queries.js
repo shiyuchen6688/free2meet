@@ -87,7 +87,6 @@ const queries = {
     deleteUserFromMeetupInvitees: async (userEmail, meetup) => {
         let newInvitees = meetup.invitees.filter(inviteeEmail => inviteeEmail != userEmail)
         return await Meetup.findOneAndUpdate({ id: meetup.id }, { invitees: newInvitees })
-
     },
     // Delete meetups by id
     deleteMeetupById: async (meetupId) => {
