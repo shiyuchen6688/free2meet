@@ -45,8 +45,8 @@ export default function ToolBar() {
         { text: 'Home', actions: () => navigate("/") },
         { text: 'Schedule New Meetup', actions: () => navigate("/meetups/new") },
         // { text: 'View Existing Meetups', actions: () => navigate("/meetups") },
-        { text: 'View Invitations', actions: () => navigate("/invitations") },
-        { text: 'View Full History', actions: () => navigate("/history") },
+        { text: 'Invitations', actions: () => navigate("/invitations") },
+        { text: 'History', actions: () => navigate("/history") },
         { text: 'Contact', actions: () => navigate("/contact") },
     ];
 
