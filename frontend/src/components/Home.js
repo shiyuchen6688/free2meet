@@ -20,6 +20,7 @@ export default function Home() {
         dispatch(getMeetupsCreatedAsync(currentUser.email)).then(() => {
             console.log(createdMeetups);
         });
+
     }, [dispatch, currentUser.email]);
     return (
         <>

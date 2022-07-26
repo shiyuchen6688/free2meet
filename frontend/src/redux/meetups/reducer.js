@@ -66,6 +66,7 @@ const meetupsSlice = createSlice({
             })
             .addCase(getMeetupsCreatedAsync.rejected, (state, action) => {
                 state.getMeetupsCreatedAsync = REQUEST_STATE.REJECTED;
+
                 state.error = action.error;
             })
     }
