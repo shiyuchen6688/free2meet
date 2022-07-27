@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { logout } from '../redux/users/reducer';
 import UserProfile from './UserProfile';
-import { useEffect } from 'react';
 import  { Navigate } from 'react-router-dom'
 
 export default function ToolBar() {

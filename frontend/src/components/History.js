@@ -160,7 +160,7 @@ export default function History() {
 
     const email = useSelector(state => state.usersReducer.email);
 
-    let fbp = "";
+    // let fbp = "";
 
     const [filterByPerson, setFilterByPerson] = useState("");
 
