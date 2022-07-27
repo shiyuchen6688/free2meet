@@ -129,12 +129,10 @@ export default function MeetupCard({ meetup, refresh, state }) {
                     </ExpandMore>
                 </CardActions>
                 <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'} TransitionComponent={Grow}>
-                    <CardHeader>
+                    <CardContent>
                         <Typography variant="h6" gutterBottom>
                             Title: {meetup.title}
                         </Typography>
-                    </CardHeader>
-                    <CardContent>
                         <Typography variant="h6" gutterBottom>
                             Details:
                         </Typography>
