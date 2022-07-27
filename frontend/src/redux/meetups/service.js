@@ -65,6 +65,37 @@ const getMeetupsCreated = async (email) => {
     return data
 }
 
+export const calculateMeetupBestLocationandTime = async (id) => {
+    const response = await fetch(`http://localhost:3001/meetups/${id}/calculate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        }
+    });
+
+    const data = await response.json()
+
+   
+    return data
+}
+
+export const getInvitteesNoResponse = async (id) => {
+    const response = await fetch(`http://localhost:3001/meetups/${id}/noresponse`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        }
+    });
+
+    const data = await response.json()
+
+    return data
+}
+
+
+
 const exportedService = {
     getMeetups,
     getMeetup,

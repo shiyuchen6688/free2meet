@@ -137,4 +137,24 @@ router.get('/:email/created', (req, res) => {
     });
 });
 
+// check if all invitees have responded to a meetup
+router.get('/:id/noresponse', (req, res) => {
+    const id = req.params.id;
+    queries.checkIfMeetupIsComplete(id).then(completed => {
+        return res.send(completed);
+    }).catch(err => {
+        return res.status(404).send(err);
+    });
+});
+
+// calculate best location and best time for a meetup
+router.post('/:id/calculate', (req, res) => {
+    const id = req.params.id;
+    queries.calculateMeetupBestLocationandTime(id).then(meetup => {
+        return res.send(meetup);
+    }).catch(err => {
+        return res.status(404).send(err);
+    });
+});
+
 module.exports = router;

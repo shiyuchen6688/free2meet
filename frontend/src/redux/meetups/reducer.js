@@ -2,8 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATE } from '../utils';
 import { addMeetupAsync, getMeetupsAsync, getMeetupAsync, getMeetupsCreatedAsync } from './thunks';
 
-
-
 const INITIAL_STATE = {
     list: [],
     meetup: {},
@@ -67,7 +65,6 @@ const meetupsSlice = createSlice({
             })
             .addCase(getMeetupsCreatedAsync.rejected, (state, action) => {
                 state.getMeetupsCreatedAsync = REQUEST_STATE.REJECTED;
-
                 state.error = action.error;
             })
     }

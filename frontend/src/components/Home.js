@@ -23,6 +23,10 @@ export default function Home() {
     let meetupsCompletedResponse = createdMeetups.filter(meetup => meetup.state === 'COMPLETED');
     let meetupsDone = createdMeetups.filter(meetup => meetup.state === 'DONE');
 
+    const refresh = () => {
+        dispatch(getMeetupsCreatedAsync(currentUser.email));
+    }
+
     return (
         <>
             <CssBaseline />
@@ -34,7 +38,7 @@ export default function Home() {
                     </Typography>
 
                     {meetupsWaiting.map(meetup => (
-                        <MeetupCard meetup={meetup} />
+                        <MeetupCard meetup={meetup} refresh={refresh} state={"PENDING"} />
                     ))}
 
                 </Paper>
@@ -42,6 +46,10 @@ export default function Home() {
                     <Typography component="h5" variant="h5" align="center">
                         Meetups Completed Response ({meetupsCompletedResponse.length})
                     </Typography>
+
+                    {meetupsCompletedResponse.map(meetup => (
+                        <MeetupCard meetup={meetup} refresh={refresh} state={"COMPLETED"} />
+                    ))}
 
 
                 </Paper>

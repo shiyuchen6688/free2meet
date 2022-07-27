@@ -296,7 +296,6 @@ const queries = {
         promises.push(queries.getInvitationsPending(userEmail));
         promises.push(queries.getInvitationsAccepted(userEmail));
         promises.push(queries.getInvitationsDeclined(userEmail));
-        promises.push(queries.checkIfMeetupIsComplete(meetup));
         let [meetupsPending, meetupsAccepted, meetupsDeclined] = await Promise.all(promises);
         return { invitationsPending: meetupsPending, invitationsDeclined: meetupsDeclined, invitationsAccepted: meetupsAccepted };
     },
@@ -331,7 +330,6 @@ const queries = {
         promises.push(queries.getInvitationsPending(userEmail));
         promises.push(queries.getInvitationsAccepted(userEmail));
         promises.push(queries.getInvitationsDeclined(userEmail));
-        promises.push(queries.checkIfMeetupIsComplete(meetup));
         let [meetupsPending, meetupsAccepted, meetupsDeclined] = await Promise.all(promises);
         return { invitationsPending: meetupsPending, invitationsAccepted: meetupsAccepted, invitationsDeclined: meetupsDeclined };
     },
@@ -339,68 +337,67 @@ const queries = {
     checkIfMeetupIsComplete: async (meetupId) => {
         // get all users who have not accepted or declined the meetup
         let inviteesNoDecisions = await User.find({ meetupsPending: meetupId });
-        // if there are no invitees, then the meetup is complete
-        if (inviteesNoDecisions.length === 0) {
-            let meetup = await Meetup.findOneAndUpdate({ id: meetupId }, { state: 'COMPLETED' }, { new: true });
-            // find all users who have accepted the meetup
-            let users = await User.find({ meetupsAccepted: { $elemMatch: { meetupId: meetupId } } });
-            // find locations with the most users, if multiple locations have the same number of users, find all locations
-            let maxLocations = 0;
-            let maxLocationsIds = [];
-            for (let i = 0; i < users.length; i++) {
-                let user = users[i];
-                let locations = user.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableLocations;
-                for (let j = 0; j < locations.length; j++) {
-                    if (maxLocationsIds.indexOf(locations[j]) === -1) {
-                        let location = locations[j];
-                        let usersAtLocation = users.filter(u => u.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableLocations.includes(location));
-                        if (usersAtLocation.length > maxLocations) {
-                            maxLocations = usersAtLocation.length;
-                            maxLocationsIds = [location];
-                        } else if (usersAtLocation.length === maxLocations) {
-                            maxLocationsIds.push(location);
-                        }
-                    }
-                }
-            }
-            // if no invitee selected the location, then use creator selected locations instead
-            if (maxLocationsIds.length === 0) {
-                for (let i = 0; i < meetup.location.length; i++) {
-                    maxLocationsIds.push(meetup.location[i].place_id);
-                }
-            }
-            // find time slots with the most users, if multiple time slots have the same number of users, find all time slots
-            let maxTimeSlots = 0;
-            let maxTimeSlotsArray = [];
-            for (let i = 0; i < users.length; i++) {
-                let user = users[i];
-                let userTimeSlots = user.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot;
-                for (let j = 0; j < userTimeSlots.length; j++) {
-                    if (maxTimeSlotsArray.indexOf(userTimeSlots[j]) === -1) {
-                        let timeSlot = userTimeSlots[j];
-                        let usersAtTimeSlot = users.filter(u => u.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot.includes(timeSlot));
-                        if (usersAtTimeSlot.length > maxTimeSlots) {
-                            maxTimeSlots = usersAtTimeSlot.length;
-                            maxTimeSlotsArray = [timeSlot];
-                        } else if (usersAtTimeSlot.length === maxTimeSlots) {
-                            maxTimeSlotsArray.push(timeSlot);
-                        }
-                    }
-                }
-            }
-            // if no invitee selected the time slot, then use creator selected time slots instead
-            if (maxTimeSlotsArray.length === 0) {
-                if (meetup.schedule.schedule !== undefined) {
-                    maxTimeSlotsArray = Object.keys(meetup.schedule.schedule);
-                }
-            }
-            // update meetup with best location and time slot
-            await Meetup.findOneAndUpdate({ id: meetupId }, { bestLocation: maxLocationsIds, bestTime: maxTimeSlotsArray }, { new: true });
-        }
         // returns username and email fields for each invitee who have not accepted or declined the meetup
         return inviteesNoDecisions.map(invitee => {
             return { username: invitee.username, email: invitee.email };
         });
+    },
+    calculateMeetupBestLocationandTime: async (meetupId) => {
+        let meetup = await Meetup.findOneAndUpdate({ id: meetupId }, { state: 'COMPLETED' }, { new: true });
+        // find all users who have accepted the meetup
+        let users = await User.find({ meetupsAccepted: { $elemMatch: { meetupId: meetupId } } });
+        // find locations with the most users, if multiple locations have the same number of users, find all locations
+        let maxLocations = 0;
+        let maxLocationsIds = [];
+        for (let i = 0; i < users.length; i++) {
+            let user = users[i];
+            let locations = user.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableLocations;
+            for (let j = 0; j < locations.length; j++) {
+                if (maxLocationsIds.indexOf(locations[j]) === -1) {
+                    let location = locations[j];
+                    let usersAtLocation = users.filter(u => u.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableLocations.includes(location));
+                    if (usersAtLocation.length > maxLocations) {
+                        maxLocations = usersAtLocation.length;
+                        maxLocationsIds = [location];
+                    } else if (usersAtLocation.length === maxLocations) {
+                        maxLocationsIds.push(location);
+                    }
+                }
+            }
+        }
+        // if no invitee selected the location, then use creator selected locations instead
+        if (maxLocationsIds.length === 0) {
+            for (let i = 0; i < meetup.location.length; i++) {
+                maxLocationsIds.push(meetup.location[i].place_id);
+            }
+        }
+        // find time slots with the most users, if multiple time slots have the same number of users, find all time slots
+        let maxTimeSlots = 0;
+        let maxTimeSlotsArray = [];
+        for (let i = 0; i < users.length; i++) {
+            let user = users[i];
+            let userTimeSlots = user.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot;
+            for (let j = 0; j < userTimeSlots.length; j++) {
+                if (maxTimeSlotsArray.indexOf(userTimeSlots[j]) === -1) {
+                    let timeSlot = userTimeSlots[j];
+                    let usersAtTimeSlot = users.filter(u => u.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot.includes(timeSlot));
+                    if (usersAtTimeSlot.length > maxTimeSlots) {
+                        maxTimeSlots = usersAtTimeSlot.length;
+                        maxTimeSlotsArray = [timeSlot];
+                    } else if (usersAtTimeSlot.length === maxTimeSlots) {
+                        maxTimeSlotsArray.push(timeSlot);
+                    }
+                }
+            }
+        }
+        // if no invitee selected the time slot, then use creator selected time slots instead
+        if (maxTimeSlotsArray.length === 0) {
+            if (meetup.schedule.schedule !== undefined) {
+                maxTimeSlotsArray = Object.keys(meetup.schedule.schedule);
+            }
+        }
+        // update meetup with best location and time slot
+        return await Meetup.findOneAndUpdate({ id: meetupId }, { bestLocation: maxLocationsIds, bestTime: maxTimeSlotsArray }, { new: true });
     },
     // check is user is friend with friendEmail
     isFriend: async (userEmail, friendEmail) => {

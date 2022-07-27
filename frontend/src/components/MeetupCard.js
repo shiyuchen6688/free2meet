@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import { calculateMeetupBestLocationandTime, getInvitteesNoResponse } from '../redux/meetups/service';
 import Places from './Places';
 import ScheduleSelector from './timetable/ScheduleSelector';
 
@@ -27,7 +28,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function MeetupCard({ meetup }) {
+export default function MeetupCard({ meetup, refresh, state }) {
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -43,8 +44,17 @@ export default function MeetupCard({ meetup }) {
     }
 
     const handleCompleteClick = () => {
-        alert("NOT IMPLEMENTED");
+        calculateMeetupBestLocationandTime(meetup.id).then(function (result) {
+            refresh();
+        });
     }
+
+    const handleCheck = () => {
+        getInvitteesNoResponse(meetup.id).then(function (result) {
+            console.log(result);
+        });
+    }
+
 
     return (
         <Box sx={{ minWidth: 275, margin: 5 }}>
@@ -63,11 +73,20 @@ export default function MeetupCard({ meetup }) {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <Button
-                        onClick={handleCompleteClick}
-                    >
-                        Stop Waiting For Invitees' Response
-                    </Button>
+                    {meetup.state === "PENDING" &&
+                        <>
+                            <Button
+                                onClick={handleCompleteClick}
+                            >
+                                Stop Waiting For Response And Calcualate Best Location and Time And Complete Meetup
+                            </Button>
+                            <Button
+                                onClick={handleCheck}
+                            >
+                                Check Invitees No Response
+                            </Button>
+                        </>
+                    }
 
                     <ExpandMore
                         expand={expanded}
@@ -125,11 +144,6 @@ export default function MeetupCard({ meetup }) {
                                 />
                             </div>}
                             <CardActions disableSpacing>
-                                <Button
-                                    onClick={handleCompleteClick}
-                                >
-                                    Stop Waiting For Invitees' Response
-                                </Button>
 
                                 <ExpandMore
                                     expand={expanded}
