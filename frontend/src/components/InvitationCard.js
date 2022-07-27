@@ -1,22 +1,23 @@
-import * as React from 'react';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { Avatar } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import IconButton from '@mui/material/IconButton';
-import { styled } from '@mui/material/styles';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import Places from './Places';
-import ScheduleSelector from './timetable/ScheduleSelector';
+import Chip from '@mui/material/Chip';
 import Dialog from '@mui/material/Dialog';
 import Grow from '@mui/material/Grow';
-import { acceptInvitationAsync, declineInvitationAsync } from '../redux/invitations/thunks';
+import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 import { useDispatch } from 'react-redux';
+import { acceptInvitationAsync, declineInvitationAsync } from '../redux/invitations/thunks';
+import Places from './Places';
+import ScheduleSelector from './timetable/ScheduleSelector';
 // import { useEffect } from 'react';
 
 
@@ -48,14 +49,14 @@ export default function InvitationCard({ invitation, userEmail, state }) {
     const [invitationLocationSelection, setInvitationLocationSelection] = React.useState(initLocationSelection);
 
     const updateSelection = (place_id, selected) => {
-        const newSelection = {...invitationLocationSelection};
+        const newSelection = { ...invitationLocationSelection };
         newSelection[place_id] = !selected;
         setInvitationLocationSelection(newSelection);
     }
 
     const handleAcceptClick = () => {
         console.log("Accepted");
-        let invitationLocationSelectionCopy = {...invitationLocationSelection};
+        let invitationLocationSelectionCopy = { ...invitationLocationSelection };
         let availableLocations = [];
         for (let key in invitationLocationSelectionCopy) {
             if (invitationLocationSelectionCopy[key]) {
@@ -85,7 +86,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
         }
     }
 
-    let pastLocationSelection = [ ...invitation.location ];
+    let pastLocationSelection = [...invitation.location];
     let selectedLocations = [];
     if (invitation.location !== undefined) {
         for (let i = 0; i < pastLocationSelection.length; i++) {
@@ -160,6 +161,25 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                         <Typography variant="body2" color="text.secondary">
                             {invitation.description}
                         </Typography>
+                        {invitation.invitees.length > 1 &&
+                            <>
+                                <Typography variant="h6" gutterBottom>
+                                    Also Invited:
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {invitation.invitees.map((invitee) => {
+                                        if (invitee !== userEmail) {
+                                            return <Chip key={invitee} label={invitee} avatar={<Avatar>{invitee}</Avatar>} />
+                                        }
+                                    })}
+                                </Typography>
+                            </>
+                        }
+                        {invitation.invitees.length === 1 &&
+                            <Typography variant="h6" gutterBottom>
+                                Only Invited You!
+                            </Typography>
+                        }
                         <Box sx={{ minWidth: 800, margin: 0 }}>
                             <Typography variant="h6" gutterBottom>
                                 {"Location(s):"}
