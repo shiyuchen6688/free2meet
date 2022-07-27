@@ -74,3 +74,11 @@ export const changeInvitee = (invitees) => {
         payload: invitees
     }
 };
+
+// Change tags in meetup invitation page
+export const changeTags = (tags) => {
+    return {
+        type: "CHANGE_TAGS",
+        payload: tags
+    }
+}

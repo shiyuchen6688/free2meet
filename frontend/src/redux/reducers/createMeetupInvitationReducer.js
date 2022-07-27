@@ -1,13 +1,19 @@
-const initialValue = [];
+const initialValue = {
+    invitees: [],
+    tags: [],
+};
 
 const createMeetupInvitationReducer = (state = initialValue, action) => {
+    let stateCopy;
     switch (action.type) {
         case 'CHANGE_INVITEES':
-            // get new input value + name of the form input
-            console.log(action.payload);
-            return action.payload;
+            stateCopy = JSON.parse(JSON.stringify(state));
+            return stateCopy.invitees = action.payload;
+        case 'CHANGE_TAGS':
+            stateCopy = JSON.parse(JSON.stringify(state));
+            return stateCopy.tags = action.payload;
         default:
-            return state
+            return state;
     }
 }
 
