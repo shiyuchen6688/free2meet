@@ -7,7 +7,6 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ScheduleSelector from 'react-schedule-selector';
 import CreatableSelect from 'react-select/creatable';
-import Select from '@mui/material';
 import "../App.css";
 import { changeInvitee, changeTags } from '../redux/actions/actions';
 import { getFriendsAsync } from '../redux/users/thunks';
@@ -18,7 +17,6 @@ export default function MeetupInvitation() {
     const titleAndDetailInfo = useSelector(state => state.createMeetupTitleDetailReducer);
     const allScheduleInfo = useSelector(state => state.createMeetupScheduleReducer);
     const locationInfo = useSelector(state => state.createMeetupLocationReducer);
-    // TODO
     // const invitationInfo = useSelector(state => state.createMeetupInvitationReducer);
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const currentUser = useSelector(state => state.usersReducer);
@@ -32,10 +30,11 @@ export default function MeetupInvitation() {
         return { label: friend.username, value: friend.email };
     });
 
-    const tags = ["Tag 1", "Tag 2", "Tag 3"];
-    const useableTags = tags.map(tag => {
-        return { label: tag, value: tag };
-    });
+    // TODO use Google NLP API to get the tags
+    // const tags = ["Tag 1", "Tag 2", "Tag 3"];
+    // const useableTags = tags.map(tag => {
+    //     return { label: tag, value: tag };
+    // });
 
     let handleChangeInvitees = (newValue) => {
         dispatch(changeInvitee(newValue));
@@ -74,7 +73,7 @@ export default function MeetupInvitation() {
                     <CreatableSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
                         isMulti
                         onChange={handleChangeTags}
-                        options={useableTags}
+                        // options={useableTags}
                     />
                 </div>
                 <Typography variant="h6" gutterBottom>

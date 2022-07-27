@@ -67,6 +67,7 @@ router.post('/', function (req, res, next) {
         schedule: req.body.schedule,
         location: req.body.location,
         invitees: inviteesModified,
+        tags: req.body.tags,
         creator: creatorEmail,
         meetupImage: req.body.meetupImage,
         state: "PENDING",

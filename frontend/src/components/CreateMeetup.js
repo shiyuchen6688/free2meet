@@ -46,6 +46,7 @@ export default function CreateMeetup() {
     let meetupSchedule = useSelector(state => state.createMeetupScheduleReducer);
     // TODO
     let meetupInvitation = useSelector(state => state.createMeetupInvitationReducer);
+    let meetupTags = useSelector(state => state.createMeetupTagsReducer);
     let meetupImage = useSelector(state => state.meetupsReducer.imageURL);
     let user = useSelector(state => state.usersReducer);
     let creator = {
@@ -69,12 +70,17 @@ export default function CreateMeetup() {
                 meetupLocationCopy[i]['attendees'] = [creator.email];
             }
             meetupScheduleCopy.schedule = newMeetupSchedule;
+            let meetupTagsCopy = JSON.parse(JSON.stringify(meetupTags));
+            for (let i = 0; i < meetupTagsCopy.length; i++) {
+                meetupTagsCopy[i] = meetupTagsCopy[i].value;
+            }
             dispatch(addMeetupAsync({
                 title: titleAndDetailInput['meetup-title'],
                 description: titleAndDetailInput['meetup-description'],
                 location: meetupLocationCopy,
                 schedule: meetupScheduleCopy,
                 invitees: meetupInvitation,
+                tags: meetupTagsCopy,
                 creator: creator,
                 meetupImage: meetupImage
             }));
