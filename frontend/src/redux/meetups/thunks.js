@@ -24,3 +24,10 @@ export const getMeetupAsync = createAsyncThunk(
         return await MeetupsService.getMeetup(id);
     }
 )
+
+export const addImageAsync = createAsyncThunk(
+    actionTypes.ADD_IMAGE,
+    async (image) => {
+        return await MeetupsService.addImage(image)
+    }
+)

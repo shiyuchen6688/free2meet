@@ -68,6 +68,7 @@ router.post('/', function (req, res, next) {
         location: req.body.location,
         invitees: inviteesModified,
         creator: creatorEmail,
+        meetupImage: req.body.meetupImage,
         state: "PENDING",
         bestLocation: null,
         bestTime: null

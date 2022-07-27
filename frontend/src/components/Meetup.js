@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { getMeetupAsync } from '../redux/meetups/thunks';
 import { CircularProgress } from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
 
 
 export default function Meetup() {
@@ -36,6 +37,10 @@ export default function Meetup() {
                 palette: {
                     mode: prefersDarkMode ? 'dark' : 'light',
                 },
+                Media: {
+                    height: '100%',
+                    width: '100%'
+                  }
             }),
         [prefersDarkMode],
     );
@@ -66,6 +71,11 @@ export default function Meetup() {
                                             ${meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? 'NA':Object.keys(meetup.schedule.schedule)[Object.keys(meetup.schedule.schedule).length-1].split("T")[1].split(":00.")[0]}`}
                             />
                             <CardContent>
+                                <CardMedia
+                                    component="img"
+                                    width="100%"
+                                    image={meetup.meetupImage}
+                                />
                                 <Typography variant="body2" color="text.secondary">
                                     {meetup.description}
                                 </Typography>

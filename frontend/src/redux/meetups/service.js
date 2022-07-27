@@ -1,3 +1,4 @@
+import axios from 'axios'
 // Get all meetups
 const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
     console.log("filter by person");
@@ -47,10 +48,39 @@ const addMeetup = async (meetup) => {
     return data
 }
 
+const addImage = async (image) => {
+    const API_ENDPOINT = 'https://cf73795wi5.execute-api.us-west-2.amazonaws.com/uploads' // e.g. https://ab1234ab123.execute-api.us-east-1.amazonaws.com/uploads
+    console.log('Upload clicked')
+    // Get the presigned URL
+    const response = await axios({
+      method: 'GET',
+      url: API_ENDPOINT
+    })
+    console.log('Response: ', response)
+    console.log('Uploading: ', image)
+    let binary = atob(image.split(',')[1])
+    let array = []
+    for (var i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i))
+    }
+    let blobData = new Blob([new Uint8Array(array)], {type: 'image/jpeg'})
+    console.log('Uploading to: ', response.data.uploadURL)
+    const result = await fetch(response.data.uploadURL, {
+      method: 'PUT',
+      body: blobData
+    })
+    console.log('Result: ', result)
+    // Final URL for the user doesn't need the query string params
+    const uploadURL = response.data.uploadURL.split('?')[0]
+    console.log(uploadURL)
+    return uploadURL
+  }
+
 const exportedService = {
     getMeetups,
     getMeetup,
-    addMeetup
+    addMeetup,
+    addImage
 }
 
 export default exportedService;

@@ -240,6 +240,10 @@ export default function History() {
                     // subheader={`${eventJSON.startDate} ${eventJSON.startTime} - ${eventJSON.endDate} ${eventJSON.endTime}`}
                     />
                     <CardContent>
+                        <CardMedia
+                            component="img"
+                            image={eventJSON.meetupImage}
+                        />
                         <Typography variant="body2" color="text.secondary">
                             {eventJSON.description}
                         </Typography>

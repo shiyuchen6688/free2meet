@@ -45,6 +45,7 @@ export default function CreateMeetup() {
     let meetupLocation = useSelector(state => state.createMeetupLocationReducer);
     let meetupSchedule = useSelector(state => state.createMeetupScheduleReducer);
     let meetupInvitation = useSelector(state => state.createMeetupInvitationReducer);
+    let meetupImage = useSelector(state => state.meetupsReducer.imageURL);
     let user = useSelector(state => state.usersReducer);
     let creator = {
         username: user.username,
@@ -69,7 +70,8 @@ export default function CreateMeetup() {
                 location: meetupLocation,
                 schedule: meetupScheduleCopy,
                 invitees: meetupInvitation,
-                creator: creator
+                creator: creator,
+                meetupImage: meetupImage
             }));
         }
     };
