@@ -169,8 +169,8 @@ export default function History() {
     const peopleJSON = useSelector(state => state.usersReducer.friends);
     useEffect(() => {
         dispatch(getFriendsAsync(email));
-        console.log(peopleJSON);
-    }, [dispatch]);
+        // console.log(peopleJSON);
+    }, [dispatch, email]);
     const eventsJSON = useSelector(state => state.meetupsReducer.list);
     useEffect(() => {
         console.log(email);
@@ -213,13 +213,13 @@ export default function History() {
     document.getElementsByTagName("head")[0].appendChild(script);
     // for google map -------------------------------------------------------------->>>>>
 
-    function refreshCards() {
-        console.log("Refresh Cards");
-        console.log("filterPeopleOption", filterPeopleOption);
-        console.log("filter by person", filterByPerson);
-        console.log(typeof filterByPerson);
-        dispatch(getMeetupsAsync({ filterPeopleOption, filterByPerson, email }));
-    }
+    // function refreshCards() {
+    //     console.log("Refresh Cards");
+    //     console.log("filterPeopleOption", filterPeopleOption);
+    //     console.log("filter by person", filterByPerson);
+    //     console.log(typeof filterByPerson);
+    //     dispatch(getMeetupsAsync({ filterPeopleOption, filterByPerson, email }));
+    // }
 
     function mapJSONToCard(eventJSON) {
         return (
