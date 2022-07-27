@@ -1,6 +1,7 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Close';
+import { DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -29,6 +30,14 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function MeetupCard({ meetup, refresh, state }) {
+    const [open, setOpen] = React.useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -51,10 +60,13 @@ export default function MeetupCard({ meetup, refresh, state }) {
 
     const handleCheck = () => {
         getInvitteesNoResponse(meetup.id).then(function (result) {
-            console.log(result);
+            handleClickOpen();
         });
     }
 
+    const handleDoneClick = () => {
+        alert('NOT IMPLEMENTED');
+    }
 
     return (
         <Box sx={{ minWidth: 275, margin: 5 }}>
@@ -78,7 +90,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             <Button
                                 onClick={handleCompleteClick}
                             >
-                                Stop Waiting For Response And Calcualate Best Location and Time And Complete Meetup
+                                Stop Waiting For Response
                             </Button>
                             <Button
                                 onClick={handleCheck}
@@ -87,7 +99,15 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             </Button>
                         </>
                     }
-
+                    {meetup.state === "COMPLETED" &&
+                        <>
+                            <Button
+                                onClick={handleDoneClick}
+                            >
+                                Mark As Done
+                            </Button>
+                        </>
+                    }
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}
@@ -157,6 +177,22 @@ export default function MeetupCard({ meetup, refresh, state }) {
                         </Box>
                     </CardContent>
                 </Dialog>
+                <Dialog open={open} onClose={handleClose} TransitionComponent={Grow} >
+                    <DialogTitle>Invitees who have not responded</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            {meetup.invitees.map((invitee) => {
+                                return invitee + ' ';
+                            })}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            Close
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
             </Card>
         </Box>
     );

@@ -396,6 +396,12 @@ const queries = {
                 maxTimeSlotsArray = Object.keys(meetup.schedule.schedule);
             }
         }
+        // all invittees no response to the meetup change to declined
+        let inviteesNoResponse = await queries.checkIfMeetupIsComplete(meetupId);
+        for (let i = 0; i < inviteesNoResponse.length; i++) {
+            let invitee = inviteesNoResponse[i];
+            await queries.declineInvitation(invitee.email, meetupId);
+        }
         // update meetup with best location and time slot
         return await Meetup.findOneAndUpdate({ id: meetupId }, { bestLocation: maxLocationsIds, bestTime: maxTimeSlotsArray }, { new: true });
     },
