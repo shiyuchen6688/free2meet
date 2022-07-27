@@ -38,7 +38,7 @@ export default function Home() {
                     </Typography>
 
                     {meetupsWaiting.map(meetup => (
-                        <MeetupCard meetup={meetup} refresh={refresh} state={"PENDING"} />
+                        <MeetupCard meetup={meetup} refresh={refresh} state={"PENDING"} key={meetup.id} />
                     ))}
 
                 </Paper>
@@ -49,7 +49,7 @@ export default function Home() {
                     </Typography>
 
                     {meetupsCompletedResponse.map(meetup => (
-                        <MeetupCard meetup={meetup} refresh={refresh} state={"COMPLETED"} />
+                        <MeetupCard meetup={meetup} refresh={refresh} state={"COMPLETED"} key={meetup.id} />
                     ))}
 
                 </Paper>

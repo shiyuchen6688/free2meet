@@ -326,7 +326,7 @@ export default function MeetupLocation() {
             <Button variant="outlined" fullWidth sx={{ my: 1 }} onClick={fitBounds}>Fit All Locations</Button>
             <div>
                 {data.map((item) => {
-                    return (<Place key={item.place_id} item={item} deleteMarker={deleteMarker} focusPlace={focusPlace} zoom={zoom} />);
+                    return (<Place key={item.place_id} item={item} deleteMarker={deleteMarker} focusPlace={focusPlace} zoom={zoom} showDelete={true} />);
                 })}
             </div>
         </div>

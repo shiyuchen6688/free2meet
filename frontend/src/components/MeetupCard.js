@@ -152,9 +152,9 @@ export default function MeetupCard({ meetup, refresh, state }) {
                                 {state === "PENDING" ? "Location(s):" : "Best Location(s)"}
                             </Typography>
                             {state === "PENDING" &&
-                                <Places placesList={meetup.location} />}
+                                <Places placesList={meetup.location} showDelete={false} />}
                             {state === "COMPLETED" &&
-                                <Places placesList={meetup.bestLocation} />}
+                                <Places placesList={meetup.bestLocation} showDelete={false} />}
                             <Typography variant="h6" gutterBottom>
                                 Time Zone: {meetup.schedule.timezone.altName === undefined ?
                                     meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
