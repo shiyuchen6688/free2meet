@@ -52,6 +52,14 @@ export default function MeetupCard({ meetup, refresh, state }) {
         }
     }
 
+    let bestTimeSlot = [];
+    if (meetup.bestTime !== null) {
+        for (let i = 0; i < meetup.bestTime.length; i++) {
+            let timeslot = meetup.bestTime[i].replace('|', '.');
+            bestTimeSlot.push(timeslot);
+        }
+    }
+
     const handleCompleteClick = () => {
         calculateMeetupBestLocationandTime(meetup.id).then(function (result) {
             refresh();
@@ -154,7 +162,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             </Typography>
                             {selected.length !== 0 && <div style={{ pointerEvents: "none" }}>
                                 <ScheduleSelector
-                                    selection={state === "PENDING" ? selected : meetup.bestTime}
+                                    selection={state === "PENDING" ? selected : bestTimeSlot}
                                     startDate={meetup.schedule.startDate}
                                     numDays={meetup.schedule.numDays}
                                     minTime={meetup.schedule.timeInterval[0]}
