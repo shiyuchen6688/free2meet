@@ -1,5 +1,8 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -12,8 +15,6 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import Places from './Places';
 import ScheduleSelector from './timetable/ScheduleSelector';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Close';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -41,6 +42,10 @@ export default function MeetupCard({ meetup }) {
         }
     }
 
+    const handleCompleteClick = () => {
+        alert("NOT IMPLEMENTED");
+    }
+
     return (
         <Box sx={{ minWidth: 275, margin: 5 }}>
             <Card variant="outlined">
@@ -58,20 +63,11 @@ export default function MeetupCard({ meetup }) {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    {/* <IconButton
-                        aria-label="Accept"
-                        onClick={handleAcceptClick}
-                        disabled={state === "accepted"}
+                    <Button
+                        onClick={handleCompleteClick}
                     >
-                        <CheckIcon />
-                    </IconButton>
-                    <IconButton
-                        aria-label="Decline"
-                        onClick={handleDeclineClick}
-                        disabled={state === "declined"}
-                    >
-                        <CloseIcon />
-                    </IconButton> */}
+                        Stop Waiting For Invitees' Response
+                    </Button>
 
                     <ExpandMore
                         expand={expanded}
@@ -129,20 +125,12 @@ export default function MeetupCard({ meetup }) {
                                 />
                             </div>}
                             <CardActions disableSpacing>
-                                {/* <IconButton
-                                    aria-label="Accept"
-                                    onClick={handleAcceptClick}
-                                    disabled={state === "accepted"}
+                                <Button
+                                    onClick={handleCompleteClick}
                                 >
-                                    <CheckIcon />
-                                </IconButton>
-                                <IconButton
-                                    aria-label="Decline"
-                                    onClick={handleDeclineClick}
-                                    disabled={state === "declined"}
-                                >
-                                    <CloseIcon />
-                                </IconButton> */}
+                                    Stop Waiting For Invitees' Response
+                                </Button>
+
                                 <ExpandMore
                                     expand={expanded}
                                     onClick={handleExpandClick}
