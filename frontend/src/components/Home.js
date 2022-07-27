@@ -1,14 +1,14 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import ToolBar from './ToolBar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import TimeLine from './TimeLine';
+import * as React from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMeetupsCreatedAsync } from '../redux/meetups/thunks';
-import { useEffect } from 'react';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import MeetupCard from './MeetupCard';
+import ToolBar from './ToolBar';
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -16,35 +16,40 @@ export default function Home() {
     const createdMeetups = useSelector(state => state.meetupsReducer.meetupsCreated);
 
     useEffect(() => {
-        console.log(currentUser.email);
-        dispatch(getMeetupsCreatedAsync(currentUser.email)).then(() => {
-            console.log(createdMeetups);
-        });
-
+        dispatch(getMeetupsCreatedAsync(currentUser.email));
     }, [dispatch, currentUser.email]);
+
+    let meetupsWaiting = createdMeetups.filter(meetup => meetup.state === 'PENDING');
+    let meetupsCompletedResponse = createdMeetups.filter(meetup => meetup.state === 'COMPLETED');
+    let meetupsDone = createdMeetups.filter(meetup => meetup.state === 'DONE');
+
     return (
         <>
             <CssBaseline />
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
-                {/* <Box sx={{ '& > :not(style)': { m: 1 } }} style={fabStyle}>
-                    <Fab color="primary" aria-label="fresh" onClick={refresh}>
-                        <AutorenewIcon />
-                    </Fab>
-                </Box> */}
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h5" variant="h5" align="center">
-                        Meetups Created ({createdMeetups.length})
+                        Meetups Waiting For Response ({meetupsWaiting.length})
                     </Typography>
-                    <Grid
-                        container
-                        spacing={2}
-                        direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                    >
 
-                    </Grid>
+                    {meetupsWaiting.map(meetup => (
+                        <MeetupCard meetup={meetup} />
+                    ))}
+
+                </Paper>
+                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                    <Typography component="h5" variant="h5" align="center">
+                        Meetups Completed Response ({meetupsCompletedResponse.length})
+                    </Typography>
+
+
+                </Paper>
+                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                    <Typography component="h5" variant="h5" align="center">
+                        Meetups Done ({meetupsDone.length})
+                    </Typography>
+
                 </Paper>
             </Container>
         </>

@@ -7,10 +7,11 @@ import { addMeetupAsync, getMeetupsAsync, getMeetupAsync, getMeetupsCreatedAsync
 const INITIAL_STATE = {
     list: [],
     meetup: {},
+    meetupsCreated: [],
     getMeetups: REQUEST_STATE.IDLE,
     addMeetup: REQUEST_STATE.IDLE,
     getMeetup: REQUEST_STATE.IDLE,
-    meetupsCreated: REQUEST_STATE.IDLE,
+    getMeetupsCreated: REQUEST_STATE.IDLE,
     error: null
 };
 
