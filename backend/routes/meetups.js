@@ -141,6 +141,7 @@ router.get('/:email/created', (req, res) => {
 router.get('/:id/noresponse', (req, res) => {
     const id = req.params.id;
     queries.checkIfMeetupIsComplete(id).then(completed => {
+        console.log(completed);
         return res.send(completed);
     }).catch(err => {
         return res.status(404).send(err);

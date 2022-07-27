@@ -58,8 +58,10 @@ export default function MeetupCard({ meetup, refresh, state }) {
         });
     }
 
+    const [noResponseInvitetes, setNoResponseInvitetes] = React.useState([]);
     const handleCheck = () => {
         getInvitteesNoResponse(meetup.id).then(function (result) {
+            setNoResponseInvitetes(result);
             handleClickOpen();
         });
     }
@@ -142,14 +144,17 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             <Typography variant="h6" gutterBottom>
                                 {"Location(s):"}
                             </Typography>
-                            <Places placesList={meetup.location} />
+                            {state === "PENDING" &&
+                                <Places placesList={meetup.location} />}
+                            {state === "COMPLETED" &&
+                                <Places placesList={meetup.bestLocation} />}
                             <Typography variant="h6" gutterBottom>
                                 Time Zone: {meetup.schedule.timezone.altName === undefined ?
                                     meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
                             </Typography>
                             {selected.length !== 0 && <div style={{ pointerEvents: "none" }}>
                                 <ScheduleSelector
-                                    selection={selected}
+                                    selection={state === "PENDING" ? selected : meetup.bestTime}
                                     startDate={meetup.schedule.startDate}
                                     numDays={meetup.schedule.numDays}
                                     minTime={meetup.schedule.timeInterval[0]}
@@ -181,9 +186,10 @@ export default function MeetupCard({ meetup, refresh, state }) {
                     <DialogTitle>Invitees who have not responded</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            {meetup.invitees.map((invitee) => {
-                                return invitee + ' ';
-                            })}
+                            {noResponseInvitetes.map((invitee) => {
+                                return invitee.email + ' ';
+                            }
+                            )}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
