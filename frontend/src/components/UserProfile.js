@@ -15,16 +15,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import { changePasswordAsync, changeUsernameAsync, deleteUserAccountAsync } from '../redux/users/thunks';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+// import Alert from '@mui/material/Alert';
+// import AlertTitle from '@mui/material/AlertTitle';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
 
-const FullScreenTransition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+// const FullScreenTransition = React.forwardRef(function Transition(props, ref) {
+//     return <Slide direction="up" ref={ref} {...props} />;
+// });
 
 export default function UserProfile(prop) {
     let { open, handleClose, currentUser } = prop
@@ -52,9 +52,9 @@ export default function UserProfile(prop) {
         console.log("in update", email)
         console.log("in update", password)
         console.log("in update", newUsername)
-        if (toChange == "username") {
+        if (toChange === "username") {
             dispatch(changeUsernameAsync({ email, password, newUsername }))
-        } else if (toChange == "password") {
+        } else if (toChange === "password") {
             dispatch(changePasswordAsync({ email, oldPassword, newPassword }))
         }
     }
@@ -65,7 +65,7 @@ export default function UserProfile(prop) {
     }
 
     // errors
-    let error = useSelector(state => state.usersReducer.error)
+    // let error = useSelector(state => state.usersReducer.error)
     // console.log(error)
 
 
@@ -136,9 +136,9 @@ export default function UserProfile(prop) {
                 <DialogContent>
                     <DialogContentText>
                         {"To change your " + toChange + ", please enter your " +
-                            (toChange == "username" ? "password" : "old password") + " and new " + toChange}
+                            (toChange === "username" ? "password" : "old password") + " and new " + toChange}
                     </DialogContentText>
-                    {toChange == "username" ? (
+                    {toChange === "username" ? (
                         <div>
                             <TextField
                                 autoFocus
