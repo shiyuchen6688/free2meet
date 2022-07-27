@@ -100,7 +100,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             <Button
                                 onClick={handleCompleteClick}
                             >
-                                Stop Waiting For Response
+                                Stop Waiting For Response And Calculate Best Location and Time
                             </Button>
                             <Button
                                 onClick={handleCheck}
@@ -150,7 +150,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                         </Typography>
                         <Box sx={{ minWidth: 800, margin: 0 }}>
                             <Typography variant="h6" gutterBottom>
-                                {"Location(s):"}
+                                {state === "PENDING" ? "Location(s):" : "Best Location(s)"}
                             </Typography>
                             {state === "PENDING" &&
                                 <Places placesList={meetup.location} />}
@@ -159,6 +159,9 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             <Typography variant="h6" gutterBottom>
                                 Time Zone: {meetup.schedule.timezone.altName === undefined ?
                                     meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
+                            </Typography>
+                            <Typography variant="h6" gutterBottom>
+                                {state === "PENDING" ? null : "Best Time Slot(s):"}
                             </Typography>
                             {selected.length !== 0 && <div style={{ pointerEvents: "none" }}>
                                 <ScheduleSelector
