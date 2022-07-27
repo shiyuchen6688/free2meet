@@ -69,7 +69,7 @@ export default function ToolBar() {
                 color="default"
                 sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
             >
-                <Toolbar sx={{ flexWrap: 'wrap' }}>
+                <Toolbar sx={{ flexWrap: 'nowrap' }}>
                     <Typography variant="h6" color="inherit" noWrap align='left' sx={{ flexGrow: 1 }}>
                         free2meet
                     </Typography>
