@@ -21,7 +21,7 @@ export default function Home() {
 
     let meetupsWaiting = createdMeetups.filter(meetup => meetup.state === 'PENDING');
     let meetupsCompletedResponse = createdMeetups.filter(meetup => meetup.state === 'COMPLETED');
-    let meetupsDone = createdMeetups.filter(meetup => meetup.state === 'DONE');
+    // let meetupsDone = createdMeetups.filter(meetup => meetup.state === 'DONE');
 
     const refresh = () => {
         dispatch(getMeetupsCreatedAsync(currentUser.email));
@@ -42,6 +42,7 @@ export default function Home() {
                     ))}
 
                 </Paper>
+
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h5" variant="h5" align="center">
                         Meetups Completed Response ({meetupsCompletedResponse.length})
@@ -51,14 +52,13 @@ export default function Home() {
                         <MeetupCard meetup={meetup} refresh={refresh} state={"COMPLETED"} />
                     ))}
 
-
                 </Paper>
-                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h5" variant="h5" align="center">
                         Meetups Done ({meetupsDone.length})
                     </Typography>
 
-                </Paper>
+                </Paper> */}
             </Container>
         </>
     )

@@ -74,9 +74,9 @@ export default function MeetupCard({ meetup, refresh, state }) {
         });
     }
 
-    const handleDoneClick = () => {
-        alert('NOT IMPLEMENTED');
-    }
+    // const handleDoneClick = () => {
+    //     alert('NOT IMPLEMENTED');
+    // }
 
     return (
         <Box sx={{ minWidth: 275, margin: 5 }}>
@@ -109,7 +109,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             </Button>
                         </>
                     }
-                    {meetup.state === "COMPLETED" &&
+                    {/* {meetup.state === "COMPLETED" &&
                         <>
                             <Button
                                 onClick={handleDoneClick}
@@ -117,7 +117,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                                 Mark As Done
                             </Button>
                         </>
-                    }
+                    } */}
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}
