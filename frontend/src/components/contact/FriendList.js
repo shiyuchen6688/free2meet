@@ -65,9 +65,6 @@ export default function FriendList() {
                 <Fab color="primary" aria-label="fresh" onClick={refresh}>
                     <AutorenewIcon />
                 </Fab>
-                <Fab color="secondary" aria-label="add" onClick={() => navigate("/contact")}>
-                    <AddIcon />
-                </Fab>
             </Box>
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                 <Typography component="h5" variant="h5" align="center">
@@ -80,7 +77,7 @@ export default function FriendList() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    {friendList.map(friend => (
+                    {friendList.slice().sort((a, b) => a.username.localeCompare(b.username)).map(friend => (
                         <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} state="pending" />
                     ))}
                 </Grid>

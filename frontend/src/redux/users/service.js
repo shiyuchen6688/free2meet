@@ -106,24 +106,6 @@ const changeUsername = async (email, password, newUsername) => {
     return data
 }
 
-// get meetups created by a user given user email
-const getMeetupsCreated = async (email) => {
-    const response = await fetch(`http://localhost:3001/users/${email}/meetups/created`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': localStorage.getItem("token")
-        },
-    });
-
-    const data = await response.json()
-
-    if (!response.ok) {
-        console.log('Error in getMeetupsCreated')
-    }
-    return data
-}
-
 
 // get all friends for a user given user email
 const getFriends = async (email) => {
@@ -290,7 +272,6 @@ const exportedService = {
     login,
     register,
     resetPassword,
-    getMeetupsCreated,
     getFriends,
     getFriendRequests,
     getFriendRequestsSent,

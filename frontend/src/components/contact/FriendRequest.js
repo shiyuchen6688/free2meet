@@ -1,31 +1,29 @@
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import { Avatar, Paper } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Fab from '@mui/material/Fab';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Fab from '@mui/material/Fab';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
-import { Paper } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import { Avatar } from '@mui/material';
-import CardActions from '@mui/material/CardActions';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
 
 import {
-    getFriendRequestsAsync, getFriendRequestsSentAsync,
-    sendFriendRequestAsync, acceptFriendRequestAsync,
-    declineFriendRequestAsync
+    acceptFriendRequestAsync,
+    declineFriendRequestAsync, getFriendRequestsAsync, getFriendRequestsSentAsync,
+    sendFriendRequestAsync
 } from '../../redux/users/thunks';
 
 export default function FriendRequest() {
@@ -38,7 +36,6 @@ export default function FriendRequest() {
     console.log("friendRequestsSent", friendRequestsSent)
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     useEffect(() => {
         console.log("userEffect get friend request info")
@@ -49,10 +46,7 @@ export default function FriendRequest() {
     const refresh = () => {
         dispatch(getFriendRequestsAsync(currentUserEmail));
         dispatch(getFriendRequestsSentAsync(currentUserEmail));
-        navigate("/contact")
     }
-
-
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const theme = React.useMemo(
@@ -77,21 +71,16 @@ export default function FriendRequest() {
     // TODO: Send friend request to friendEmail
     const handleSendFriendRequest = () => {
         console.log({ currentUserEmail, friendEmail })
-        dispatch(sendFriendRequestAsync({ email: currentUserEmail, friendEmail }))
-        navigate("/contact")
+        dispatch(sendFriendRequestAsync({ email: currentUserEmail, friendEmail })).then(() => {
+            refresh();
+        });
     }
-
-
-
 
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ '& > :not(style)': { m: 1 } }} style={fabStyle}>
                 <Fab color="primary" aria-label="fresh" onClick={refresh}>
                     <AutorenewIcon />
-                </Fab>
-                <Fab color="secondary" aria-label="add" onClick={() => navigate("/contact")}>
-                    <AddIcon />
                 </Fab>
             </Box>
 
@@ -112,7 +101,6 @@ export default function FriendRequest() {
                         id="friend-email"
                         name="friend-email"
                         label="Friend Email"
-                        fullWidth
                         variant="standard"
                         defaultValue={friendEmail}
                         onChange={e => setFriendEmail(e.target.value)}
@@ -140,7 +128,7 @@ export default function FriendRequest() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    {friendRequestsSent.map(friend => (
+                    {friendRequestsSent.slice().sort((a, b) => a.username.localeCompare(b.username)).map(friend => (
                         <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} type="request-sent" state="pending" />
                     ))}
                 </Grid>
@@ -158,15 +146,11 @@ export default function FriendRequest() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    {friendRequestsReceived.map(friend => (
+                    {friendRequestsReceived.slice().sort((a, b) => a.username.localeCompare(b.username)).map(friend => (
                         <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} type="request-received" state="pending" />
                     ))}
                 </Grid>
             </Paper>
-
-
-
-
         </ThemeProvider>
     )
 
@@ -181,12 +165,10 @@ function FriendCard(props) {
 
     const handleAcceptClick = () => {
         dispatch(acceptFriendRequestAsync({ email: userEmail, friendEmail }))
-        navigate("/contact")
     }
 
     const handleDeclineClick = () => {
         dispatch(declineFriendRequestAsync({ email: userEmail, friendEmail }))
-        navigate("/contact")
     }
 
     return (

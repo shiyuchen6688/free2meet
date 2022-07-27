@@ -20,7 +20,7 @@ import ToolBar from './ToolBar';
 import styled, { createGlobalStyle } from 'styled-components'
 import ScheduleSelector from './timetable/ScheduleSelector';
 import { useState } from 'react';
-import { getMeetupsCreatedAsync } from '../redux/users/thunks';
+import { getMeetupsCreatedAsync } from '../redux/meetups/thunks';
 
 
 export default function Meetups() {

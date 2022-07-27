@@ -163,7 +163,7 @@ export default function History() {
     let fbp = "";
 
     const [filterByPerson, setFilterByPerson] = useState("");
-    
+
     const [filterPeopleOption, setFilterPeopleOption] = useState("all");
 
     const peopleJSON = useSelector(state => state.usersReducer.friends);
@@ -174,7 +174,7 @@ export default function History() {
     const eventsJSON = useSelector(state => state.meetupsReducer.list);
     useEffect(() => {
         console.log(email);
-        dispatch(getMeetupsAsync({filterPeopleOption, filterByPerson, email}));
+        dispatch(getMeetupsAsync({ filterPeopleOption, filterByPerson, email }));
     }, [dispatch, filterPeopleOption, filterByPerson, email]);
     const navigate = useNavigate();
 
@@ -218,9 +218,9 @@ export default function History() {
         console.log("filterPeopleOption", filterPeopleOption);
         console.log("filter by person", filterByPerson);
         console.log(typeof filterByPerson);
-        dispatch(getMeetupsAsync({filterPeopleOption, filterByPerson, email}));
+        dispatch(getMeetupsAsync({ filterPeopleOption, filterByPerson, email }));
     }
-    
+
     function mapJSONToCard(eventJSON) {
         return (
             <Box sx={{ minWidth: 275, maxWidth: 600, margin: 5 }} key={eventJSON._id}>
@@ -287,7 +287,58 @@ export default function History() {
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                    <Grid
+                        container
+                        spacing={2}
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <FormControl>
+                            <FormLabel id="events-people-filter">Show:</FormLabel>
+                            <RadioGroup
+                                aria-labelledby="events-people-filter"
+                                value={filterPeopleOption}
+                                name="events-people-filter-group"
+                                onChange={e => { setFilterPeopleOption(e.target.value) }}
+                                row
+                            >
+                                <FormControlLabel key="all" value="all" control={<Radio />} label="All" />
+                                <FormControlLabel key="created-by-me" value="created-by-me" control={<Radio />} label="Created By Me" />
+                                <FormControlLabel key="attended-by-me" value="attended-by-me" control={<Radio />} label="Attended By Me" />
+                                <FormControlLabel key="custom" value="custom" control={<Radio />} label="My Friend" />
+                                <Select
+                                    labelId="events-person-select"
+                                    id="events-person-select"
+                                    value={filterByPerson}
+                                    disabled={filterPeopleOption !== "custom"}
+                                    label="Filter By Person"
+                                    onChange={e => { setFilterByPerson(e.target.value) }}
+                                >
+                                    {peopleJSON.map(mapPeopleToSelect)}
+                                </Select>
+                            </RadioGroup>
+                            {console.log(filterByPerson)}
+                        </FormControl>
+                    </Grid>
+                </Paper>
 
+                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                    <Typography component="h1" variant="h4" align="center">
+                        Past Events
+                    </Typography>
+                    <Grid
+                        container
+                        spacing={2}
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        {eventsJSON.map(mapJSONToCard)}
+                    </Grid>
+                </Paper>
+
+                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center">
                         Past Locations
                     </Typography>
@@ -299,48 +350,14 @@ export default function History() {
                                 Click on the marker to see more information!
                             </Typography>
                             <div ref={mapRef} id='map' />
-                            <Button variant="outlined" fullWidth sx={{ my: 1 }} onClick={fitBounds}>Display All Locations On The Map</Button>
+                            <Grid container justifyContent="flex-end">
+                                <Button variant="outlined" sx={{ my: 1 }} onClick={fitBounds}>Fit Boundary</Button>
+                            </Grid>
                         </>
                     }
+                </Paper>
 
-                    <Typography component="h1" variant="h4" align="center">
-                        Past Events
-                    </Typography>
-                    <Grid
-                        container
-                        spacing={2}
-                        direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                    >
-                        <FormControl>
-                            <FormLabel id="events-people-filter">Show:</FormLabel>
-                            <RadioGroup
-                              aria-labelledby="events-people-filter"
-                              value={filterPeopleOption}
-                              name="events-people-filter-group"
-                              onChange={e => {setFilterPeopleOption(e.target.value)}}
-                            >
-                              <FormControlLabel key="all" value="all" control={<Radio />} label="All" />
-                              <FormControlLabel key="created-by-me" value="created-by-me" control={<Radio />} label="Created By Me" />
-                              <FormControlLabel key="attended-by-me" value="attended-by-me" control={<Radio />} label="Attended By Me" />
-                              <FormControlLabel key="custom" value="custom" control={<Radio />} label="Custom" />
-                            </RadioGroup>
-                            <Select
-                              labelId="events-person-select"
-                              id="events-person-select"
-                              value={filterByPerson}
-                              disabled={filterPeopleOption !== "custom"}
-                              label="Filter By Person"
-                              onChange={e => {setFilterByPerson(e.target.value)}}
-                            >
-                                {peopleJSON.map(mapPeopleToSelect)}
-                            </Select>
-                            {console.log(filterByPerson)}
-                        </FormControl>
-                        {eventsJSON.map(mapJSONToCard)}
-                    </Grid>
-
+                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center">
                         People
                     </Typography>
@@ -355,7 +372,6 @@ export default function History() {
                     </Grid>
                 </Paper>
             </Container>
-
         </ThemeProvider>
     );
 }

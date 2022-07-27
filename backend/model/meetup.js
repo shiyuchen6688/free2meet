@@ -20,7 +20,8 @@ const subSchemaLocation = new mongoose.Schema({
     types: [String],
     url: String,
     lat: Number,
-    lng: Number
+    lng: Number,
+    attendees: [String]
 });
 
 const meetupSchema = new mongoose.Schema({
@@ -46,13 +47,14 @@ const meetupSchema = new mongoose.Schema({
         hourlyChunk: Number,
         timeInterval: [Number, Number]
     },
-    invitees: [String], // array of emails of invitees
+    invitees: [String], // emails of invitees
     creator: String, // email of creator
     // PENDING - The invitation has been sent and is awaiting action by the invitees.
     // COMPLETED - The invitation has been either accepted or declined by all invitees and the best time has been calculated.
+    // DONE - The creator marks the invitation as done.
     state: String,
-    bestLocation: String, // place_id of best location only if state is COMPLETED
-    bestTime: [String], // best time to meetup only if state is COMPLETED
+    bestLocation: [], // locations that are the best for the meetup
+    bestTime: [String], // best times for the meetup
     meetupImage: String // the URL to the meetup's image. Optional. 
 });
 

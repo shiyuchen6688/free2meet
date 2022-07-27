@@ -75,12 +75,62 @@ const addImage = async (image) => {
     console.log(uploadURL)
     return uploadURL
   }
+  
+// get meetups created by a user given user email
+const getMeetupsCreated = async (email) => {
+    const response = await fetch(`http://localhost:3001/meetups/${email}/created`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        },
+    });
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        console.log('Error in getMeetupsCreated')
+    }
+    return data
+}
+
+export const calculateMeetupBestLocationandTime = async (id) => {
+    const response = await fetch(`http://localhost:3001/meetups/${id}/calculate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        }
+    });
+
+    const data = await response.json()
+
+   
+    return data
+}
+
+export const getInvitteesNoResponse = async (id) => {
+    const response = await fetch(`http://localhost:3001/meetups/${id}/noresponse`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        }
+    });
+
+    const data = await response.json()
+
+    return data
+}
+
+
 
 const exportedService = {
     getMeetups,
     getMeetup,
     addMeetup,
-    addImage
+    addImage,
+    getMeetupsCreated
 }
 
 export default exportedService;

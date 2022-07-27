@@ -485,7 +485,8 @@ async function generateData() {
                     ],
                     "url": "https://maps.google.com/?cid=14383886875425940211",
                     "lat": 49.26060520000001,
-                    "lng": -123.2459939
+                    "lng": -123.2459939,
+                    "attendees": ["q"]
                 }
             ],
             "schedule": {
@@ -594,7 +595,8 @@ async function generateData() {
                     ],
                     "url": "https://maps.google.com/?cid=22637017824277851",
                     "lat": 49.2780937,
-                    "lng": -122.9198833
+                    "lng": -122.9198833,
+                    "attendees": ["d"]
                 }
             ],
             "schedule": {
@@ -701,7 +703,8 @@ async function generateData() {
                     ],
                     "url": "https://maps.google.com/?cid=22637017824277851",
                     "lat": 49.2780937,
-                    "lng": -122.9198833
+                    "lng": -122.9198833,
+                    "attendees": ["a"]
                 }
             ],
             "schedule": {

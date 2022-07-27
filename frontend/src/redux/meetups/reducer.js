@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATE } from '../utils';
-import { addMeetupAsync, getMeetupsAsync, getMeetupAsync, addImageAsync} from './thunks';
+import { addMeetupAsync, getMeetupsAsync, getMeetupAsync, addImageAsync, getMeetupsCreatedAsync} from './thunks';
 
 
 
@@ -12,6 +12,8 @@ const INITIAL_STATE = {
     addMeetup: REQUEST_STATE.IDLE,
     getMeetup: REQUEST_STATE.IDLE,
     addImage: REQUEST_STATE.IDLE,
+    meetupsCreated: [],
+    getMeetupsCreated: REQUEST_STATE.IDLE,
     error: null
 };
 
@@ -64,10 +66,21 @@ const meetupsSlice = createSlice({
             .addCase(addImageAsync.fulfilled, (state, action) => {
                 state.addImage = REQUEST_STATE.FULFILLED;
                 state.imageURL = action.payload;
-                console.log(state.imageURL)
             })
             .addCase(addImageAsync.rejected, (state, action) => {
                 state.addImage = REQUEST_STATE.REJECTED;
+                state.error = action.error;
+            })
+            .addCase(getMeetupsCreatedAsync.pending, (state) => {
+                state.getMeetupsCreatedAsync = REQUEST_STATE.PENDING;
+                state.error = null;
+            })
+            .addCase(getMeetupsCreatedAsync.fulfilled, (state, action) => {
+                state.getMeetupsCreatedAsync = REQUEST_STATE.FULFILLED;
+                state.meetupsCreated = action.payload;
+            })
+            .addCase(getMeetupsCreatedAsync.rejected, (state, action) => {
+                state.getMeetupsCreatedAsync = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
     }

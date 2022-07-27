@@ -63,7 +63,7 @@ const queries = {
             }
             meetups[i] = { ...meetups[i]._doc, creator: { email: email, username: username } };
         }
-        console.log(meetups);
+        // console.log(meetups);
         return meetups;
     },
     // Given a user email, returns all meetups that invited the user
@@ -87,7 +87,6 @@ const queries = {
     deleteUserFromMeetupInvitees: async (userEmail, meetup) => {
         let newInvitees = meetup.invitees.filter(inviteeEmail => inviteeEmail != userEmail)
         return await Meetup.findOneAndUpdate({ id: meetup.id }, { invitees: newInvitees })
-
     },
     // Delete meetups by id
     deleteMeetupById: async (meetupId) => {
@@ -234,29 +233,69 @@ const queries = {
         await Meetup.findOneAndUpdate({ id: meetupId }, { $set: { schedule: meetup.schedule } }, { new: true });
         return meetup;
     },
+    // Given a user email, a meetup id and list of location id, add the user email to the location's list of attendees
+    addUserToLocations: async (userEmail, meetupId, locations) => {
+        let meetup = await Meetup.findOne({ id: meetupId });
+        if (meetup.location !== undefined) {
+            let locationIds = [];
+            for (let i = 0; i < meetup.location.length; i++) {
+                locationIds.push(meetup.location[i].place_id);
+            }
+            for (let i = 0; i < locations.length; i++) {
+                try {
+                    meetup.location[locationIds.indexOf(locations[i])].attendees.push(userEmail);
+                } catch {
+                    meetup.location[locationIds.indexOf(locations[i])].attendees = [userEmail];
+                }
+            }
+        }
+        await Meetup.findOneAndUpdate({ id: meetupId }, { $set: { location: meetup.location } }, { new: true });
+        return meetup;
+    },
+    // Given a user email, a meetup id and list of location id, remove the user email from the location's list of attendees
+    removeUserFromLocations: async (userEmail, meetupId, locations) => {
+        let meetup = await Meetup.findOne({ id: meetupId });
+        if (meetup.location !== undefined) {
+            let locationIds = [];
+            for (let i = 0; i < meetup.location.length; i++) {
+                locationIds.push(meetup.location[i].place_id);
+            }
+            for (let i = 0; i < locations.length; i++) {
+                let index = meetup.location[locationIds.indexOf(locations[i])].attendees.indexOf(userEmail);
+                if (index > -1) {
+                    meetup.location[locationIds.indexOf(locations[i])].attendees.splice(index, 1);
+                }
+            }
+        }
+        await Meetup.findOneAndUpdate({ id: meetupId }, { $set: { location: meetup.location } }, { new: true });
+        return meetup;
+    },
     // Given a user email and a meetup id, returns all the meetups that the user has accepted
     declineInvitation: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
         console.log("Declining invitation");
         let invitationState = await queries.getInvitationState(userEmail, meetup);
         if (invitationState === 'pending') {
+            let promises = [];
             // remove meetup from user's meetupsPending
-            await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsPending: meetup } }, { new: true });
+            promises.push(User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsPending: meetup } }, { new: true }));
             // add meetup to user's meetupsDeclined
-            await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
+            promises.push(User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true }));
+            await Promise.all(promises);
         } else if (invitationState === 'accepted') {
+            let promises = [];
             // remove meetup from user's meetupsAccepted
-            await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsAccepted: { meetupId: meetup } } }, { new: true });
+            promises.push(User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsAccepted: { meetupId: meetup } } }, { new: true }));
             // add meetup to user's meetupsDeclined]
-            await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true });
-            await queries.removeUserFromTimeslots(userEmail, meetup, availableTimeSlots);
-            await Meetup.findOneAndUpdate({ id: meetup }, { $pull: { attendees: userEmail } }, { new: true });
+            promises.push(User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsDeclined: meetup } }, { new: true }));
+            promises.push(queries.removeUserFromTimeslots(userEmail, meetup, availableTimeSlots));
+            promises.push(queries.removeUserFromLocations(userEmail, meetup, availableLocations));
+            await Promise.all(promises);
         }
         // get all pending & accepted & declined meetups for user (run in parallel)
         let promises = [];
         promises.push(queries.getInvitationsPending(userEmail));
         promises.push(queries.getInvitationsAccepted(userEmail));
         promises.push(queries.getInvitationsDeclined(userEmail));
-        promises.push(queries.checkIfMeetupIsComplete(meetup));
         let [meetupsPending, meetupsAccepted, meetupsDeclined] = await Promise.all(promises);
         return { invitationsPending: meetupsPending, invitationsDeclined: meetupsDeclined, invitationsAccepted: meetupsAccepted };
     },
@@ -265,44 +304,127 @@ const queries = {
         console.log("acceptInvitation");
         let invitationState = await queries.getInvitationState(userEmail, meetup);
         if (invitationState === 'pending') {
+            let promises = [];
             // remove meetup from user's meetupsPending
-            await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsPending: meetup } }, { new: true });
+            promises.push(User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsPending: meetup } }, { new: true }));
             // add meetup to user's meetupsAccepted
             let a = { meetupId: meetup, availableLocations: availableLocations, availableTimeSlot: availableTimeSlots };
-            await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true });
-            await queries.addUserToTimeslots(userEmail, meetup, availableTimeSlots);
-            await Meetup.findOneAndUpdate({ id: meetup }, { $push: { attendees: userEmail } }, { new: true });
+            promises.push(User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true }));
+            promises.push(queries.addUserToTimeslots(userEmail, meetup, availableTimeSlots));
+            // find the meetup by id， then add the user's email to the corresponding meetup.locations.attendees
+            promises.push(queries.addUserToLocations(userEmail, meetup, availableLocations));
+            await Promise.all(promises);
         } else if (invitationState === 'declined') {
+            let promises = [];
             // remove meetup from user's meetupsDeclined
-            await User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsDeclined: meetup } }, { new: true });
+            promises.push(User.findOneAndUpdate({ email: userEmail }, { $pull: { meetupsDeclined: meetup } }, { new: true }));
             // add meetup to user's meetupsAccepted
             let a = { meetupId: meetup, availableLocations: availableLocations, availableTimeSlot: availableTimeSlots };
-            await User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true });
-            await queries.addUserToTimeslots(userEmail, meetup, availableTimeSlots);
-            await Meetup.findOneAndUpdate({ id: meetup }, { $push: { attendees: userEmail } }, { new: true });
+            promises.push(User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true }));
+            promises.push(queries.addUserToTimeslots(userEmail, meetup, availableTimeSlots));
+            promises.push(queries.addUserToLocations(userEmail, meetup, availableLocations));
+            await Promise.all(promises);
         }
         // get all pending & accepted & declined meetups for user (run in parallel)
         let promises = [];
         promises.push(queries.getInvitationsPending(userEmail));
         promises.push(queries.getInvitationsAccepted(userEmail));
         promises.push(queries.getInvitationsDeclined(userEmail));
-        promises.push(queries.checkIfMeetupIsComplete(meetup));
         let [meetupsPending, meetupsAccepted, meetupsDeclined] = await Promise.all(promises);
         return { invitationsPending: meetupsPending, invitationsAccepted: meetupsAccepted, invitationsDeclined: meetupsDeclined };
     },
-    // Given a meetupId, returns all users who have not accepted or declined the meetup
+    // Given a meetupId, returns all users who have the meetup in their meetupsPending
     checkIfMeetupIsComplete: async (meetupId) => {
-        // get all users who have not accepted or declined the meetup
-        let inviteesNoDecisions = await User.find({ meetupsPending: meetupId });
-        // if there are no invitees, then the meetup is complete
-        if (inviteesNoDecisions.length === 0) {
-            await Meetup.findOneAndUpdate({ id: meetupId }, { state: 'COMPLETED' }, { new: true });
-            // TODO: calculate best location and time slots for meetup
+        let meetup = await Meetup.findOne({ id: meetupId });
+        // console.log(meetup.invitees);
+        let users = [];
+        for (let i = 0; i < meetup.invitees.length; i++) {
+            // console.log(meetup.invitees[i]);
+            let user = await User.findOne({ email: meetup.invitees[i] });
+            if (user.meetupsPending.includes(meetupId)) {
+                // console.log(user.email);
+                users.push(user);
+            }
         }
+        // console.log(users);
         // returns username and email fields for each invitee who have not accepted or declined the meetup
-        return inviteesNoDecisions.map(invitee => {
-            return { username: invitee.username, email: invitee.email };
+        let x = users.map(user => {
+            return { username: user.username, email: user.email };
         });
+        // console.log(x);
+        return x;
+    },
+    calculateMeetupBestLocationandTime: async (meetupId) => {
+        let meetup = await Meetup.findOneAndUpdate({ id: meetupId }, { state: 'COMPLETED' }, { new: true });
+        // find all users who have accepted the meetup
+        let users = await User.find({ meetupsAccepted: { $elemMatch: { meetupId: meetupId } } });
+        // find locations with the most users, if multiple locations have the same number of users, find all locations
+        let maxLocations = 0;
+        let maxLocationsIds = [];
+        for (let i = 0; i < users.length; i++) {
+            let user = users[i];
+            let locations = user.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableLocations;
+            for (let j = 0; j < locations.length; j++) {
+                if (maxLocationsIds.indexOf(locations[j]) === -1) {
+                    let location = locations[j];
+                    let usersAtLocation = users.filter(u => u.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableLocations.includes(location));
+                    if (usersAtLocation.length > maxLocations) {
+                        maxLocations = usersAtLocation.length;
+                        maxLocationsIds = [location];
+                    } else if (usersAtLocation.length === maxLocations) {
+                        maxLocationsIds.push(location);
+                    }
+                }
+            }
+        }
+        // if no invitee selected the location, then use creator selected locations instead
+        if (maxLocationsIds.length === 0) {
+            for (let i = 0; i < meetup.location.length; i++) {
+                maxLocationsIds.push(meetup.location[i]);
+            }
+        } else {
+            // get all info about the selected locations
+            let a = [];
+            for (let i = 0; i < maxLocationsIds.length; i++) {
+                let place_id = maxLocationsIds[i];
+                let place = meetup.location.filter(l => l.place_id === place_id)[0];
+                a.push(place);
+            }
+            maxLocationsIds = a;
+        }
+        // find time slots with the most users, if multiple time slots have the same number of users, find all time slots
+        let maxTimeSlots = 0;
+        let maxTimeSlotsArray = [];
+        for (let i = 0; i < users.length; i++) {
+            let user = users[i];
+            let userTimeSlots = user.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot;
+            for (let j = 0; j < userTimeSlots.length; j++) {
+                if (maxTimeSlotsArray.indexOf(userTimeSlots[j]) === -1) {
+                    let timeSlot = userTimeSlots[j];
+                    let usersAtTimeSlot = users.filter(u => u.meetupsAccepted.filter(m => m.meetupId === meetupId)[0].availableTimeSlot.includes(timeSlot));
+                    if (usersAtTimeSlot.length > maxTimeSlots) {
+                        maxTimeSlots = usersAtTimeSlot.length;
+                        maxTimeSlotsArray = [timeSlot];
+                    } else if (usersAtTimeSlot.length === maxTimeSlots) {
+                        maxTimeSlotsArray.push(timeSlot);
+                    }
+                }
+            }
+        }
+        // if no invitee selected the time slot, then use creator selected time slots instead
+        if (maxTimeSlotsArray.length === 0) {
+            if (meetup.schedule.schedule !== undefined) {
+                maxTimeSlotsArray = Object.keys(meetup.schedule.schedule);
+            }
+        }
+        // all invittees no response to the meetup change to declined
+        let inviteesNoResponse = await queries.checkIfMeetupIsComplete(meetupId);
+        for (let i = 0; i < inviteesNoResponse.length; i++) {
+            let invitee = inviteesNoResponse[i];
+            await queries.declineInvitation(invitee.email, meetupId);
+        }
+        // update meetup with best location and time slot
+        return await Meetup.findOneAndUpdate({ id: meetupId }, { bestLocation: maxLocationsIds, bestTime: maxTimeSlotsArray }, { new: true });
     },
     // check is user is friend with friendEmail
     isFriend: async (userEmail, friendEmail) => {

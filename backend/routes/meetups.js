@@ -72,11 +72,7 @@ router.post('/', function (req, res, next) {
         state: "PENDING",
         bestLocation: null,
         bestTime: null
-    }
-    // if invitees is empty, set state to COMPLETED
-    if (inviteesModified.length === 0) {
-        meetup.state = "COMPLETED";
-    }
+    };
     // if creator is in invitees return error
     for (let i = 0; i < inviteesModified.length; i++) {
         if (inviteesModified[i] === creatorEmail) {
@@ -125,6 +121,37 @@ router.post('/', function (req, res, next) {
     }).catch(function (err) {
         console.log(err);
         return res.send(err);
+    });
+});
+
+// get meetups created by a user given user email
+router.get('/:email/created', (req, res) => {
+    const email = req.params.email;
+    queries.getMeetupsCreated(email).then(meetups => {
+        return res.send(meetups);
+    }).catch(err => {
+        return res.status(404).send(err);
+    });
+});
+
+// check if all invitees have responded to a meetup
+router.get('/:id/noresponse', (req, res) => {
+    const id = req.params.id;
+    queries.checkIfMeetupIsComplete(id).then(completed => {
+        console.log(completed);
+        return res.send(completed);
+    }).catch(err => {
+        return res.status(404).send(err);
+    });
+});
+
+// calculate best location and best time for a meetup
+router.post('/:id/calculate', (req, res) => {
+    const id = req.params.id;
+    queries.calculateMeetupBestLocationandTime(id).then(meetup => {
+        return res.send(meetup);
+    }).catch(err => {
+        return res.status(404).send(err);
     });
 });
 
