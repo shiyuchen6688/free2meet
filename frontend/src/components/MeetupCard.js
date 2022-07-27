@@ -1,4 +1,5 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Avatar from '@mui/material/Avatar';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Close';
 import { DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
@@ -8,6 +9,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
+import Chip from '@mui/material/Chip';
 import Dialog from '@mui/material/Dialog';
 import Grow from '@mui/material/Grow';
 import IconButton from '@mui/material/IconButton';
@@ -17,6 +19,7 @@ import * as React from 'react';
 import { calculateMeetupBestLocationandTime, getInvitteesNoResponse } from '../redux/meetups/service';
 import Places from './Places';
 import ScheduleSelector from './timetable/ScheduleSelector';
+import Stack from '@mui/material/Stack';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -81,12 +84,10 @@ export default function MeetupCard({ meetup, refresh, state }) {
     return (
         <Box sx={{ minWidth: 275, margin: 5 }}>
             <Card variant="outlined">
-                <CardHeader>
+                <CardContent>
                     <Typography variant="h6" gutterBottom>
                         Title: {meetup.title}
                     </Typography>
-                </CardHeader>
-                <CardContent>
                     <Typography variant="h6" gutterBottom>
                         Details:
                     </Typography>
@@ -141,13 +142,13 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             {meetup.description}
                         </Typography>
                         <Typography variant="h6" gutterBottom>
-                            Friends Invited: {meetup.invitees.length}
+                            Friends Invited: ({meetup.invitees.length})
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Stack direction="row" spacing={1}>
                             {meetup.invitees.map((invitee) => {
-                                return invitee + ' ';
+                                return <Chip key={invitee} label={invitee} />
                             })}
-                        </Typography>
+                        </Stack>
                         <Box sx={{ minWidth: 800, margin: 0 }}>
                             <Typography variant="h6" gutterBottom>
                                 {state === "PENDING" ? "Location(s):" : "Best Location(s)"}
@@ -194,13 +195,14 @@ export default function MeetupCard({ meetup, refresh, state }) {
                     </CardContent>
                 </Dialog>
                 <Dialog open={open} onClose={handleClose} TransitionComponent={Grow} >
-                    <DialogTitle>Invitees who have not responded</DialogTitle>
+                    <DialogTitle>{noResponseInvitetes.length === 0 ? "All Invitees Responsed" : "Invitees who have not responded"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            {noResponseInvitetes.map((invitee) => {
-                                return invitee.email + ' ';
-                            }
-                            )}
+                            <Stack direction="row" spacing={1}>
+                                {noResponseInvitetes.map((invitee) => {
+                                    return <Chip key={invitee.email} avatar={<Avatar>{invitee.email}</Avatar>} label={invitee.username} />
+                                })}
+                            </Stack>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
