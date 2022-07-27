@@ -43,7 +43,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
 
     const initLocationSelection = {};
     invitation.location.map((item) => {
-        initLocationSelection[item.place_id] = false;
+        return initLocationSelection[item.place_id] = false;
     });
 
     const [invitationLocationSelection, setInvitationLocationSelection] = React.useState(initLocationSelection);
@@ -170,6 +170,8 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                                     {invitation.invitees.map((invitee) => {
                                         if (invitee !== userEmail) {
                                             return <Chip key={invitee} label={invitee} avatar={<Avatar>{invitee}</Avatar>} />
+                                        } else {
+                                            return null;
                                         }
                                     })}
                                 </Typography>
