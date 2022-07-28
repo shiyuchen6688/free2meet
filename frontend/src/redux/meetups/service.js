@@ -37,7 +37,8 @@ const getMeetup = async (id) => {
 // Add new meetup
 const addMeetup = async (meetup) => {
     console.log(meetup)
-    const response = await fetch(url + 'meetups', {
+    let x = process.env.NODE_ENV === 'production' ? '' : 'meetups/'
+    const response = await fetch(url + x, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
