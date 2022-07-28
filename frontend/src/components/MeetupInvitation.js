@@ -19,14 +19,16 @@ export default function MeetupInvitation() {
     const locationInfo = useSelector(state => state.createMeetupLocationReducer);
     // const invitationInfo = useSelector(state => state.createMeetupInvitationReducer);
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    const currentUser = useSelector(state => state.usersReducer);
+    const currentUserEmail = useSelector(state => state.usersReducer.email);
+    const friendList = useSelector(state => state.usersReducer.friends);
+
     React.useEffect(() => {
         // clear the state so that the frontend can be consistent with the redux state
         handleChangeInvitees([]);
     }, []);
     React.useEffect(() => {
-        dispatch(getFriendsAsync(currentUser.email));
-    }, [dispatch, currentUser.email]);
+        dispatch(getFriendsAsync(currentUserEmail));
+    }, [dispatch, currentUserEmail]);
 
     // TODO use Google NLP API to get the tags
     // const tags = ["Tag 1", "Tag 2", "Tag 3"];
@@ -61,7 +63,7 @@ export default function MeetupInvitation() {
                     <CreatableSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
                         isMulti
                         onChange={handleChangeInvitees}
-                        options={currentUser.friends.map(friend => {
+                        options={friendList.map(friend => {
                             return { label: friend.username, value: friend.email };
                         })}
                     />
