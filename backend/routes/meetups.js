@@ -84,8 +84,8 @@ router.post('/', function (req, res, next) {
     }
     // if invitees emails are not in creator's friends return error
     queries.getFriends(creatorEmail).then(function (friends) {
-        console.log(friends);
-        console.log(inviteesModified);
+        // console.log(friends);
+        // console.log(inviteesModified);
         for (let i = 0; i < inviteesModified.length; i++) {
             let isFriend = false;
             for (let j = 0; j < friends.length; j++) {

@@ -3,20 +3,6 @@ const bcrypt = require('bcrypt');
 const Meetup = require('./model/meetup');
 const User = require('./model/user');
 
-let a = {};
-a["2022-07-17T21:00:00|000Z"] = 10;
-a["2022-07-17T21:30:00|000Z"] = 1;
-a["2022-07-17T22:00:00|000Z"] = 5;
-a["2022-07-17T22:30:00|000Z"] = 4;
-a["2022-07-16T21:00:00|000Z"] = 3;
-a["2022-07-16T21:30:00|000Z"] = 2;
-a["2022-07-16T22:00:00|000Z"] = 1;
-a["2022-07-16T22:30:00|000Z"] = 1;
-a["2022-07-13T19:00:00|000Z"] = 1;
-a["2022-07-13T19:30:00|000Z"] = 1;
-a["2022-07-13T20:00:00|000Z"] = 1;
-a["2022-07-13T20:30:00|000Z"] = 1;
-
 let scheduleA = {
     "2022-07-14T15:00:00|000Z": [
         "a"
@@ -361,7 +347,20 @@ async function generateData() {
             meetupsCreated: [party3Id],
             meetupsPending: [party1Id],
             meetupsAccepted: [],
-            meetupsDeclined: []
+            meetupsDeclined: [],
+            tags: [
+                {
+                    tag: "party",
+                    details: ["a description of party 3..."],
+                    count: 1
+                },
+                {
+                    tag: "fun",
+                    details: ["a description of party 3..."],
+                    count: 1
+                }
+            ],
+            countFromPreviousTraining: 2
         },
         {
             username: 'a',
@@ -373,7 +372,20 @@ async function generateData() {
             meetupsCreated: [party1Id],
             meetupsPending: [party3Id, party2Id],
             meetupsAccepted: [],
-            meetupsDeclined: []
+            meetupsDeclined: [],
+            tags: [
+                {
+                    tag: "party",
+                    details: ["a description of party 1..."],
+                    count: 1
+                },
+                {
+                    tag: "fun",
+                    details: ["a description of party 1..."],
+                    count: 1
+                }
+            ],
+            countFromPreviousTraining: 2
         },
         {
             username: 'c',
@@ -385,7 +397,9 @@ async function generateData() {
             meetupsCreated: [],
             meetupsPending: [],
             meetupsAccepted: [],
-            meetupsDeclined: []
+            meetupsDeclined: [],
+            tags: [],
+            countFromPreviousTraining: 0
         },
         {
             username: 'd',
@@ -397,7 +411,20 @@ async function generateData() {
             meetupsCreated: [party2Id],
             meetupsPending: [party1Id],
             meetupsAccepted: [],
-            meetupsDeclined: []
+            meetupsDeclined: [],
+            tags: [
+                {
+                    tag: "party",
+                    details: ["a description of party 2..."],
+                    count: 1
+                },
+                {
+                    tag: "fun",
+                    details: ["a description of party 2..."],
+                    count: 1
+                }
+            ],
+            countFromPreviousTraining: 2
         }
     ];
 

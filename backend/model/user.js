@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+const subSchemaTagAndDetails = new mongoose.Schema({
+    tag: String,
+    details: [String],
+    count: Number,
+});
+
 const userSchema = new mongoose.Schema({
     email: String, // Primary key
     username: String,
@@ -15,6 +21,8 @@ const userSchema = new mongoose.Schema({
         availableTimeSlot: [String] // time slots the user have selected
     }], // id's of meetups the user have accepted
     meetupsDeclined: [String], // id's of meetups the user have declined
+    tags: [subSchemaTagAndDetails], // tags of meetups the user have created,
+    countFromPreviousTraining: Number
 });
 
 const User = mongoose.model('User', userSchema);

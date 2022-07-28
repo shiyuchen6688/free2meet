@@ -1,5 +1,6 @@
 const Meetup = require('./meetup');
 const User = require('./user');
+const tagQueries = require('./tagQueries');
 
 // simple cache for users: usernames and emails
 const userCache = new Map();
@@ -41,6 +42,7 @@ const queries = {
     },
     // Given a new meetup, returns the meetup
     addMeetup: async (meetup) => {
+        meetup.tags.length !== 0 ? await tagQueries.addTagToUser(meetup.creator, meetup) : null;
         return await Meetup.create(meetup);
     },
     // Given a user email, returns all meetups the user created
