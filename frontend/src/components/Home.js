@@ -1,5 +1,6 @@
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
@@ -8,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMeetupsCreatedAsync } from '../redux/meetups/thunks';
 import MeetupCard from './MeetupCard';
 import ToolBar from './ToolBar';
-import Grid from '@mui/material/Grid';
+
 export default function Home() {
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.usersReducer);
@@ -42,9 +43,9 @@ export default function Home() {
                         justifyContent="center"
                         alignItems="center"
                     >
-                    {meetupsWaiting.map(meetup => (
-                        <MeetupCard meetup={meetup} refresh={refresh} state={"PENDING"} key={meetup.id} />
-                    ))}
+                        {meetupsWaiting.map(meetup => (
+                            <MeetupCard meetup={meetup} refresh={refresh} state={"PENDING"} key={meetup.id} />
+                        ))}
                     </Grid>
 
                 </Paper>
@@ -60,9 +61,9 @@ export default function Home() {
                         justifyContent="center"
                         alignItems="center"
                     >
-                    {meetupsCompletedResponse.map(meetup => (
-                        <MeetupCard meetup={meetup} refresh={refresh} state={"COMPLETED"} key={meetup.id} />
-                    ))}
+                        {meetupsCompletedResponse.map(meetup => (
+                            <MeetupCard meetup={meetup} refresh={refresh} state={"COMPLETED"} key={meetup.id} />
+                        ))}
                     </Grid>
 
                 </Paper>
