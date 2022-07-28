@@ -9,6 +9,9 @@ function trainNLP(X, y) {
     console.log("Starting training");
     classifier.train();
     console.log("Training complete");
+    console.log("Classifier: " + classifier);
+    console.log("Classifier.classify('A detailed description for Party 10 ...'): " + classifier.classify('A detailed description for Party 10 ...'));
+    console.log("Classifier.classify(' I am a cat'): " + classifier.classify('I am a cat'));
     return classifier;
 }
 
@@ -49,13 +52,12 @@ const tagQueries = {
             for (let i = 0; i < creator.tags.length; i++) {
                 for (let j = 0; j < creator.tags[i].details.length; j++) {
                     X.push(creator.tags[i].details[j]);
-                    y.push(creator.tags[i]);
+                    y.push(creator.tags[i].tag);
                 }
             }
             console.log(X);
             console.log(y);
             let classifier = trainNLP(X, y);
-            console.log(classifier);
             return await User.findOneAndUpdate({ email: userEmail }, { $set: { classifier: classifier } }, { new: true });
         }
     }
