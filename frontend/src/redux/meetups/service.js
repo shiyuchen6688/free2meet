@@ -1,9 +1,16 @@
 import axios from 'axios'
 // Get all meetups
+
+let url = 'http://localhost:3001/meetups';
+
+if (process.env.NODE_ENV === 'production') {
+    url = '';
+}
+
 const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
     console.log("filter by person");
     console.log(filterByPerson);
-    const response = await fetch(`http://localhost:3001/meetups?filterPeopleOption=${filterPeopleOption}&filterByPerson=${filterByPerson}&selfEmail=${email}`, {
+    const response = await fetch(url + `?filterPeopleOption=${filterPeopleOption}&filterByPerson=${filterByPerson}&selfEmail=${email}`, {
         method: 'GET',
         headers: {
             'x-access-token': localStorage.getItem("token")
@@ -20,7 +27,7 @@ const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
 
 // Get one meetup
 const getMeetup = async (id) => {
-    const response = await fetch(`http://localhost:3001/meetups/meetup?id=${id}`, {
+    const response = await fetch(url + `/meetup?id=${id}`, {
         method: 'GET',
         mode: 'cors'
     });
@@ -30,7 +37,7 @@ const getMeetup = async (id) => {
 // Add new meetup
 const addMeetup = async (meetup) => {
     console.log(meetup)
-    const response = await fetch('http://localhost:3001/meetups', {
+    const response = await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -78,7 +85,7 @@ const addImage = async (image) => {
   
 // get meetups created by a user given user email
 const getMeetupsCreated = async (email) => {
-    const response = await fetch(`http://localhost:3001/meetups/${email}/created`, {
+    const response = await fetch(url + `/${email}/created`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -95,7 +102,7 @@ const getMeetupsCreated = async (email) => {
 }
 
 export const calculateMeetupBestLocationandTime = async (id) => {
-    const response = await fetch(`http://localhost:3001/meetups/${id}/calculate`, {
+    const response = await fetch(url + `/${id}/calculate`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -110,7 +117,7 @@ export const calculateMeetupBestLocationandTime = async (id) => {
 }
 
 export const getInvitteesNoResponse = async (id) => {
-    const response = await fetch(`http://localhost:3001/meetups/${id}/noresponse`, {
+    const response = await fetch(url + `/${id}/noresponse`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
