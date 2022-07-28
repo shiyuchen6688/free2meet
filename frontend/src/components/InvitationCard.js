@@ -115,13 +115,13 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                     title={invitation.creator.username}
                 />
                 <CardContent>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h6" gutterBottom noWrap>
                         Title: {invitation.title}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                         Details:
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" noWrap>
                         {invitation.description || 'No description'}
                     </Typography>
                 </CardContent>
@@ -155,13 +155,13 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                 </CardActions>
                 <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'} TransitionComponent={Grow}>
                     <CardContent>
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }}>
                             Title: {invitation.title}
                         </Typography>
                         <Typography variant="h6" gutterBottom>
                             Details:
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }}>
                             {invitation.description}
                         </Typography>
                         {invitation.invitees.length > 1 &&

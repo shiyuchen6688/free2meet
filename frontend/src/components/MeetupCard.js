@@ -99,13 +99,13 @@ export default function MeetupCard({ meetup, refresh, state }) {
         <Box sx={{ margin: 2, width: '275px' }}>
             <Card variant="outlined">
                 <CardContent>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h6" gutterBottom noWrap>
                         Title: {meetup.title}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                         Details:
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" noWrap>
                         {meetup.description || 'No description'}
                     </Typography>
                 </CardContent>
@@ -146,13 +146,14 @@ export default function MeetupCard({ meetup, refresh, state }) {
                 </CardActions>
                 <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'} TransitionComponent={Grow}>
                     <CardContent>
-                        <Typography variant="h6" gutterBottom>
+                        {/* auto new line if too long */}
+                        <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }}>
                             Title: {meetup.title}
                         </Typography>
                         <Typography variant="h6" gutterBottom>
                             Details:
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }}>
                             {meetup.description}
                         </Typography>
                         <Typography variant="h6" gutterBottom>
