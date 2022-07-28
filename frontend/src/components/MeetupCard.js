@@ -146,7 +146,6 @@ export default function MeetupCard({ meetup, refresh, state }) {
                 </CardActions>
                 <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'} TransitionComponent={Grow}>
                     <CardContent>
-                        {/* auto new line if too long */}
                         <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }}>
                             Title: {meetup.title}
                         </Typography>
