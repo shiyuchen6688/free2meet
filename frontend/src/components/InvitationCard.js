@@ -182,7 +182,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                                 Only Invited You!
                             </Typography>
                         }
-                        <Box sx={{ minWidth: 800, margin: 0 }}>
+                        <Box sx={{ margin: 0 }}>
                             <Typography variant="h6" gutterBottom>
                                 {"Location(s):"}
                             </Typography>

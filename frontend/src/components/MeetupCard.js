@@ -19,6 +19,8 @@ import { calculateMeetupBestLocationandTime, getInvitteesNoResponse } from '../r
 import Places from './Places';
 import ScheduleSelector from './timetable/ScheduleSelector';
 import Stack from '@mui/material/Stack';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListNumbered';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -81,7 +83,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
     // }
 
     return (
-        <Box sx={{ minWidth: 275, margin: 5 }}>
+        <Box sx={{ margin: 1 }}>
             <Card variant="outlined">
                 <CardContent>
                     <Typography variant="h6" gutterBottom>
@@ -96,18 +98,21 @@ export default function MeetupCard({ meetup, refresh, state }) {
                 </CardContent>
                 <CardActions disableSpacing>
                     {meetup.state === "PENDING" &&
-                        <>
-                            <Button
-                                onClick={handleCompleteClick}
-                            >
-                                Stop Waiting For Response And Calculate Best Location and Time
-                            </Button>
+                        <ButtonGroup variant="text" aria-label="text button group">
                             <Button
                                 onClick={handleCheck}
+                                variant="contained"
+                                startIcon={<FormatListBulletedIcon />}
                             >
-                                Check Invitees No Response
+                                Response
                             </Button>
-                        </>
+                            <Button
+                                onClick={handleCompleteClick}
+                                startIcon={<CheckIcon />}
+                            >
+                                Complete
+                            </Button>
+                        </ButtonGroup>
                     }
                     {/* {meetup.state === "COMPLETED" &&
                         <>
@@ -146,7 +151,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                                 return <Chip key={invitee} label={invitee} />
                             })}
                         </Stack>
-                        <Box sx={{ minWidth: 800, margin: 0 }}>
+                        <Box sx={{ margin: 0 }}>
                             <Typography variant="h6" gutterBottom>
                                 {state === "PENDING" ? "Location(s):" : "Best Location(s)"}
                             </Typography>
