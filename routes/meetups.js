@@ -52,7 +52,7 @@ router.get(`/meetup`, function (req, res, next) {
 });
 
 /* add a new meetup */
-router.post('/', function (req, res, next) {
+router.post('/new', function (req, res, next) {
     let uid = uuid();
     let creatorEmail = req.body.creator.email;
     let inviteesModified = [];
