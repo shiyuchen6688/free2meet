@@ -306,17 +306,19 @@ export default function History() {
                                 <FormControlLabel key="all" value="all" control={<Radio />} label="All" />
                                 <FormControlLabel key="created-by-me" value="created-by-me" control={<Radio />} label="Created By Me" />
                                 <FormControlLabel key="attended-by-me" value="attended-by-me" control={<Radio />} label="Attended By Me" />
-                                <FormControlLabel key="custom" value="custom" control={<Radio />} label="My Friend" />
-                                <Select
-                                    labelId="events-person-select"
-                                    id="events-person-select"
-                                    value={filterByPerson}
-                                    disabled={filterPeopleOption !== "custom"}
-                                    label="Filter By Person"
-                                    onChange={e => { setFilterByPerson(e.target.value) }}
-                                >
-                                    {peopleJSON.map(mapPeopleToSelect)}
-                                </Select>
+                                <div display="flex" flexDirection="row">
+                                    <FormControlLabel key="custom" value="custom" control={<Radio />} label="My Friend" />
+                                    <Select
+                                        labelId="events-person-select"
+                                        id="events-person-select"
+                                        value={filterByPerson}
+                                        disabled={filterPeopleOption !== "custom"}
+                                        label="Filter By Person"
+                                        onChange={e => { setFilterByPerson(e.target.value) }}
+                                    >
+                                        {peopleJSON.map(mapPeopleToSelect)}
+                                    </Select>
+                                </div>
                             </RadioGroup>
                             {console.log(filterByPerson)}
                         </FormControl>
