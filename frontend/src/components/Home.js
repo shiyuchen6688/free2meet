@@ -52,7 +52,7 @@ export default function Home() {
 
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h5" variant="h5" align="center">
-                        Meetups Completed Response ({meetupsCompletedResponse.length})
+                        Meetups Completed ({meetupsCompletedResponse.length})
                     </Typography>
                     <Grid
                         container
