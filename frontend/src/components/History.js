@@ -223,7 +223,7 @@ export default function History() {
 
     function mapJSONToCard(eventJSON) {
         return (
-            <Box sx={{ minWidth: 275, maxWidth: 600, margin: 2 }} key={eventJSON._id}>
+            <Box sx={{ width: 275, margin: 2 }} key={eventJSON._id}>
                 <Card variant="outlined">
                     <CardHeader
                         avatar={
@@ -244,7 +244,7 @@ export default function History() {
                             component="img"
                             image={eventJSON.meetupImage}
                         />
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.secondary" noWrap>
                             {eventJSON.description || "No description"}
                         </Typography>
                     </CardContent>
