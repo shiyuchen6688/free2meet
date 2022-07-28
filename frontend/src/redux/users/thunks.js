@@ -98,3 +98,12 @@ export const deleteUserAccountAsync = createAsyncThunk(
         return await UsersService.deleteUserAccount(email);
     }
 )
+
+export const getTagsAsync = createAsyncThunk(
+    actionTypes.GET_TAGS,
+    async ({email, text}) => {
+        console.log("getTagsAsync", email)
+        console.log("text", text)
+        return await UsersService.getTags(email, text);
+    }
+)
