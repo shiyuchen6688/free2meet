@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import ScheduleSelector from 'react-schedule-selector';
 import CreatableSelect from 'react-select/creatable';
 import "../App.css";
@@ -14,6 +15,8 @@ import Place from './Place';
 
 export default function MeetupInvitation() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const titleAndDetailInfo = useSelector(state => state.createMeetupTitleDetailReducer);
     const allScheduleInfo = useSelector(state => state.createMeetupScheduleReducer);
     const locationInfo = useSelector(state => state.createMeetupLocationReducer);
@@ -25,7 +28,10 @@ export default function MeetupInvitation() {
     React.useEffect(() => {
         // clear the state so that the frontend can be consistent with the redux state
         handleChangeInvitees([]);
+        navigate("/contact");
+        navigate("/meetups/new");
     }, []);
+
     React.useEffect(() => {
         dispatch(getFriendsAsync(currentUserEmail));
     }, [dispatch, currentUserEmail]);
@@ -75,7 +81,7 @@ export default function MeetupInvitation() {
                     <CreatableSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
                         isMulti
                         onChange={handleChangeTags}
-                        // options={useableTags}
+                    // options={useableTags}
                     />
                 </div>
                 <Typography variant="h6" gutterBottom>
