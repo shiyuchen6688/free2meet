@@ -42,6 +42,8 @@ export default function MeetupCard({ meetup, refresh, state }) {
         setOpen(false);
     };
 
+    const [showCompleteButton, setShowCompleteButton] = React.useState(false);
+
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -65,15 +67,26 @@ export default function MeetupCard({ meetup, refresh, state }) {
     }
 
     const handleCompleteClick = () => {
-        calculateMeetupBestLocationandTime(meetup.id).then(function (result) {
-            refresh();
+        setShowCompleteButton(true);
+        getInvitteesNoResponse(meetup.id).then(function (result) {
+            setNoResponseInvitees(result);
+        }).then(function () {
+            handleClickOpen();
         });
     }
 
-    const [noResponseInvitetes, setNoResponseInvitetes] = React.useState([]);
+    const handleStillCompleteClick = () => {
+        calculateMeetupBestLocationandTime(meetup.id).then(function (result) {
+            refresh();
+        });
+        handleClose();
+    }
+
+    const [noResponseInvitees, setNoResponseInvitees] = React.useState([]);
     const handleCheck = () => {
+        setShowCompleteButton(false);
         getInvitteesNoResponse(meetup.id).then(function (result) {
-            setNoResponseInvitetes(result);
+            setNoResponseInvitees(result);
             handleClickOpen();
         });
     }
@@ -197,17 +210,35 @@ export default function MeetupCard({ meetup, refresh, state }) {
                     </CardContent>
                 </Dialog>
                 <Dialog open={open} onClose={handleClose} TransitionComponent={Grow} >
-                    <DialogTitle>{noResponseInvitetes.length === 0 ? "All Invitees Responsed" : "Invitees who have not responded"}</DialogTitle>
+                    <DialogTitle>
+                        {showCompleteButton && <Typography variant="h6" gutterBottom>
+                            Are you sure you want to complete this meetup?
+                        </Typography>}
+                        {!showCompleteButton && <Typography variant="h6" gutterBottom>
+                            {noResponseInvitees.length === 0 ? "All Invitees Responsed" : "There are " + noResponseInvitees.length + " invitees who have not responded."}
+                        </Typography>}
+                    </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
+                            {showCompleteButton && <Typography variant="body2" color="text.secondary">
+                                This will decline all invitees who have not responded, calculate the best location(s) and time for the meetup, and mark it as completed.
+                            </Typography>}
+                            {showCompleteButton && <Typography variant="h6">
+                                {noResponseInvitees.length === 0 ? "All Invitees Responsed" : "There are " + noResponseInvitees.length + " invitees who have not responded."}
+                            </Typography>}
                             <Stack direction="row" spacing={1}>
-                                {noResponseInvitetes.map((invitee) => {
+                                {noResponseInvitees.map((invitee) => {
                                     return <Chip key={invitee.email} avatar={<Avatar>{invitee.email}</Avatar>} label={invitee.username} />
                                 })}
                             </Stack>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
+                        {showCompleteButton &&
+                            <Button onClick={handleStillCompleteClick} color="primary">
+                                Mark as Completed
+                            </Button>
+                        }
                         <Button onClick={handleClose} color="primary">
                             Close
                         </Button>
