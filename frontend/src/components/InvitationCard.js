@@ -122,7 +122,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                         Details:
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {invitation.description}
+                        {invitation.description || 'No description'}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>

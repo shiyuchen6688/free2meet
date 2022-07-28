@@ -93,7 +93,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                         Details:
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {meetup.description}
+                        {meetup.description || 'No description'}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
