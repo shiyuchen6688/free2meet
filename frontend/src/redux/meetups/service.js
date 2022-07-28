@@ -4,7 +4,7 @@ import axios from 'axios'
 let url = 'http://localhost:3001/meetups';
 
 if (process.env.NODE_ENV === 'production') {
-    url = '';
+    url = 'meetups';
 }
 
 const getMeetups = async (filterPeopleOption, filterByPerson, email) => {

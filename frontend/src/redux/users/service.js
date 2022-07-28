@@ -3,7 +3,7 @@
 let url = 'http://localhost:3001/users/'
 
 if (process.env.NODE_ENV === 'production') {
-    url = '';
+    url = 'users/';
 }
 
 const login = async (user) => {

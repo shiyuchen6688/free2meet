@@ -3,7 +3,7 @@
 let url = 'http://localhost:3001/invitations/';
 
 if (process.env.NODE_ENV === 'production') {
-    url = '';
+    url = 'invitations/';
 }
 
 const getInvitations = async () => {
