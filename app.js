@@ -22,9 +22,6 @@ mongoose.connect('mongodb+srv://free2meet:free2meet@cluster0.ustzz.mongodb.net/?
     console.log('Error connecting to MongoDB: ', err.message);
 });
 
-// generate mock data for testing (users and meetups)
-generateData();
-
 // Enable Cors
 app.use(cors());
 
@@ -32,11 +29,23 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, 'client/build')));
+} else {
+    app.use(express.static(path.join(__dirname, 'public')));
+    // generate mock data for testing (users and meetups)
+    generateData();
+}
 
 app.use('/', indexRouter);
 app.use('/meetups', meetupsRouter);
 app.use('/users', userRouter);
 app.use('/invitations', invitationsRouter);
+
+if (process.env.NODE_ENV === 'production') {
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'client/build/index.html'));
+    });
+}
 
 module.exports = app;
