@@ -1,16 +1,16 @@
 import axios from 'axios'
 // Get all meetups
 
-let url = 'http://localhost:3001/meetups';
+let url = 'http://localhost:3001/meetups/'
 
 if (process.env.NODE_ENV === 'production') {
-    url = 'meetups';
+    url = 'meetups/';
 }
 
 const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
     console.log("filter by person");
     console.log(filterByPerson);
-    const response = await fetch(url + `?filterPeopleOption=${filterPeopleOption}&filterByPerson=${filterByPerson}&selfEmail=${email}`, {
+    const response = await fetch(url.slice(0, -1) + `?filterPeopleOption=${filterPeopleOption}&filterByPerson=${filterByPerson}&selfEmail=${email}`, {
         method: 'GET',
         headers: {
             'x-access-token': localStorage.getItem("token")
@@ -27,7 +27,7 @@ const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
 
 // Get one meetup
 const getMeetup = async (id) => {
-    const response = await fetch(url + `/meetup?id=${id}`, {
+    const response = await fetch(url + `meetup?id=${id}`, {
         method: 'GET',
         mode: 'cors'
     });
@@ -60,32 +60,32 @@ const addImage = async (image) => {
     console.log('Upload clicked')
     // Get the presigned URL
     const response = await axios({
-      method: 'GET',
-      url: API_ENDPOINT
+        method: 'GET',
+        url: API_ENDPOINT
     })
     console.log('Response: ', response)
     console.log('Uploading: ', image)
     let binary = atob(image.split(',')[1])
     let array = []
     for (var i = 0; i < binary.length; i++) {
-      array.push(binary.charCodeAt(i))
+        array.push(binary.charCodeAt(i))
     }
-    let blobData = new Blob([new Uint8Array(array)], {type: 'image/jpeg'})
+    let blobData = new Blob([new Uint8Array(array)], { type: 'image/jpeg' })
     console.log('Uploading to: ', response.data.uploadURL)
     const result = await fetch(response.data.uploadURL, {
-      method: 'PUT',
-      body: blobData
+        method: 'PUT',
+        body: blobData
     })
     console.log('Result: ', result)
     // Final URL for the user doesn't need the query string params
     const uploadURL = response.data.uploadURL.split('?')[0]
     console.log(uploadURL)
     return uploadURL
-  }
-  
+}
+
 // get meetups created by a user given user email
 const getMeetupsCreated = async (email) => {
-    const response = await fetch(url + `/${email}/created`, {
+    const response = await fetch(url + `${email}/created`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ const getMeetupsCreated = async (email) => {
 }
 
 export const calculateMeetupBestLocationandTime = async (id) => {
-    const response = await fetch(url + `/${id}/calculate`, {
+    const response = await fetch(url + `${id}/calculate`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -112,12 +112,12 @@ export const calculateMeetupBestLocationandTime = async (id) => {
 
     const data = await response.json()
 
-   
+
     return data
 }
 
 export const getInvitteesNoResponse = async (id) => {
-    const response = await fetch(url + `/${id}/noresponse`, {
+    const response = await fetch(url + `${id}/noresponse`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
