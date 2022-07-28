@@ -83,7 +83,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
     // }
 
     return (
-        <Box sx={{ margin: 1 }}>
+        <Box sx={{ margin: 2, maxWidth: '275px' }}>
             <Card variant="outlined">
                 <CardContent>
                     <Typography variant="h6" gutterBottom>
@@ -98,7 +98,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                 </CardContent>
                 <CardActions disableSpacing>
                     {meetup.state === "PENDING" &&
-                        <ButtonGroup variant="text" aria-label="text button group">
+                        <ButtonGroup variant="text" size="small" aria-label="text button group">
                             <Button
                                 onClick={handleCheck}
                                 variant="contained"

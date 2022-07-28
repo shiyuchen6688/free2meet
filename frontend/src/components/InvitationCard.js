@@ -103,7 +103,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
     // }, [state]);
 
     return (
-        <Box sx={{ minWidth: 275, margin: 5 }}>
+        <Box sx={{ minWidth: 275, margin: 2 }}>
             <Card variant="outlined">
                 <CardHeader
                     avatar={
@@ -126,20 +126,23 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton
-                        aria-label="Accept"
-                        onClick={handleAcceptClick}
-                        disabled={state === "accepted"}
-                    >
-                        <CheckIcon />
-                    </IconButton>
-                    <IconButton
-                        aria-label="Decline"
-                        onClick={handleDeclineClick}
-                        disabled={state === "declined"}
-                    >
-                        <CloseIcon />
-                    </IconButton>
+                    {state !== "pending" && (
+                        <>
+                            <IconButton
+                                aria-label="Accept"
+                                onClick={handleAcceptClick}
+                                disabled={state === "accepted" || state === "pending"}
+                            >
+                                <CheckIcon />
+                            </IconButton>
+                            <IconButton
+                                aria-label="Decline"
+                                onClick={handleDeclineClick}
+                                disabled={state === "declined"}
+                            >
+                                <CloseIcon />
+                            </IconButton></>
+                    )}
 
                     <ExpandMore
                         expand={expanded}
@@ -207,7 +210,6 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                                 <IconButton
                                     aria-label="Accept"
                                     onClick={handleAcceptClick}
-                                    disabled={state === "accepted"}
                                 >
                                     <CheckIcon />
                                 </IconButton>

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMeetupsCreatedAsync } from '../redux/meetups/thunks';
 import MeetupCard from './MeetupCard';
 import ToolBar from './ToolBar';
-
+import Grid from '@mui/material/Grid';
 export default function Home() {
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.usersReducer);
@@ -33,12 +33,19 @@ export default function Home() {
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h5" variant="h5" align="center">
-                        Meetups Waiting For Response ({meetupsWaiting.length})
+                        Meetups Waiting ({meetupsWaiting.length})
                     </Typography>
-
+                    <Grid
+                        container
+                        spacing={2}
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
                     {meetupsWaiting.map(meetup => (
                         <MeetupCard meetup={meetup} refresh={refresh} state={"PENDING"} key={meetup.id} />
                     ))}
+                    </Grid>
 
                 </Paper>
 
@@ -46,10 +53,17 @@ export default function Home() {
                     <Typography component="h5" variant="h5" align="center">
                         Meetups Completed Response ({meetupsCompletedResponse.length})
                     </Typography>
-
+                    <Grid
+                        container
+                        spacing={2}
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
                     {meetupsCompletedResponse.map(meetup => (
                         <MeetupCard meetup={meetup} refresh={refresh} state={"COMPLETED"} key={meetup.id} />
                     ))}
+                    </Grid>
 
                 </Paper>
                 {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
