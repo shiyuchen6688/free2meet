@@ -114,7 +114,6 @@ export default function MeetupCard({ meetup, refresh, state }) {
                         <ButtonGroup variant="text" size="small" aria-label="text button group">
                             <Button
                                 onClick={handleCheck}
-                                variant="contained"
                                 startIcon={<FormatListBulletedIcon />}
                             >
                                 Response
