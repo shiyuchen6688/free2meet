@@ -9,9 +9,6 @@ function trainNLP(X, y) {
     console.log("Starting training");
     classifier.train();
     console.log("Training complete");
-    // console.log("Classifier: " + classifier);
-    // console.log("Classifier.classify('A detailed description for Party 10 ...'): " + classifier.classify('A detailed description for Party 10 ...'));
-    // console.log("Classifier.classify(' I am a cat'): " + classifier.classify('I am a cat'));
     return classifier;
 }
 
@@ -59,6 +56,11 @@ const tagQueries = {
             let classifier = trainNLP(X, y);
             return await User.findOneAndUpdate({ email: userEmail }, { $set: { model: JSON.stringify(classifier) } }, { new: true });
         }
+    },
+    classifyNLP: async (userEmail, text) => {
+        let creator = await User.findOne({email: userEmail});
+        let classifier = JSON.parse(creator.model);
+        return classifier.classify(text);
     }
 };
 
