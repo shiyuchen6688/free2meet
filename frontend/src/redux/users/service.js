@@ -132,6 +132,48 @@ const getFriends = async (email) => {
     return data
 }
 
+// get all tags for a user given user email
+const getTags = async (email, text) => {
+    const response = await fetch(url + `${email}/tags`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token"),
+            'text': text
+        },
+    });
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        console.log('Error in getTags')
+    }
+    return data
+}
+
+// Get tags
+// const getTags = async (email, text) => {
+//     console.log(email, text);
+//     const response = await fetch(url + `${email}/tags`, {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'x-access-token': localStorage.getItem("token")
+//         },
+//         body: JSON.stringify({text: text})
+//     });
+//     console.log(response);
+
+//     const data = await response.json()
+
+//     console.log(data);
+
+//     if (!response.ok) {
+//         console.log('Error in getTags')
+//     }
+//     return data
+// }
+
 // get all friend requests for a user given user email
 const getFriendRequests = async (email) => {
     const response = await fetch(url + `${email}/friends/requests`, {
@@ -288,7 +330,8 @@ const exportedService = {
     deleteFriend,
     changeUsername,
     changePassword,
-    deleteUserAccount
+    deleteUserAccount,
+    getTags
 }
 
 export default exportedService;

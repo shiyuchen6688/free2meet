@@ -9,7 +9,7 @@ import ScheduleSelector from 'react-schedule-selector';
 import CreatableSelect from 'react-select/creatable';
 import "../App.css";
 import { changeInvitee, changeTags } from '../redux/actions/actions';
-import { getFriendsAsync } from '../redux/users/thunks';
+import { getFriendsAsync, getTagsAsync } from '../redux/users/thunks';
 import Place from './Place';
 
 export default function MeetupInvitation() {
@@ -21,6 +21,9 @@ export default function MeetupInvitation() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const currentUserEmail = useSelector(state => state.usersReducer.email);
     const friendList = useSelector(state => state.usersReducer.friends);
+    const tagsList = useSelector(state => state.usersReducer.tags);
+    const email = currentUserEmail;
+    const text = titleAndDetailInfo["meetup-description"];
 
     React.useEffect(() => {
         // clear the state so that the frontend can be consistent with the redux state
@@ -31,11 +34,13 @@ export default function MeetupInvitation() {
         dispatch(getFriendsAsync(currentUserEmail));
     }, [dispatch, currentUserEmail]);
 
-    // TODO use Google NLP API to get the tags
-    // const tags = ["Tag 1", "Tag 2", "Tag 3"];
-    // const useableTags = tags.map(tag => {
-    //     return { label: tag, value: tag };
-    // });
+    React.useEffect(() => {
+        dispatch(getTagsAsync({ email, text }));
+    }, [dispatch, email, text]);
+
+    const useableTags = tagsList.map(tag => {
+        return { label: tag, value: tag };
+    });
 
     let handleChangeInvitees = (newValue) => {
         dispatch(changeInvitee(newValue));
@@ -76,7 +81,7 @@ export default function MeetupInvitation() {
                     <CreatableSelect className={prefersDarkMode ? 'dropdownMeunDark' : null}
                         isMulti
                         onChange={handleChangeTags}
-                    // options={useableTags}
+                        options={useableTags}
                     />
                 </div>
                 <Typography variant="h6" gutterBottom>
