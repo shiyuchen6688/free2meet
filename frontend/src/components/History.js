@@ -223,7 +223,7 @@ export default function History() {
 
     function mapJSONToCard(eventJSON) {
         return (
-            <Box sx={{ minWidth: 275, maxWidth: 600, margin: 5 }} key={eventJSON._id}>
+            <Box sx={{ minWidth: 275, maxWidth: 600, margin: 2 }} key={eventJSON._id}>
                 <Card variant="outlined">
                     <CardHeader
                         avatar={
@@ -245,7 +245,7 @@ export default function History() {
                             image={eventJSON.meetupImage}
                         />
                         <Typography variant="body2" color="text.secondary">
-                            {eventJSON.description}
+                            {eventJSON.description || "No description"}
                         </Typography>
                     </CardContent>
                     <CardActions>
@@ -357,7 +357,7 @@ export default function History() {
                     }
                 </Paper>
 
-                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center">
                         People
                     </Typography>
@@ -370,7 +370,7 @@ export default function History() {
                     >
                         {peopleJSON.map(mapPeopleToCard)}
                     </Grid>
-                </Paper>
+                </Paper> */}
             </Container>
         </ThemeProvider>
     );
