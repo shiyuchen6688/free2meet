@@ -12,6 +12,15 @@ function trainNLP(X, y) {
     return classifier;
 }
 
+function getPredResults(classifier, text) {
+    let clf = natural.BayesClassifier.restore(classifier)
+    console.log("Predicting: ", text);
+    let results = clf.getClassifications(text);
+    // let results = clf.classify(text);
+    console.log(results);
+    return results;
+}
+
 const tagQueries = {
     addTagToUser: async (user, meetup) => {
         let creator = await User.findOne({email: user});
@@ -39,7 +48,7 @@ const tagQueries = {
     },
     trainNLP: async (userEmail) => {
         let creator = await User.findOne({email: userEmail});
-        if (creator.countFromPreviousTraining < 5) {
+        if (creator.countFromPreviousTraining < 3) {
             return;
         } else {
             console.log('training NLP');
@@ -51,16 +60,22 @@ const tagQueries = {
                     y.push(creator.tags[i].tag);
                 }
             }
-            console.log(X);
-            console.log(y);
             let classifier = trainNLP(X, y);
-            return await User.findOneAndUpdate({ email: userEmail }, { $set: { model: JSON.stringify(classifier) } }, { new: true });
+            return await User.findOneAndUpdate({ email: userEmail }, { $set: { model: JSON.stringify(classifier), countFromPreviousTraining: 0 } }, { new: true });
         }
     },
     classifyNLP: async (userEmail, text) => {
         let creator = await User.findOne({email: userEmail});
-        let classifier = JSON.parse(creator.model);
-        return classifier.classify(text);
+        if (creator.model !== "") {
+            let classifier = JSON.parse(creator.model);
+            let results = getPredResults(classifier, text);
+            return results.map(tag => tag.label);
+        } else {
+            let tags = creator.tags.sort((a, b) => {
+                return b.count - a.count;
+            });
+            return tags.map(tag => tag.tag);
+        }
     }
 };
 
