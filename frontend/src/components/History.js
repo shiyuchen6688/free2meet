@@ -223,7 +223,7 @@ export default function History() {
 
     function mapJSONToCard(eventJSON) {
         return (
-            <Box sx={{ minWidth: 275, maxWidth: 600, margin: 5 }} key={eventJSON._id}>
+            <Box sx={{ width: 275, margin: 2 }} key={eventJSON._id}>
                 <Card variant="outlined">
                     <CardHeader
                         avatar={
@@ -244,8 +244,8 @@ export default function History() {
                             component="img"
                             image={eventJSON.meetupImage}
                         />
-                        <Typography variant="body2" color="text.secondary">
-                            {eventJSON.description}
+                        <Typography variant="body2" color="text.secondary" noWrap>
+                            {eventJSON.description || "No description"}
                         </Typography>
                     </CardContent>
                     <CardActions>
@@ -306,17 +306,19 @@ export default function History() {
                                 <FormControlLabel key="all" value="all" control={<Radio />} label="All" />
                                 <FormControlLabel key="created-by-me" value="created-by-me" control={<Radio />} label="Created By Me" />
                                 <FormControlLabel key="attended-by-me" value="attended-by-me" control={<Radio />} label="Attended By Me" />
-                                <FormControlLabel key="custom" value="custom" control={<Radio />} label="My Friend" />
-                                <Select
-                                    labelId="events-person-select"
-                                    id="events-person-select"
-                                    value={filterByPerson}
-                                    disabled={filterPeopleOption !== "custom"}
-                                    label="Filter By Person"
-                                    onChange={e => { setFilterByPerson(e.target.value) }}
-                                >
-                                    {peopleJSON.map(mapPeopleToSelect)}
-                                </Select>
+                                <div display="flex" flexDirection="row">
+                                    <FormControlLabel key="custom" value="custom" control={<Radio />} label="My Friend" />
+                                    <Select
+                                        labelId="events-person-select"
+                                        id="events-person-select"
+                                        value={filterByPerson}
+                                        disabled={filterPeopleOption !== "custom"}
+                                        label="Filter By Person"
+                                        onChange={e => { setFilterByPerson(e.target.value) }}
+                                    >
+                                        {peopleJSON.map(mapPeopleToSelect)}
+                                    </Select>
+                                </div>
                             </RadioGroup>
                             {console.log(filterByPerson)}
                         </FormControl>
@@ -357,7 +359,7 @@ export default function History() {
                     }
                 </Paper>
 
-                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center">
                         People
                     </Typography>
@@ -370,7 +372,7 @@ export default function History() {
                     >
                         {peopleJSON.map(mapPeopleToCard)}
                     </Grid>
-                </Paper>
+                </Paper> */}
             </Container>
         </ThemeProvider>
     );

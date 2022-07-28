@@ -1,7 +1,5 @@
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import { Avatar, Paper } from '@mui/material';
+import { Avatar, ButtonGroup, Paper } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -10,7 +8,6 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -18,7 +15,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom";
 
 import {
     acceptFriendRequestAsync,
@@ -161,7 +157,6 @@ function FriendCard(props) {
     let friendEmail = friend.email
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const handleAcceptClick = () => {
         dispatch(acceptFriendRequestAsync({ email: userEmail, friendEmail }))
@@ -174,7 +169,6 @@ function FriendCard(props) {
     return (
         <Box sx={{ minWidth: 275, margin: 5 }}>
             <Card variant="outlined">
-
                 <CardHeader
                     avatar={
                         <Avatar
@@ -184,33 +178,30 @@ function FriendCard(props) {
                     }
                     title={friendEmail}
                 />
-
                 <CardContent>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="body2" color="textSecondary" component="p">
                         Friend Email: {friendEmail}
                     </Typography>
                 </CardContent>
-
                 {type === "request-received" ? (
-
                     <CardActions disableSpacing>
-                        <IconButton
-                            aria-label="accept-friend"
-                            onClick={handleAcceptClick}
-                        >
-                            <CheckIcon />
-                        </IconButton>
-                        <IconButton
-                            aria-label="decline-friend"
-                            onClick={handleDeclineClick}
-                        >
-                            <CloseIcon />
-                        </IconButton>
-
+                        <ButtonGroup variant="text" color="primary" aria-label="contained primary button group">
+                            <Button
+                                aria-label="accept-friend"
+                                onClick={handleAcceptClick}
+                                variant="contained"
+                            >
+                                Accept
+                            </Button>
+                            <Button
+                                aria-label="decline-friend"
+                                onClick={handleDeclineClick}
+                            >
+                                Decline
+                            </Button>
+                        </ButtonGroup>
                     </CardActions>
                 ) : null}
-
-
             </Card>
         </Box>
     )

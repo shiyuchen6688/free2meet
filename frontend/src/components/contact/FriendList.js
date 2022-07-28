@@ -1,25 +1,20 @@
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { Avatar, Button, Paper } from '@mui/material';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Fab from '@mui/material/Fab';
+import Grid from '@mui/material/Grid';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Fab from '@mui/material/Fab';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import AddIcon from '@mui/icons-material/Add';
-import Box from '@mui/material/Box';
-import { useNavigate } from "react-router-dom";
-import { Paper } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
-import { Avatar } from '@mui/material';
 
-import { getFriendsAsync, deleteFriendAsync } from '../../redux/users/thunks';
+import { deleteFriendAsync, getFriendsAsync } from '../../redux/users/thunks';
 
 export default function FriendList() {
     // get user information 
@@ -27,7 +22,6 @@ export default function FriendList() {
     const friendList = useSelector(state => state.usersReducer.friends);
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getFriendsAsync(currentUserEmail));
@@ -36,9 +30,6 @@ export default function FriendList() {
     const refresh = () => {
         dispatch(getFriendsAsync(currentUserEmail));
     }
-
-    console.log(friendList)
-
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const theme = React.useMemo(
@@ -56,8 +47,6 @@ export default function FriendList() {
         right: theme.spacing(6),
         position: 'fixed'
     };
-
-
 
     return (
         <ThemeProvider theme={theme}>
@@ -82,8 +71,6 @@ export default function FriendList() {
                     ))}
                 </Grid>
             </Paper>
-
-
         </ThemeProvider>
     )
 
@@ -94,22 +81,15 @@ function FriendCard(props) {
     const friendEmail = friend.email
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
 
     // Delete friend handler
     const handleDeleteFriend = () => {
-        console.log("handleDeleteFriend", userEmail)
         dispatch(deleteFriendAsync({ email: userEmail, friendEmail }))
-        navigate("/contact")
     }
 
-
-
     return (
-        <Box sx={{ minWidth: 275, margin: 5 }}>
+        <Box sx={{ minWidth: 275, margin: 2 }}>
             <Card variant="outlined">
-
                 <CardHeader
                     avatar={
                         <Avatar
@@ -121,22 +101,20 @@ function FriendCard(props) {
                 />
 
                 <CardContent>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="body2" color="textSecondary" component="p">
                         Friend Email: {friend.email}
                     </Typography>
                 </CardContent>
 
                 {/* delete friend */}
                 <CardActions disableSpacing>
-
-                    <IconButton
+                    <Button
                         aria-label="delete-friend"
                         onClick={handleDeleteFriend}
                     >
-                        <CloseIcon />
-                    </IconButton>
+                        Delete Friend
+                    </Button>
                 </CardActions>
-
             </Card>
         </Box>
     )

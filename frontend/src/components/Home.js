@@ -1,5 +1,6 @@
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
@@ -33,23 +34,37 @@ export default function Home() {
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h5" variant="h5" align="center">
-                        Meetups Waiting For Response ({meetupsWaiting.length})
+                        Meetups Waiting ({meetupsWaiting.length})
                     </Typography>
-
-                    {meetupsWaiting.map(meetup => (
-                        <MeetupCard meetup={meetup} refresh={refresh} state={"PENDING"} key={meetup.id} />
-                    ))}
+                    <Grid
+                        container
+                        spacing={2}
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        {meetupsWaiting.map(meetup => (
+                            <MeetupCard meetup={meetup} refresh={refresh} state={"PENDING"} key={meetup.id} />
+                        ))}
+                    </Grid>
 
                 </Paper>
 
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h5" variant="h5" align="center">
-                        Meetups Completed Response ({meetupsCompletedResponse.length})
+                        Meetups Completed ({meetupsCompletedResponse.length})
                     </Typography>
-
-                    {meetupsCompletedResponse.map(meetup => (
-                        <MeetupCard meetup={meetup} refresh={refresh} state={"COMPLETED"} key={meetup.id} />
-                    ))}
+                    <Grid
+                        container
+                        spacing={2}
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        {meetupsCompletedResponse.map(meetup => (
+                            <MeetupCard meetup={meetup} refresh={refresh} state={"COMPLETED"} key={meetup.id} />
+                        ))}
+                    </Grid>
 
                 </Paper>
                 {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>

@@ -40,7 +40,7 @@ export default function Meetup() {
                 Media: {
                     height: '100%',
                     width: '100%'
-                  }
+                }
             }),
         [prefersDarkMode],
     );
@@ -53,22 +53,22 @@ export default function Meetup() {
             <Container component="main" sx={{ mb: 4 }}>
                 {(meetup !== null && meetup !== undefined && Object.keys(meetup).length !== 0) ?
                     <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                        <Typography component="h1" variant="h4" align="center">
+                        <Typography component="h1" variant="h4" align="center" style={{ wordWrap: 'break-word' }}>
                             {meetup.title}
                         </Typography>
                         <Card variant="outlined">
                             <CardHeader
                                 avatar={
-                                    <Avatar 
-                                        alt={meetup.creator.username} 
+                                    <Avatar
+                                        alt={meetup.creator.username}
                                         src={meetup.creator.profilePictureLink}
                                     />
                                 }
                                 title={meetup.title}
-                                subheader={`${meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? 'NA':Object.keys(meetup.schedule.schedule)[0].split("T")[0]} 
-                                            ${meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? 'NA':Object.keys(meetup.schedule.schedule)[0].split("T")[1].split(":00.")[0]} - 
-                                            ${meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? 'NA':Object.keys(meetup.schedule.schedule)[Object.keys(meetup.schedule.schedule).length-1].split("T")[0]} 
-                                            ${meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? 'NA':Object.keys(meetup.schedule.schedule)[Object.keys(meetup.schedule.schedule).length-1].split("T")[1].split(":00.")[0]}`}
+                                subheader={`${meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? 'NA' : Object.keys(meetup.schedule.schedule)[0].split("T")[0]} 
+                                            ${meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? 'NA' : Object.keys(meetup.schedule.schedule)[0].split("T")[1].split(":00.")[0]} - 
+                                            ${meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? 'NA' : Object.keys(meetup.schedule.schedule)[Object.keys(meetup.schedule.schedule).length - 1].split("T")[0]} 
+                                            ${meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? 'NA' : Object.keys(meetup.schedule.schedule)[Object.keys(meetup.schedule.schedule).length - 1].split("T")[1].split(":00.")[0]}`}
                             />
                             <CardContent>
                                 <CardMedia
@@ -76,7 +76,7 @@ export default function Meetup() {
                                     width="100%"
                                     image={meetup.meetupImage}
                                 />
-                                <Typography variant="body2" color="text.secondary">
+                                <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }}>
                                     {meetup.description}
                                 </Typography>
                             </CardContent>

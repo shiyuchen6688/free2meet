@@ -19,6 +19,8 @@ import { calculateMeetupBestLocationandTime, getInvitteesNoResponse } from '../r
 import Places from './Places';
 import ScheduleSelector from './timetable/ScheduleSelector';
 import Stack from '@mui/material/Stack';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListNumbered';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -39,6 +41,8 @@ export default function MeetupCard({ meetup, refresh, state }) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const [showCompleteButton, setShowCompleteButton] = React.useState(false);
 
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
@@ -63,15 +67,26 @@ export default function MeetupCard({ meetup, refresh, state }) {
     }
 
     const handleCompleteClick = () => {
-        calculateMeetupBestLocationandTime(meetup.id).then(function (result) {
-            refresh();
+        setShowCompleteButton(true);
+        getInvitteesNoResponse(meetup.id).then(function (result) {
+            setNoResponseInvitees(result);
+        }).then(function () {
+            handleClickOpen();
         });
     }
 
-    const [noResponseInvitetes, setNoResponseInvitetes] = React.useState([]);
+    const handleStillCompleteClick = () => {
+        calculateMeetupBestLocationandTime(meetup.id).then(function (result) {
+            refresh();
+        });
+        handleClose();
+    }
+
+    const [noResponseInvitees, setNoResponseInvitees] = React.useState([]);
     const handleCheck = () => {
+        setShowCompleteButton(false);
         getInvitteesNoResponse(meetup.id).then(function (result) {
-            setNoResponseInvitetes(result);
+            setNoResponseInvitees(result);
             handleClickOpen();
         });
     }
@@ -81,33 +96,35 @@ export default function MeetupCard({ meetup, refresh, state }) {
     // }
 
     return (
-        <Box sx={{ minWidth: 275, margin: 5 }}>
+        <Box sx={{ margin: 2, width: '275px' }}>
             <Card variant="outlined">
                 <CardContent>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h6" gutterBottom noWrap>
                         Title: {meetup.title}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                         Details:
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {meetup.description}
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                        {meetup.description || 'No description'}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
                     {meetup.state === "PENDING" &&
-                        <>
-                            <Button
-                                onClick={handleCompleteClick}
-                            >
-                                Stop Waiting For Response And Calculate Best Location and Time
-                            </Button>
+                        <ButtonGroup variant="text" size="small" aria-label="text button group">
                             <Button
                                 onClick={handleCheck}
+                                startIcon={<FormatListBulletedIcon />}
                             >
-                                Check Invitees No Response
+                                Response
                             </Button>
-                        </>
+                            <Button
+                                onClick={handleCompleteClick}
+                                startIcon={<CheckIcon />}
+                            >
+                                Complete
+                            </Button>
+                        </ButtonGroup>
                     }
                     {/* {meetup.state === "COMPLETED" &&
                         <>
@@ -129,13 +146,13 @@ export default function MeetupCard({ meetup, refresh, state }) {
                 </CardActions>
                 <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'} TransitionComponent={Grow}>
                     <CardContent>
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }}>
                             Title: {meetup.title}
                         </Typography>
                         <Typography variant="h6" gutterBottom>
                             Details:
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }}>
                             {meetup.description}
                         </Typography>
                         <Typography variant="h6" gutterBottom>
@@ -146,7 +163,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                                 return <Chip key={invitee} label={invitee} />
                             })}
                         </Stack>
-                        <Box sx={{ minWidth: 800, margin: 0 }}>
+                        <Box sx={{ margin: 0 }}>
                             <Typography variant="h6" gutterBottom>
                                 {state === "PENDING" ? "Location(s):" : "Best Location(s)"}
                             </Typography>
@@ -192,17 +209,35 @@ export default function MeetupCard({ meetup, refresh, state }) {
                     </CardContent>
                 </Dialog>
                 <Dialog open={open} onClose={handleClose} TransitionComponent={Grow} >
-                    <DialogTitle>{noResponseInvitetes.length === 0 ? "All Invitees Responsed" : "Invitees who have not responded"}</DialogTitle>
+                    <DialogTitle>
+                        {showCompleteButton && <Typography variant="h6" gutterBottom>
+                            Are you sure you want to complete this meetup?
+                        </Typography>}
+                        {!showCompleteButton && <Typography variant="h6" gutterBottom>
+                            {noResponseInvitees.length === 0 ? "All Invitees Responsed" : "There are " + noResponseInvitees.length + " invitees who have not responded."}
+                        </Typography>}
+                    </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
+                            {showCompleteButton && <Typography variant="body2" color="text.secondary">
+                                This will decline all invitees who have not responded, calculate the best location(s) and time for the meetup, and mark it as completed.
+                            </Typography>}
+                            {showCompleteButton && <Typography variant="h6">
+                                {noResponseInvitees.length === 0 ? "All Invitees Responsed" : "There are " + noResponseInvitees.length + " invitees who have not responded."}
+                            </Typography>}
                             <Stack direction="row" spacing={1}>
-                                {noResponseInvitetes.map((invitee) => {
+                                {noResponseInvitees.map((invitee) => {
                                     return <Chip key={invitee.email} avatar={<Avatar>{invitee.email}</Avatar>} label={invitee.username} />
                                 })}
                             </Stack>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
+                        {showCompleteButton &&
+                            <Button onClick={handleStillCompleteClick} color="primary">
+                                Mark as Completed
+                            </Button>
+                        }
                         <Button onClick={handleClose} color="primary">
                             Close
                         </Button>

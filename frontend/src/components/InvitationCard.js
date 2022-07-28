@@ -103,7 +103,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
     // }, [state]);
 
     return (
-        <Box sx={{ minWidth: 275, margin: 5 }}>
+        <Box sx={{ width: 275, margin: 2 }}>
             <Card variant="outlined">
                 <CardHeader
                     avatar={
@@ -115,31 +115,34 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                     title={invitation.creator.username}
                 />
                 <CardContent>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h6" gutterBottom noWrap>
                         Title: {invitation.title}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                         Details:
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {invitation.description}
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                        {invitation.description || 'No description'}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton
-                        aria-label="Accept"
-                        onClick={handleAcceptClick}
-                        disabled={state === "accepted"}
-                    >
-                        <CheckIcon />
-                    </IconButton>
-                    <IconButton
-                        aria-label="Decline"
-                        onClick={handleDeclineClick}
-                        disabled={state === "declined"}
-                    >
-                        <CloseIcon />
-                    </IconButton>
+                    {state !== "pending" && (
+                        <>
+                            <IconButton
+                                aria-label="Accept"
+                                onClick={handleAcceptClick}
+                                disabled={state === "accepted" || state === "pending"}
+                            >
+                                <CheckIcon />
+                            </IconButton>
+                            <IconButton
+                                aria-label="Decline"
+                                onClick={handleDeclineClick}
+                                disabled={state === "declined"}
+                            >
+                                <CloseIcon />
+                            </IconButton></>
+                    )}
 
                     <ExpandMore
                         expand={expanded}
@@ -152,13 +155,13 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                 </CardActions>
                 <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'} TransitionComponent={Grow}>
                     <CardContent>
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }}>
                             Title: {invitation.title}
                         </Typography>
                         <Typography variant="h6" gutterBottom>
                             Details:
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }}>
                             {invitation.description}
                         </Typography>
                         {invitation.invitees.length > 1 &&
@@ -182,7 +185,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                                 Only Invited You!
                             </Typography>
                         }
-                        <Box sx={{ minWidth: 800, margin: 0 }}>
+                        <Box sx={{ margin: 0 }}>
                             <Typography variant="h6" gutterBottom>
                                 {"Location(s):"}
                             </Typography>
@@ -207,7 +210,6 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                                 <IconButton
                                     aria-label="Accept"
                                     onClick={handleAcceptClick}
-                                    disabled={state === "accepted"}
                                 >
                                     <CheckIcon />
                                 </IconButton>
