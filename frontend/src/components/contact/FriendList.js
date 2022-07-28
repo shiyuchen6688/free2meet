@@ -1,23 +1,20 @@
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { Avatar, Button, Paper } from '@mui/material';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Fab from '@mui/material/Fab';
+import Grid from '@mui/material/Grid';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Fab from '@mui/material/Fab';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import Box from '@mui/material/Box';
-import { useNavigate } from "react-router-dom";
-import { Paper } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import { Avatar } from '@mui/material';
-import { Button } from '@mui/material';
 
-import { getFriendsAsync, deleteFriendAsync } from '../../redux/users/thunks';
+import { deleteFriendAsync, getFriendsAsync } from '../../redux/users/thunks';
 
 export default function FriendList() {
     // get user information 
