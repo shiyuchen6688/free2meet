@@ -103,7 +103,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
     // }, [state]);
 
     return (
-        <Box sx={{ minWidth: 275, margin: 2 }}>
+        <Box sx={{ width: 275, margin: 2 }}>
             <Card variant="outlined">
                 <CardHeader
                     avatar={

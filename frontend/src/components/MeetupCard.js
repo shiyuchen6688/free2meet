@@ -83,7 +83,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
     // }
 
     return (
-        <Box sx={{ margin: 2, maxWidth: '275px' }}>
+        <Box sx={{ margin: 2, width: '275px' }}>
             <Card variant="outlined">
                 <CardContent>
                     <Typography variant="h6" gutterBottom>
