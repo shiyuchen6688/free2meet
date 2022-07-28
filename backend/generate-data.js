@@ -360,7 +360,8 @@ async function generateData() {
                     count: 1
                 }
             ],
-            countFromPreviousTraining: 2
+            countFromPreviousTraining: 2,
+            model: ""
         },
         {
             username: 'a',
@@ -385,7 +386,8 @@ async function generateData() {
                     count: 1
                 }
             ],
-            countFromPreviousTraining: 2
+            countFromPreviousTraining: 2,
+            model: ""
         },
         {
             username: 'c',
@@ -399,7 +401,8 @@ async function generateData() {
             meetupsAccepted: [],
             meetupsDeclined: [],
             tags: [],
-            countFromPreviousTraining: 0
+            countFromPreviousTraining: 0,
+            model: ""
         },
         {
             username: 'd',
@@ -424,7 +427,8 @@ async function generateData() {
                     count: 1
                 }
             ],
-            countFromPreviousTraining: 2
+            countFromPreviousTraining: 2,
+            model: ""
         }
     ];
 

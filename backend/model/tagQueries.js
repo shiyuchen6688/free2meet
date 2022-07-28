@@ -9,9 +9,9 @@ function trainNLP(X, y) {
     console.log("Starting training");
     classifier.train();
     console.log("Training complete");
-    console.log("Classifier: " + classifier);
-    console.log("Classifier.classify('A detailed description for Party 10 ...'): " + classifier.classify('A detailed description for Party 10 ...'));
-    console.log("Classifier.classify(' I am a cat'): " + classifier.classify('I am a cat'));
+    // console.log("Classifier: " + classifier);
+    // console.log("Classifier.classify('A detailed description for Party 10 ...'): " + classifier.classify('A detailed description for Party 10 ...'));
+    // console.log("Classifier.classify(' I am a cat'): " + classifier.classify('I am a cat'));
     return classifier;
 }
 
@@ -36,14 +36,13 @@ const tagQueries = {
                 });
             }
         }
-        let updatedUser =  await User.findOneAndUpdate({ email: user }, { $set: { tags: updateTags } }, { new: true });
+        let updatedUser =  await User.findOneAndUpdate({ email: user }, { $set: { tags: updateTags }, $inc: {countFromPreviousTraining : 1} }, { new: true });
         tagQueries.trainNLP(user);
         return updatedUser;
     },
     trainNLP: async (userEmail) => {
         let creator = await User.findOne({email: userEmail});
-        console.log(creator);
-        if (creator.countFromPreviousTraining < 2) {
+        if (creator.countFromPreviousTraining < 5) {
             return;
         } else {
             console.log('training NLP');
@@ -58,7 +57,7 @@ const tagQueries = {
             console.log(X);
             console.log(y);
             let classifier = trainNLP(X, y);
-            return await User.findOneAndUpdate({ email: userEmail }, { $set: { classifier: classifier } }, { new: true });
+            return await User.findOneAndUpdate({ email: userEmail }, { $set: { model: JSON.stringify(classifier) } }, { new: true });
         }
     }
 };
