@@ -510,6 +510,7 @@ async function generateData() {
                 ]
             },
             "invitees": ["a"],
+            "tags": ["party", "fun"],
             "creator": "q",
             state: "PENDING",
             bestLocation: null,
@@ -618,6 +619,7 @@ async function generateData() {
                 ]
             },
             "invitees": ["a"],
+            "tags": ["party", "fun"],
             "creator": "d",
             state: "PENDING",
             bestLocation: null,
@@ -726,6 +728,7 @@ async function generateData() {
                 ]
             },
             "invitees": ["q","d"],
+            "tags": ["party", "fun"],
             "creator": "a",
             state: "PENDING",
             bestLocation: null,
