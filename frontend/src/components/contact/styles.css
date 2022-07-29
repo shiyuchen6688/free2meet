@@ -4,7 +4,7 @@ html {
   margin: 0;
 }
 
-.App {
+.SendBirdApp {
   font-family: sans-serif;
   text-align: center;
   height: calc(100vh - 200px);

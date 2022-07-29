@@ -20,7 +20,7 @@ export default function App({ user, theme }) {
 
 
   return (
-    <div className={"App " + (theme ? "dark" : null)}>
+    <div className={"SendBirdApp " + (theme ? "dark" : null)}>
       <SendBirdProvider userId={user} appId="CB108BAB-EB6F-4BA7-A7C5-40E73836AAE1">
         {channel ? (
           <Channel
