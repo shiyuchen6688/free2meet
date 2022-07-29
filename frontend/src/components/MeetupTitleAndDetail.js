@@ -59,6 +59,9 @@ export default function MeetupTitleAndDetail() {
             <Typography variant="h6" gutterBottom>
                 Title
             </Typography>
+            <Typography variant="subtitle2" gutterBottom>
+                Maximum 50 characters.
+            </Typography>
             <Grid xs={12} sm={6} sx={{ mb: "3%" }} item={true}>
                 <TextField
                     required
@@ -69,6 +72,7 @@ export default function MeetupTitleAndDetail() {
                     variant="standard"
                     defaultValue={titleAndDetailInfo["meetup-title"]}
                     onChange={onChangeHandler}
+                    inputProps={{ maxLength: 50 }}
                 />
             </Grid>
 
@@ -90,6 +94,7 @@ export default function MeetupTitleAndDetail() {
                     rows={12}
                     defaultValue={titleAndDetailInfo["meetup-description"]}
                     onChange={onChangeHandler}
+                    inputProps={{ maxLength: 1000 }}
                 />
             </Grid>
 

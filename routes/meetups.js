@@ -84,6 +84,14 @@ router.post('/new', function (req, res, next) {
             });
         }
     }
+    // if meetup.title is larger than 50 characters, keep only first 50 characters
+    if (meetup.title.length > 50) {
+        meetup.title = meetup.title.substring(0, 50);
+    }
+    // if meetup.description is larger than 1000 characters, keep only first 1000 characters
+    if (meetup.description.length > 1000) {
+        meetup.description = meetup.description.substring(0, 1000);
+    }
     // if invitees emails are not in creator's friends return error
     queries.getFriends(creatorEmail).then(function (friends) {
         // console.log(friends);
