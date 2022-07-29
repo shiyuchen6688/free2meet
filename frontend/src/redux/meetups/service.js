@@ -27,7 +27,11 @@ const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
 
 // Get one meetup
 const getMeetup = async (id) => {
-    const response = await fetch(url + `meetups/meetup?id=${id}`, {
+    let url3 = 'http://localhost:3001/meetups/'
+    if (process.env.NODE_ENV === 'production') {
+        url3 = '';
+    }
+    const response = await fetch(url3 + `meetup?id=${id}`, {
         method: 'GET',
         mode: 'cors'
     });
