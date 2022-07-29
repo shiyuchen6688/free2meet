@@ -1,10 +1,10 @@
 // Get all meetups
 
-let url = 'http://localhost:3001/invitations/';
+let url = 'invitations/';
 
-if (process.env.NODE_ENV === 'production') {
-    url = 'invitations/';
-}
+// if (process.env.NODE_ENV === 'production') {
+//     url = 'invitations/';
+// }
 
 const getInvitations = async () => {
     const response = await fetch(url, {

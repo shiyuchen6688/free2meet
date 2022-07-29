@@ -1,14 +1,15 @@
 // login
 
-let url = 'http://localhost:3001/users/'
+// let url = 'http://localhost:3001/users/'
+// let url = url = 'users/';
 
-if (process.env.NODE_ENV === 'production') {
-    url = 'users/';
-}
+// if (process.env.NODE_ENV === 'production') {
+//     url = 'users/';
+// }
 
 const login = async (user) => {
 
-    const response = await fetch(url + 'login', {
+    const response = await fetch('users/login', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -30,7 +31,7 @@ const login = async (user) => {
 
 const register = async (user) => {
 
-    const response = await fetch(url + 'register', {
+    const response = await fetch('users/register', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -50,7 +51,7 @@ const register = async (user) => {
 
 // reset password of a user given user email and new password
 const resetPassword = async (email, password) => {
-    const response = await fetch(url + 'reset-password', {
+    const response = await fetch('users/reset-password', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -69,7 +70,7 @@ const resetPassword = async (email, password) => {
 
 // user change password in profile page
 const changePassword = async (email, oldPassword, newPassword) => {
-    const response = await fetch(url + `${email}/change-password`, {
+    const response = await fetch(`users/${email}/change-password`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -93,7 +94,7 @@ const changeUsername = async (email, password, newUsername) => {
     console.log("email", email)
     console.log("password", password)
     console.log("newUsername", newUsername)
-    const response = await fetch(url + `${email}/change-username`, {
+    const response = await fetch(`users/${email}/change-username`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -116,7 +117,7 @@ const changeUsername = async (email, password, newUsername) => {
 
 // get all friends for a user given user email
 const getFriends = async (email) => {
-    const response = await fetch(url + `${email}/friends`, {
+    const response = await fetch(`users/${email}/friends`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -134,7 +135,7 @@ const getFriends = async (email) => {
 
 // get all tags for a user given user email
 const getTags = async (email, text) => {
-    const response = await fetch(url + `${email}/tags`, {
+    const response = await fetch(`users/${email}/tags`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -151,32 +152,9 @@ const getTags = async (email, text) => {
     return data
 }
 
-// Get tags
-// const getTags = async (email, text) => {
-//     console.log(email, text);
-//     const response = await fetch(url + `${email}/tags`, {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'x-access-token': localStorage.getItem("token")
-//         },
-//         body: JSON.stringify({text: text})
-//     });
-//     console.log(response);
-
-//     const data = await response.json()
-
-//     console.log(data);
-
-//     if (!response.ok) {
-//         console.log('Error in getTags')
-//     }
-//     return data
-// }
-
 // get all friend requests for a user given user email
 const getFriendRequests = async (email) => {
-    const response = await fetch(url + `${email}/friends/requests`, {
+    const response = await fetch(`users/${email}/friends/requests`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -198,7 +176,7 @@ const getFriendRequests = async (email) => {
 
 // get all friend requests for a user given user email
 const getFriendRequestsSent = async (email) => {
-    const response = await fetch(url + `${email}/friends/requests/sent`, {
+    const response = await fetch(`users/${email}/friends/requests/sent`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -217,7 +195,7 @@ const getFriendRequestsSent = async (email) => {
 // accept a friend request for a user given user email and friend email
 const acceptFriendRequest = async (email, friendEmail) => {
     console.log("acceptFriendRequest", email, friendEmail)
-    const response = await fetch(url + `${email}/friends/requests/accept`, {
+    const response = await fetch(`users/${email}/friends/requests/accept`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -236,7 +214,7 @@ const acceptFriendRequest = async (email, friendEmail) => {
 
 // decline a friend request for a user given user email and friend email
 const declineFriendRequest = async (email, friendEmail) => {
-    const response = await fetch(url + `${email}/friends/requests/decline`, {
+    const response = await fetch(`users/${email}/friends/requests/decline`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -256,7 +234,7 @@ const declineFriendRequest = async (email, friendEmail) => {
 // send a friend request for a user given user email and friend email
 const sendFriendRequest = async (email, friendEmail) => {
     console.log(email, friendEmail)
-    const response = await fetch(url + `${email}/friends/requests/send`, {
+    const response = await fetch(`users/${email}/friends/requests/send`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -280,7 +258,7 @@ const sendFriendRequest = async (email, friendEmail) => {
 // delete a friend for a user given user email and friend email
 const deleteFriend = async (email, friendEmail) => {
     console.log(email)
-    const response = await fetch(url + `${email}/friends/delete`, {
+    const response = await fetch(`users/${email}/friends/delete`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -302,7 +280,7 @@ const deleteFriend = async (email, friendEmail) => {
 
 // Delete user's account
 const deleteUserAccount = async (userEmail) => {
-    const response = await fetch(url + `${userEmail}/delete-account`, {
+    const response = await fetch(`users/${userEmail}/delete-account`, {
         method: 'DELETE'
     })
 
