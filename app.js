@@ -30,9 +30,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, 'frontend/build')));
+    app.get(express.static(path.join(__dirname, 'frontend/build')));
 } else {
-    app.use(express.static(path.join(__dirname, 'public')));
+    app.get(express.static(path.join(__dirname, 'public')));
     // generate mock data for testing (users and meetups)
     generateData();
 }
