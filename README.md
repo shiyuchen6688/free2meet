@@ -1,4 +1,6 @@
 # Free2Meet
+## Deployment
+https://free2meet.herokuapp.com/
 
 ## Authors (no particular order)
 
@@ -49,7 +51,7 @@
 	- Incorporate Google Maps API to let users easily add a location to their events. 
 - Stretch requirements
 	- A smarter recommender system that coule automatically generate best times and location for meetup based on existing user inputs.
-	- A chat system such that user could create different spaces (i.e. workspace, gamespace, etc.) with different group members. Users can edit space name and space profile picture. Users can send text and files in the space they created. Images, videos and links files can be previewed and downloaded; other formats of files can be downloaded. Users can also react to the messages in the space with emojis and quote-reply messages. Users can search for messages in the space. Operators kick users out of the space, promote members to operators, demote other operators to members, mute certain users, freeze/unfreeze the space so that only operators can send messages. Operators and members can invite users to join the space, and they can leave the space if they want. Message senders can also delete and edit their own messages.
+	- A chat system such that user could create different spaces (i.e. workspace, gamespace, etc.) with different group members. Users could chat with each other and send files to each other in the space.
 	- Implement use of JSON web token to securely send user data between the website and the server. 
 
 ## Project Tasks
