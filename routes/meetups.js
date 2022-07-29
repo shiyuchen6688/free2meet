@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { v4: uuid } = require('uuid');
 var queries = require('../model/queries');
+var tagQueries = require('../model/tagQueries');
 
 /** Schema of meetup include:
     id (Primary Key), timestamp, title, description, location, schedule, invitees, creator, state, bestLocation, bestTime
@@ -46,6 +47,7 @@ router.get('/', function (req, res, next) {
 /* get a single meetup by id. */
 router.get(`/meetup`, function (req, res, next) {
     const id = req.query.id;
+    console.log(id);
     queries.getMeetupById(id).then(function (meetup) {
         return res.send(meetup);
     });
@@ -151,6 +153,30 @@ router.post('/:id/calculate', (req, res) => {
     const id = req.params.id;
     queries.calculateMeetupBestLocationandTime(id).then(meetup => {
         return res.send(meetup);
+    }).catch(err => {
+        return res.status(404).send(err);
+    });
+});
+
+router.get('/users/:email/tags', async function (req, res, next) {
+    const email = req.params.email;
+    const text = req.headers.text;
+    console.log(email, text)
+    // let tags = await tagQueries.classifyNLP(email, text);
+    // console.log(tags)
+    // return res.status(200).send(tags)
+    tagQueries.classifyNLP(email, text).then(tags => {
+        return res.send(tags);
+    }).catch(err => {
+        return res.status(404).send(err);
+    });
+});
+
+// get all friends for a user given user email
+router.get('/users/:email/friends/', function (req, res, next) {
+    const email = req.params.email;
+    queries.getFriends(email).then(friends => {
+        return res.send(friends);
     }).catch(err => {
         return res.status(404).send(err);
     });

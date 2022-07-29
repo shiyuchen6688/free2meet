@@ -387,20 +387,6 @@ router.delete('/:email/delete-account', async function (req, res, next) {
     return res.status(200).send(deleteResult)
 });
 
-router.get('/:email/tags', async function (req, res, next) {
-    const email = req.params.email;
-    const text = req.headers.text;
-    console.log(email, text)
-    // let tags = await tagQueries.classifyNLP(email, text);
-    // console.log(tags)
-    // return res.status(200).send(tags)
-    tagQueries.classifyNLP(email, text).then(tags => {
-        return res.send(tags);
-    }).catch(err => {
-        return res.status(404).send(err);
-    });
-});
-
 
 
 
