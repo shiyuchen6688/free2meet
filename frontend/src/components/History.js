@@ -249,7 +249,7 @@ export default function History() {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" onClick={e => navigate(`/meetup/${eventJSON._id}`)}>View</Button>
+                        <Button size="small" onClick={e => navigate(`/meetups/${eventJSON._id}`)}>View</Button>
                     </CardActions>
                 </Card>
             </Box >
