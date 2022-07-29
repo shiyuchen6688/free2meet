@@ -94,7 +94,7 @@ export default function MeetupTitleAndDetail() {
             </Grid>
 
             <Grid xs={12} sm={6} item={true}>
-                <img src={imageURL}/>
+                <img src={imageURL} style={{ maxWidth: "100%" }} />
             </Grid>
             <Button
               variant="contained"
