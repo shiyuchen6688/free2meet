@@ -100,7 +100,7 @@ const getMeetupsCreated = async (email) => {
 }
 
 export const calculateMeetupBestLocationandTime = async (id) => {
-    const response = await fetch( `${id}/calculate`, {
+    const response = await fetch( `meetups/${id}/calculate`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export const calculateMeetupBestLocationandTime = async (id) => {
 }
 
 export const getInvitteesNoResponse = async (id) => {
-    const response = await fetch(`${id}/noresponse`, {
+    const response = await fetch(`meetups/${id}/noresponse`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
