@@ -66,7 +66,7 @@ export default function FriendList() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    {friendList.slice().sort((a, b) => a.username.localeCompare(b.username)).map(friend => (
+                    {friendList.map(friend => (
                         <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} state="pending" />
                     ))}
                 </Grid>

@@ -439,9 +439,11 @@ const queries = {
         let user = await User.findOne({ email: userEmail });
         // get all users who are friends of the user
         let friends = await User.find({ email: { $in: user.friends } });
-        // keep friends username and email fields
+        // keep friends username and email fields and sort based on username 
         return friends.map(function (friend) {
             return { username: friend.username, email: friend.email };
+        }).sort(function (a, b) {
+            return a.username.localeCompare(b.username);
         });
     },
     // return user and friend email if reqeust exist, otherwise return Null
@@ -468,9 +470,11 @@ const queries = {
         let user = await User.findOne({ email: userEmail });
         // get all users who are friends of the user
         let friendRequests = await User.find({ email: { $in: user.friendRequests } });
-        // keep friends username and email fields
+        // keep friends username and email fields and sort based on username 
         return friendRequests.map(function (friend) {
             return { username: friend.username, email: friend.email };
+        }).sort(function (a, b) {
+            return a.username.localeCompare(b.username);
         });
     },
     // Given a user email, returns the usernames and emails of all the users who received the user's friend requests
@@ -478,9 +482,11 @@ const queries = {
         let user = await User.findOne({ email: userEmail });
         // get all users who are friends of the user
         let friendRequestsSent = await User.find({ email: { $in: user.friendRequestsSent } });
-        // keep friends username and email fields
+        // keep friends username and email fields and sort based on username 
         return friendRequestsSent.map(function (friend) {
             return { username: friend.username, email: friend.email };
+        }).sort(function (a, b) {
+            return a.username.localeCompare(b.username);
         });
     },
     // Given a user email, returns the updated friend list of the user and the updated friend request list of the user

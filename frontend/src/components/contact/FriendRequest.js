@@ -124,7 +124,7 @@ export default function FriendRequest() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    {friendRequestsSent.slice().sort((a, b) => a.username.localeCompare(b.username)).map(friend => (
+                    {friendRequestsSent.map(friend => (
                         <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} type="request-sent" state="pending" />
                     ))}
                 </Grid>
@@ -142,7 +142,7 @@ export default function FriendRequest() {
                     justifyContent="center"
                     alignItems="center"
                 >
-                    {friendRequestsReceived.slice().sort((a, b) => a.username.localeCompare(b.username)).map(friend => (
+                    {friendRequestsReceived.map(friend => (
                         <FriendCard key={friend.email} friend={friend} userEmail={currentUserEmail} type="request-received" state="pending" />
                     ))}
                 </Grid>
