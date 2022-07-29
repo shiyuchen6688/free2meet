@@ -437,13 +437,11 @@ const queries = {
     // Given a user email, returns the usernames and emails of all the friends of the user
     getFriends: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        // get all users who are friends of the user
-        let friends = await User.find({ email: { $in: user.friends } });
-        // keep friends username and email fields and sort based on username 
+        // get all users who are friends of the user and sort based on username 
+        let friends = await User.find({ email: { $in: user.friends } }).sort({ username: 1 });
+        // keep friends username and email fields
         return friends.map(function (friend) {
             return { username: friend.username, email: friend.email };
-        }).sort(function (a, b) {
-            return a.username.localeCompare(b.username);
         });
     },
     // return user and friend email if reqeust exist, otherwise return Null
@@ -468,25 +466,21 @@ const queries = {
     // Given a user email, returns the usernames and emails of all the users who have sent the user a friend request
     getFriendRequests: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        // get all users who are friends of the user
-        let friendRequests = await User.find({ email: { $in: user.friendRequests } });
-        // keep friends username and email fields and sort based on username 
+        // get all users who are friends of the user and sort based on username 
+        let friendRequests = await User.find({ email: { $in: user.friendRequests } }).sort({ username: 1 });
+        // keep friends username and email fields
         return friendRequests.map(function (friend) {
             return { username: friend.username, email: friend.email };
-        }).sort(function (a, b) {
-            return a.username.localeCompare(b.username);
         });
     },
     // Given a user email, returns the usernames and emails of all the users who received the user's friend requests
     getFriendRequestsSent: async (userEmail) => {
         let user = await User.findOne({ email: userEmail });
-        // get all users who are friends of the user
-        let friendRequestsSent = await User.find({ email: { $in: user.friendRequestsSent } });
-        // keep friends username and email fields and sort based on username 
+        // get all users who are friends of the user and sort based on username
+        let friendRequestsSent = await User.find({ email: { $in: user.friendRequestsSent } }).sort({ username: 1 });
+        // keep friends username and email fields
         return friendRequestsSent.map(function (friend) {
             return { username: friend.username, email: friend.email };
-        }).sort(function (a, b) {
-            return a.username.localeCompare(b.username);
         });
     },
     // Given a user email, returns the updated friend list of the user and the updated friend request list of the user
