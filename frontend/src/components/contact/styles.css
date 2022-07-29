@@ -12,8 +12,8 @@ html {
   color: black;
 }
 
-.App .sendbird-channel-header,
-.App .sendbird-channel-list {
+.SendBirdApp .sendbird-channel-header,
+.SendBirdApp .sendbird-channel-list {
   width: 90vw;
   background-color: white
 }
@@ -22,21 +22,21 @@ html {
   filter: invert(1);
 }
 
-.App .sendbird-message-content.incoming .sendbird-message-content__middle,
-.App .sendbird-message-content.outgoing .sendbird-message-content__middle {
+.SendBirdApp .sendbird-message-content.incoming .sendbird-message-content__middle,
+.SendBirdApp .sendbird-message-content.outgoing .sendbird-message-content__middle {
   max-width: calc(100% - 170px);
 }
-.App
+.SendBirdApp
   .sendbird-message-content.outgoing
   .sendbird-message-content__middle
   .sendbird-message-content__middle__body-container,
-.App
+.SendBirdApp
   .sendbird-message-content.incoming
   .sendbird-message-content__middle
   .sendbird-message-content__middle__body-container {
   width: 100%;
 }
-.App .sendbird-og-message-item-body {
+.SendBirdApp .sendbird-og-message-item-body {
   min-width: initial;
   max-width: initial;
 }
