@@ -29,7 +29,7 @@ const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
 const getMeetup = async (id) => {
     let url3 = 'http://localhost:3001/meetups/'
     if (process.env.NODE_ENV === 'production') {
-        url3 = '';
+        url3 = 'https://free2meet.herokuapp.com/meetups/';
     }
     const response = await fetch(url3 + `meetup?id=${id}`, {
         method: 'GET',
