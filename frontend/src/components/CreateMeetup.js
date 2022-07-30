@@ -106,6 +106,11 @@ export default function CreateMeetup() {
         }
     }
 
+    const [width, setWidth] = React.useState(window.innerWidth);
+    window.onresize = () => {
+        setWidth(window.innerWidth);
+    };
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -117,7 +122,7 @@ export default function CreateMeetup() {
                     </Typography>
 
                     {/* Display title of each step */}
-                    <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+                    <Stepper alternativeLabel={width < 560} activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
                         {steps.map((label) => (
                             <Step key={label}>
                                 <StepLabel>{label}</StepLabel>
