@@ -39,29 +39,30 @@ https://free2meet.herokuapp.com/
 
 - Minimal requirements
   - [x] An account system that could handle signing up, logging in, and deleting account. It should also store user's personal information with different visibility. (i.e. password/friendlist are not supposed to be public; username/email can be public given users' permissions).
-  - [x] A posting system that could handle posting a new event, joining an existing event, delete a posted event.
+  - [x] A posting system that could handle posting a new event, joining an existing event.
   - [x] A scheduling system that contains the timezone infomation and the time slots information for each event and each user. It should calculate and return time slots that all participating users are available for each event.
   - [x] A tracing system that could trace all events joined, all people met, etc.
-  - [x] User-friend frontend. Every webpage should contain all the necessary information and functions with appropriate layout, and needs to be responsive and interactive.
+  - [x] User-friendly frontend. Every webpage should contain all the necessary information and functions with appropriate layout, and needs to be responsive and interactive.
 - Standard requirements
   - [x] A connection system that could handle adding friends and removing friends.
   - [x] An invitation system that could invite users to join an event. Users would be able to view the event and decide whether to join or not with the invitation.
+  - [x] Implement use of JSON web token to securely send user data between the website and the server.
   - [x] Profile page for each user and customized avatar.
-  - [x] A recommender system that could recommend/filter attendees based on location and meetup history, and time slots based on the current attendees' time availability.
   - [x] Visualization of location and time information for each event.
   - [x] A tagging system such that users/events/spaces could have different tags.
   - [x] Incorporate Google Maps API to let users easily add a location to their events.
+  - [x] Incoporate AWS S3 API to store user uploaded images.
 - Stretch requirements
-  - [x] A smarter recommender system that coule automatically generate best times and location for meetup based on existing user inputs.
+  - [x] An algorithm-based recommender system that could automatically generate the best times and locations for meetup based on existing user inputs.
+  - [x] Another NLP based recommender to recommand tags to each event based on user inputs.
   - [x] A chat system such that user could create different spaces (i.e. workspace, gamespace, etc.) with different group members. Users could chat with each other and send files to each other in the space.
-  - [x] Implement use of JSON web token to securely send user data between the website and the server.
 
 ## Project Tasks
 
 - Account System
   - [x] Create a database to store account information such as email, timezone, username, password
   - [x] Create UI to handle logging in to an account, and rejecting the login if the username and password do not match
-  - [x] Create a UI that shows public (email/timezone) and private (username/password) account information
+  - [x] Create a UI that shows public (email) and private (username/password) account information
 - Posting System
   - [x] Create database tables to store all event posts, and relations between posts and attendees
   - [x] Create UI that shows each event post, including its title, description, time, and who it's created by
