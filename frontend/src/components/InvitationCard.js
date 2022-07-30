@@ -1,7 +1,7 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { Avatar } from '@mui/material';
+import { Avatar, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -114,6 +114,19 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                     }
                     title={invitation.creator.username}
                 />
+                
+                <Stack
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                spacing={1}
+                sx={{mx:2}}
+                >
+                    {invitation.tags.map((tag) => {
+                        return <Chip label={tag} variant="outlined"/>
+                    })}
+                </Stack>
+
                 <CardContent>
                     <Typography variant="h6" gutterBottom noWrap>
                         Title: {invitation.title}
@@ -158,6 +171,16 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                         <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }}>
                             Title: {invitation.title}
                         </Typography>
+                        <Stack
+                        direction="row"
+                        justifyContent="flex-start"
+                        alignItems="center"
+                        spacing={1}
+                        >
+                            {invitation.tags.map((tag) => {
+                                return <Chip label={tag} variant="outlined"/>
+                            })}
+                        </Stack>
                         <Typography variant="h6" gutterBottom>
                             Details:
                         </Typography>
