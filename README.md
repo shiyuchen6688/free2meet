@@ -14,13 +14,13 @@ https://free2meet.herokuapp.com/
 ## Project Description
 
 - Who is it for?
-  [x] Anyone that want to schedule a time and location for a meetup, including business meeting, coffee talk, birthday party, dinner, and so on.
+  - [x] Anyone that want to schedule a time and location for a meetup, including business meeting, coffee talk, birthday party, dinner, and so on.
 - What will it do?
-  [x] It will allow a group of people to register their availability for a meetup, they can choose a date, time, and even location. Users can register for new meetups, meetup history of users will be saved by the system. Future features include connecting with your friend, users have their relationship level based on the number of meetups they have, map to visualize the location of users and meetup location, filter or recommend attendees based on location and meetup history, generate visualizations of users meetup history, allow users to vote for party/meeting ideas
+  - [x] It will allow a group of people to register their availability for a meetup, they can choose a date, time, and even location. Users can register for new meetups, meetup history of users will be saved by the system. Future features include connecting with your friend, users have their relationship level based on the number of meetups they have, map to visualize the location of users and meetup location, filter or recommend attendees based on location and meetup history, generate visualizations of users meetup history, allow users to vote for party/meeting ideas
 - What type of data will it store?
-  [x] User information: Phone, Email, Name, Address, User ID, timezone
-  [x] Meetup information: Location, Date, Time, Meetup Topic, Meetup ID
-  [x] Relationship between users: level of relationship based on number of meetups
+  - [x] User information: Phone, Email, Name, Address, User ID, timezone
+  - [x] Meetup information: Location, Date, Time, Meetup Topic, Meetup ID
+  - [x] Relationship between users: level of relationship based on number of meetups
   - Relationship between User and Meetup: which users attended which meetup
   - Meetup Ideas: Idea topic, Idea description
 - What will users be able to do with this data
