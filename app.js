@@ -50,7 +50,7 @@ app.use('/invitations', invitationsRouter);
 //     });
 // }
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + 'frontend/build/index.html'));
+    res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
 });
 
 module.exports = app;
