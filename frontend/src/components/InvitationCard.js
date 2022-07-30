@@ -114,17 +114,20 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                     }
                     title={invitation.creator.username}
                 />
-                
+
                 <Stack
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="center"
-                spacing={1}
-                sx={{mx:2}}
+                    direction="row"
+                    justifyContent="flex-start"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ mx: 2 }}
                 >
                     {invitation.tags.map((tag) => {
-                        return <Chip label={tag} variant="outlined"/>
+                        return <Chip label={tag} variant="outlined" />
                     })}
+                    {invitation.tags.length === 0 &&
+                        <Chip label="No tags" />
+                    }
                 </Stack>
 
                 <CardContent>
@@ -172,13 +175,13 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                             Title: {invitation.title}
                         </Typography>
                         <Stack
-                        direction="row"
-                        justifyContent="flex-start"
-                        alignItems="center"
-                        spacing={1}
+                            direction="row"
+                            justifyContent="flex-start"
+                            alignItems="center"
+                            spacing={1}
                         >
                             {invitation.tags.map((tag) => {
-                                return <Chip label={tag} variant="outlined"/>
+                                return <Chip label={tag} variant="outlined" />
                             })}
                         </Stack>
                         <Typography variant="h6" gutterBottom>
