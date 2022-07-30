@@ -1,5 +1,8 @@
 # Free2Meet
 
+## Project Description
+
+Our project is a responsive web app allowing users to invite others to events, accept or decline event invitations, and chat with other users. Notable features include Google Maps integration, the ability to upload images for events and avatars, and algorithm and NLP-based recommender systems to streamline the event planning process.
 ## Deployment
 
 https://free2meet.herokuapp.com/
@@ -10,10 +13,6 @@ https://free2meet.herokuapp.com/
 - Shiyu Chen
 - Banghua Xu
 - Ming Gong
-
-## Project Description
-
-Our project is a responsive web app allowing users to invite others to events, accept or decline event invitations, and chat with other users. Notable features include Google Maps integration, the ability to upload images for events and avatars, and algorithm and NLP-based recommender systems to streamline the event planning process.
 
 - Who is it for?
   - Anyone that want to schedule a time and location for a meetup, including business meeting, coffee talk, birthday party, dinner, and so on.
