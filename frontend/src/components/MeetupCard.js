@@ -103,15 +103,18 @@ export default function MeetupCard({ meetup, refresh, state }) {
                         Title: {meetup.title}
                     </Typography>
                     <Stack
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    spacing={1}
-                    sx={{mx:2}}
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={1}
+                        sx={{ mx: 2 }}
                     >
                         {meetup.tags.map((tag) => {
-                            return <Chip label={tag} variant="outlined"/>
+                            return <Chip label={tag} variant="outlined" />
                         })}
+                        {meetup.tags.length === 0 &&
+                            <Chip label="No tags" />
+                        }
                     </Stack>
                     <Typography variant="h6" gutterBottom>
                         Details:
@@ -161,13 +164,13 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             Title: {meetup.title}
                         </Typography>
                         <Stack
-                        direction="row"
-                        justifyContent="flex-start"
-                        alignItems="center"
-                        spacing={1}
+                            direction="row"
+                            justifyContent="flex-start"
+                            alignItems="center"
+                            spacing={1}
                         >
                             {meetup.tags.map((tag) => {
-                                return <Chip label={tag} variant="outlined"/>
+                                return <Chip label={tag} variant="outlined" />
                             })}
                         </Stack>
                         <Typography variant="h6" gutterBottom>
