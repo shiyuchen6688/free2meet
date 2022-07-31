@@ -1,10 +1,4 @@
-// Get all meetups
-
-let url = 'invitations/';
-
-// if (process.env.NODE_ENV === 'production') {
-//     url = 'invitations/';
-// }
+const url = 'invitations/';
 
 const getInvitations = async () => {
     const response = await fetch(url, {

@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-// Get all meetups
 const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
     console.log("filter by person");
     console.log(filterByPerson);
@@ -30,11 +29,6 @@ const getMeetup = async (id) => {
 
 // Add new meetup
 const addMeetup = async (meetup) => {
-    console.log(meetup)
-    // let url2 = 'new'
-    // if (process.env.NODE_ENV === 'production') {
-    //     url2 = '';
-    // }
     const response = await fetch('new', {
         method: 'POST',
         headers: {
