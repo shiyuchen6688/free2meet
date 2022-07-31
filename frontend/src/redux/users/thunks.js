@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { actionTypes } from './actionTypes';
 import UsersService from './service';
 
-
 export const loginAsync = createAsyncThunk(
     actionTypes.LOGIN,
     async (user) => {
@@ -101,7 +100,7 @@ export const deleteUserAccountAsync = createAsyncThunk(
 
 export const getTagsAsync = createAsyncThunk(
     actionTypes.GET_TAGS,
-    async ({email, text}) => {
+    async ({ email, text }) => {
         console.log("getTagsAsync", email)
         console.log("text", text)
         return await UsersService.getTags(email, text);
