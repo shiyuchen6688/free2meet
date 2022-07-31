@@ -2,10 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { actionTypes } from './actionTypes';
 import MeetupsService from './service';
 
-
 export const getMeetupsAsync = createAsyncThunk(
     actionTypes.GET_MEETUPS,
-    async ({filterPeopleOption, filterByPerson, email}) => {
+    async ({ filterPeopleOption, filterByPerson, email }) => {
         console.log(filterByPerson);
         return await MeetupsService.getMeetups(filterPeopleOption, filterByPerson, email);
     }

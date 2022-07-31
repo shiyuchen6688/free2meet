@@ -1,12 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATE } from '../utils';
 import {
-    declineMeetupAsync, getFriendsAsync, getMeetupsDeclinedAsync,
-    getMeetupsAcceptedAsync, getMeetupsCreatedAsync, getMeetupsPendingAsync,
-    loginAsync, registerAsync, resetPasswordAsync, getFriendRequestsAsync,
-    getFriendRequestsSentAsync, acceptFriendRequestAsync, declineFriendRequestAsync,
-    sendFriendRequestAsync, deleteFriendAsync, acceptMeetupAsync,
-    changePasswordAsync, changeUsernameAsync, deleteUserAccountAsync, getTagsAsync,
+    acceptFriendRequestAsync, changePasswordAsync, changeUsernameAsync, declineFriendRequestAsync, deleteFriendAsync, deleteUserAccountAsync, getFriendRequestsAsync,
+    getFriendRequestsSentAsync, getFriendsAsync, getTagsAsync, loginAsync, registerAsync, resetPasswordAsync, sendFriendRequestAsync
 } from './thunks';
 
 const INITIAL_STATE = {
@@ -33,7 +29,6 @@ const INITIAL_STATE = {
     getTags: REQUEST_STATE.IDLE,
     error: null
 };
-
 
 const usersSlice = createSlice({
     name: 'users',

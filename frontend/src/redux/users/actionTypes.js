@@ -12,5 +12,5 @@ export const actionTypes = {
     CHANGE_PASSWORD: 'users/changeaPassword',
     CHANGE_USERNAME: 'users/changeUsername',
     DELETE_USER_ACCOUNT: 'users/deleteUserAccount',
-    GET_TAGS: 'users/tags',
+    GET_TAGS: 'users/tags'
 }

@@ -1,12 +1,3 @@
-// login
-
-// let url = 'http://localhost:3001/users/'
-// let url = url = 'users/';
-
-// if (process.env.NODE_ENV === 'production') {
-//     url = 'users/';
-// }
-
 const login = async (user) => {
 
     const response = await fetch('users/login', {
@@ -27,7 +18,6 @@ const login = async (user) => {
     user.setIsValidUser(true)
     return data
 }
-
 
 const register = async (user) => {
 
