@@ -8,43 +8,25 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Grid from '@mui/material/Grid';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { getMeetupsAsync } from '../redux/meetups/thunks';
+import { getFriendsAsync } from '../redux/users/thunks';
 import { darkStyle } from './MeetupLocation';
 import ToolBar from './ToolBar';
-import { getFriendsAsync } from '../redux/users/thunks';
-
-// const peopleJSON = [
-//     {
-//         name: "Person 1",
-//         userID: 1,
-//         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-//     },
-//     {
-//         name: "Person 2",
-//         userID: 2,
-//         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-//     },
-//     {
-//         name: "Person 3",
-//         userID: 3,
-//         profilePictureLink: "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-//     },]
 
 // for google map <<<<<--------------------------------------------------------------
 let script;
@@ -104,9 +86,6 @@ function showMarkers() {
         for (let j = 0; j < d.location.length; j++) {
             createMarker(d.location[j].place_id, d.location[j].name, d.location[j].formatted_address, d.location[j].lat, d.location[j].lng);
         }
-        // if (d.location.length > 0) {
-        //     createMarker(d.location[0].place_id, d.location[0].name, d.location[0].formatted_address, d.location[0].lat, d.location[0].lng);
-        // }
     }
 }
 
@@ -160,8 +139,6 @@ export default function History() {
 
     const email = useSelector(state => state.usersReducer.email);
 
-    // let fbp = "";
-
     const [filterByPerson, setFilterByPerson] = useState("");
 
     const [filterPeopleOption, setFilterPeopleOption] = useState("all");
@@ -169,11 +146,9 @@ export default function History() {
     const peopleJSON = useSelector(state => state.usersReducer.friends);
     useEffect(() => {
         dispatch(getFriendsAsync(email));
-        // console.log(peopleJSON);
     }, [dispatch, email]);
     const eventsJSON = useSelector(state => state.meetupsReducer.list);
     useEffect(() => {
-        console.log(email);
         dispatch(getMeetupsAsync({ filterPeopleOption, filterByPerson, email }));
     }, [dispatch, filterPeopleOption, filterByPerson, email]);
     const navigate = useNavigate();
@@ -213,14 +188,6 @@ export default function History() {
     document.getElementsByTagName("head")[0].appendChild(script);
     // for google map -------------------------------------------------------------->>>>>
 
-    // function refreshCards() {
-    //     console.log("Refresh Cards");
-    //     console.log("filterPeopleOption", filterPeopleOption);
-    //     console.log("filter by person", filterByPerson);
-    //     console.log(typeof filterByPerson);
-    //     dispatch(getMeetupsAsync({ filterPeopleOption, filterByPerson, email }));
-    // }
-
     function mapJSONToCard(eventJSON) {
         return (
             <Box sx={{ width: 275, margin: 2 }} key={eventJSON._id}>
@@ -237,7 +204,6 @@ export default function History() {
                             `${Object.keys(eventJSON.schedule.schedule).length === 0 ? 'NA' :
                                 Object.keys(eventJSON.schedule.schedule)[0].split("T")[0]} - ${Object.keys(eventJSON.schedule.schedule).length === 0 ? 'NA' :
                                     Object.keys(eventJSON.schedule.schedule)[Object.keys(eventJSON.schedule.schedule).length - 1].split("T")[0]}`}
-                    // subheader={`${eventJSON.startDate} ${eventJSON.startTime} - ${eventJSON.endDate} ${eventJSON.endTime}`}
                     />
                     <CardContent>
                         <CardMedia
@@ -253,27 +219,6 @@ export default function History() {
                     </CardActions>
                 </Card>
             </Box >
-        );
-    }
-
-    function mapPeopleToCard(peopleJSON) {
-        return (
-            <Box sx={{ minWidth: 275, maxWidth: 600, margin: 5 }} key={peopleJSON.userID}>
-                <Card variant="outlined">
-                    <CardHeader
-                        title={peopleJSON.name}
-                    />
-                    <CardMedia
-                        component="img"
-                        height="194"
-                        image={peopleJSON.profilePictureLink}
-                        alt={peopleJSON.name}
-                    />
-                    <CardActions>
-                        <Button size="small">View</Button>
-                    </CardActions>
-                </Card>
-            </Box>
         );
     }
 
@@ -358,21 +303,6 @@ export default function History() {
                         </>
                     }
                 </Paper>
-
-                {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h4" align="center">
-                        People
-                    </Typography>
-                    <Grid
-                        container
-                        spacing={2}
-                        direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                    >
-                        {peopleJSON.map(mapPeopleToCard)}
-                    </Grid>
-                </Paper> */}
             </Container>
         </ThemeProvider>
     );
