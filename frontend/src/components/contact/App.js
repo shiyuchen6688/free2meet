@@ -5,7 +5,7 @@ import { useState } from "react";
 import ChatHeader from "./ChatHeader";
 import ChannelPreview from "./ChannelPreview";
 
-export default function App({ user, theme }) {
+export default function App({ user, theme, appId }) {
   const [channel, setChannel] = useState(null);
 
   const onChannelSelect = (_channel) => {
@@ -21,7 +21,7 @@ export default function App({ user, theme }) {
 
   return (
     <div className={"SendBirdApp " + (theme ? "dark" : null)}>
-      <SendBirdProvider userId={user} appId="CB108BAB-EB6F-4BA7-A7C5-40E73836AAE1">
+      <SendBirdProvider userId={user} appId={appId}>
         {channel ? (
           <Channel
             channelUrl={channel.url}
