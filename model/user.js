@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
         meetupId: String, // Foreign key
         availableLocations: [String], // place_id of locations the user have selected
         availableTimeSlot: [String] // time slots the user have selected
-    }], // id's of meetups the user have accepted
+    }], // id's of meetups the user have accepted with the locations and time slots they have selected
     meetupsDeclined: [String], // id's of meetups the user have declined
     tags: [subSchemaTagAndDetails], // tags of meetups the user have created,
     countFromPreviousTraining: Number, // number of new meetups the user has created since the last training
