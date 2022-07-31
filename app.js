@@ -13,7 +13,7 @@ var invitationsRouter = require('./routes/invitations');
 
 var app = express();
 
-mongoose.connect('mongodb+srv://free2meet:free2meet@cluster0.ustzz.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
