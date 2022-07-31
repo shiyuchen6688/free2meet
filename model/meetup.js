@@ -51,8 +51,7 @@ const meetupSchema = new mongoose.Schema({
     tags: [String], // tags of meetup
     creator: String, // email of creator
     // PENDING - The invitation has been sent and is awaiting action by the invitees.
-    // COMPLETED - The invitation has been either accepted or declined by all invitees and the best time has been calculated.
-    // DONE - The creator marks the invitation as done.
+    // COMPLETED - The invitation has been marked as completed by the creator (all pending invitees will be declined, and the best location and time will be selected).
     state: String,
     bestLocation: [], // locations that are the best for the meetup
     bestTime: [String], // best times for the meetup
