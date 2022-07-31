@@ -87,7 +87,7 @@ export default function Contact() {
                 </TabPanel>
 
                 <TabPanel value={value} index={2}>
-                    <Chat theme={prefersDarkMode} />
+                    <Chat />
                 </TabPanel>
             </Box>
         </ThemeProvider>
