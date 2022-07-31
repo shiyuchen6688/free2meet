@@ -22,6 +22,8 @@ mongoose.connect(process.env.MONGODB_URI, {
     console.log('Error connecting to MongoDB: ', err.message);
 });
 
+// generateData();
+
 // Enable Cors
 app.use(cors());
 
@@ -29,26 +31,13 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// if (process.env.NODE_ENV === 'production') {
-//     app.get(express.static(path.join(__dirname, 'frontend/build')));
-// } else {
-//     app.get(express.static(path.join(__dirname, 'public')));
-//     // generate mock data for testing (users and meetups)
-//     generateData();
-// }
 app.use(express.static(path.join(__dirname, 'frontend/build')));
-// app.use(express.static(path.join(__dirname, 'frontend/public')));
 
 app.use('/', indexRouter);
 app.use('/meetups', meetupsRouter);
 app.use('/users', userRouter);
 app.use('/invitations', invitationsRouter);
 
-// if (process.env.NODE_ENV === 'production') {
-//     app.get('*', (req, res) => {
-//         res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
-//     });
-// }
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
 });
