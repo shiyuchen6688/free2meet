@@ -16,7 +16,6 @@ function getPredResults(classifier, text) {
     let clf = natural.BayesClassifier.restore(classifier)
     console.log("Predicting: ", text);
     let results = clf.getClassifications(text);
-    // let results = clf.classify(text);
     console.log(results);
     return results;
 }
