@@ -276,6 +276,15 @@ const deleteUserAccount = async (userEmail) => {
 
     const data = await response.json()
 
+    await fetch(`https://api-CB108BAB-EB6F-4BA7-A7C5-40E73836AAE1.sendbird.com/v3/users/${userEmail}`, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Api-Token': '75cb9083d46c3ed2de67310203dd7346a507b8c1'           
+        },
+    });
+
+
     if (!response.ok) {
         console.log('Error in deleteUser')
         const errorMsg = data?.message;

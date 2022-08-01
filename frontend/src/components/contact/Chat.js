@@ -28,7 +28,6 @@ export default function Chat() {
     const APP_ID = "CB108BAB-EB6F-4BA7-A7C5-40E73836AAE1";
     const currentUser = useSelector(state => state.usersReducer);
     const USER_ID = currentUser.email;
-    const NICKNAME = currentUser.email;
     const THEME = prefersDarkMode ? 'dark' : 'light';
 
     return (
@@ -40,7 +39,7 @@ export default function Chat() {
                         <SendbirdApp
                             appId={APP_ID}
                             userId={USER_ID}
-                            nickname={NICKNAME}
+                            nickname={USER_ID}
                             theme={THEME}
                             useReaction={true}
                             useMessageGrouping={true}
