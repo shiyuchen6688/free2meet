@@ -3,7 +3,6 @@ var router = express.Router();
 const queries = require('../model/queries');
 require('dotenv').config()
 
-
 // get pending invitations for a user given user email
 router.get('/:email/pending', function (req, res, next) {
     const email = req.params.email;
@@ -81,6 +80,5 @@ router.post('/:email/decline', function (req, res, next) {
         return res.status(404).send(err);
     });
 });
-
 
 module.exports = router;
