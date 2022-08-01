@@ -65,7 +65,6 @@ const queries = {
             }
             meetups[i] = { ...meetups[i]._doc, creator: { email: email, username: username } };
         }
-        // console.log(meetups);
         return meetups;
     },
     // Given a user email, returns all meetups that invited the user
@@ -338,23 +337,17 @@ const queries = {
     // Given a meetupId, returns all users who have the meetup in their meetupsPending
     checkIfMeetupIsComplete: async (meetupId) => {
         let meetup = await Meetup.findOne({ id: meetupId });
-        // console.log(meetup.invitees);
         let users = [];
         for (let i = 0; i < meetup.invitees.length; i++) {
-            // console.log(meetup.invitees[i]);
             let user = await User.findOne({ email: meetup.invitees[i] });
             if (user.meetupsPending.includes(meetupId)) {
-                // console.log(user.email);
                 users.push(user);
             }
         }
-        // console.log(users);
         // returns username and email fields for each invitee who have not accepted or declined the meetup
-        let x = users.map(user => {
+        return users.map(user => {
             return { username: user.username, email: user.email };
         });
-        // console.log(x);
-        return x;
     },
     calculateMeetupBestLocationandTime: async (meetupId) => {
         let meetup = await Meetup.findOneAndUpdate({ id: meetupId }, { state: 'COMPLETED' }, { new: true });
@@ -430,8 +423,7 @@ const queries = {
     },
     // check is user is friend with friendEmail
     isFriend: async (userEmail, friendEmail) => {
-        let user = await User.findOne({ email: userEmail })
-        console.log(userEmail, friendEmail)
+        let user = await User.findOne({ email: userEmail });
         return user.friends.includes(friendEmail)
     },
     // Given a user email, returns the usernames and emails of all the friends of the user
