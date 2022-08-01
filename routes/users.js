@@ -57,9 +57,6 @@ router.post('/register', function (req, res, next) {
 /* sign a new user */
 router.post('/login', (req, res) => {
     const user = req.body
-
-
-    // const matchStoredUser = users.find(u => u.email === user.email)
     let matchStoredUser;
     queries.getUserByEmail(user.email).then(result => {
         matchStoredUser = result;
@@ -150,19 +147,13 @@ router.patch('/:email/change-password', async function (req, res, next) {
 router.patch('/:email/change-username', async function (req, res, next) {
     const email = req.params.email;
     const { password, newUsername } = req.body
-
-
     queries.getUserByUsername(newUsername).then(matchedUser => {
-
         // check if new username already exist
         if (matchedUser) {
             return res.status(404).send(
                 { message: "Username already used by another user" }
             )
-
         }
-
-
         // update email of exisitng user
         queries.getUserByEmail(email).then(matchedUser => {
             if (matchedUser) {
@@ -183,10 +174,7 @@ router.patch('/:email/change-username', async function (req, res, next) {
             }
         })
     })
-
-
-
-})
+});
 
 // get all friends for a user given user email
 router.get('/:email/friends/', function (req, res, next) {
@@ -270,7 +258,6 @@ router.post('/:email/friends/requests/decline', function (req, res, next) {
 router.post('/:email/friends/requests/send', function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
-    console.log(email, friendEmail)
     if (email === friendEmail) {
         return res.status(404).send({ error: "User email cannot equal to friend email" });
     }
@@ -364,8 +351,5 @@ router.delete('/:email/delete-account', async function (req, res, next) {
     deleteResult = await queries.deleteUserByEmail(email)
     return res.status(200).send(deleteResult)
 });
-
-
-
 
 module.exports = router;
