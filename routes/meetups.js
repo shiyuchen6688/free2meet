@@ -4,10 +4,6 @@ const { v4: uuid } = require('uuid');
 var queries = require('../model/queries');
 var tagQueries = require('../model/tagQueries');
 
-/** Schema of meetup include:
-    id (Primary Key), timestamp, title, description, location, schedule, invitees, creator, state, bestLocation, bestTime
-/** 
-
 /* get all meetups listing. */
 router.get('/', function (req, res, next) {
     const option = req.query.filterPeopleOption;
@@ -94,8 +90,6 @@ router.post('/new', function (req, res, next) {
     }
     // if invitees emails are not in creator's friends return error
     queries.getFriends(creatorEmail).then(function (friends) {
-        // console.log(friends);
-        // console.log(inviteesModified);
         for (let i = 0; i < inviteesModified.length; i++) {
             let isFriend = false;
             for (let j = 0; j < friends.length; j++) {
@@ -169,10 +163,6 @@ router.post('/:id/calculate', (req, res) => {
 router.get('/users/:email/tags', async function (req, res, next) {
     const email = req.params.email;
     const text = req.headers.text;
-    console.log(email, text)
-    // let tags = await tagQueries.classifyNLP(email, text);
-    // console.log(tags)
-    // return res.status(200).send(tags)
     tagQueries.classifyNLP(email, text).then(tags => {
         return res.send(tags);
     }).catch(err => {

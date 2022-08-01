@@ -7,25 +7,6 @@ const queries = require('../model/queries');
 const tagQueries = require('../model/tagQueries');
 require('dotenv').config()
 
-/** Schema of user include:
-    email (Primary Key), username, password, friends, friendRequests, friendRequestsSent, meetupsCreated, meetupsPending, meetupsAccepted, meetupsDeclined
- */
-
-// let users = [
-//     {
-//         email: "a",
-//         username: "a",
-//         password: "$2a$10$FKPFoOsz.td5FTaOs5kr7eot3WGjEo3pFP2e7eOBSW5Dw0Mry3yF6" // hash for b,
-//         friends: [],
-//         friendRequests: [],
-//         friendRequestsSent: [],
-//         meetupsCreated: [],
-//         meetupsPending: [],
-//         meetupsAccepted: [],
-//         meetupsDeclined: []
-//     }
-// ]
-
 /* get all users. */
 router.get('/', function (req, res, next) {
     queries.getUsers({}).then(users => {
@@ -41,9 +22,6 @@ router.post('/register', function (req, res, next) {
     // TODO: verify user information (password strong? email valid?)
 
     // check duplicate email and username
-
-    // const takenUserName = users.find(u => u.username === user.username)
-    // const takenEmail = users.find(u => u.username === user.username)
     let takenUserName1;
     let takenEmail1;
     queries.getUserByUsername(user.username).then(takenUserName => {
