@@ -22,8 +22,6 @@ mongoose.connect(process.env.MONGODB_URI, {
     console.log('Error connecting to MongoDB: ', err.message);
 });
 
-// generateData();
-
 // Enable Cors
 app.use(cors());
 
