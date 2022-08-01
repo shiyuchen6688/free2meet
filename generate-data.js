@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const Meetup = require('./model/meetup');
 const User = require('./model/user');
 
-let scheduleA = {
+const scheduleA = {
     "2022-07-14T15:00:00|000Z": [
         "a"
     ],
@@ -132,7 +132,7 @@ let scheduleA = {
     ]
 };
 
-let scheduleQ = {
+const scheduleQ = {
     "2022-07-13T15:00:00|000Z": [
         "q"
     ],
@@ -225,7 +225,7 @@ let scheduleQ = {
     ]
 };
 
-let scheduleD = {
+const scheduleD = {
     "2022-07-14T15:00:00|000Z": [
         "d"
     ],
