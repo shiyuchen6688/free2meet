@@ -9,33 +9,23 @@ html {
   text-align: center;
   height: calc(100vh - 200px);
   width: 90vw;
-  color: black;
 }
 
 .SendBirdApp .sendbird-channel-header,
 .SendBirdApp .sendbird-channel-list {
   width: 90vw;
-  background-color: white
-}
-
-.dark {
-  filter: invert(1);
 }
 
 .SendBirdApp .sendbird-message-content.incoming .sendbird-message-content__middle,
 .SendBirdApp .sendbird-message-content.outgoing .sendbird-message-content__middle {
   max-width: calc(100% - 170px);
 }
-.SendBirdApp
-  .sendbird-message-content.outgoing
-  .sendbird-message-content__middle
-  .sendbird-message-content__middle__body-container,
-.SendBirdApp
-  .sendbird-message-content.incoming
-  .sendbird-message-content__middle
-  .sendbird-message-content__middle__body-container {
+
+.SendBirdApp .sendbird-message-content.outgoing .sendbird-message-content__middle .sendbird-message-content__middle__body-container,
+.SendBirdApp .sendbird-message-content.incoming .sendbird-message-content__middle .sendbird-message-content__middle__body-container {
   width: 100%;
 }
+
 .SendBirdApp .sendbird-og-message-item-body {
   min-width: initial;
   max-width: initial;
@@ -51,30 +41,36 @@ html {
   padding: 20px;
   border-bottom: 1px solid var(--sendbird-light-background-100);
 }
+
 .channel-preview-wrapper:hover,
 .channel-preview-wrapper:active {
   background-color: var(--sendbird-light-background-100);
 }
+
 .channel-preview-cover {
   margin-inline-end: 10px;
   border-radius: 50%;
 }
+
 .channel-preview-name {
   font-weight: bold;
   margin-bottom: 5px;
 }
+
 .channel-preview-last-message,
 .channel-preview-last-message-date {
   font-weight: 200;
   color: var(--sendbird-dark-background-300);
   font-size: 0.8em;
 }
+
 .channel-preview-last-message {
   max-width: 170px;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
 .channel-preview-last-message-date {
   margin-left: auto;
   flex: 1;
@@ -90,47 +86,40 @@ html {
   padding: 1rem;
   margin: 0;
 }
+
 .custom-channel-header button {
   border: none;
   background: transparent;
 }
 
 /* Override Sendbird styles if not using custom channel list preview  */
-/* .App .sendbird-channel-list,
-.App .sendbird-channel-header,
-.App
-  .sendbird-channel-list
-  .sendbird-channel-preview
-  .sendbird-channel-preview__content__upper,
-.App
-  .sendbird-channel-list
-  .sendbird-channel-preview
-  .sendbird-channel-preview__content__lower,
-.App .sendbird-channel-list .sendbird-channel-preview {
+.SendBirdApp .sendbird-channel-list,
+.SendBirdApp .sendbird-channel-header,
+.SendBirdApp .sendbird-channel-list .sendbird-channel-preview .sendbird-channel-preview__content__upper,
+.SendBirdApp .sendbird-channel-list .sendbird-channel-preview .sendbird-channel-preview__content__lower,
+.SendBirdApp .sendbird-channel-list .sendbird-channel-preview {
   width: 100%;
 }
-.App
-  .sendbird-channel-list
-  .sendbird-channel-preview.sendbird-channel-preview--active {
+
+.SendBirdApp .sendbird-channel-list .sendbird-channel-preview.sendbird-channel-preview--active {
   border-left: none;
   border-bottom: solid 1px var(--sendbird-light-onlight-04);
   background-color: inherit;
 }
-.App
-  .sendbird-channel-list
-  .sendbird-channel-preview.sendbird-channel-preview--active
-  .sendbird-channel-preview__content__upper__header__channel-name {
+
+.SendBirdApp .sendbird-channel-list .sendbird-channel-preview.sendbird-channel-preview--active .sendbird-channel-preview__content__upper__header__channel-name {
   color: inherit;
 }
-.App
-  .sendbird-channel-list
-  .sendbird-channel-preview.sendbird-channel-preview--active
-  .sendbird-channel-preview__action {
+
+.SendBirdApp .sendbird-channel-list .sendbird-channel-preview.sendbird-channel-preview--active .sendbird-channel-preview__action {
   display: none;
 }
-.App
-  .sendbird-channel-list
-  .sendbird-channel-preview.sendbird-channel-preview--active
-  .sendbird-channel-preview__content__upper__last-message-at {
+
+.SendBirdApp .sendbird-channel-list .sendbird-channel-preview.sendbird-channel-preview--active .sendbird-channel-preview__content__upper__last-message-at {
   display: block;
-} */
+}
+
+/* fix scrollbar css bug inside the lib */
+.sendbird-conversation__messages .sendbird-conversation__messages-padding {
+  overflow: auto;
+}
