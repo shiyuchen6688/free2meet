@@ -162,7 +162,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                         <Divider>
                             Description
                         </Divider>
-                        <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }} align="center">
+                        <Typography variant="body2" style={{ wordWrap: 'break-word' }} align="center">
                             {meetup.description || "No description"}
                         </Typography>
                         <Divider>

@@ -9,6 +9,7 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Chip from '@mui/material/Chip';
 import Dialog from '@mui/material/Dialog';
+import Divider from '@mui/material/Divider';
 import Grow from '@mui/material/Grow';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
@@ -175,84 +176,100 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                 </CardActions>
                 <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'} TransitionComponent={Grow}>
                     <CardContent>
-                    <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }}>
-                            Title: {invitation.title || 'No title'}
+                        <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }} align="center">
+                            {invitation.title || 'No title'}
                         </Typography>
-                        <Typography variant="h6" gutterBottom>
-                            Details:
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }}>
+                        <Divider>
+                            Description
+                        </Divider>
+                        <Typography variant="body2" style={{ wordWrap: 'break-word' }} align="center">
                             {invitation.description || "No description"}
                         </Typography>
-                        <Typography variant="h6" gutterBottom>
-                            {invitation.tags.length === 0 ? "No tags" : "Tags:"}
-                        </Typography>
+                        <Divider>
+                            {invitation.tags.length === 0 ? "No Tags" : "Tags"}
+                        </Divider>
+                        <Stack
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={1}
+                        >
+                            {invitation.tags.map((tag) => {
+                                return <Chip label={tag} variant="outlined" />
+                            })}
+                        </Stack>
+                        <Divider>
+                            {invitation.invitees.length === 1 ? "Only Invited You!" : "Also Invited"}
+                        </Divider>
                         {invitation.invitees.length > 1 &&
-                            <>
-                                <Typography variant="h6" gutterBottom>
-                                    Also Invited:
-                                </Typography>
+                            <Stack
+                                direction="row"
+                                justifyContent="center"
+                                alignItems="center"
+                                spacing={1}
+                            >
                                 <Typography variant="body2" color="text.secondary">
                                     {invitation.invitees.map((invitee) => {
                                         if (invitee !== userEmail) {
-                                            return <Chip key={invitee} label={invitee} avatar={<Avatar>{invitee}</Avatar>} />
+                                            return <Chip key={invitee} label={invitee} variant="outlined" />;
                                         } else {
                                             return null;
                                         }
                                     })}
                                 </Typography>
-                            </>
+                            </Stack>
                         }
-                        {invitation.invitees.length === 1 &&
-                            <Typography variant="h6" gutterBottom>
-                                Only Invited You!
-                            </Typography>
-                        }
-                        <Box sx={{ margin: 0 }}>
-                            <Typography variant="h6" gutterBottom>
-                                {"Location(s):"}
-                            </Typography>
-                            <Places placesList={invitation.location} selection={invitationLocationSelection} updateMethod={updateSelection} invitationState={state === 'pending' || state === 'declined'} />
-                            <Typography variant="h6" gutterBottom>
-                                Time Zone: {invitation.schedule.timezone.altName === undefined ?
-                                    invitation.schedule.timezone.value : invitation.schedule.timezone.altName}
-                            </Typography>
-                            <ScheduleSelector
-                                selection={availableTimeSlots}
-                                pastSelection={pastSelection}
-                                selectionScheme={invitation.schedule.selectionScheme}
-                                startDate={invitation.schedule.startDate}
-                                numDays={invitation.schedule.numDays}
-                                minTime={invitation.schedule.timeInterval[0]}
-                                maxTime={invitation.schedule.timeInterval[1]}
-                                hourlyChunks={invitation.schedule.hourlyChunk}
-                                timeFormat={"h:mma"}
-                                onChange={setAvailableTimeSlots}
-                            />
-                            <CardActions disableSpacing>
-                                <IconButton
-                                    aria-label="Accept"
-                                    onClick={handleAcceptClick}
-                                >
-                                    <CheckIcon />
-                                </IconButton>
-                                <IconButton
-                                    aria-label="Decline"
-                                    onClick={handleDeclineClick}
-                                    disabled={state === "declined"}
-                                >
-                                    <CloseIcon />
-                                </IconButton>
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="View less"
-                                >
-                                    <ArrowForwardIcon />
-                                </ExpandMore>
-                            </CardActions>
-                        </Box>
+                        <Divider>
+                            {invitation.location.length === 0 ? "No Locations" : invitation.location.length + " Location(s)"}
+                        </Divider>
+                        <Places placesList={invitation.location} selection={invitationLocationSelection} updateMethod={updateSelection} invitationState={state === 'pending' || state === 'declined'} />
+                        <Divider>
+                            Time Zone
+                        </Divider>
+                        <Typography variant="body2" gutterBottom align="center">
+                            {invitation.schedule.timezone.altName === undefined ? invitation.schedule.timezone.value : invitation.schedule.timezone.altName}
+                        </Typography>
+                        <Typography variant="body2" gutterBottom align="center">
+                            {invitation.schedule.timezone.label}
+                        </Typography>
+                        <Divider>
+                            Time Slots
+                        </Divider>
+                        <ScheduleSelector
+                            selection={availableTimeSlots}
+                            pastSelection={pastSelection}
+                            selectionScheme={invitation.schedule.selectionScheme}
+                            startDate={invitation.schedule.startDate}
+                            numDays={invitation.schedule.numDays}
+                            minTime={invitation.schedule.timeInterval[0]}
+                            maxTime={invitation.schedule.timeInterval[1]}
+                            hourlyChunks={invitation.schedule.hourlyChunk}
+                            timeFormat={"h:mma"}
+                            onChange={setAvailableTimeSlots}
+                        />
+                        <CardActions disableSpacing>
+                            <IconButton
+                                aria-label="Accept"
+                                onClick={handleAcceptClick}
+                            >
+                                <CheckIcon />
+                            </IconButton>
+                            <IconButton
+                                aria-label="Decline"
+                                onClick={handleDeclineClick}
+                                disabled={state === "declined"}
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                            <ExpandMore
+                                expand={expanded}
+                                onClick={handleExpandClick}
+                                aria-expanded={expanded}
+                                aria-label="View less"
+                            >
+                                <ArrowForwardIcon />
+                            </ExpandMore>
+                        </CardActions>
                     </CardContent>
                 </Dialog>
             </Card>
