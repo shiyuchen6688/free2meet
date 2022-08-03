@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMeetupsCreatedAsync } from '../redux/meetups/thunks';
 import MeetupCard from './MeetupCard';
 import ToolBar from './ToolBar';
+import Typography from '@mui/material/Typography';
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -48,8 +49,10 @@ export default function Home() {
                                 </Grid>
                             </Grid>
                         }
-                        subheader='Meetups you created that are waiting for responses'
                     />
+                    <Typography variant="body2" color="textSecondary" component="p" gutterBottom>
+                        Meetups you created that are waiting for responses
+                    </Typography>
                     <Grid
                         container
                         spacing={2}
@@ -77,8 +80,10 @@ export default function Home() {
                                 </Grid>
                             </Grid>
                         }
-                        subheader='Meetups you created that you stopped waiting for responses and are ready to be organized'
                     />
+                    <Typography variant="body2" color="textSecondary" component="p" gutterBottom>
+                        Meetups you created that stopped waiting for responses and are ready to be organized
+                    </Typography>
                     <Grid
                         container
                         spacing={2}
