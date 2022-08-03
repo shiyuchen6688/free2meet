@@ -517,11 +517,6 @@ const queries = {
         return await queries.getFriends(userEmail);
     },
     // Given a user email and new user object, returns updated user object
-    updateUser: async (userEmail, user) => {
-        // update user's username in cache
-        userCache.set(userEmail, user.username);
-        return await User.findOneAndUpdate({ email: userEmail }, user, { new: true });
-    },
     patchUser: async (userEmail, newField) => {
         // update user's username in cache
         userCache.set(userEmail, newField.username);

@@ -107,7 +107,7 @@ router.patch('/reset-password', (req, res) => {
             bcrypt.hash(req.body.password, 10).then((password) => {
                 user.password = password;
                 // update user
-                queries.updateUser(user).then(user => {
+                queries.patchUser(user).then(user => {
                     return res.status(200).send(user);
                 })
             })
