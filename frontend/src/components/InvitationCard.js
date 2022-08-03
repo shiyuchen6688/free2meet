@@ -18,8 +18,6 @@ import { useDispatch } from 'react-redux';
 import { acceptInvitationAsync, declineInvitationAsync } from '../redux/invitations/thunks';
 import Places from './Places';
 import ScheduleSelector from './timetable/ScheduleSelector';
-// import { useEffect } from 'react';
-
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -115,7 +113,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                     title={invitation.creator.username}
                 />
 
-                <Stack
+                {/* <Stack
                     direction="row"
                     justifyContent="flex-start"
                     alignItems="center"
@@ -128,10 +126,10 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                     {invitation.tags.length === 0 &&
                         <Chip label="No tags" />
                     }
-                </Stack>
+                </Stack> */}
 
                 <CardContent>
-                    <Typography variant="h6" gutterBottom noWrap>
+                    {/* <Typography variant="h6" gutterBottom noWrap>
                         Title: {invitation.title}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
@@ -139,7 +137,38 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
                         {invitation.description || 'No description'}
+                    </Typography> */}
+                    <Typography variant="h5" gutterBottom noWrap component="div">
+                        {invitation.title || 'No title'}
                     </Typography>
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                            display: '-webkit-box',
+                            overflow: 'hidden',
+                            WebkitBoxOrient: 'vertical',
+                            wordBreak: "break-all",
+                            WebkitLineClamp: 2,
+                            height: '40px',
+                        }}
+                        gutterBottom
+                    >
+                        {invitation.description || "No description"}
+                    </Typography>
+                    <Stack
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={1}
+                    >
+                        {invitation.tags.map((tag) => {
+                            return <Chip label={tag} variant="outlined" />;
+                        })}
+                        {invitation.tags.length === 0 &&
+                            <Chip label="No tags" />
+                        }
+                    </Stack>
                 </CardContent>
                 <CardActions disableSpacing>
                     {state !== "pending" && (
@@ -171,24 +200,17 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                 </CardActions>
                 <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'} TransitionComponent={Grow}>
                     <CardContent>
-                        <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }}>
-                            Title: {invitation.title}
+                    <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }}>
+                            Title: {invitation.title || 'No title'}
                         </Typography>
-                        <Stack
-                            direction="row"
-                            justifyContent="flex-start"
-                            alignItems="center"
-                            spacing={1}
-                        >
-                            {invitation.tags.map((tag) => {
-                                return <Chip label={tag} variant="outlined" />
-                            })}
-                        </Stack>
                         <Typography variant="h6" gutterBottom>
                             Details:
                         </Typography>
                         <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }}>
-                            {invitation.description}
+                            {invitation.description || "No description"}
+                        </Typography>
+                        <Typography variant="h6" gutterBottom>
+                            {invitation.tags.length === 0 ? "No tags" : "Tags:"}
                         </Typography>
                         {invitation.invitees.length > 1 &&
                             <>

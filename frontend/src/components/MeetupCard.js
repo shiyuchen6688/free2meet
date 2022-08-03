@@ -20,6 +20,8 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { calculateMeetupBestLocationandTime, getInvitteesNoResponse } from '../redux/meetups/service';
 import Places from './Places';
+import Divider from '@mui/material/Divider';
+
 import ScheduleSelector from './timetable/ScheduleSelector';
 
 const ExpandMore = styled((props) => {
@@ -155,12 +157,21 @@ export default function MeetupCard({ meetup, refresh, state }) {
                 </CardActions>
                 <Dialog open={expanded} onClose={handleExpandClick} maxWidth={'xl'} TransitionComponent={Grow}>
                     <CardContent>
-                        <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }}>
-                            Title: {meetup.title}
+                        <Typography variant="h6" gutterBottom style={{ wordWrap: 'break-word' }} align="center">
+                            {meetup.title || 'No title'}
                         </Typography>
+                        <Divider>
+                            Description
+                        </Divider>
+                        <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }} align="center">
+                            {meetup.description || "No description"}
+                        </Typography>
+                        <Divider>
+                            {meetup.tags.length === 0 ? "No tags" : "Tags"}
+                        </Divider>
                         <Stack
                             direction="row"
-                            justifyContent="flex-start"
+                            justifyContent="center"
                             alignItems="center"
                             spacing={1}
                         >
@@ -168,64 +179,66 @@ export default function MeetupCard({ meetup, refresh, state }) {
                                 return <Chip label={tag} variant="outlined" />
                             })}
                         </Stack>
-                        <Typography variant="h6" gutterBottom>
-                            Details:
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }}>
-                            {meetup.description}
-                        </Typography>
-                        <Typography variant="h6" gutterBottom>
-                            Friends Invited: ({meetup.invitees.length})
-                        </Typography>
-                        <Stack direction="row" spacing={1}>
+                        <Divider>
+                            {meetup.invitees.length === 0 ? "No invitees" : (meetup.invitees.length) + " Invitee(s)"}
+                        </Divider>
+                        <Stack
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={1}
+                        >
                             {meetup.invitees.map((invitee) => {
-                                return <Chip key={invitee} label={invitee} />
+                                return <Chip key={invitee} label={invitee} variant="outlined" />
                             })}
                         </Stack>
-                        <Box sx={{ margin: 0 }}>
-                            <Typography variant="h6" gutterBottom>
-                                {state === "PENDING" ? "Location(s):" : "Best Location(s)"}
-                            </Typography>
-                            {state === "PENDING" ?
-                                <Places placesList={meetup.location} showDelete={false} />
-                                :
-                                <Places placesList={meetup.bestLocation} showDelete={false} />
-                            }
-                            <Typography variant="h6" gutterBottom>
-                                Time Zone: {meetup.schedule.timezone.altName === undefined ?
-                                    meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
-                            </Typography>
-                            <Typography variant="h6" gutterBottom>
-                                {state === "PENDING" ? null : "Best Time Slot(s):"}
-                            </Typography>
-                            {selected.length !== 0 && <div style={{ pointerEvents: "none" }}>
-                                <ScheduleSelector
-                                    selection={state === "PENDING" ? selected : bestTimeSlot}
-                                    startDate={meetup.schedule.startDate}
-                                    numDays={meetup.schedule.numDays}
-                                    minTime={meetup.schedule.timeInterval[0]}
-                                    maxTime={meetup.schedule.timeInterval[1]}
-                                    hourlyChunks={meetup.schedule.hourlyChunk}
-                                    timeFormat={"h:mma"}
-                                    renderDateCell={(time, selected, innerRef) => (
-                                        <div style={{ textAlign: 'center' }} ref={innerRef}>
-                                            {selected ? <CheckIcon style={{ color: "green" }} /> : <ClearIcon style={{ color: "red" }} />}
-                                        </div>
-                                    )}
-                                />
-                            </div>}
-                            <CardActions disableSpacing>
+                        <Divider>
+                            {state === "PENDING" ? (meetup.location.length === 0 ? "No locations" : meetup.location.length + " Location(s)") : (meetup.bestLocation.length === 0 ? "No best locations" : meetup.bestLocation.length + " Best Location(s)")}
+                        </Divider>
+                        {state === "PENDING" ?
+                            <Places placesList={meetup.location} showDelete={false} />
+                            :
+                            <Places placesList={meetup.bestLocation} showDelete={false} />
+                        }
+                        <Divider>
+                            Time Zone
+                        </Divider>
+                        <Typography variant="body2" gutterBottom align="center">
+                            Name: {meetup.schedule.timezone.altName === undefined ? meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
+                        </Typography>
+                        <Typography variant="body2" gutterBottom align="center">
+                            Offset: {meetup.schedule.timezone.label}
+                        </Typography>
+                        <Divider>
+                            {state === "PENDING" ? (selected.length === 0 ? "No Time Slots" : "Time Slots") : "Best Time Slot(s)"}
+                        </Divider>
+                        {selected.length !== 0 && <div style={{ pointerEvents: "none" }}>
+                            <ScheduleSelector
+                                selection={state === "PENDING" ? selected : bestTimeSlot}
+                                startDate={meetup.schedule.startDate}
+                                numDays={meetup.schedule.numDays}
+                                minTime={meetup.schedule.timeInterval[0]}
+                                maxTime={meetup.schedule.timeInterval[1]}
+                                hourlyChunks={meetup.schedule.hourlyChunk}
+                                timeFormat={"h:mma"}
+                                renderDateCell={(time, selected, innerRef) => (
+                                    <div style={{ textAlign: 'center' }} ref={innerRef}>
+                                        {selected ? <CheckIcon style={{ color: "green" }} /> : <ClearIcon style={{ color: "red" }} />}
+                                    </div>
+                                )}
+                            />
+                        </div>}
+                        <CardActions disableSpacing>
 
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="View less"
-                                >
-                                    <ArrowForwardIcon />
-                                </ExpandMore>
-                            </CardActions>
-                        </Box>
+                            <ExpandMore
+                                expand={expanded}
+                                onClick={handleExpandClick}
+                                aria-expanded={expanded}
+                                aria-label="View less"
+                            >
+                                <ArrowForwardIcon />
+                            </ExpandMore>
+                        </CardActions>
                     </CardContent>
                 </Dialog>
                 <Dialog open={open} onClose={handleClose} TransitionComponent={Grow} >
