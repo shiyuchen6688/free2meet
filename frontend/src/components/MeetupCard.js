@@ -12,6 +12,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
 import Dialog from '@mui/material/Dialog';
+import Divider from '@mui/material/Divider';
 import Grow from '@mui/material/Grow';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
@@ -20,8 +21,6 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { calculateMeetupBestLocationandTime, getInvitteesNoResponse } from '../redux/meetups/service';
 import Places from './Places';
-import Divider from '@mui/material/Divider';
-
 import ScheduleSelector from './timetable/ScheduleSelector';
 
 const ExpandMore = styled((props) => {
@@ -167,7 +166,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             {meetup.description || "No description"}
                         </Typography>
                         <Divider>
-                            {meetup.tags.length === 0 ? "No tags" : "Tags"}
+                            {meetup.tags.length === 0 ? "No Tags" : "Tags"}
                         </Divider>
                         <Stack
                             direction="row"
@@ -180,7 +179,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             })}
                         </Stack>
                         <Divider>
-                            {meetup.invitees.length === 0 ? "No invitees" : (meetup.invitees.length) + " Invitee(s)"}
+                            {meetup.invitees.length === 0 ? "No Invitees" : (meetup.invitees.length) + " Invitee(s)"}
                         </Divider>
                         <Stack
                             direction="row"
@@ -193,7 +192,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             })}
                         </Stack>
                         <Divider>
-                            {state === "PENDING" ? (meetup.location.length === 0 ? "No locations" : meetup.location.length + " Location(s)") : (meetup.bestLocation.length === 0 ? "No best locations" : meetup.bestLocation.length + " Best Location(s)")}
+                            {state === "PENDING" ? (meetup.location.length === 0 ? "No Locations" : meetup.location.length + " Location(s)") : (meetup.bestLocation.length === 0 ? "No Best Locations" : meetup.bestLocation.length + " Best Location(s)")}
                         </Divider>
                         {state === "PENDING" ?
                             <Places placesList={meetup.location} showDelete={false} />
@@ -204,13 +203,13 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             Time Zone
                         </Divider>
                         <Typography variant="body2" gutterBottom align="center">
-                            Name: {meetup.schedule.timezone.altName === undefined ? meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
+                            {meetup.schedule.timezone.altName === undefined ? meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
                         </Typography>
                         <Typography variant="body2" gutterBottom align="center">
-                            Offset: {meetup.schedule.timezone.label}
+                            {meetup.schedule.timezone.label}
                         </Typography>
                         <Divider>
-                            {state === "PENDING" ? (selected.length === 0 ? "No Time Slots" : "Time Slots") : "Best Time Slot(s)"}
+                            {state === "PENDING" ? (selected.length === 0 ? "No Time Slots" : "Time Slots") : (selected.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
                         </Divider>
                         {selected.length !== 0 && <div style={{ pointerEvents: "none" }}>
                             <ScheduleSelector
@@ -229,7 +228,6 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             />
                         </div>}
                         <CardActions disableSpacing>
-
                             <ExpandMore
                                 expand={expanded}
                                 onClick={handleExpandClick}
@@ -280,7 +278,6 @@ export default function MeetupCard({ meetup, refresh, state }) {
                         </Button>
                     </DialogActions>
                 </Dialog>
-
             </Card>
         </Box >
     );

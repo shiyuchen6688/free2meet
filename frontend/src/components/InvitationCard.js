@@ -112,32 +112,7 @@ export default function InvitationCard({ invitation, userEmail, state }) {
                     }
                     title={invitation.creator.username}
                 />
-
-                {/* <Stack
-                    direction="row"
-                    justifyContent="flex-start"
-                    alignItems="center"
-                    spacing={1}
-                    sx={{ mx: 2 }}
-                >
-                    {invitation.tags.map((tag) => {
-                        return <Chip label={tag} variant="outlined" />
-                    })}
-                    {invitation.tags.length === 0 &&
-                        <Chip label="No tags" />
-                    }
-                </Stack> */}
-
                 <CardContent>
-                    {/* <Typography variant="h6" gutterBottom noWrap>
-                        Title: {invitation.title}
-                    </Typography>
-                    <Typography variant="h6" gutterBottom>
-                        Details:
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                        {invitation.description || 'No description'}
-                    </Typography> */}
                     <Typography variant="h5" gutterBottom noWrap component="div">
                         {invitation.title || 'No title'}
                     </Typography>
