@@ -1,8 +1,11 @@
+import CardHeader from '@material-ui/core/CardHeader';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import TaskIcon from '@mui/icons-material/Task';
+import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,9 +35,21 @@ export default function Home() {
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h5" variant="h5" align="center" gutterBottom>
-                        Meetups Waiting ({meetupsWaiting.length})
-                    </Typography>
+                    <CardHeader
+                        title={
+                            <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                                <Grid item>
+                                    Meetups Waiting
+                                </Grid>
+                                <Grid item>
+                                    <Badge badgeContent={meetupsWaiting.length} color="primary">
+                                        <PendingActionsIcon />
+                                    </Badge>
+                                </Grid>
+                            </Grid>
+                        }
+                        subheader='Meetups you created that are waiting for responses'
+                    />
                     <Grid
                         container
                         spacing={2}
@@ -46,13 +61,24 @@ export default function Home() {
                             <MeetupCard meetup={meetup} refresh={refresh} state={"PENDING"} key={meetup.id} />
                         ))}
                     </Grid>
-
                 </Paper>
 
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h5" variant="h5" align="center" gutterBottom>
-                        Meetups Completed ({meetupsCompletedResponse.length})
-                    </Typography>
+                    <CardHeader
+                        title={
+                            <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                                <Grid item>
+                                    Meetups Completed
+                                </Grid>
+                                <Grid item>
+                                    <Badge badgeContent={meetupsCompletedResponse.length} color="primary">
+                                        <TaskIcon />
+                                    </Badge>
+                                </Grid>
+                            </Grid>
+                        }
+                        subheader='Meetups you created that you stopped waiting for responses and are ready to be organized'
+                    />
                     <Grid
                         container
                         spacing={2}

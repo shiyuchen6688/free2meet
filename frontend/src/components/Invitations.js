@@ -1,21 +1,25 @@
+import CardHeader from '@material-ui/core/CardHeader';
+import AddIcon from '@mui/icons-material/Add';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+import RsvpIcon from '@mui/icons-material/Rsvp';
 import { Paper } from '@mui/material';
+import Badge from '@mui/material/Badge';
+import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
+import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Container } from '@mui/system';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { getInvitationsAcceptedAsync, getInvitationsDeclinedAsync, getInvitationsPendingAsync } from '../redux/invitations/thunks';
 import InvitationCard from './InvitationCard';
 import ToolBar from './ToolBar';
-import Fab from '@mui/material/Fab';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import AddIcon from '@mui/icons-material/Add';
-import Box from '@mui/material/Box';
-import { useNavigate } from "react-router-dom";
 
 export default function Invitations() {
     const dispatch = useDispatch();
@@ -68,9 +72,20 @@ export default function Invitations() {
                     </Fab>
                 </Box>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h5" variant="h5" align="center">
-                        Pending Invitations ({pendingInvitations.length})
-                    </Typography>
+                    <CardHeader
+                        title={
+                            <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                                <Grid item>
+                                    Pending Invitations
+                                </Grid>
+                                <Grid item>
+                                    <Badge badgeContent={pendingInvitations.length} color="primary">
+                                        <RsvpIcon />
+                                    </Badge>
+                                </Grid>
+                            </Grid>
+                        }
+                    />
                     <Grid
                         container
                         spacing={2}
@@ -79,14 +94,25 @@ export default function Invitations() {
                         alignItems="center"
                     >
                         {pendingInvitations.map(invitation => (
-                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="pending"/>
+                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="pending" />
                         ))}
                     </Grid>
                 </Paper>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h5" variant="h5" align="center">
-                        Accepted Invitations ({acceptedInvitations.length})
-                    </Typography>
+                    <CardHeader
+                        title={
+                            <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                                <Grid item>
+                                    Accepted Invitations
+                                </Grid>
+                                <Grid item>
+                                    <Badge badgeContent={acceptedInvitations.length} color="primary">
+                                        <EventAvailableIcon />
+                                    </Badge>
+                                </Grid>
+                            </Grid>
+                        }
+                    />
                     <Grid
                         container
                         spacing={2}
@@ -95,14 +121,25 @@ export default function Invitations() {
                         alignItems="center"
                     >
                         {acceptedInvitations.map(invitation => (
-                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="accepted"/>
+                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="accepted" />
                         ))}
                     </Grid>
                 </Paper>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h5" variant="h5" align="center">
-                        Declined Invitations ({declinedInvitations.length})
-                    </Typography>
+                    <CardHeader
+                        title={
+                            <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                                <Grid item>
+                                    Declined Invitations
+                                </Grid>
+                                <Grid item>
+                                    <Badge badgeContent={declinedInvitations.length} color="primary">
+                                        <EventBusyIcon />
+                                    </Badge>
+                                </Grid>
+                            </Grid>
+                        }
+                    />
                     <Grid
                         container
                         spacing={2}
@@ -111,7 +148,7 @@ export default function Invitations() {
                         alignItems="center"
                     >
                         {declinedInvitations.map(invitation => (
-                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="declined"/>
+                            <InvitationCard key={invitation.id} invitation={invitation} userEmail={currentUser.email} state="declined" />
                         ))}
                     </Grid>
                 </Paper>
