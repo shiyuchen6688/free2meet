@@ -44,11 +44,10 @@ export default function ToolBar() {
 
     const pages = [
         { text: 'Home', actions: () => navigate("/") },
-        { text: 'Schedule New Meetup', actions: () => navigate("/meetups/new") },
-        // { text: 'View Existing Meetups', actions: () => navigate("/meetups") },
+        { text: 'Schedule', actions: () => navigate("/meetups/new") },
         { text: 'Invitations', actions: () => navigate("/invitations") },
         { text: 'History', actions: () => navigate("/history") },
-        { text: 'Contact', actions: () => navigate("/contact") },
+        { text: 'Contact', actions: () => navigate("/contact") }
     ];
 
     const [user, setUser] = React.useState(null);
