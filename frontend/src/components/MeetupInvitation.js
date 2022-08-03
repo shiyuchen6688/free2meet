@@ -13,12 +13,11 @@ import { getFriendsAsync, getTagsAsync } from '../redux/users/thunks';
 import Place from './Place';
 
 export default function MeetupInvitation() {
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const dispatch = useDispatch();
     const titleAndDetailInfo = useSelector(state => state.createMeetupTitleDetailReducer);
     const allScheduleInfo = useSelector(state => state.createMeetupScheduleReducer);
     const locationInfo = useSelector(state => state.createMeetupLocationReducer);
-    // const invitationInfo = useSelector(state => state.createMeetupInvitationReducer);
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const currentUserEmail = useSelector(state => state.usersReducer.email);
     const friendList = useSelector(state => state.usersReducer.friends);
     const tagsList = useSelector(state => state.usersReducer.tags);
@@ -42,11 +41,11 @@ export default function MeetupInvitation() {
         return { label: tag, value: tag };
     });
 
-    let handleChangeInvitees = (newValue) => {
+    const handleChangeInvitees = (newValue) => {
         dispatch(changeInvitee(newValue));
     };
 
-    let handleChangeTags = (newValue) => {
+    const handleChangeTags = (newValue) => {
         dispatch(changeTags(newValue));
     };
 
