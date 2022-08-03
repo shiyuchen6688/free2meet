@@ -95,29 +95,37 @@ export default function MeetupCard({ meetup, refresh, state }) {
         <Box sx={{ margin: 2, width: '275px' }}>
             <Card variant="outlined">
                 <CardContent>
-                    <Typography variant="h6" gutterBottom noWrap>
-                        Title: {meetup.title}
+                    <Typography variant="h5" gutterBottom noWrap component="div">
+                        {meetup.title || 'No title'}
+                    </Typography>
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                            display: '-webkit-box',
+                            overflow: 'hidden',
+                            WebkitBoxOrient: 'vertical',
+                            wordBreak: "break-all",
+                            WebkitLineClamp: 2,
+                            height: '40px',
+                        }}
+                        gutterBottom
+                    >
+                        {meetup.description || "No description"}
                     </Typography>
                     <Stack
                         direction="row"
                         justifyContent="center"
                         alignItems="center"
                         spacing={1}
-                        sx={{ mx: 2 }}
                     >
                         {meetup.tags.map((tag) => {
-                            return <Chip label={tag} variant="outlined" />
+                            return <Chip label={tag} variant="outlined" />;
                         })}
                         {meetup.tags.length === 0 &&
                             <Chip label="No tags" />
                         }
                     </Stack>
-                    <Typography variant="h6" gutterBottom>
-                        Details:
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                        {meetup.description || 'No description'}
-                    </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
                     {meetup.state === "PENDING" &&
@@ -261,6 +269,6 @@ export default function MeetupCard({ meetup, refresh, state }) {
                 </Dialog>
 
             </Card>
-        </Box>
+        </Box >
     );
 }

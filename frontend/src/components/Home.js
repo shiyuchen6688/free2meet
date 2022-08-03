@@ -32,7 +32,7 @@ export default function Home() {
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h5" variant="h5" align="center">
+                    <Typography component="h5" variant="h5" align="center" gutterBottom>
                         Meetups Waiting ({meetupsWaiting.length})
                     </Typography>
                     <Grid
@@ -50,7 +50,7 @@ export default function Home() {
                 </Paper>
 
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h5" variant="h5" align="center">
+                    <Typography component="h5" variant="h5" align="center" gutterBottom>
                         Meetups Completed ({meetupsCompletedResponse.length})
                     </Typography>
                     <Grid
