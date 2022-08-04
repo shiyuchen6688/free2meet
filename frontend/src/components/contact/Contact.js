@@ -1,14 +1,13 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import ToolBar from '../ToolBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
-
+import PropTypes from 'prop-types';
+import * as React from 'react';
+import ToolBar from '../ToolBar';
 import Chat from './Chat';
 import FriendList from './FriendList';
 import FriendRequest from './FriendRequest';

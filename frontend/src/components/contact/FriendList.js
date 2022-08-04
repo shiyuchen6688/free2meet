@@ -1,19 +1,20 @@
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { Avatar, Button, Paper } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import { createTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { deleteFriendAsync, getFriendsAsync } from '../../redux/users/thunks';
 
 export default function FriendList() {
@@ -49,7 +50,7 @@ export default function FriendList() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
+        <>
             <Box sx={{ '& > :not(style)': { m: 1 } }} style={fabStyle}>
                 <Fab color="primary" aria-label="fresh" onClick={refresh}>
                     <AutorenewIcon />
@@ -71,9 +72,8 @@ export default function FriendList() {
                     ))}
                 </Grid>
             </Paper>
-        </ThemeProvider>
+        </>
     )
-
 }
 
 function FriendCard(props) {

@@ -1,13 +1,15 @@
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { Avatar, ButtonGroup, Paper } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -15,7 +17,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
     acceptFriendRequestAsync,
     declineFriendRequestAsync, getFriendRequestsAsync, getFriendRequestsSentAsync,
@@ -62,7 +63,7 @@ export default function FriendRequest() {
     };
 
     // Send Friend Request form
-    const [friendEmail, setFriendEmail] = useState("")
+    const [friendEmail, setFriendEmail] = useState("");
 
     // TODO: Send friend request to friendEmail
     const handleSendFriendRequest = () => {
