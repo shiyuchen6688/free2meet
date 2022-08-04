@@ -196,7 +196,7 @@ function FriendCard(props) {
     }
 
     return (
-        <Box sx={{ minWidth: 275, margin: 5 }}>
+        <Box sx={{ minWidth: 275, margin: 2 }}>
             <Card variant="outlined">
                 <CardHeader
                     avatar={
