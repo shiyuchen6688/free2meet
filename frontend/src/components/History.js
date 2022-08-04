@@ -12,6 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Radio from '@mui/material/Radio';
@@ -234,7 +235,7 @@ export default function History() {
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center" gutterBottom>
-                        Search By Person
+                        Filter By Person
                     </Typography>
                     <Grid
                         container
@@ -263,16 +264,18 @@ export default function History() {
                                     <FormControlLabel key="attended-by-me" value="attended-by-me" control={<Radio />} label="Attended By Me" />
                                     <div display="flex" flexDirection="row">
                                         <FormControlLabel key="custom" value="custom" control={<Radio />} label="My Friend" />
-                                        <Select
-                                            labelId="events-person-select"
-                                            id="events-person-select"
-                                            value={filterByPerson}
-                                            disabled={filterPeopleOption !== "custom"}
-                                            label="Filter By Person"
-                                            onChange={e => { setFilterByPerson(e.target.value) }}
-                                        >
-                                            {peopleJSON.map(mapPeopleToSelect)}
-                                        </Select>
+                                        <FormControl variant="standard" sx={{ minWidth: 60 }}>
+                                            <Select
+                                                labelId="events-person-select"
+                                                id="events-person-select"
+                                                value={filterByPerson}
+                                                disabled={filterPeopleOption !== "custom"}
+                                                label="Filter By Person"
+                                                onChange={e => { setFilterByPerson(e.target.value) }}
+                                            >
+                                                {peopleJSON.map(mapPeopleToSelect)}
+                                            </Select>
+                                        </FormControl>
                                     </div>
                                 </Grid>
                             </RadioGroup>
