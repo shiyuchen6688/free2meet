@@ -1,4 +1,4 @@
-import { Avatar, Typography } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -18,6 +18,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Select from '@mui/material/Select';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -233,7 +234,7 @@ export default function History() {
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center" gutterBottom>
-                        Search by person
+                        Search By Person
                     </Typography>
                     <Grid
                         container
@@ -295,7 +296,7 @@ export default function History() {
                 </Paper>
 
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h4" align="center">
+                    <Typography component="h1" variant="h4" align="center" gutterBottom>
                         Past Locations
                     </Typography>
                     {eventsJSON.length === 0 ? <Typography component="h1" variant="body1" align="center">
