@@ -175,7 +175,7 @@ function FriendCard(props) {
                             src={friend.profilePictureLink}
                         />
                     }
-                    title={friendEmail}
+                    title={"Username: " + friend.username}
                 />
                 <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
