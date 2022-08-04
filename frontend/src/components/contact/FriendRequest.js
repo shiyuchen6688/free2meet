@@ -1,8 +1,14 @@
+import ArchiveIcon from '@mui/icons-material/Archive';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import SendIcon from '@mui/icons-material/Send';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
 import Avatar from '@mui/material/Avatar';
+import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -107,6 +113,7 @@ export default function FriendRequest() {
                         variant="contained"
                         onClick={handleSendFriendRequest}
                         sx={{ mt: 3, ml: 1 }}
+                        endIcon={<SendIcon />}
                     >
                         Confirm and Send
                     </Button>
@@ -115,9 +122,20 @@ export default function FriendRequest() {
 
             {/* Request Sent */}
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                <Typography component="h5" variant="h5" align="center">
-                    Friend Request Sent ({friendRequestsSent.length})
-                </Typography>
+                <CardHeader
+                    title={
+                        <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                            <Grid item>
+                                Friend Request Sent
+                            </Grid>
+                            <Grid item>
+                                <Badge badgeContent={friendRequestsSent.length} color="primary">
+                                    <UnarchiveIcon />
+                                </Badge>
+                            </Grid>
+                        </Grid>
+                    }
+                />
                 <Grid
                     container
                     direction="row"
@@ -132,9 +150,20 @@ export default function FriendRequest() {
 
             {/* Request Received */}
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                <Typography component="h5" variant="h5" align="center">
-                    Friend Request Received ({friendRequestsReceived.length})
-                </Typography>
+                <CardHeader
+                    title={
+                        <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                            <Grid item>
+                                Friend Request Received
+                            </Grid>
+                            <Grid item>
+                                <Badge badgeContent={friendRequestsReceived.length} color="primary">
+                                    <ArchiveIcon />
+                                </Badge>
+                            </Grid>
+                        </Grid>
+                    }
+                />
                 <Grid
                     container
                     direction="row"
@@ -184,21 +213,21 @@ function FriendCard(props) {
                 </CardContent>
                 {type === "request-received" ? (
                     <CardActions disableSpacing>
-                        <ButtonGroup variant="text" color="primary" aria-label="contained primary button group">
-                            <Button
-                                aria-label="accept-friend"
-                                onClick={handleAcceptClick}
-                                variant="contained"
-                            >
-                                Accept
-                            </Button>
-                            <Button
-                                aria-label="decline-friend"
-                                onClick={handleDeclineClick}
-                            >
-                                Decline
-                            </Button>
-                        </ButtonGroup>
+                        <Button
+                            aria-label="accept-friend"
+                            onClick={handleAcceptClick}
+                            variant="contained"
+                            startIcon={<CheckIcon />}
+                        >
+                            Accept
+                        </Button>
+                        <Button
+                            aria-label="decline-friend"
+                            onClick={handleDeclineClick}
+                            startIcon={<CloseIcon />}
+                        >
+                            Decline
+                        </Button>
                     </CardActions>
                 ) : null}
             </Card>

@@ -1,5 +1,8 @@
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import DeleteIcon from '@mui/icons-material/Delete';
+import GroupIcon from '@mui/icons-material/Group';
 import Avatar from '@mui/material/Avatar';
+import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -57,9 +60,20 @@ export default function FriendList() {
                 </Fab>
             </Box>
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                <Typography component="h5" variant="h5" align="center">
-                    Friend List ({friendList.length})
-                </Typography>
+                <CardHeader
+                    title={
+                        <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                            <Grid item>
+                                Friend List
+                            </Grid>
+                            <Grid item>
+                                <Badge badgeContent={friendList.length} color="primary">
+                                    <GroupIcon />
+                                </Badge>
+                            </Grid>
+                        </Grid>
+                    }
+                />
                 <Grid
                     container
                     direction="row"
@@ -96,7 +110,7 @@ function FriendCard(props) {
                             src={friend.profilePictureLink}
                         />
                     }
-                    title={friend.username}
+                    title={"Username: " + friend.username}
                 />
 
                 <CardContent>
@@ -110,6 +124,8 @@ function FriendCard(props) {
                     <Button
                         aria-label="delete-friend"
                         onClick={handleDeleteFriend}
+                        startIcon={<DeleteIcon />}
+                        color="error"
                     >
                         Delete Friend
                     </Button>
