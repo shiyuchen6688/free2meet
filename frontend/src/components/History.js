@@ -232,15 +232,17 @@ export default function History() {
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                    <Typography component="h1" variant="h4" align="center" gutterBottom>
+                        Search by person
+                    </Typography>
                     <Grid
                         container
-                        spacing={2}
                         direction="row"
                         justifyContent="center"
                         alignItems="center"
                     >
                         <FormControl>
-                            <FormLabel id="events-people-filter">Show:</FormLabel>
+                            <FormLabel id="events-people-filter"></FormLabel>
                             <RadioGroup
                                 aria-labelledby="events-people-filter"
                                 value={filterPeopleOption}
@@ -248,24 +250,31 @@ export default function History() {
                                 onChange={e => { setFilterPeopleOption(e.target.value) }}
                                 row
                             >
-                                <FormControlLabel key="all" value="all" control={<Radio />} label="All" />
-                                <FormControlLabel key="created-by-me" value="created-by-me" control={<Radio />} label="Created By Me" />
-                                <FormControlLabel key="attended-by-me" value="attended-by-me" control={<Radio />} label="Attended By Me" />
-                                <div display="flex" flexDirection="row">
-                                    <FormControlLabel key="custom" value="custom" control={<Radio />} label="My Friend" />
-                                    <Select
-                                        labelId="events-person-select"
-                                        id="events-person-select"
-                                        value={filterByPerson}
-                                        disabled={filterPeopleOption !== "custom"}
-                                        label="Filter By Person"
-                                        onChange={e => { setFilterByPerson(e.target.value) }}
-                                    >
-                                        {peopleJSON.map(mapPeopleToSelect)}
-                                    </Select>
-                                </div>
+                                <Grid
+                                    container
+                                    spacing={2}
+                                    direction="row"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                >
+                                    <FormControlLabel key="all" value="all" control={<Radio />} label="All" />
+                                    <FormControlLabel key="created-by-me" value="created-by-me" control={<Radio />} label="Created By Me" />
+                                    <FormControlLabel key="attended-by-me" value="attended-by-me" control={<Radio />} label="Attended By Me" />
+                                    <div display="flex" flexDirection="row">
+                                        <FormControlLabel key="custom" value="custom" control={<Radio />} label="My Friend" />
+                                        <Select
+                                            labelId="events-person-select"
+                                            id="events-person-select"
+                                            value={filterByPerson}
+                                            disabled={filterPeopleOption !== "custom"}
+                                            label="Filter By Person"
+                                            onChange={e => { setFilterByPerson(e.target.value) }}
+                                        >
+                                            {peopleJSON.map(mapPeopleToSelect)}
+                                        </Select>
+                                    </div>
+                                </Grid>
                             </RadioGroup>
-                            {console.log(filterByPerson)}
                         </FormControl>
                     </Grid>
                 </Paper>
