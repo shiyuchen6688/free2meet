@@ -2,6 +2,7 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
 import UnarchiveIcon from '@mui/icons-material/Unarchive';
 import Avatar from '@mui/material/Avatar';
@@ -88,31 +89,32 @@ export default function FriendRequest() {
 
             {/* Send Friend Request */}
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                <Typography component="h5" variant="h5" align="center">
+                <Typography component="h5" variant="h5" align="center" gutterBottom>
                     Send Friend Request
                 </Typography>
                 <Grid
                     container
-                    spacing={2}
                     direction="row"
                     justifyContent="center"
                     alignItems="center"
                 >
-                    <TextField
-                        required
-                        id="friend-email"
-                        name="friend-email"
-                        label="Friend Email"
-                        variant="standard"
-                        defaultValue={friendEmail}
-                        onChange={e => setFriendEmail(e.target.value)}
-                    />
-
+                    <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                        <EmailIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                        <TextField
+                            required
+                            id="friend-email"
+                            name="friend-email"
+                            label="Friend Email"
+                            variant="standard"
+                            defaultValue={friendEmail}
+                            onChange={e => setFriendEmail(e.target.value)}
+                        />
+                    </Box>
                     <Button
                         variant="contained"
                         onClick={handleSendFriendRequest}
-                        sx={{ mt: 3, ml: 1 }}
                         endIcon={<SendIcon />}
+                        sx={{ m: 1 }}
                     >
                         Confirm and Send
                     </Button>
@@ -174,7 +176,7 @@ export default function FriendRequest() {
                     ))}
                 </Grid>
             </Paper>
-        </ThemeProvider>
+        </ThemeProvider >
     )
 
 }
