@@ -1,30 +1,24 @@
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
+import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
 import Slide from '@mui/material/Slide';
+import TextField from '@mui/material/TextField';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
-import TextField from '@mui/material/TextField';
-import SendIcon from '@mui/icons-material/Send';
 import { changePasswordAsync, changeUsernameAsync, deleteUserAccountAsync } from '../redux/users/thunks';
-// import Alert from '@mui/material/Alert';
-// import AlertTitle from '@mui/material/AlertTitle';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
-
-// const FullScreenTransition = React.forwardRef(function Transition(props, ref) {
-//     return <Slide direction="up" ref={ref} {...props} />;
-// });
 
 export default function UserProfile(prop) {
     let { open, handleClose, currentUser } = prop
@@ -67,7 +61,6 @@ export default function UserProfile(prop) {
     // errors
     // let error = useSelector(state => state.usersReducer.error)
     // console.log(error)
-
 
     return (
         <Dialog
@@ -191,11 +184,7 @@ export default function UserProfile(prop) {
                     )}
 
                 </DialogContent>
-
-
             </Dialog>
-
-
 
             <DialogActions>
                 <Button onClick={e => {

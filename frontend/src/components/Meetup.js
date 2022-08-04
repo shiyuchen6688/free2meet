@@ -1,22 +1,22 @@
-import CssBaseline from '@mui/material/CssBaseline';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
-import ToolBar from './ToolBar';
-import Container from '@mui/material/Container';
-import CardContent from '@mui/material/CardContent';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import Avatar from '@mui/material/Avatar';
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { getMeetupAsync } from '../redux/meetups/thunks';
-import { CircularProgress } from '@mui/material';
-import CardMedia from '@mui/material/CardMedia';
+import ToolBar from './ToolBar';
 
 
 export default function Meetup() {

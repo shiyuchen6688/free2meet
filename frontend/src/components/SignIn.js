@@ -11,8 +11,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useState } from 'react';
-import { loginAsync } from '../redux/users/thunks';
 import { useDispatch } from 'react-redux';
+import { loginAsync } from '../redux/users/thunks';
 
 export default function SignIn({ setIsValidUser }) {
     const dispatch = useDispatch();
@@ -45,8 +45,6 @@ export default function SignIn({ setIsValidUser }) {
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
-
-                {/* Icon */}
                 <Grid
                     item
                     xs={false}
@@ -148,12 +146,9 @@ export default function SignIn({ setIsValidUser }) {
                                     </Link>
                                 </Grid>
                             </Grid>
-
-
                         </Box>
                     </Box>
                 </Grid>
-
             </Grid>
         </ThemeProvider>
     )

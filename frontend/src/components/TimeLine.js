@@ -1,13 +1,12 @@
-import * as React from 'react';
 import Timeline from '@material-ui/lab/Timeline';
-import TimelineItem from '@material-ui/lab/TimelineItem';
-import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
 import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
-import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
+import TimelineItem from '@material-ui/lab/TimelineItem';
+import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
+import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
 import Typography from '@mui/material/Typography';
-
+import * as React from 'react';
 
 function TimeLineItem(props) {
     let item = props.item
@@ -32,34 +31,17 @@ function TimeLineItem(props) {
                 <Typography variant="h6" component="span">
                     {item.title}
                 </Typography>
-                {/* <Typography>Mode description</Typography> */}
             </TimelineContent>
         </TimelineItem>
     )
-
-
-
-
 }
 
-
 export default function TimeLine(props) {
-    // console.log(props)
-
-
     return (
-        <>
-            <Timeline position="alternate">
-                {props.itemList.map(
-                    (i) => <TimeLineItem item={i} key={i.title} />
-                )
-                }
-            </Timeline>
-
-
-
-
-
-        </>
+        <Timeline position="alternate">
+            {props.itemList.map(
+                (i) => <TimeLineItem item={i} key={i.title} />
+            )}
+        </Timeline>
     )
 }

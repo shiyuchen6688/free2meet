@@ -2,7 +2,6 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Close';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListNumbered';
-import { DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -12,6 +11,10 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
 import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
 import Grow from '@mui/material/Grow';
 import IconButton from '@mui/material/IconButton';
@@ -93,7 +96,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
     }
 
     return (
-        <Box sx={{ margin: 2, width: '275px' }}>
+        <Box sx={{ margin: 2, width: 275 }}>
             <Card variant="outlined">
                 <CardContent>
                     <Typography variant="h5" gutterBottom noWrap component="div">
