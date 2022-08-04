@@ -252,26 +252,27 @@ export default function MeetupCard({ meetup, refresh, state }) {
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            {showCompleteButton &&
+                            {showCompleteButton ?
                                 <>
+                                    <Typography variant="subtitle1" gutterBottom>
+                                        {noResponseInvitees.length === 0 ? "All Invitees Responsed" : "There are " + noResponseInvitees.length + " invitees who have not responded."}
+                                    </Typography>
                                     <Typography variant="body2" color="text.secondary">
                                         This will decline all invitees who have not responded, calculate the best location(s) and time for the meetup, and mark it as completed.
                                     </Typography>
-                                    <Typography variant="h6">
-                                        {noResponseInvitees.length === 0 ? "All Invitees Responsed" : "There are " + noResponseInvitees.length + " invitees who have not responded."}
-                                    </Typography>
                                 </>
+                                :
+                                <Stack direction="row" spacing={1}>
+                                    {noResponseInvitees.map((invitee) => {
+                                        return <Chip key={invitee.email} label={
+                                            <>
+                                                <div>Username: {invitee.username}</div>
+                                                <div>Email: {invitee.email}</div>
+                                            </>
+                                        } />
+                                    })}
+                                </Stack>
                             }
-                            <Stack direction="row" spacing={1}>
-                                {noResponseInvitees.map((invitee) => {
-                                    return <Chip key={invitee.email} label={
-                                        <>
-                                            <div>Username: {invitee.username}</div>
-                                            <div>Email: {invitee.email}</div>
-                                        </>
-                                    } />
-                                })}
-                            </Stack>
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
