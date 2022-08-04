@@ -2,7 +2,6 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Close';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListNumbered';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -182,7 +181,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             })}
                         </Stack>
                         <Divider>
-                            {meetup.invitees.length === 0 ? "No Invitees" : (meetup.invitees.length) + " Invitee(s)"}
+                            {meetup.invitees.length === 0 ? "No Invitees" : (meetup.invitees.length) + " Invitee(s) (Email)"}
                         </Divider>
                         <Stack
                             direction="row"
@@ -265,7 +264,12 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             }
                             <Stack direction="row" spacing={1}>
                                 {noResponseInvitees.map((invitee) => {
-                                    return <Chip key={invitee.email} avatar={<Avatar>{invitee.email}</Avatar>} label={invitee.username} />
+                                    return <Chip key={invitee.email} label={
+                                        <>
+                                            <div>Username: {invitee.username}</div>
+                                            <div>Email: {invitee.email}</div>
+                                        </>
+                                    } />
                                 })}
                             </Stack>
                         </DialogContentText>
