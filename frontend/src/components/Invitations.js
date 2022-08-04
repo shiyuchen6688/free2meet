@@ -88,7 +88,6 @@ export default function Invitations() {
                     />
                     <Grid
                         container
-                        spacing={2}
                         direction="row"
                         justifyContent="center"
                         alignItems="center"
@@ -115,7 +114,6 @@ export default function Invitations() {
                     />
                     <Grid
                         container
-                        spacing={2}
                         direction="row"
                         justifyContent="center"
                         alignItems="center"
@@ -142,7 +140,6 @@ export default function Invitations() {
                     />
                     <Grid
                         container
-                        spacing={2}
                         direction="row"
                         justifyContent="center"
                         alignItems="center"

@@ -253,7 +253,6 @@ export default function History() {
                             >
                                 <Grid
                                     container
-                                    spacing={2}
                                     direction="row"
                                     justifyContent="center"
                                     alignItems="center"
@@ -288,7 +287,6 @@ export default function History() {
                     </Typography>
                     <Grid
                         container
-                        spacing={2}
                         direction="row"
                         justifyContent="center"
                         alignItems="center"

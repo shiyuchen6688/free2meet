@@ -120,7 +120,6 @@ export default function FriendRequest() {
                 </Typography>
                 <Grid
                     container
-                    spacing={2}
                     direction="row"
                     justifyContent="center"
                     alignItems="center"
@@ -138,7 +137,6 @@ export default function FriendRequest() {
                 </Typography>
                 <Grid
                     container
-                    spacing={2}
                     direction="row"
                     justifyContent="center"
                     alignItems="center"

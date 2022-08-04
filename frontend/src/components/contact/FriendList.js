@@ -62,7 +62,6 @@ export default function FriendList() {
                 </Typography>
                 <Grid
                     container
-                    spacing={2}
                     direction="row"
                     justifyContent="center"
                     alignItems="center"
