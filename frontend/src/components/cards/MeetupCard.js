@@ -243,19 +243,22 @@ export default function MeetupCard({ meetup, refresh, state }) {
                 </Dialog>
                 <Dialog open={open} onClose={handleClose} TransitionComponent={Grow} >
                     <DialogTitle>
-                        {showCompleteButton && <Typography variant="h6" gutterBottom>
-                            Are you sure you want to complete this meetup?
-                        </Typography>}
-                        {!showCompleteButton && <Typography variant="h6" gutterBottom>
-                            {noResponseInvitees.length === 0 ? "All Invitees Responsed" : "There are " + noResponseInvitees.length + " invitees who have not responded."}
-                        </Typography>}
+                        {showCompleteButton ?
+                            <Typography variant="h6" gutterBottom>
+                                Are you sure you want to complete this meetup?
+                            </Typography>
+                            :
+                            <Typography variant="h6" gutterBottom>
+                                {noResponseInvitees.length === 0 ? "All invitees have responsed" : noResponseInvitees.length + " invitees have not responded."}
+                            </Typography>
+                        }
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             {showCompleteButton ?
                                 <>
                                     <Typography variant="subtitle1" gutterBottom>
-                                        {noResponseInvitees.length === 0 ? "All Invitees Responsed" : "There are " + noResponseInvitees.length + " invitees who have not responded."}
+                                        {noResponseInvitees.length === 0 ? "All invitees have responsed" : noResponseInvitees.length + " invitees have not responded."}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
                                         This will decline all invitees who have not responded, calculate the best location(s) and time for the meetup, and mark it as completed.
