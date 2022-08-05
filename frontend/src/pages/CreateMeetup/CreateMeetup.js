@@ -14,12 +14,12 @@ import * as React from 'react';
 import Confetti from "react-confetti";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { addMeetupAsync } from '../redux/meetups/thunks';
-import MeetupAvailability from './MeetupAvailability';
-import MeetupInvitation from './MeetupInvitation';
-import MeetupLocation from './MeetupLocation';
-import MeetupTitleAndDetail from './MeetupTitleAndDetail';
-import ToolBar from './ToolBar';
+import { addMeetupAsync } from '../../redux/meetups/thunks';
+import MeetupAvailability from './CreateMeetupAvailability';
+import MeetupInvitation from './CreateMeetupInvitation';
+import MeetupLocation from './CreateMeetupLocation';
+import MeetupTitleAndDetail from './CreateMeetupTitleAndDetail';
+import ToolBar from '../../components/ToolBar';
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
 

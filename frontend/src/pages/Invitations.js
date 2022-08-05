@@ -18,8 +18,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { getInvitationsAcceptedAsync, getInvitationsDeclinedAsync, getInvitationsPendingAsync } from '../redux/invitations/thunks';
-import InvitationCard from './InvitationCard';
-import ToolBar from './ToolBar';
+import InvitationCard from '../components/cards/InvitationCard';
+import ToolBar from '../components/ToolBar';
 
 export default function Invitations() {
     const dispatch = useDispatch();

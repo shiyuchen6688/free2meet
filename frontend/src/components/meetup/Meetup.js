@@ -15,8 +15,8 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
-import { getMeetupAsync } from '../redux/meetups/thunks';
-import ToolBar from './ToolBar';
+import { getMeetupAsync } from '../../redux/meetups/thunks';
+import ToolBar from '../ToolBar';
 
 
 export default function Meetup() {

@@ -44,6 +44,8 @@ router.post('/register', function (req, res, next) {
                     user.meetupsPending = [];
                     user.meetupsAccepted = [];
                     user.meetupsDeclined = [];
+                    user.tags = [];
+                    user.model = "";
                     queries.addUser(user).then(user => {
                         return res.status(200).send(user);
                     })

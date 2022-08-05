@@ -5,8 +5,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeMeetupTitleAndDetailForm } from '../redux/actions/actions'
-import { addImageAsync } from '../redux/meetups/thunks'
+import { changeMeetupTitleAndDetailForm } from '../../redux/actions/actions'
+import { addImageAsync } from '../../redux/meetups/thunks'
 
 export default function MeetupTitleAndDetail() {
     const dispatch = useDispatch()

@@ -10,8 +10,8 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMeetupsCreatedAsync } from '../redux/meetups/thunks';
-import MeetupCard from './MeetupCard';
-import ToolBar from './ToolBar';
+import MeetupCard from '../components/cards/MeetupCard';
+import ToolBar from '../components/ToolBar';
 import Typography from '@mui/material/Typography';
 
 export default function Home() {

@@ -73,7 +73,7 @@ const tagQueries = {
             let tags = creator.tags.sort((a, b) => {
                 return b.count - a.count;
             });
-            return tags.map(tag => tag.tag);
+            return tags.length === 0 ? [] : tags.map(tag => tag.tag);
         }
     }
 };

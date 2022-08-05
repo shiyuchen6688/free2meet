@@ -3,8 +3,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useState } from 'react';
 import './App.css';
-import Home from "./components//Home";
-import SignIn from "./components/SignIn";
+import Home from "./pages/Home";
+import SignIn from "./pages/SignIn";
 import { useSelector } from 'react-redux';
 
 function App() {

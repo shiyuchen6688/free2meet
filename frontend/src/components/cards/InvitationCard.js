@@ -17,9 +17,9 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { acceptInvitationAsync, declineInvitationAsync } from '../redux/invitations/thunks';
-import Places from './Places';
-import ScheduleSelector from './timetable/ScheduleSelector';
+import { acceptInvitationAsync, declineInvitationAsync } from '../../redux/invitations/thunks';
+import Places from '../place/Places';
+import ScheduleSelector from '../timetable/ScheduleSelector';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;

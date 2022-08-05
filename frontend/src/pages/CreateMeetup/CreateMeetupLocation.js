@@ -5,9 +5,9 @@ import TextField from '@mui/material/TextField';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import '../App.css';
-import { addLocation } from "../redux/actions/actions";
-import Place from './Place.js';
+import '../../App.css';
+import { addLocation } from "../../redux/actions/actions";
+import Place from '../../components/place/Place';
 
 let prefersDarkMode;
 let script;

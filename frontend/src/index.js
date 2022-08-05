@@ -7,12 +7,12 @@ import {
 } from "react-router-dom";
 import App from './App';
 import Contact from './components/contact/Contact';
-import CreateMeetup from './components/CreateMeetup';
-import History from './components/History';
-import Invitations from './components/Invitations';
-import Meetup from './components/Meetup';
-import reportWebVitals from './components/reportWebVitals';
-import Signup from './components/Signup';
+import CreateMeetup from './pages/CreateMeetup/CreateMeetup';
+import History from './pages/History';
+import Invitations from './pages/Invitations';
+import Meetup from './components/meetup/Meetup';
+import reportWebVitals from './reportWebVitals';
+import Signup from './pages/Signup';
 import './index.css';
 import rootReducer from './redux/reducers';
 
