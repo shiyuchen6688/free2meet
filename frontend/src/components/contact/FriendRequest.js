@@ -181,8 +181,8 @@ export default function FriendRequest() {
 }
 
 function FriendCard(props) {
-    const { friend, userEmail, type } = props
-    let friendEmail = friend.email
+    const { friend, userEmail, type } = props;
+    let friendEmail = friend.email;
 
     const dispatch = useDispatch();
 

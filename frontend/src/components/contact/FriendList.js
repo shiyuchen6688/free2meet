@@ -8,6 +8,9 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardHeader from '@mui/material/CardHeader';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -17,11 +20,6 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteFriendAsync, getFriendsAsync } from '../../redux/users/thunks';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 
 
 export default function FriendList() {
@@ -94,8 +92,8 @@ export default function FriendList() {
 }
 
 function FriendCard(props) {
-    const { friend, userEmail } = props
-    const friendEmail = friend.email
+    const { friend, userEmail } = props;
+    const friendEmail = friend.email;
 
     const dispatch = useDispatch();
 
