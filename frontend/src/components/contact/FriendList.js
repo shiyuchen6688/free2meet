@@ -17,6 +17,12 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteFriendAsync, getFriendsAsync } from '../../redux/users/thunks';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 export default function FriendList() {
     // get user information 
@@ -93,6 +99,16 @@ function FriendCard(props) {
 
     const dispatch = useDispatch();
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     // Delete friend handler
     const handleDeleteFriend = () => {
         dispatch(deleteFriendAsync({ email: userEmail, friendEmail }))
@@ -116,13 +132,27 @@ function FriendCard(props) {
                 <CardActions disableSpacing>
                     <Button
                         aria-label="delete-friend"
-                        onClick={handleDeleteFriend}
+                        onClick={handleClickOpen}
                         startIcon={<DeleteIcon />}
                         color="error"
                     >
                         Delete Friend
                     </Button>
                 </CardActions>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Are you sure you want to delete this friend?"}
+                    </DialogTitle>
+                    <DialogActions>
+                        <Button onClick={handleDeleteFriend} autoFocus color="error">Delete</Button>
+                        <Button onClick={handleClose}>Close</Button>
+                    </DialogActions>
+                </Dialog>
             </Card>
         </Box>
     )
