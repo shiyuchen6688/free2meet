@@ -13,6 +13,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '../redux/users/thunks';
+import img from './signin.jpeg';
 
 export default function SignIn({ setIsValidUser }) {
     const dispatch = useDispatch();
@@ -51,7 +52,7 @@ export default function SignIn({ setIsValidUser }) {
                     sm={4}
                     md={7}
                     sx={{
-                        backgroundImage: 'url(https://thumbs.dreamstime.com/b/friends-gathering-group-cheerful-young-people-enjoying-food-drinks-spending-nice-time-cofortable-chairs-home-78185609.jpg)',
+                        backgroundImage: `url(${img})`,
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
