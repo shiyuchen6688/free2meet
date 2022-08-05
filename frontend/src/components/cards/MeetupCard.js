@@ -21,9 +21,9 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
-import { calculateMeetupBestLocationandTime, getInvitteesNoResponse } from '../redux/meetups/service';
-import Places from './Places';
-import ScheduleSelector from './timetable/ScheduleSelector';
+import { calculateMeetupBestLocationandTime, getInvitteesNoResponse } from '../../redux/meetups/service';
+import Places from '../place/Places';
+import ScheduleSelector from '../timetable/ScheduleSelector';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;

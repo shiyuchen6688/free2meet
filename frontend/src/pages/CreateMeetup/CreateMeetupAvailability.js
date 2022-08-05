@@ -15,7 +15,7 @@ import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import {
     clearSchedule, updateHourlyChunk, updateHourlyChunkInput,
     updateNumDays, updateNumDaysInput, updateSchedule, updateSelectionScheme, updateStartDate, updateTimeInterval, updateTimezone
-} from '../redux/actions/actions';
+} from '../../redux/actions/actions';
 
 export default function MeetupAvailability() {
     const dispatch = useDispatch();

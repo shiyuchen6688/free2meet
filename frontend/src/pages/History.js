@@ -26,8 +26,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { getMeetupsAsync } from '../redux/meetups/thunks';
 import { getFriendsAsync } from '../redux/users/thunks';
-import { darkStyle } from './MeetupLocation';
-import ToolBar from './ToolBar';
+import { darkStyle } from './CreateMeetup/CreateMeetupLocation';
+import ToolBar from '../components/ToolBar';
 
 // for google map <<<<<--------------------------------------------------------------
 let script;

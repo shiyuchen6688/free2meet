@@ -7,10 +7,10 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ScheduleSelector from 'react-schedule-selector';
 import CreatableSelect from 'react-select/creatable';
-import "../App.css";
-import { changeInvitee, changeTags } from '../redux/actions/actions';
-import { getFriendsAsync, getTagsAsync } from '../redux/users/thunks';
-import Place from './Place';
+import "../../App.css";
+import { changeInvitee, changeTags } from '../../redux/actions/actions';
+import { getFriendsAsync, getTagsAsync } from '../../redux/users/thunks';
+import Place from '../../components/place/Place';
 
 export default function MeetupInvitation() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');

@@ -6,8 +6,8 @@ import CardActions from '@mui/material/CardActions';
 import CardHeader from '@mui/material/CardHeader';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import "../App.css";
-import { deleteLocation } from '../redux/actions/actions';
+import "../../App.css";
+import { deleteLocation } from '../../redux/actions/actions';
 
 export default function Place({ item, deleteMarker, focusPlace, zoom, invitation = false, currentSelection = undefined, updateMethod = undefined, showDelete }) {
     const dispatch = useDispatch();
