@@ -111,13 +111,8 @@ function FriendCard(props) {
                         />
                     }
                     title={"Username: " + friend.username}
+                    subheader={"Friend Email: " + friend.email}
                 />
-
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Friend Email: {friend.email}
-                    </Typography>
-                </CardContent>
 
                 {/* delete friend */}
                 <CardActions disableSpacing>

@@ -206,12 +206,9 @@ function FriendCard(props) {
                         />
                     }
                     title={"Username: " + friend.username}
+                    subheader={"Friend Email: " + friendEmail}
                 />
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        Friend Email: {friendEmail}
-                    </Typography>
-                </CardContent>
+
                 {type === "request-received" ? (
                     <CardActions disableSpacing>
                         <Button
