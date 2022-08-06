@@ -7,8 +7,10 @@ const queries = require('../model/queries');
 const tagQueries = require('../model/tagQueries');
 require('dotenv').config()
 
+var verifyJWT = require("../middlewares/auth")
+
 /* get all users. */
-router.get('/', function (req, res, next) {
+router.get('/', verifyJWT, function (req, res, next) {
     queries.getUsers({}).then(users => {
         return res.send(users);
     });
@@ -101,7 +103,7 @@ router.get('/:email', verifyJWT, (req, res) => {
 })
 
 // reset password of a user given user email and new password
-router.patch('/reset-password', (req, res) => {
+router.patch('/reset-password', verifyJWT, (req, res) => {
     // check if user exists
     queries.getUserByEmail(req.body.email).then(user => {
         if (user) {
@@ -121,7 +123,7 @@ router.patch('/reset-password', (req, res) => {
     });
 });
 
-router.patch('/:email/change-password', async function (req, res, next) {
+router.patch('/:email/change-password', verifyJWT, async function (req, res, next) {
     const email = req.params.email;
     const { oldPassword, newPassword } = req.body
     queries.getUserByEmail(email).then(matchedUser => {
@@ -136,17 +138,24 @@ router.patch('/:email/change-password', async function (req, res, next) {
                         })
                     })
                 } else {
+                    console.log("Old Password is incorrect")
                     return res.status(404).send({ message: "Old Password is incorrect" })
                 }
             })
         } else {
-            return res.status(404).send(new Error("Email does not exist"))
+            return res.status(404).send(
+                {
+                    error: new Error("Email does not exist"),
+                    message: "Email does not exist"
+                }
+
+            )
         }
     })
 })
 
 
-router.patch('/:email/change-username', async function (req, res, next) {
+router.patch('/:email/change-username', verifyJWT, async function (req, res, next) {
     const email = req.params.email;
     const { password, newUsername } = req.body
     queries.getUserByUsername(newUsername).then(matchedUser => {
@@ -179,7 +188,7 @@ router.patch('/:email/change-username', async function (req, res, next) {
 });
 
 // get all friends for a user given user email
-router.get('/:email/friends/', function (req, res, next) {
+router.get('/:email/friends/', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     queries.getFriends(email).then(friends => {
         return res.send(friends);
@@ -189,7 +198,7 @@ router.get('/:email/friends/', function (req, res, next) {
 });
 
 // get all friend requests for a user given user email
-router.get('/:email/friends/requests', function (req, res, next) {
+router.get('/:email/friends/requests', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     queries.getFriendRequests(email).then(friendRequests => {
         console.log("friendRequests", friendRequests)
@@ -200,7 +209,7 @@ router.get('/:email/friends/requests', function (req, res, next) {
 });
 
 // get all friend requests sent for a user given user email
-router.get('/:email/friends/requests/sent', function (req, res, next) {
+router.get('/:email/friends/requests/sent', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     queries.getFriendRequestsSent(email).then(friendRequestsSent => {
         return res.send(friendRequestsSent);
@@ -210,7 +219,7 @@ router.get('/:email/friends/requests/sent', function (req, res, next) {
 });
 
 // accept a friend request for a user given user email and friend email
-router.post('/:email/friends/requests/accept', function (req, res, next) {
+router.post('/:email/friends/requests/accept', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail; // fromEmail, friend sent my the request
     // check if friend request exists
@@ -236,7 +245,7 @@ router.post('/:email/friends/requests/accept', function (req, res, next) {
 });
 
 // decline a friend request for a user given user email and friend email
-router.post('/:email/friends/requests/decline', function (req, res, next) {
+router.post('/:email/friends/requests/decline', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail; // fromEmail
     // check if friend request exists
@@ -257,7 +266,7 @@ router.post('/:email/friends/requests/decline', function (req, res, next) {
 });
 
 // send a friend request for a user given user email and friend email
-router.post('/:email/friends/requests/send', function (req, res, next) {
+router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
     if (email === friendEmail) {
@@ -303,7 +312,7 @@ router.post('/:email/friends/requests/send', function (req, res, next) {
 });
 
 // delete a friend for a user given user email and friend email
-router.post('/:email/friends/delete', function (req, res, next) {
+router.post('/:email/friends/delete', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
     // check if friend is a user in the database
@@ -334,24 +343,38 @@ router.post('/:email/friends/delete', function (req, res, next) {
     });
 });
 
-router.delete('/:email/delete-account', async function (req, res, next) {
+router.delete('/:email/delete-account', verifyJWT, async function (req, res, next) {
     const email = req.params.email;
+    console.log(email)
+    queries.getUserByEmail(email).then(async function (user) {
+        if (user) {
+            // delete meetups this user created
+            meetupsCreated = await queries.getMeetupsCreated(email)
+            for (m of meetupsCreated) {
+                await queries.deleteMeetupById(m.id)
+            }
 
-    // delete meetups this user created
-    meetupsCreated = await queries.getMeetupsCreated(email)
-    for (m of meetupsCreated) {
-        await queries.deleteMeetupById(m.id)
-    }
+            // delete user from meetups that invited this user
+            meetupsInvited = await queries.getMeetupsByInvitedUser(email)
+            for (m of meetupsInvited) {
+                await queries.deleteUserFromMeetupInvitees(email, m)
+            }
 
-    // delete user from meetups that invited this user
-    meetupsInvited = await queries.getMeetupsByInvitedUser(email)
-    for (m of meetupsInvited) {
-        await queries.deleteUserFromMeetupInvitees(email, m)
-    }
+            // TODO: delete user's friend request send
+            // TODO: delete user's friend request received
+            // TODO: delete friend
 
-    // delete user
-    deleteResult = await queries.deleteUserByEmail(email)
-    return res.status(200).send(deleteResult)
+            // delete user
+            deleteResult = await queries.deleteUserByEmail(email)
+            return res.status(200).send(deleteResult)
+        } else {
+            return res.status(404).send(new Error("Email (user) does not exist"));
+        }
+    }).catch(err => {
+        return res.status(404).send(err);
+    });
+
+
 });
 
 module.exports = router;
