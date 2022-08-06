@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATE } from '../utils';
 import {
     acceptFriendRequestAsync, changePasswordAsync, changeUsernameAsync, declineFriendRequestAsync, deleteFriendAsync, deleteUserAccountAsync, getFriendRequestsAsync,
-    getFriendRequestsSentAsync, getFriendsAsync, getTagsAsync, loginAsync, registerAsync, resetPasswordAsync, sendFriendRequestAsync
+    getFriendRequestsSentAsync, getFriendsAsync, getTagsAsync, loginAsync, registerAsync, resetPasswordAsync, sendFriendRequestAsync, loginWithTokenAsync
 } from './thunks';
 
 const INITIAL_STATE = {
@@ -14,6 +14,7 @@ const INITIAL_STATE = {
     friendRequestsSent: [],
     tags: [],
     signin: REQUEST_STATE.IDLE,
+    loginWithToken: REQUEST_STATE.IDLE,
     register: REQUEST_STATE.IDLE,
     resetPassword: REQUEST_STATE.IDLE,
     getFriends: REQUEST_STATE.IDLE,
@@ -58,6 +59,19 @@ const usersSlice = createSlice({
             })
             .addCase(loginAsync.rejected, (state, action) => {
                 state.getMeetups = REQUEST_STATE.REJECTED;
+                state.error = action.error;
+            })
+            .addCase(loginWithTokenAsync.pending, (state) => {
+                state.loginWithToken = REQUEST_STATE.PENDING;
+                state.error = null;
+            })
+            .addCase(loginWithTokenAsync.fulfilled, (state, action) => {
+                state.loginWithToken = REQUEST_STATE.FULFILLED;
+                state.username = action.payload.username;
+                state.email = action.payload.email
+            })
+            .addCase(loginWithTokenAsync.rejected, (state, action) => {
+                state.loginWithToken = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
             .addCase(registerAsync.pending, (state) => {
@@ -155,6 +169,7 @@ const usersSlice = createSlice({
             })
             .addCase(sendFriendRequestAsync.rejected, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.REJECTED;
+                console.log(action.error)
                 state.error = action.error;
             })
             .addCase(deleteFriendAsync.pending, (state) => {

@@ -19,6 +19,27 @@ const login = async (user) => {
     return data
 }
 
+const loginWithToken = async () => {
+    console.log("loginWithToken")
+    const response = await fetch('users/tokenlogin', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem("token")
+        }
+    })
+
+    const data = await response.json()
+    console.log("loginWithToken after login", data)
+    if (!response.ok) {
+        console.log('Error in loginWithToken')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
+        throw new Error(errorMsg)
+    }
+    return data
+}
+
 const register = async (user) => {
 
     const response = await fetch('users/register', {
@@ -54,6 +75,9 @@ const resetPassword = async (email, password) => {
 
     if (!response.ok) {
         console.log('Error in resetPassword')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+        resetTokenIfTokenExpired(errorMsg)
     }
     return data
 }
@@ -74,6 +98,8 @@ const changePassword = async (email, oldPassword, newPassword) => {
     if (!response.ok) {
         console.log('Error in changePassword')
         const errorMsg = data?.message;
+        console.log(errorMsg)
+        resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
     return data
@@ -99,6 +125,7 @@ const changeUsername = async (email, password, newUsername) => {
         console.log('Error in changeUsername')
         const errorMsg = data?.message;
         console.log(errorMsg)
+        resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
     return data
@@ -119,6 +146,9 @@ const getFriends = async (email) => {
 
     if (!response.ok) {
         console.log('Error in getFriends')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+        resetTokenIfTokenExpired(errorMsg)
     }
     return data
 }
@@ -138,6 +168,9 @@ const getTags = async (email, text) => {
 
     if (!response.ok) {
         console.log('Error in getTags')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+        resetTokenIfTokenExpired(errorMsg)
     }
     return data
 }
@@ -158,6 +191,7 @@ const getFriendRequests = async (email) => {
         console.log('Error in getFriendRequests')
         const errorMsg = data?.message;
         console.log(errorMsg)
+        resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
     console.log(data)
@@ -178,6 +212,8 @@ const getFriendRequestsSent = async (email) => {
 
     if (!response.ok) {
         console.log('Error in getFriendRequestsSent')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
     }
     return data
 }
@@ -240,6 +276,7 @@ const sendFriendRequest = async (email, friendEmail) => {
         console.log(data)
         const errorMsg = data?.message;
         console.log(errorMsg)
+        resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
     return data
@@ -263,6 +300,7 @@ const deleteFriend = async (email, friendEmail) => {
         console.log('Error in deleteFriend')
         const errorMsg = data?.message;
         console.log(errorMsg)
+        resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
     return data
@@ -294,13 +332,22 @@ const deleteUserAccount = async (userEmail) => {
         console.log('Error in deleteUser')
         const errorMsg = data?.message;
         console.log(errorMsg)
+        resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
     return data
 }
 
+function resetTokenIfTokenExpired(error_msg) {
+    if (error_msg === "Token verification failed") {
+        console.log("resetting token")
+        window.localStorage.removeItem('token')
+    }
+}
+
 const exportedService = {
     login,
+    loginWithToken,
     register,
     resetPassword,
     getFriends,

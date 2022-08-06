@@ -97,6 +97,11 @@ router.post('/login', (req, res) => {
     });
 })
 
+// sign in with existing token
+router.post('/tokenlogin', verifyJWT, (req, res) => {
+    res.json(req.user)
+})
+
 // access information about a particular user
 router.get('/:email', verifyJWT, (req, res) => {
     res.json({ message: "not implemented" })
