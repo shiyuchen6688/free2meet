@@ -344,8 +344,9 @@ router.post('/:email/friends/delete', verifyJWT, function (req, res, next) {
 });
 
 router.delete('/:email/delete-account', verifyJWT, async function (req, res, next) {
+    console.log(req.params)
     const email = req.params.email;
-    console.log(email)
+    console.log("email is", email)
     queries.getUserByEmail(email).then(async function (user) {
         if (user) {
             // delete meetups this user created
@@ -360,17 +361,23 @@ router.delete('/:email/delete-account', verifyJWT, async function (req, res, nex
                 await queries.deleteUserFromMeetupInvitees(email, m)
             }
 
-            // TODO: delete user's friend request send
-            // TODO: delete user's friend request received
-            // TODO: delete friend
+            // delete user's friend request send
+            await queries.deleteSentFriendRequestsBidirectional(email)
+            // delete user's friend request received
+            await queries.deleteReceivedFriendRequestsBidirectional(email)
+            // delete friend
+            await queries.deleteFriendBidirectional(email)
 
             // delete user
             deleteResult = await queries.deleteUserByEmail(email)
+            console.log(deleteResult)
             return res.status(200).send(deleteResult)
         } else {
+            console.log("Email (user) does not exist")
             return res.status(404).send(new Error("Email (user) does not exist"));
         }
     }).catch(err => {
+        console.log(err)
         return res.status(404).send(err);
     });
 
