@@ -1,4 +1,7 @@
+import HistoryIcon from '@mui/icons-material/History';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Avatar from '@mui/material/Avatar';
+import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -18,16 +21,17 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Select from '@mui/material/Select';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import ToolBar from '../components/ToolBar';
 import { getMeetupsAsync } from '../redux/meetups/thunks';
 import { getFriendsAsync } from '../redux/users/thunks';
 import { darkStyle } from './CreateMeetup/CreateMeetupLocation';
-import ToolBar from '../components/ToolBar';
 
 // for google map <<<<<--------------------------------------------------------------
 let script;
@@ -70,22 +74,33 @@ const loadScript = (url, callback) => {
     script.src = url;
 };
 
-function handleScriptLoad(mapRef) {
+function handleScriptLoad(mapRef, eventState) {
     map = new window.google.maps.Map(mapRef.current, {
         center: { lat: 49.265395, lng: -123.246727 },
         zoom: 15,
         styles: firstLoadDarkMode ? darkStyle : [],
     });
-    showMarkers();
+    showMarkers(eventState);
     fitBounds();
 }
 
-function showMarkers() {
+function showMarkers(eventState) {
     markers = [];
-    for (let i = 0; i < locations.length; i++) {
-        const d = locations[i];
-        for (let j = 0; j < d.location.length; j++) {
-            createMarker(d.location[j].place_id, d.location[j].name, d.location[j].formatted_address, d.location[j].lat, d.location[j].lng);
+    if (!eventState) {
+        for (let i = 0; i < locations.length; i++) {
+            const d = locations[i];
+            for (let j = 0; j < d.location.length; j++) {
+                createMarker(d.location[j].place_id, d.location[j].name, d.location[j].formatted_address, d.location[j].lat, d.location[j].lng);
+            }
+        }
+    } else {
+        for (let i = 0; i < locations.length; i++) {
+            const d = locations[i];
+            if (d.bestLocation !== null && d.bestLocation !== undefined) {
+                for (let j = 0; j < d.bestLocation.length; j++) {
+                    createMarker(d.bestLocation[j].place_id, d.bestLocation[j].name, d.bestLocation[j].formatted_address, d.bestLocation[j].lat, d.bestLocation[j].lng);
+                }
+            }
         }
     }
 }
@@ -110,7 +125,7 @@ function createMarker(id, name, formatted_address, lat, lng) {
         let infowindow = new window.google.maps.InfoWindow({
             content: '<div class="infoWindow" style="color:#000">' +
                 '<h3>' + name + '</h3>' +
-                '<p>You have been here for ' + marker.times + ' time' + s + '!</p>' +
+                '<p>This place has been selected ' + marker.times + ' time' + s + '!</p>' +
                 '<p>' + formatted_address + '</p>' +
                 '</div>'
         });
@@ -166,6 +181,8 @@ export default function History() {
     );
 
     // for google map <<<<<--------------------------------------------------------------
+    // false: all events locations, true: completed events locations
+    const [eventState, setEventState] = useState(false);
     firstLoadDarkMode = prefersDarkMode;
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -182,10 +199,10 @@ export default function History() {
         if (eventsJSON.length > 0) {
             loadScript(
                 `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
-                () => handleScriptLoad(mapRef)
+                () => handleScriptLoad(mapRef, eventState)
             );
         }
-    }, [eventsJSON.length]);
+    }, [eventsJSON.length, eventState]);
     document.getElementsByTagName("head")[0].appendChild(script);
     // for google map -------------------------------------------------------------->>>>>
 
@@ -233,7 +250,7 @@ export default function History() {
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h4" align="center" gutterBottom>
+                    <Typography component="h1" variant="h5" align="center" gutterBottom>
                         Filter By Person
                     </Typography>
                     <Grid
@@ -282,9 +299,20 @@ export default function History() {
                 </Paper>
 
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h4" align="center">
-                        Past Events
-                    </Typography>
+                    <CardHeader
+                        title={
+                            <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                                <Grid item>
+                                    Past Events
+                                </Grid>
+                                <Grid item>
+                                    <Badge badgeContent={eventsJSON.length} color="primary">
+                                        <HistoryIcon />
+                                    </Badge>
+                                </Grid>
+                            </Grid>
+                        }
+                    />
                     <Grid
                         container
                         direction="row"
@@ -296,16 +324,86 @@ export default function History() {
                 </Paper>
 
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h4" align="center" gutterBottom>
-                        Past Locations
-                    </Typography>
+                    <CardHeader
+                        title={
+                            <Grid container direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                                <Grid item>
+                                    Locations
+                                </Grid>
+                                <Grid item>
+                                    {!eventState ?
+                                        <Badge
+                                            badgeContent={
+                                                new Set([].concat.apply([],
+                                                    eventsJSON.map(event => {
+                                                        return event.location.map(location => {
+                                                            return location.place_id;
+                                                        }).filter(place_id => {
+                                                            return place_id !== undefined;
+                                                        })
+                                                    })
+                                                )).size}
+                                            color="primary">
+                                            <LocationOnIcon />
+                                        </Badge>
+                                        :
+                                        <Badge
+                                            badgeContent={
+                                                new Set([].concat.apply([],
+                                                    eventsJSON.filter(event => event.bestLocation !== null && event.bestLocation !== undefined)
+                                                        .map(event => {
+                                                            return event.bestLocation.map(location => {
+                                                                return location.place_id;
+                                                            }).filter(place_id => {
+                                                                return place_id !== undefined;
+                                                            })
+                                                        })
+                                                )).size}
+                                            color="primary">
+                                            <LocationOnIcon />
+                                        </Badge>
+                                    }
+                                </Grid>
+                            </Grid>
+                        }
+                    />
                     {eventsJSON.length === 0 ? <Typography component="h1" variant="body1" align="center">
-                        No past locations
+                        No locations
                     </Typography> :
                         <>
-                            <Typography component="h1" variant="body1" align="center">
+                            <Typography component="h2" variant="body1" align="center">
                                 Click on the marker to see more information!
                             </Typography>
+                            <Box
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                            >
+                                <FormControl component="fieldset" variant="standard">
+                                    <FormLabel component="legend">
+                                        Creator Selected Locations OR Completed Best Locations
+                                    </FormLabel>
+                                    <Box
+                                        display="flex"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                    >
+                                        <FormControlLabel
+                                            control={
+                                                <Switch
+                                                    checked={eventState}
+                                                    onChange={e => {
+                                                        setEventState(!eventState);
+                                                    }}
+                                                    inputProps={{ 'aria-label': 'controlled' }}
+                                                    label="location-switch"
+                                                />
+                                            }
+                                            label={!eventState ? "Creator Selected Locations" : "Completed Best Locations"}
+                                        />
+                                    </Box>
+                                </FormControl>
+                            </Box>
                             <div ref={mapRef} id='map' />
                             <Grid container justifyContent="flex-end">
                                 <Button variant="outlined" sx={{ my: 1 }} onClick={fitBounds}>Fit Boundary</Button>
