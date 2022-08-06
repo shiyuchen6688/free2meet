@@ -47,8 +47,12 @@ const addMeetup = async (meetup) => {
     return data
 }
 
-const addImage = async (image) => {
-    const API_ENDPOINT = 'https://cf73795wi5.execute-api.us-west-2.amazonaws.com/uploads' // e.g. https://ab1234ab123.execute-api.us-east-1.amazonaws.com/uploads
+const addImage = async (image, fileType) => {
+    if (!image || !fileType) {
+        return;
+    }
+    console.log("FileType: " + fileType);
+    const API_ENDPOINT = `https://cf73795wi5.execute-api.us-west-2.amazonaws.com/uploads?fileType=${fileType}` // e.g. https://ab1234ab123.execute-api.us-east-1.amazonaws.com/uploads
     console.log('Upload clicked')
     // Get the presigned URL
     const response = await axios({
@@ -73,6 +77,12 @@ const addImage = async (image) => {
     const uploadURL = response.data.uploadURL.split('?')[0]
     console.log(uploadURL)
     return uploadURL
+}
+
+const removeImage = async (imageURL) => {
+    console.log("remove image service");
+    // change Image URL to empty string
+    return "";
 }
 
 // get meetups created by a user given user email
@@ -129,6 +139,7 @@ const exportedService = {
     getMeetup,
     addMeetup,
     addImage,
+    removeImage,
     getMeetupsCreated
 }
 

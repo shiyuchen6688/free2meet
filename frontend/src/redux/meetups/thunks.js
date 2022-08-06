@@ -26,8 +26,15 @@ export const getMeetupAsync = createAsyncThunk(
 
 export const addImageAsync = createAsyncThunk(
     actionTypes.ADD_IMAGE,
-    async (image) => {
-        return await MeetupsService.addImage(image);
+    async ({image, fileType}) => {
+        return await MeetupsService.addImage(image, fileType);
+    }
+)
+
+export const removeImageAsync = createAsyncThunk(
+    actionTypes.REMOVE_IMAGE,
+    async (imageURL) => {
+        return await MeetupsService.removeImage(imageURL);
     }
 )
 
