@@ -10,6 +10,11 @@ export const deleteLocation = id => ({
     id
 });
 
+// Clear all locations
+export const clearLocation = id => ({
+    type: "CLEAR_LOCATION"
+});
+
 // Update the schedule
 export const updateSchedule = (newSchedule) => ({
     type: "UPDATE_SCHEDULE",
@@ -77,6 +82,13 @@ export const changeMeetupTitleAndDetailForm = (inputValue, inputName) => {
     }
 };
 
+// clear meetup title and detial
+export const clearMeetupTitleAndDetailForm = () => {
+    return {
+        type: "CLEAR_MEETUP_TITLE_AND_DETAIL_FORM"
+    }
+}
+
 // Change invitees in meetup invitation page
 export const changeInvitee = (invitees) => {
     return {
@@ -85,10 +97,22 @@ export const changeInvitee = (invitees) => {
     }
 };
 
+export const clearInvitee = () => {
+    return {
+        type: "CLEAR_INVITEES"
+    }
+}
+
 // Change tags in meetup invitation page
 export const changeTags = (tags) => {
     return {
         type: "CHANGE_TAGS",
         payload: tags
+    }
+}
+
+export const clearTags = () => {
+    return {
+        type: "CLEAR_TAGS"
     }
 }

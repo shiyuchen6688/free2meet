@@ -12,6 +12,8 @@ const createMeetupTitleDetailReducer = (state = initialValue, action) => {
                 ...state,
                 [inputName]: inputValue
             };
+        case 'CLEAR_MEETUP_TITLE_AND_DETAIL_FORM':
+            return initialValue
         default:
             return state
     }

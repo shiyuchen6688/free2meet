@@ -467,13 +467,41 @@ const queries = {
     },
     // Given a user email, returns the usernames and emails of all the users who received the user's friend requests
     getFriendRequestsSent: async (userEmail) => {
+        console.log("userEmail is", userEmail)
         let user = await User.findOne({ email: userEmail });
+        console.log("getFriendRequestsSent", user)
         // get all users who are friends of the user and sort based on username
         let friendRequestsSent = await User.find({ email: { $in: user.friendRequestsSent } }).sort({ username: 1 });
         // keep friends username and email fields
         return friendRequestsSent.map(function (friend) {
             return { username: friend.username, email: friend.email };
         });
+    },
+    // delete all request send from this user -> actually delete received friend request from the otherside
+    deleteSentFriendRequestsBidirectional: async (userEmail) => {
+        let friendRequestsSent = await queries.getFriendRequestsSent(userEmail)
+        console.log(friendRequestsSent)
+        friendRequestsSent.forEach(async freind => {
+            // remove received friend request from the other side
+            await User.findOneAndUpdate({ email: freind.email }, { $pull: { friendRequests: userEmail } }, { new: true });
+        })
+    },
+    // delete all request received by this user -> actually delete sent friend request from the otherside
+    deleteReceivedFriendRequestsBidirectional: async (userEmail) => {
+        let friendRequestsReceived = await queries.getFriendRequests(userEmail)
+        console.log(friendRequestsReceived)
+        friendRequestsReceived.forEach(async freind => {
+            // remove sent friend request from the other side
+            await User.findOneAndUpdate({ email: freind.email }, { $pull: { friendRequestsSent: userEmail } }, { new: true });
+        })
+    },
+    // delete friend from the other side
+    deleteFriendBidirectional: async (userEmail) => {
+        let friendList = await queries.getFriends(userEmail)
+        friendList.forEach(async freind => {
+            // remove sent friend request from the other side
+            await User.findOneAndUpdate({ email: freind.email }, { $pull: { friends: userEmail } }, { new: true });
+        })
     },
     // Given a user email, returns the updated friend list of the user and the updated friend request list of the user
     acceptFriendRequest: async (userEmail, friendEmail) => {

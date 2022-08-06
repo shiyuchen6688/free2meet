@@ -6,20 +6,22 @@ function verifyJWT(req, res, next) {
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if (err) {
-                return res.json({
+                return res.status(403).json({
                     status: "error",
                     message: "Token verification failed"
                 })
-                // add decoded user to req
-                req.user = {
-                    username: decoded.username,
-                    email: decoded.email
-                }
-                next()
+
             }
+            // add decoded user to req
+            req.user = {
+                username: decoded.username,
+                email: decoded.email
+            }
+            console.log("next is called")
+            next()
         })
     } else {
-        return res.json({
+        return res.status(403).json({
             status: "error",
             message: "No token given"
         })

@@ -50,17 +50,11 @@ export default function UserProfile(prop) {
             dispatch(changeUsernameAsync({ email, password, newUsername }))
         } else if (toChange === "password") {
             dispatch(changePasswordAsync({ email, oldPassword, newPassword }))
+        } else {
+            let curr_email = currentUser.email
+            dispatch(deleteUserAccountAsync(curr_email))
         }
     }
-
-    // Delete account of current user
-    const deleteAccount = () => {
-        dispatch(deleteUserAccountAsync(currentUser.email))
-    }
-
-    // errors
-    // let error = useSelector(state => state.usersReducer.error)
-    // console.log(error)
 
     return (
         <Dialog
@@ -93,7 +87,8 @@ export default function UserProfile(prop) {
 
                 <DialogContentText>
                     <Button variant="text" onClick={e => {
-                        deleteAccount()
+                        setToChange("delete-account")
+                        handleFullScreenClickOpen()
                     }}>Delete Account</Button>
                 </DialogContentText>
             </DialogContent>
@@ -128,10 +123,11 @@ export default function UserProfile(prop) {
                 </AppBar>
                 <DialogContent>
                     <DialogContentText>
-                        {"To change your " + toChange + ", please enter your " +
-                            (toChange === "username" ? "password" : "old password") + " and new " + toChange}
+                        {toChange === "delete-account" ? "Press Update button above if you are sure that you want to delete the account"
+                            : "To change your " + toChange + ", please enter your " +
+                            (toChange !== "username" ? "password" : "old password") + " and new " + toChange}
                     </DialogContentText>
-                    {toChange === "username" ? (
+                    {(toChange === "username") ? (
                         <div>
                             <TextField
                                 autoFocus
@@ -156,7 +152,7 @@ export default function UserProfile(prop) {
                                 onChange={e => setNewUsername(e.target.value)}
                             />
                         </div>
-                    ) : (
+                    ) : ((toChange === "password") ? (
                         <div>
                             <TextField
                                 autoFocus
@@ -181,7 +177,10 @@ export default function UserProfile(prop) {
                                 onChange={e => setNewPassword(e.target.value)}
                             />
                         </div>
-                    )}
+                    ) : (
+                        <div></div>
+                    ))
+                    }
 
                 </DialogContent>
             </Dialog>

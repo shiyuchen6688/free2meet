@@ -20,6 +20,7 @@ import MeetupInvitation from './CreateMeetupInvitation';
 import MeetupLocation from './CreateMeetupLocation';
 import MeetupTitleAndDetail from './CreateMeetupTitleAndDetail';
 import ToolBar from '../../components/ToolBar';
+import { clearMeetupTitleAndDetailForm, clearSchedule, clearInvitee, clearTags, clearLocation } from '../../redux/actions/actions'
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
 
@@ -106,6 +107,16 @@ export default function CreateMeetup() {
         }
     }
 
+
+    // clear input data when a meetup is created
+    function clearInputData() {
+        dispatch(clearMeetupTitleAndDetailForm())
+        dispatch(clearSchedule())
+        dispatch(clearLocation())
+        dispatch(clearInvitee())
+        dispatch(clearTags())
+    }
+
     const [width, setWidth] = React.useState(window.innerWidth);
     window.onresize = () => {
         setWidth(window.innerWidth);
@@ -144,7 +155,10 @@ export default function CreateMeetup() {
                                         type="submit"
                                         variant="contained"
                                         sx={{ mt: 3, mb: 2 }}
-                                        onClick={e => navigate("/")}
+                                        onClick={e => {
+                                            navigate("/")
+                                            clearInputData()
+                                        }}
                                     >
                                         Finish
                                     </Button>

@@ -7,6 +7,8 @@ const createMeetupLocationReducer = (state = [], action) => {
             return state;
         case "DELETE_LOCATION":
             return state.filter((e) => { return e.place_id !== action.id });
+        case 'CLEAR_LOCATION':
+            return []
         default:
             return state;
     }

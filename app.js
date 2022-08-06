@@ -13,6 +13,8 @@ var invitationsRouter = require('./routes/invitations');
 
 var app = express();
 
+var verifyJWT = require("./middlewares/auth")
+
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -32,9 +34,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 app.use('/', indexRouter);
-app.use('/meetups', meetupsRouter);
+app.use('/meetups', verifyJWT, meetupsRouter);
 app.use('/users', userRouter);
-app.use('/invitations', invitationsRouter);
+app.use('/invitations', verifyJWT, invitationsRouter);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/build/index.html'));

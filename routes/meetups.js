@@ -4,6 +4,7 @@ const { v4: uuid } = require('uuid');
 var queries = require('../model/queries');
 var tagQueries = require('../model/tagQueries');
 
+
 /* get all meetups listing. */
 router.get('/', function (req, res, next) {
     const option = req.query.filterPeopleOption;
