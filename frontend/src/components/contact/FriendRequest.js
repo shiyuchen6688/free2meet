@@ -95,13 +95,7 @@ export default function FriendRequest() {
                 </Fab>
             </Box>
 
-            {sendFriendRequest === REQUEST_STATE.REJECTED ?
-                <Alert severity="error">
-                    <AlertTitle>Error</AlertTitle>
-                    {console.log("is rejected")}
-                    <p>{usersReducerError}</p>
-                </Alert> : null
-            }
+            <ErrorMessage />
 
             {/* Send Friend Request */}
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
@@ -195,6 +189,15 @@ export default function FriendRequest() {
         </ThemeProvider>
     )
 
+}
+
+function ErrorMessage(props) {
+    sendFriendRequest === REQUEST_STATE.REJECTED ?
+        <Alert severity="error">
+            <AlertTitle>Error</AlertTitle>
+            {console.log("is rejected")}
+            <p>{usersReducerError}</p>
+        </Alert> : null
 }
 
 function FriendCard(props) {
