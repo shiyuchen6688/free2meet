@@ -27,6 +27,7 @@ export default function MeetupInvitation() {
     React.useEffect(() => {
         // clear the state so that the frontend can be consistent with the redux state
         handleChangeInvitees([]);
+        handleChangeTags([]);
     }, []);
 
     React.useEffect(() => {
