@@ -381,7 +381,7 @@ export default function History() {
                             >
                                 <FormControl component="fieldset" variant="standard">
                                     <FormLabel component="legend">
-                                        Switch Between All Creator Selected Locations And All Completed Best Locations
+                                        Creator Selected Locations OR Completed Best Locations
                                     </FormLabel>
                                     <Box
                                         display="flex"
@@ -412,6 +412,6 @@ export default function History() {
                     }
                 </Paper>
             </Container>
-        </ThemeProvider >
+        </ThemeProvider>
     );
 }
