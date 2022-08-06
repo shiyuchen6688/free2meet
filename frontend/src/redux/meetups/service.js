@@ -20,11 +20,17 @@ const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
 
 // Get one meetup
 const getMeetup = async (id) => {
+    console.log("getMeetup", id)
     const response = await fetch(`meetup?id=${id}`, {
         method: 'GET',
+        headers: {
+            'x-access-token': localStorage.getItem("token")
+        },
         mode: 'cors'
     });
-    return response.json();
+    const result = await response.json();
+    console.log("getMeetup", id, result)
+    return result;
 };
 
 // Add new meetup
@@ -87,6 +93,7 @@ const removeImage = async (imageURL) => {
 
 // get meetups created by a user given user email
 const getMeetupsCreated = async (email) => {
+    console.log("getMeetupsCreated", email)
     const response = await fetch(`meetups/${email}/created`, {
         method: 'GET',
         headers: {
@@ -99,12 +106,18 @@ const getMeetupsCreated = async (email) => {
 
     if (!response.ok) {
         console.log('Error in getMeetupsCreated')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+        if (errorMsg && errorMsg === "Token verification failed") {
+            console.log("resetting token")
+            window.localStorage.removeItem('token')
+        }
     }
     return data
 }
 
 export const calculateMeetupBestLocationandTime = async (id) => {
-    const response = await fetch( `meetups/${id}/calculate`, {
+    const response = await fetch(`meetups/${id}/calculate`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

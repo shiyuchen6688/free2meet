@@ -236,7 +236,7 @@ export default function History() {
                         <Button size="small" onClick={e => navigate(`/meetups/${eventJSON._id}`)}>View</Button>
                     </CardActions>
                 </Card>
-            </Box >
+            </Box>
         );
     }
 

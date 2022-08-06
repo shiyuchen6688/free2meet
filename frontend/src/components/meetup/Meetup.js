@@ -133,10 +133,15 @@ export default function Meetup() {
     const location = useLocation();
     const id = location.pathname.split("/")[2];
 
-    const meetup = useSelector(state => state.meetupsReducer.meetup);
+    console.log("id is", id)
+
+    let meetup = useSelector(state => state.meetupsReducer.meetup);
     useEffect(() => {
+        console.log("useEffect dispatched")
         dispatch(getMeetupAsync(id));
     }, [dispatch, id]);
+
+    console.log("meetup", meetup)
 
     const theme = React.useMemo(
         () =>
@@ -151,34 +156,35 @@ export default function Meetup() {
             }),
         [prefersDarkMode],
     );
+    console.log("line 156")
 
-        // for google map <<<<<--------------------------------------------------------------
-        firstLoadDarkMode = prefersDarkMode;
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                map.setOptions({ styles: darkStyle });
-            } else {
-                map.setOptions({ styles: [] });
-            }
-        });
-        if (meetup.state === "PENDING") {
-            locations = meetup.location;
+    // for google map <<<<<--------------------------------------------------------------
+    firstLoadDarkMode = prefersDarkMode;
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            map.setOptions({ styles: darkStyle });
         } else {
-            locations = meetup.bestLocation;
+            map.setOptions({ styles: [] });
         }
-        const mapRef = useRef(null);
-        script = document.createElement("script");
-        useEffect(() => {
-            removeGoogleMapScript();
-            if (meetup) {
-                loadScript(
-                    `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
-                    () => handleScriptLoad(mapRef)
-                );
-            }
-        }, [meetup]);
-        document.getElementsByTagName("head")[0].appendChild(script);
-        // for google map -------------------------------------------------------------->>>>>
+    });
+    if (meetup.state === "PENDING") {
+        locations = meetup.location;
+    } else {
+        locations = meetup.bestLocation;
+    }
+    const mapRef = useRef(null);
+    script = document.createElement("script");
+    useEffect(() => {
+        removeGoogleMapScript();
+        if (meetup) {
+            loadScript(
+                `https://maps.googleapis.com/maps/api/js?key=${k}&libraries=places&language=en`,
+                () => handleScriptLoad(mapRef)
+            );
+        }
+    }, [meetup]);
+    document.getElementsByTagName("head")[0].appendChild(script);
+    // for google map -------------------------------------------------------------->>>>>
 
     return (
         <ThemeProvider theme={theme}>

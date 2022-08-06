@@ -20,13 +20,14 @@ export const addMeetupAsync = createAsyncThunk(
 export const getMeetupAsync = createAsyncThunk(
     actionTypes.GET_MEETUP,
     async (id) => {
+        console.log("getMeetupAsync", id)
         return await MeetupsService.getMeetup(id);
     }
 )
 
 export const addImageAsync = createAsyncThunk(
     actionTypes.ADD_IMAGE,
-    async ({image, fileType}) => {
+    async ({ image, fileType }) => {
         return await MeetupsService.addImage(image, fileType);
     }
 )

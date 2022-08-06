@@ -12,6 +12,8 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardHeader from '@mui/material/CardHeader';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -28,11 +30,18 @@ import {
     sendFriendRequestAsync
 } from '../../redux/users/thunks';
 
+import { REQUEST_STATE } from '../../redux/utils';
+
 export default function FriendRequest() {
     // get user information 
     const currentUserEmail = useSelector(state => state.usersReducer.email);
     const friendRequestsReceived = useSelector(state => state.usersReducer.friendRequests);
     const friendRequestsSent = useSelector(state => state.usersReducer.friendRequestsSent);
+    // get request state
+    const sendFriendRequest = useSelector(state => state.usersReducer.sendFriendRequest);
+    // get error
+    const usersReducerError = useSelector(state => state.usersReducer.error)
+
 
     console.log("friendRequestsReceived", friendRequestsReceived)
     console.log("friendRequestsSent", friendRequestsSent)
@@ -85,6 +94,14 @@ export default function FriendRequest() {
                     <AutorenewIcon />
                 </Fab>
             </Box>
+
+            {sendFriendRequest === REQUEST_STATE.REJECTED ?
+                <Alert severity="error">
+                    <AlertTitle>Error</AlertTitle>
+                    {console.log("is rejected")}
+                    <p>{usersReducerError}</p>
+                </Alert> : null
+            }
 
             {/* Send Friend Request */}
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
@@ -175,7 +192,7 @@ export default function FriendRequest() {
                     ))}
                 </Grid>
             </Paper>
-        </ThemeProvider >
+        </ThemeProvider>
     )
 
 }

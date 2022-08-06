@@ -42,7 +42,7 @@ router.get('/', function (req, res, next) {
 });
 
 /* get a single meetup by id. */
-router.get(`/meetup`, function (req, res, next) {
+router.get(`/meetup/`, function (req, res, next) {
     const id = req.query.id;
     console.log(id);
     queries.getMeetupById(id).then(function (meetup) {

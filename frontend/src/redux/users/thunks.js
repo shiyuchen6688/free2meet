@@ -9,6 +9,13 @@ export const loginAsync = createAsyncThunk(
     }
 );
 
+export const loginWithTokenAsync = createAsyncThunk(
+    actionTypes.LOGIN_TOKEN,
+    async () => {
+        return await UsersService.loginWithToken();
+    }
+);
+
 export const registerAsync = createAsyncThunk(
     actionTypes.REGISTER,
     async (user) => {
