@@ -10,6 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerAsync } from '../redux/users/thunks';
+import EmailValidator from 'email-validator';
 
 export default function Signup() {
     const dispatch = useDispatch();
@@ -27,6 +28,14 @@ export default function Signup() {
     const [email, setEmail] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [validEmail, setValidEmail] = useState(true);
+
+    const changeEmail = (email) => {
+        setEmail(email);
+        setValidEmail(EmailValidator.validate(email));
+        console.log(validEmail);
+    };
+
 
     const onSubmit = () => {
         dispatch(registerAsync({
@@ -70,6 +79,9 @@ export default function Signup() {
                             />
                             {/* Email Input */}
                             <TextField
+                                error={!validEmail}
+                                onBlur={() => email === "" ? setValidEmail(true) : setValidEmail(EmailValidator.validate(email))}
+                                onFocus={() => setValidEmail(true)}
                                 margin="normal"
                                 required
                                 fullWidth
