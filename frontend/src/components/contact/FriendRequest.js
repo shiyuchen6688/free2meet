@@ -245,7 +245,7 @@ function ErrorMessage(props) {
                         severity="success"
                     >
                         <AlertTitle>Success</AlertTitle>
-                        Friend Request Sent
+                        Friend Request Sent Successfully
                     </Alert>
                 </Collapse>
             </Box>
