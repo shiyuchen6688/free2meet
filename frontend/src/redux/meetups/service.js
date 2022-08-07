@@ -108,10 +108,10 @@ const getMeetupsCreated = async (email) => {
         console.log('Error in getMeetupsCreated')
         const errorMsg = data?.message;
         console.log(errorMsg)
-        if (errorMsg && errorMsg === "Token verification failed") {
-            console.log("resetting token")
-            window.localStorage.removeItem('token')
-        }
+        // if (errorMsg && errorMsg === "Token verification failed") {
+        //     console.log("resetting token")
+        //     window.localStorage.removeItem('token')
+        // }
     }
     return data
 }
