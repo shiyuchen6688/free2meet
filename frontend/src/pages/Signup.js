@@ -11,9 +11,11 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerAsync } from '../redux/users/thunks';
 import EmailValidator from 'email-validator';
+import {useNavigate} from 'react-router-dom';
 
 export default function Signup() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const theme = React.useMemo(
         () =>
@@ -29,20 +31,30 @@ export default function Signup() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [validEmail, setValidEmail] = useState(true);
-
-    const changeEmail = (email) => {
-        setEmail(email);
-        setValidEmail(EmailValidator.validate(email));
-        console.log(validEmail);
-    };
+    const [validUsername, setValidUsername] = useState(true);
+    const [validPassword, setValidPassword] = useState(true);
 
 
     const onSubmit = () => {
-        dispatch(registerAsync({
-            email,
-            username,
-            password
-        }))
+        if (!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") {
+            if (!EmailValidator.validate(email) || email === "") {
+                setValidEmail(false);
+            }
+            if (username === "") {
+                setValidUsername(false);
+            }
+            if (password === "") {
+                setValidPassword(false);
+            }
+            return false;
+        } else {
+            dispatch(registerAsync({
+                email,
+                username,
+                password
+            }))
+            navigate("/")
+        }
     }
 
     return (
@@ -67,6 +79,8 @@ export default function Signup() {
                         <Box component="form" noValidate sx={{ mt: 1 }}>
                             {/* User Name Input */}
                             <TextField
+                                error={!validUsername}
+                                onFocus={() => setValidUsername(true)}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -94,6 +108,8 @@ export default function Signup() {
                             />
                             {/* Password Input */}
                             <TextField
+                                error={!validPassword}
+                                onFocus={() => setValidPassword(true)}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -106,11 +122,9 @@ export default function Signup() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <Button
-                                type="submit"
                                 fullWidth
-                                variant="contained"
+                                variant={(!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") ? "outlined" : "contained"}
                                 sx={{ mt: 3, mb: 2 }}
-                                href="/"
                                 onClick={onSubmit}
                             >
                                 Sign Up
