@@ -215,7 +215,6 @@ function ErrorMessage(props) {
                                 <CloseIcon fontSize="inherit" />
                             </IconButton>
                         }
-                        sx={{ mb: 2 }}
                         severity="error"
                     >
                         <AlertTitle>Error</AlertTitle>
@@ -241,11 +240,10 @@ function ErrorMessage(props) {
                                 <CloseIcon fontSize="inherit" />
                             </IconButton>
                         }
-                        sx={{ mb: 2 }}
                         severity="success"
                     >
                         <AlertTitle>Success</AlertTitle>
-                        Friend Request Sent Successfully
+                        Friend request sent!
                     </Alert>
                 </Collapse>
             </Box>
