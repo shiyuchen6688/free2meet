@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { resetTokenIfTokenExpired } from '../utils'
 
 const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
     console.log("filter by person");
@@ -14,6 +15,8 @@ const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
 
     if (!response.ok) {
         console.log('Error in getMeetups')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
     }
     return data
 }
@@ -29,6 +32,14 @@ const getMeetup = async (id) => {
         mode: 'cors'
     });
     const result = await response.json();
+
+    if (!response.ok) {
+        console.log('Error in getMeetups')
+        const errorMsg = result?.message;
+        resetTokenIfTokenExpired(errorMsg)
+        throw new Error(errorMsg)
+    }
+
     console.log("getMeetup", id, result)
     return result;
 };
@@ -48,6 +59,9 @@ const addMeetup = async (meetup) => {
 
     if (!response.ok) {
         console.log('Error in addMeeup')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
+        throw new Error(errorMsg)
     }
     console.log(data)
     return data
@@ -107,11 +121,8 @@ const getMeetupsCreated = async (email) => {
     if (!response.ok) {
         console.log('Error in getMeetupsCreated')
         const errorMsg = data?.message;
-        console.log(errorMsg)
-        // if (errorMsg && errorMsg === "Token verification failed") {
-        //     console.log("resetting token")
-        //     window.localStorage.removeItem('token')
-        // }
+        resetTokenIfTokenExpired(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }
