@@ -309,7 +309,7 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
                         } else {
                             // send friend request
                             queries.sendFriendRequest(email, friendEmail).then(friend => {
-                                return res.send(friend);
+                                return res.send({ message: "Friend request sent" });
                             }).catch(err => {
                                 console.log(err)
                                 return res.status(404).send(err);
@@ -325,8 +325,12 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
                 }
             });
         } else {
-            console.log("Friend does not exist")
-            return res.status(404).send(new Error("Friend does not exist"));
+            console.log("User does not exist")
+            return res.status(404).send(
+                {
+                    message: "User does not exist",
+                    error: new Error("User does not exist")
+                });
         }
     }).catch(err => {
         console.log(err)

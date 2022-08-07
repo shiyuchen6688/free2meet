@@ -199,9 +199,7 @@ function ErrorMessage(props) {
     console.log(sendFriendRequest)
     if (sendFriendRequest === REQUEST_STATE.REJECTED) {
         console.log(usersReducerError)
-
         return (
-
             <Box sx={{ width: '100%' }}>
                 <Collapse in={open}>
                     <Alert
@@ -224,19 +222,36 @@ function ErrorMessage(props) {
                         {usersReducerError?.message}
                     </Alert>
                 </Collapse>
-                <Button
-                    disabled={open}
-                    variant="outlined"
-                    onClick={() => {
-                        setOpen(true);
-                    }}
-                >
-                    Re-open
-                </Button>
+            </Box>
+        )
+    } else if (sendFriendRequest === REQUEST_STATE.FULFILLED) {
+        return (
+            <Box sx={{ width: '100%' }}>
+                <Collapse in={open}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpen(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                        severity="success"
+                    >
+                        <AlertTitle>Success</AlertTitle>
+                        Friend Request Sent
+                    </Alert>
+                </Collapse>
             </Box>
         )
     } else {
-        return null
+        return null;
     }
 }
 
