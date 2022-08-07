@@ -57,7 +57,7 @@ export default function MeetupInvitation() {
                     Title: {titleAndDetailInfo["meetup-title"] === "" ? "NA" : titleAndDetailInfo["meetup-title"]}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                    Details:
+                    Description:
                 </Typography>
                 <Typography variant="h9" gutterBottom>
                     {titleAndDetailInfo["meetup-description"] === "" ? "NA" : titleAndDetailInfo["meetup-description"]}
