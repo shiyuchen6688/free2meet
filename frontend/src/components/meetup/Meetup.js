@@ -1,23 +1,24 @@
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
+import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
+import { darkStyle } from '../../pages/CreateMeetup/CreateMeetupLocation';
 import { getMeetupAsync } from '../../redux/meetups/thunks';
 import ToolBar from '../ToolBar';
-import { useEffect, useRef } from 'react';
-import { darkStyle } from '../../pages/CreateMeetup/CreateMeetupLocation';
+import ScheduleSelector from '../timetable/ScheduleSelector';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Close';
 
 // for google map <<<<<--------------------------------------------------------------
 let script;
@@ -72,36 +73,23 @@ function handleScriptLoad(mapRef) {
 
 function showMarkers() {
     markers = [];
-    console.log(locations);
     for (let i = 0; i < locations.length; i++) {
         createMarker(locations[i].place_id, locations[i].name, locations[i].formatted_address, locations[i].lat, locations[i].lng);
-        // if (d.location.length > 0) {
-        //     createMarker(d.location[0].place_id, d.location[0].name, d.location[0].formatted_address, d.location[0].lat, d.location[0].lng);
-        // }
     }
 }
 
 function createMarker(id, name, formatted_address, lat, lng) {
-    for (let i = 0; i < markers.length; i++) {
-        if (id === markers[i].id) {
-            markers[i].times++;
-            return;
-        }
-    }
     let marker = new window.google.maps.Marker({
         id: id,
-        times: 1,
         position: new window.google.maps.LatLng(lat, lng),
         map: map,
         draggable: false,
         animation: window.google.maps.Animation.DROP
     });
     window.google.maps.event.addListener(marker, 'click', function () {
-        let s = marker.times === 1 ? "" : "s";
         let infowindow = new window.google.maps.InfoWindow({
             content: '<div class="infoWindow" style="color:#000">' +
                 '<h3>' + name + '</h3>' +
-                '<p>You have been here for ' + marker.times + ' time' + s + '!</p>' +
                 '<p>' + formatted_address + '</p>' +
                 '</div>'
         });
@@ -197,32 +185,90 @@ export default function Meetup() {
                         <Typography component="h1" variant="h4" align="center" style={{ wordWrap: 'break-word' }}>
                             {meetup.title}
                         </Typography>
-                        <Card variant="outlined">
-                            <CardHeader
-                                avatar={
-                                    <Avatar
-                                        alt={meetup.creator.username}
-                                        src={meetup.creator.profilePictureLink}
-                                    />
-                                }
-                                title={meetup.title}
-                                subheader={`${meetup.schedule.schedule === undefined ? 'NA' : (meetup.state === "PENDING" ? (Object.keys(meetup.schedule.schedule).length === 0 ? 'NA' : Object.keys(meetup.schedule.schedule)[0].split("T")[0]) : (meetup.bestTime.length === 0 ? 'NA' : meetup.bestTime[0].split("T")[0]))} 
-                                            ${meetup.schedule.schedule === undefined ? 'NA' : (meetup.state === "PENDING" ? (Object.keys(meetup.schedule.schedule).length === 0 ? 'NA' : Object.keys(meetup.schedule.schedule)[0].split("T")[1].split(":00.")[0]) : (meetup.bestTime.length === 0 ? 'NA' : meetup.bestTime[0].split("T")[1].split(":00.")[0]))} - 
-                                            ${meetup.schedule.schedule === undefined ? 'NA' : (meetup.state === "PENDING" ? (Object.keys(meetup.schedule.schedule).length === 0 ? 'NA' : Object.keys(meetup.schedule.schedule)[Object.keys(meetup.schedule.schedule).length - 1].split("T")[0]) : (meetup.bestTime.length === 0 ? 'NA' : meetup.bestTime[meetup.bestTime.length - 1].split("T")[0]))} 
-                                            ${meetup.schedule.schedule === undefined ? 'NA' : (meetup.state === "PENDING" ? (Object.keys(meetup.schedule.schedule).length === 0 ? 'NA' : Object.keys(meetup.schedule.schedule)[Object.keys(meetup.schedule.schedule).length - 1].split("T")[1].split(":00.")[0]) : (meetup.bestTime.length === 0 ? 'NA' : meetup.bestTime[meetup.bestTime.length - 1].split("T")[1].split(":00.")[0]))}`}
-                            />
-                            <CardContent>
-                                <CardMedia
-                                    component="img"
-                                    width="100%"
-                                    image={meetup.meetupImage}
-                                />
-                                <Typography variant="body2" color="text.secondary" style={{ wordWrap: 'break-word' }}>
-                                    {meetup.description}
+                        <Typography component="h1" variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            State: {meetup.state.charAt(0).toUpperCase() + meetup.state.slice(1).toLowerCase()}
+                        </Typography>
+                        <Typography component="h1" variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            Creator: {meetup.creator.username}
+                        </Typography>
+                        <Typography component="h1" variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            {meetup.invitees.length === 0 ? "No Invitees" : (meetup.invitees.length) + " Invitee(s)"}
+                        </Typography>
+                        <Stack
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={1}
+                        >
+                            {meetup.invitees.map((invitee) => {
+                                return <Chip key={invitee} label={invitee} variant="outlined" />
+                            })}
+                        </Stack>
+                        <Typography component="h1" variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            {meetup.tags.length === 0 ? "No Tags" : "Tags"}
+                        </Typography>
+                        <Stack
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={1}
+                        >
+                            {meetup.tags.map((tag) => {
+                                return <Chip label={tag} variant="outlined" />
+                            })}
+                        </Stack>
+                        <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            Description:
+                        </Typography>
+                        <Typography variant="body2" align="center" style={{ wordWrap: 'break-word' }}>
+                            {meetup.description}
+                        </Typography>
+                        <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            Time Zone
+                        </Typography>
+                        <Typography variant="body2" align="center">
+                            {meetup.schedule.timezone.altName === undefined ? meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
+                        </Typography>
+                        <Typography variant="body2" align="center">
+                            {meetup.schedule.timezone.label}
+                        </Typography>
+                        <CardMedia
+                            component="img"
+                            width="100%"
+                            image={meetup.meetupImage}
+                        />
+                        {locations.length === 0 ?
+                            <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                                No location available
+                            </Typography>
+                            :
+                            <>
+                                <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                                    Location(s)
                                 </Typography>
                                 <div ref={mapRef} id='map' />
-                            </CardContent>
-                        </Card>
+                            </>
+                        }
+                        {/* <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            {meetup.state === "PENDING" ? (selected.length === 0 ? "No Time Slots" : "Time Slots") : (selected.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
+                        </Typography>
+                        {selected.length !== 0 && <div style={{ pointerEvents: "none" }}>
+                            <ScheduleSelector
+                                selection={meetup.state === "PENDING" ? selected : bestTimeSlot}
+                                startDate={meetup.schedule.startDate}
+                                numDays={meetup.schedule.numDays}
+                                minTime={meetup.schedule.timeInterval[0]}
+                                maxTime={meetup.schedule.timeInterval[1]}
+                                hourlyChunks={meetup.schedule.hourlyChunk}
+                                timeFormat={"h:mma"}
+                                renderDateCell={(time, selected, innerRef) => (
+                                    <div style={{ textAlign: 'center' }} ref={innerRef}>
+                                        {selected ? <CheckIcon style={{ color: "green" }} /> : <ClearIcon style={{ color: "red" }} />}
+                                    </div>
+                                )}
+                            />
+                        </div>
+                        } */}
                     </Paper>
                     :
                     <Box

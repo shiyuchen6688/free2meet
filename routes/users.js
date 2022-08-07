@@ -194,7 +194,9 @@ router.patch('/:email/change-username', verifyJWT, async function (req, res, nex
 
 // get all friends for a user given user email
 router.get('/:email/friends/', verifyJWT, function (req, res, next) {
+    console.log("req.params is", req.params)
     const email = req.params.email;
+    console.log('/:email/friends/', email)
     queries.getFriends(email).then(friends => {
         return res.send(friends);
     }).catch(err => {
@@ -275,7 +277,12 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
     const email = req.params.email;
     const friendEmail = req.body.friendEmail;
     if (email === friendEmail) {
-        return res.status(404).send({ error: "User email cannot equal to friend email" });
+        return res.status(404).send(
+            {
+                message: "User email cannot equal to friend email",
+                error: new Error("User email cannot equal to friend email")
+            }
+        );
     }
     // check if friend is a user in the database
     queries.getUserByEmail(friendEmail).then(friend => {
@@ -284,13 +291,23 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
             queries.getFriendRequestSent(email, friendEmail).then(friendRequest => {
                 if (friendRequest) {
                     console.log("Friend request already exists")
-                    return res.status(404).send(new Error("Friend request already exists"));
+                    return res.status(404).send(
+                        {
+                            message: "Friend request already exists",
+                            error: new Error("Friend request already exists")
+                        }
+                    );
                 } else {
                     // check if friend already exists
                     queries.isFriend(email, friendEmail).then(isFriend => {
                         if (isFriend) {
                             console.log("Friend already exists")
-                            return res.status(404).send(new Error("Friend already exists"));
+                            return res.status(404).send(
+                                {
+                                    message: "Friend already exists",
+                                    error: new Error("Friend already exists")
+                                }
+                            );
                         } else {
                             // send friend request
                             queries.sendFriendRequest(email, friendEmail).then(friend => {
@@ -302,7 +319,10 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
                         }
                     }).catch(err => {
                         console.log(err)
-                        return res.status(404).send(err);
+                        return res.status(404).send({
+                            error: "Server Error",
+                            error: err
+                        });
                     });
                 }
             });

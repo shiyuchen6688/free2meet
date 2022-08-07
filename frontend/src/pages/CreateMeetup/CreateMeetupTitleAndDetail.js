@@ -95,7 +95,7 @@ export default function MeetupTitleAndDetail() {
             <Typography variant="subtitle2" gutterBottom>
                 Maximum 1000 characters.
             </Typography>
-            <Grid xs={12} sm={6} item={true}>
+            <Grid xs={12} sm={6} sx={{ mb: "3%" }} item={true}>
                 <TextField
                     placeholder="Describe your meetup"
                     id="meetup-description"
@@ -109,6 +109,12 @@ export default function MeetupTitleAndDetail() {
                 />
             </Grid>
 
+            <Typography variant="h6" gutterBottom>
+                Image
+            </Typography>
+            <Typography variant="subtitle2" gutterBottom>
+                Maximum 10MB. JPG or PNG only.
+            </Typography>
             <Grid xs={12} sm={6} item={true}>
                 <img src={imageURL} style={{ maxWidth: "100%" }} />
             </Grid>

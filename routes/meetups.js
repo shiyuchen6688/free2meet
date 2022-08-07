@@ -9,7 +9,7 @@ var tagQueries = require('../model/tagQueries');
 router.get('/', function (req, res, next) {
     const option = req.query.filterPeopleOption;
     const person = req.query.filterByPerson;
-    const self = req.query.selfEmail;
+    const self = req.query.selfEmail || req.user.email;
     console.log(option, person, self);
     if (option === null || option === undefined || option === "all") {
         queries.getAllMeetups().then(function (meetups) {
