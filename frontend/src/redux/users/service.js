@@ -1,3 +1,5 @@
+import { resetTokenIfTokenExpired } from '../utils'
+
 const login = async (user) => {
 
     const response = await fetch('users/login', {
@@ -55,6 +57,7 @@ const register = async (user) => {
     if (!response.ok) {
         console.log('Error in register')
         const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
     return data
@@ -234,6 +237,8 @@ const acceptFriendRequest = async (email, friendEmail) => {
 
     if (!response.ok) {
         console.log('Error in acceptFriendRequest')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
     }
     return data
 }
@@ -253,6 +258,8 @@ const declineFriendRequest = async (email, friendEmail) => {
 
     if (!response.ok) {
         console.log('Error in declineFriendRequest')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
     }
     return data
 }
@@ -338,12 +345,6 @@ const deleteUserAccount = async (userEmail) => {
     return data
 }
 
-function resetTokenIfTokenExpired(error_msg) {
-    if (error_msg === "Token verification failed") {
-        // console.log("resetting token")
-        // window.localStorage.removeItem('token')
-    }
-}
 
 const exportedService = {
     login,

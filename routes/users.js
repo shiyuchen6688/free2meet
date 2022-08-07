@@ -194,7 +194,9 @@ router.patch('/:email/change-username', verifyJWT, async function (req, res, nex
 
 // get all friends for a user given user email
 router.get('/:email/friends/', verifyJWT, function (req, res, next) {
+    console.log("req.params is", req.params)
     const email = req.params.email;
+    console.log('/:email/friends/', email)
     queries.getFriends(email).then(friends => {
         return res.send(friends);
     }).catch(err => {
