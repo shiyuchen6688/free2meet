@@ -166,7 +166,7 @@ const usersSlice = createSlice({
             })
             .addCase(sendFriendRequestAsync.fulfilled, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.FULFILLED;
-                state.sendFriendRequestError = action.payload;
+                state.sendFriendRequestError = null;
             })
             .addCase(sendFriendRequestAsync.rejected, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.REJECTED;

@@ -279,7 +279,7 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
     if (email === friendEmail) {
         return res.status(404).send(
             {
-                message: "User email cannot equal to friend email",
+                message: "You cannot send a friend request to yourself",
                 error: new Error("User email cannot equal to friend email")
             }
         );
@@ -293,7 +293,7 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
                     console.log("Friend request already exists")
                     return res.status(404).send(
                         {
-                            message: "Friend request already exists",
+                            message: "You have already sent a friend request to this user",
                             error: new Error("Friend request already exists")
                         }
                     );
@@ -304,14 +304,14 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
                             console.log("Friend already exists")
                             return res.status(404).send(
                                 {
-                                    message: "Friend already exists",
+                                    message: "You are already friends with this user",
                                     error: new Error("Friend already exists")
                                 }
                             );
                         } else {
                             // send friend request
                             queries.sendFriendRequest(email, friendEmail).then(friend => {
-                                return res.send(friend);
+                                return res.send({ message: "Friend request sent successfully" });
                             }).catch(err => {
                                 console.log(err)
                                 return res.status(404).send(err);
@@ -327,8 +327,12 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
                 }
             });
         } else {
-            console.log("Friend does not exist")
-            return res.status(404).send(new Error("Friend does not exist"));
+            console.log("User does not exist")
+            return res.status(404).send(
+                {
+                    message: "This user does not exist",
+                    error: new Error("User does not exist")
+                });
         }
     }).catch(err => {
         console.log(err)

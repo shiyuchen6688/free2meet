@@ -77,9 +77,13 @@ export default function FriendRequest() {
     // Send Friend Request form
     const [friendEmail, setFriendEmail] = useState("");
 
+    // Error message
+    const [open, setOpen] = React.useState(true);
+
     // TODO: Send friend request to friendEmail
     const handleSendFriendRequest = () => {
         console.log({ currentUserEmail, friendEmail })
+        setOpen(true);
         dispatch(sendFriendRequestAsync({ email: currentUserEmail, friendEmail })).then(() => {
             refresh();
         });
@@ -93,7 +97,7 @@ export default function FriendRequest() {
                 </Fab>
             </Box>
 
-            <ErrorMessage />
+            <ErrorMessage open={open} setOpen={setOpen} />
 
             {/* Send Friend Request */}
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
@@ -189,8 +193,7 @@ export default function FriendRequest() {
 
 }
 
-function ErrorMessage(props) {
-    const [open, setOpen] = React.useState(true);
+function ErrorMessage({ open, setOpen }) {
     // get request state
     const sendFriendRequest = useSelector(state => state.usersReducer.sendFriendRequest);
     // get error
@@ -199,9 +202,7 @@ function ErrorMessage(props) {
     console.log(sendFriendRequest)
     if (sendFriendRequest === REQUEST_STATE.REJECTED) {
         console.log(usersReducerError)
-
         return (
-
             <Box sx={{ width: '100%' }}>
                 <Collapse in={open}>
                     <Alert
@@ -217,26 +218,41 @@ function ErrorMessage(props) {
                                 <CloseIcon fontSize="inherit" />
                             </IconButton>
                         }
-                        sx={{ mb: 2 }}
                         severity="error"
                     >
                         <AlertTitle>Error</AlertTitle>
                         {usersReducerError?.message}
                     </Alert>
                 </Collapse>
-                <Button
-                    disabled={open}
-                    variant="outlined"
-                    onClick={() => {
-                        setOpen(true);
-                    }}
-                >
-                    Re-open
-                </Button>
+            </Box>
+        )
+    } else if (sendFriendRequest === REQUEST_STATE.FULFILLED) {
+        return (
+            <Box sx={{ width: '100%' }}>
+                <Collapse in={open}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpen(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        severity="success"
+                    >
+                        <AlertTitle>Success</AlertTitle>
+                        Friend request sent!
+                    </Alert>
+                </Collapse>
             </Box>
         )
     } else {
-        return null
+        return null;
     }
 }
 
