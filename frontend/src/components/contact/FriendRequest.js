@@ -1,7 +1,6 @@
 import ArchiveIcon from '@mui/icons-material/Archive';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
 import UnarchiveIcon from '@mui/icons-material/Unarchive';
@@ -14,6 +13,9 @@ import CardActions from '@mui/material/CardActions';
 import CardHeader from '@mui/material/CardHeader';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
 import Fab from '@mui/material/Fab';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -37,10 +39,6 @@ export default function FriendRequest() {
     const currentUserEmail = useSelector(state => state.usersReducer.email);
     const friendRequestsReceived = useSelector(state => state.usersReducer.friendRequests);
     const friendRequestsSent = useSelector(state => state.usersReducer.friendRequestsSent);
-    // get request state
-    const sendFriendRequest = useSelector(state => state.usersReducer.sendFriendRequest);
-    // get error
-    const usersReducerError = useSelector(state => state.usersReducer.error)
 
 
     console.log("friendRequestsReceived", friendRequestsReceived)
@@ -95,13 +93,7 @@ export default function FriendRequest() {
                 </Fab>
             </Box>
 
-            {sendFriendRequest === REQUEST_STATE.REJECTED ?
-                <Alert severity="error">
-                    <AlertTitle>Error</AlertTitle>
-                    {console.log("is rejected")}
-                    <p>{usersReducerError}</p>
-                </Alert> : null
-            }
+            <ErrorMessage />
 
             {/* Send Friend Request */}
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
@@ -195,6 +187,57 @@ export default function FriendRequest() {
         </ThemeProvider>
     )
 
+}
+
+function ErrorMessage(props) {
+    const [open, setOpen] = React.useState(true);
+    // get request state
+    const sendFriendRequest = useSelector(state => state.usersReducer.sendFriendRequest);
+    // get error
+    const usersReducerError = useSelector(state => state.usersReducer.sendFriendRequestError)
+
+    console.log(sendFriendRequest)
+    if (sendFriendRequest === REQUEST_STATE.REJECTED) {
+        console.log(usersReducerError)
+
+        return (
+
+            <Box sx={{ width: '100%' }}>
+                <Collapse in={open}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpen(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        sx={{ mb: 2 }}
+                        severity="error"
+                    >
+                        <AlertTitle>Error</AlertTitle>
+                        {usersReducerError?.message}
+                    </Alert>
+                </Collapse>
+                <Button
+                    disabled={open}
+                    variant="outlined"
+                    onClick={() => {
+                        setOpen(true);
+                    }}
+                >
+                    Re-open
+                </Button>
+            </Box>
+        )
+    } else {
+        return null
+    }
 }
 
 function FriendCard(props) {

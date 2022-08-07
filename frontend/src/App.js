@@ -49,7 +49,6 @@ function App() {
     }
 
     // wait for token login to finish if needed
-    let tokenLoginStatus = useSelector(state => state.usersReducer.loginWithToken);
 
     while (isValidUser && username === null) {
         return (

@@ -340,8 +340,8 @@ const deleteUserAccount = async (userEmail) => {
 
 function resetTokenIfTokenExpired(error_msg) {
     if (error_msg === "Token verification failed") {
-        console.log("resetting token")
-        window.localStorage.removeItem('token')
+        // console.log("resetting token")
+        // window.localStorage.removeItem('token')
     }
 }
 

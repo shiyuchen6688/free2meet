@@ -28,7 +28,8 @@ const INITIAL_STATE = {
     changeUsername: REQUEST_STATE.IDLE,
     deleteUserAccountAsync: REQUEST_STATE.IDLE,
     getTags: REQUEST_STATE.IDLE,
-    error: null
+    error: null,
+    sendFriendRequestError: null
 };
 
 const usersSlice = createSlice({
@@ -161,16 +162,16 @@ const usersSlice = createSlice({
             })
             .addCase(sendFriendRequestAsync.pending, (state) => {
                 state.sendFriendRequest = REQUEST_STATE.PENDING;
-                state.error = null;
+                state.sendFriendRequestError = null;
             })
             .addCase(sendFriendRequestAsync.fulfilled, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.FULFILLED;
-                state.friendRequestsSent = action.payload;
+                state.sendFriendRequestError = action.payload;
             })
             .addCase(sendFriendRequestAsync.rejected, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.REJECTED;
                 console.log(action.error)
-                state.error = action.error;
+                state.sendFriendRequestError = action.error;
             })
             .addCase(deleteFriendAsync.pending, (state) => {
                 state.deleteFriend = REQUEST_STATE.PENDING;

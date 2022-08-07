@@ -19,6 +19,13 @@ function verifyJWT(req, res, next) {
                 username: decoded.username,
                 email: decoded.email
             }
+
+            if (!req.params.email) {
+                req.params.email = req.user.email
+            }
+            if (!req.params.username) {
+                req.params.username = req.user.username
+            }
             console.log("next is called")
             next()
         })
