@@ -1,17 +1,4 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Stepper from '@mui/material/Stepper';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
-import Confetti from "react-confetti";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { addMeetupAsync } from '../../redux/meetups/thunks';
@@ -20,7 +7,11 @@ import MeetupInvitation from './CreateMeetupInvitation';
 import MeetupLocation from './CreateMeetupLocation';
 import MeetupTitleAndDetail from './CreateMeetupTitleAndDetail';
 import ToolBar from '../../components/ToolBar';
+import Confetti from "react-confetti";
 import { clearMeetupTitleAndDetailForm, clearSchedule, clearInvitee, clearTags, clearLocation } from '../../redux/actions/actions'
+import { Box, Button, Container, CssBaseline, Grid, Paper, 
+    Step, Stepper, StepLabel, Typography, useMediaQuery } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
 

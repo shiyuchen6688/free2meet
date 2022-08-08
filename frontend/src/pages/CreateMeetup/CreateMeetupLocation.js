@@ -1,13 +1,10 @@
-import SearchIcon from "@material-ui/icons/Search";
-import Button from '@mui/material/Button';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import '../../App.css';
 import { addLocation } from "../../redux/actions/actions";
 import Place from '../../components/place/Place';
+import SearchIcon from "@material-ui/icons/Search";
+import { Button, InputAdornment, TextField, useMediaQuery } from '@mui/material';
 
 let prefersDarkMode;
 let script;

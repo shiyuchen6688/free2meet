@@ -1,19 +1,12 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerAsync } from '../redux/users/thunks';
 import EmailValidator from 'email-validator';
 import {useNavigate} from 'react-router-dom';
 import auth from '../firebase';
-import { useEffect } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Box, Button, CssBaseline, Grid, Paper, 
+    TextField, Typography, useMediaQuery } from '@mui/material';
 
 export default function Signup() {
     const dispatch = useDispatch();
@@ -40,7 +33,7 @@ export default function Signup() {
 
     // declare the data fetching function
     const relodaUser = async () => {
-        const data = await auth.currentUser.reload();
+        await auth.currentUser.reload();
     }
 
     useEffect(() => {
