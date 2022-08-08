@@ -1,20 +1,11 @@
-import CloseIcon from '@mui/icons-material/Close';
-import SendIcon from '@mui/icons-material/Send';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import Slide from '@mui/material/Slide';
-import TextField from '@mui/material/TextField';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePasswordAsync, changeUsernameAsync, deleteUserAccountAsync } from '../redux/users/thunks';
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
+import { AppBar, Button, Dialog, DialogActions, DialogContent, 
+    DialogContentText, DialogTitle, IconButton, Slide, 
+    TextField, Toolbar, Typography } from '@mui/material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -50,17 +41,11 @@ export default function UserProfile(prop) {
             dispatch(changeUsernameAsync({ email, password, newUsername }))
         } else if (toChange === "password") {
             dispatch(changePasswordAsync({ email, oldPassword, newPassword }))
+        } else {
+            let curr_email = currentUser.email
+            dispatch(deleteUserAccountAsync(curr_email))
         }
     }
-
-    // Delete account of current user
-    const deleteAccount = () => {
-        dispatch(deleteUserAccountAsync(currentUser.email))
-    }
-
-    // errors
-    // let error = useSelector(state => state.usersReducer.error)
-    // console.log(error)
 
     return (
         <Dialog
@@ -93,7 +78,8 @@ export default function UserProfile(prop) {
 
                 <DialogContentText>
                     <Button variant="text" onClick={e => {
-                        deleteAccount()
+                        setToChange("delete-account")
+                        handleFullScreenClickOpen()
                     }}>Delete Account</Button>
                 </DialogContentText>
             </DialogContent>
@@ -128,10 +114,11 @@ export default function UserProfile(prop) {
                 </AppBar>
                 <DialogContent>
                     <DialogContentText>
-                        {"To change your " + toChange + ", please enter your " +
-                            (toChange === "username" ? "password" : "old password") + " and new " + toChange}
+                        {toChange === "delete-account" ? "Press Update button above if you are sure that you want to delete the account"
+                            : "To change your " + toChange + ", please enter your " +
+                            (toChange !== "username" ? "password" : "old password") + " and new " + toChange}
                     </DialogContentText>
-                    {toChange === "username" ? (
+                    {(toChange === "username") ? (
                         <div>
                             <TextField
                                 autoFocus
@@ -156,7 +143,7 @@ export default function UserProfile(prop) {
                                 onChange={e => setNewUsername(e.target.value)}
                             />
                         </div>
-                    ) : (
+                    ) : ((toChange === "password") ? (
                         <div>
                             <TextField
                                 autoFocus
@@ -181,7 +168,10 @@ export default function UserProfile(prop) {
                                 onChange={e => setNewPassword(e.target.value)}
                             />
                         </div>
-                    )}
+                    ) : (
+                        <div></div>
+                    ))
+                    }
 
                 </DialogContent>
             </Dialog>

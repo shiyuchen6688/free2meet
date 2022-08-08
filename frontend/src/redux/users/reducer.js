@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATE } from '../utils';
 import {
     acceptFriendRequestAsync, changePasswordAsync, changeUsernameAsync, declineFriendRequestAsync, deleteFriendAsync, deleteUserAccountAsync, getFriendRequestsAsync,
-    getFriendRequestsSentAsync, getFriendsAsync, getTagsAsync, loginAsync, registerAsync, resetPasswordAsync, sendFriendRequestAsync
+    getFriendRequestsSentAsync, getFriendsAsync, getTagsAsync, loginAsync, registerAsync, resetPasswordAsync, sendFriendRequestAsync, loginWithTokenAsync
 } from './thunks';
 
 const INITIAL_STATE = {
@@ -14,6 +14,7 @@ const INITIAL_STATE = {
     friendRequestsSent: [],
     tags: [],
     signin: REQUEST_STATE.IDLE,
+    loginWithToken: REQUEST_STATE.IDLE,
     register: REQUEST_STATE.IDLE,
     resetPassword: REQUEST_STATE.IDLE,
     getFriends: REQUEST_STATE.IDLE,
@@ -27,7 +28,8 @@ const INITIAL_STATE = {
     changeUsername: REQUEST_STATE.IDLE,
     deleteUserAccountAsync: REQUEST_STATE.IDLE,
     getTags: REQUEST_STATE.IDLE,
-    error: null
+    error: null,
+    sendFriendRequestError: null
 };
 
 const usersSlice = createSlice({
@@ -58,6 +60,19 @@ const usersSlice = createSlice({
             })
             .addCase(loginAsync.rejected, (state, action) => {
                 state.getMeetups = REQUEST_STATE.REJECTED;
+                state.error = action.error;
+            })
+            .addCase(loginWithTokenAsync.pending, (state) => {
+                state.loginWithToken = REQUEST_STATE.PENDING;
+                state.error = null;
+            })
+            .addCase(loginWithTokenAsync.fulfilled, (state, action) => {
+                state.loginWithToken = REQUEST_STATE.FULFILLED;
+                state.username = action.payload.username;
+                state.email = action.payload.email
+            })
+            .addCase(loginWithTokenAsync.rejected, (state, action) => {
+                state.loginWithToken = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
             .addCase(registerAsync.pending, (state) => {
@@ -147,15 +162,16 @@ const usersSlice = createSlice({
             })
             .addCase(sendFriendRequestAsync.pending, (state) => {
                 state.sendFriendRequest = REQUEST_STATE.PENDING;
-                state.error = null;
+                state.sendFriendRequestError = null;
             })
             .addCase(sendFriendRequestAsync.fulfilled, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.FULFILLED;
-                state.friendRequestsSent = action.payload;
+                state.sendFriendRequestError = null;
             })
             .addCase(sendFriendRequestAsync.rejected, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.REJECTED;
-                state.error = action.error;
+                console.log(action.error)
+                state.sendFriendRequestError = action.error;
             })
             .addCase(deleteFriendAsync.pending, (state) => {
                 state.deleteFriend = REQUEST_STATE.PENDING;

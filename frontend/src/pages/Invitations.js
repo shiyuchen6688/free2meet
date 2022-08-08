@@ -1,18 +1,3 @@
-import CardHeader from '@material-ui/core/CardHeader';
-import AddIcon from '@mui/icons-material/Add';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import EventBusyIcon from '@mui/icons-material/EventBusy';
-import RsvpIcon from '@mui/icons-material/Rsvp';
-import Badge from '@mui/material/Badge';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Fab from '@mui/material/Fab';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { Container } from '@mui/system';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { getInvitationsAcceptedAsync, getInvitationsDeclinedAsync, getInvitationsPendingAsync } from '../redux/invitations/thunks';
 import InvitationCard from '../components/cards/InvitationCard';
 import ToolBar from '../components/ToolBar';
+import CardHeader from '@material-ui/core/CardHeader';
+import AddIcon from '@mui/icons-material/Add';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
+import RsvpIcon from '@mui/icons-material/Rsvp';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Container } from '@mui/system';
+import { Badge, Box, CssBaseline, Fab, Grid, Paper, useMediaQuery } from '@mui/material';
 
 export default function Invitations() {
     const dispatch = useDispatch();

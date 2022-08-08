@@ -6,6 +6,8 @@ const createMeetupInvitationReducer = (state = initialValue, action) => {
             // get new input value + name of the form input
             console.log(action.payload);
             return action.payload;
+        case 'CLEAR_INVITEES':
+            return initialValue
         default:
             return state
     }

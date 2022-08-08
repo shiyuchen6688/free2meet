@@ -1,8 +1,3 @@
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ScheduleSelector from 'react-schedule-selector';
@@ -11,6 +6,9 @@ import "../../App.css";
 import { changeInvitee, changeTags } from '../../redux/actions/actions';
 import { getFriendsAsync, getTagsAsync } from '../../redux/users/thunks';
 import Place from '../../components/place/Place';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import { Stack, Typography, useMediaQuery } from '@mui/material';
 
 export default function MeetupInvitation() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -57,7 +55,7 @@ export default function MeetupInvitation() {
                     Title: {titleAndDetailInfo["meetup-title"] === "" ? "NA" : titleAndDetailInfo["meetup-title"]}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                    Details:
+                    Description:
                 </Typography>
                 <Typography variant="h9" gutterBottom>
                     {titleAndDetailInfo["meetup-description"] === "" ? "NA" : titleAndDetailInfo["meetup-description"]}

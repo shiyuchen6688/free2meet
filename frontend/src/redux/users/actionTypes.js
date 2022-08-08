@@ -1,5 +1,6 @@
 export const actionTypes = {
     LOGIN: 'users/login',
+    LOGIN_TOKEN: 'users/tokenlogin',
     REGISTER: 'users/register',
     RESET_PASSWORD: 'users/reset-password',
     GET_FRIENDS: 'users/friends',

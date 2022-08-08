@@ -1,4 +1,7 @@
+import { resetTokenIfTokenExpired } from '../utils'
+
 const url = 'invitations/';
+
 
 const getInvitations = async () => {
     const response = await fetch(url, {
@@ -13,6 +16,9 @@ const getInvitations = async () => {
 
     if (!response.ok) {
         console.log('Error in getInvitations')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }
@@ -44,6 +50,9 @@ const getInvitationsPending = async (email) => {
 
     if (!response.ok) {
         console.log('Error in getInvitationsPending')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }
@@ -73,6 +82,9 @@ const getInvitationsAccepted = async (email) => {
 
     if (!response.ok) {
         console.log('Error in getInvitationsAccepted')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }
@@ -102,6 +114,9 @@ const getInvitationsDeclined = async (email) => {
 
     if (!response.ok) {
         console.log('Error in getInvitationsDeclined')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }
@@ -138,6 +153,9 @@ const acceptInvitation = async (info) => {
 
     if (!response.ok) {
         console.log('Error in acceptInvitation')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }
@@ -171,6 +189,9 @@ const declineInvitation = async (info) => {
 
     if (!response.ok) {
         console.log('Error in declineMeetup')
+        const errorMsg = data?.message;
+        resetTokenIfTokenExpired(errorMsg)
+        throw new Error(errorMsg)
     }
     return data
 }

@@ -1,38 +1,29 @@
-import ArchiveIcon from '@mui/icons-material/Archive';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import EmailIcon from '@mui/icons-material/Email';
-import SendIcon from '@mui/icons-material/Send';
-import UnarchiveIcon from '@mui/icons-material/Unarchive';
-import Avatar from '@mui/material/Avatar';
-import Badge from '@mui/material/Badge';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardHeader from '@mui/material/CardHeader';
-import Fab from '@mui/material/Fab';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    acceptFriendRequestAsync,
+import ArchiveIcon from '@mui/icons-material/Archive';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import CheckIcon from '@mui/icons-material/Check';
+import EmailIcon from '@mui/icons-material/Email';
+import SendIcon from '@mui/icons-material/Send';
+import CloseIcon from '@mui/icons-material/Close';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Avatar, Alert, AlertTitle, Badge, Box, Button, 
+    Card, CardActions, CardHeader, Collapse,
+    Fab, Grid, IconButton, Paper, TextField, Typography, useMediaQuery } from '@mui/material';
+import { acceptFriendRequestAsync,
     declineFriendRequestAsync, getFriendRequestsAsync, getFriendRequestsSentAsync,
-    sendFriendRequestAsync
-} from '../../redux/users/thunks';
+    sendFriendRequestAsync } from '../../redux/users/thunks';
+import { REQUEST_STATE } from '../../redux/utils';
+
 
 export default function FriendRequest() {
     // get user information 
     const currentUserEmail = useSelector(state => state.usersReducer.email);
     const friendRequestsReceived = useSelector(state => state.usersReducer.friendRequests);
     const friendRequestsSent = useSelector(state => state.usersReducer.friendRequestsSent);
+
 
     console.log("friendRequestsReceived", friendRequestsReceived)
     console.log("friendRequestsSent", friendRequestsSent)
@@ -70,9 +61,13 @@ export default function FriendRequest() {
     // Send Friend Request form
     const [friendEmail, setFriendEmail] = useState("");
 
+    // Error message
+    const [open, setOpen] = React.useState(true);
+
     // TODO: Send friend request to friendEmail
     const handleSendFriendRequest = () => {
         console.log({ currentUserEmail, friendEmail })
+        setOpen(true);
         dispatch(sendFriendRequestAsync({ email: currentUserEmail, friendEmail })).then(() => {
             refresh();
         });
@@ -85,6 +80,8 @@ export default function FriendRequest() {
                     <AutorenewIcon />
                 </Fab>
             </Box>
+
+            <ErrorMessage open={open} setOpen={setOpen} />
 
             {/* Send Friend Request */}
             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
@@ -175,9 +172,72 @@ export default function FriendRequest() {
                     ))}
                 </Grid>
             </Paper>
-        </ThemeProvider >
+        </ThemeProvider>
     )
 
+}
+
+function ErrorMessage({ open, setOpen }) {
+    // get request state
+    const sendFriendRequest = useSelector(state => state.usersReducer.sendFriendRequest);
+    // get error
+    const usersReducerError = useSelector(state => state.usersReducer.sendFriendRequestError)
+
+    console.log(sendFriendRequest)
+    if (sendFriendRequest === REQUEST_STATE.REJECTED) {
+        console.log(usersReducerError)
+        return (
+            <Box sx={{ width: '100%' }}>
+                <Collapse in={open}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpen(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        severity="error"
+                    >
+                        <AlertTitle>Error</AlertTitle>
+                        {usersReducerError?.message}
+                    </Alert>
+                </Collapse>
+            </Box>
+        )
+    } else if (sendFriendRequest === REQUEST_STATE.FULFILLED) {
+        return (
+            <Box sx={{ width: '100%' }}>
+                <Collapse in={open}>
+                    <Alert
+                        action={
+                            <IconButton
+                                aria-label="close"
+                                color="inherit"
+                                size="small"
+                                onClick={() => {
+                                    setOpen(false);
+                                }}
+                            >
+                                <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                        }
+                        severity="success"
+                    >
+                        <AlertTitle>Success</AlertTitle>
+                        Friend request sent!
+                    </Alert>
+                </Collapse>
+            </Box>
+        )
+    } else {
+        return null;
+    }
 }
 
 function FriendCard(props) {

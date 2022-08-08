@@ -4,11 +4,12 @@ const { v4: uuid } = require('uuid');
 var queries = require('../model/queries');
 var tagQueries = require('../model/tagQueries');
 
+
 /* get all meetups listing. */
 router.get('/', function (req, res, next) {
     const option = req.query.filterPeopleOption;
     const person = req.query.filterByPerson;
-    const self = req.query.selfEmail;
+    const self = req.query.selfEmail || req.user.email;
     console.log(option, person, self);
     if (option === null || option === undefined || option === "all") {
         queries.getAllMeetups().then(function (meetups) {
@@ -41,7 +42,7 @@ router.get('/', function (req, res, next) {
 });
 
 /* get a single meetup by id. */
-router.get(`/meetup`, function (req, res, next) {
+router.get(`/meetup/`, function (req, res, next) {
     const id = req.query.id;
     console.log(id);
     queries.getMeetupById(id).then(function (meetup) {

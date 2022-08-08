@@ -1,18 +1,16 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerAsync } from '../redux/users/thunks';
+import EmailValidator from 'email-validator';
+import {useNavigate} from 'react-router-dom';
+import auth from '../firebase';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Box, Button, CssBaseline, Grid, Paper, 
+    TextField, Typography, useMediaQuery } from '@mui/material';
 
 export default function Signup() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const theme = React.useMemo(
         () =>
@@ -27,13 +25,78 @@ export default function Signup() {
     const [email, setEmail] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [validEmail, setValidEmail] = useState(true);
+    const [validUsername, setValidUsername] = useState(true);
+    const [validPassword, setValidPassword] = useState(true);
+    const [verified, setVerified] = useState(false);
+    const [verifiedEmailSent, setVerifiedEmailSent] = useState(false);
+
+    // declare the data fetching function
+    const relodaUser = async () => {
+        await auth.currentUser.reload();
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            console.log(verifiedEmailSent);
+            if (verifiedEmailSent) {
+                console.log("verifiedEmailSent");
+                relodaUser().then(() => {
+                    setVerified(auth.currentUser.emailVerified);
+                    console.log(auth.currentUser)
+                })
+            }
+        }, 1000);
+        return () => {
+          clearInterval(interval);
+        };
+    }, [verifiedEmailSent]);
+
 
     const onSubmit = () => {
-        dispatch(registerAsync({
-            email,
-            username,
-            password
-        }))
+        if (!auth.currentUser.emailVerified) {
+            auth.onAuthStateChanged(function(user) {
+                setVerified(user.emailVerified);
+            });
+        } else {
+            setVerified(auth.currentUser.emailVerified);
+        }
+        console.log(verified);
+        if (verified) {
+            if (!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") {
+                if (!EmailValidator.validate(email) || email === "") {
+                    setValidEmail(false);
+                }
+                if (username === "") {
+                    setValidUsername(false);
+                }
+                if (password === "") {
+                    setValidPassword(false);
+                }
+                return false;
+            } else {
+                dispatch(registerAsync({
+                    email,
+                    username,
+                    password
+                }))
+                navigate("/")
+            }
+        } else {
+            alert("Please verify your email first")
+        }
+    }
+
+    const emailverification = () => {
+        auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential)=>{
+            // send verification mail.
+            userCredential.user.sendEmailVerification();
+            setVerifiedEmailSent(true);
+            console.log(userCredential);
+            console.log(auth.currentUser);
+        })
+        .catch(alert);
     }
 
     return (
@@ -58,6 +121,8 @@ export default function Signup() {
                         <Box component="form" noValidate sx={{ mt: 1 }}>
                             {/* User Name Input */}
                             <TextField
+                                error={!validUsername}
+                                onFocus={() => setValidUsername(true)}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -70,6 +135,9 @@ export default function Signup() {
                             />
                             {/* Email Input */}
                             <TextField
+                                error={!validEmail}
+                                onBlur={() => email === "" ? setValidEmail(true) : setValidEmail(EmailValidator.validate(email))}
+                                onFocus={() => setValidEmail(true)}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -82,6 +150,8 @@ export default function Signup() {
                             />
                             {/* Password Input */}
                             <TextField
+                                error={!validPassword}
+                                onFocus={() => setValidPassword(true)}
                                 margin="normal"
                                 required
                                 fullWidth
@@ -94,11 +164,17 @@ export default function Signup() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <Button
-                                type="submit"
                                 fullWidth
-                                variant="contained"
+                                variant={(!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") ? "outlined" : "contained"}
                                 sx={{ mt: 3, mb: 2 }}
-                                href="/"
+                                onClick={emailverification}
+                            >
+                                Send Verification Email
+                            </Button>
+                            <Button
+                                fullWidth
+                                variant={(!(validEmail && validUsername && validPassword && verifiedEmailSent && verified) || email === "" || username === "" || password === "") ? "outlined" : "contained"}
+                                sx={{ mt: 3, mb: 2 }}
                                 onClick={onSubmit}
                             >
                                 Sign Up

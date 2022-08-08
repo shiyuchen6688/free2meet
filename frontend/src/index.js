@@ -10,7 +10,7 @@ import Contact from './components/contact/Contact';
 import CreateMeetup from './pages/CreateMeetup/CreateMeetup';
 import History from './pages/History';
 import Invitations from './pages/Invitations';
-import Meetup from './components/meetup/Meetup';
+import Meetup from './components/Meetup';
 import reportWebVitals from './reportWebVitals';
 import Signup from './pages/Signup';
 import './index.css';

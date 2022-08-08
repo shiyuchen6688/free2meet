@@ -1,29 +1,3 @@
-import HistoryIcon from '@mui/icons-material/History';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import Avatar from '@mui/material/Avatar';
-import Badge from '@mui/material/Badge';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Grid from '@mui/material/Grid';
-import MenuItem from '@mui/material/MenuItem';
-import Paper from '@mui/material/Paper';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import Select from '@mui/material/Select';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Switch from '@mui/material/Switch';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,6 +6,14 @@ import ToolBar from '../components/ToolBar';
 import { getMeetupsAsync } from '../redux/meetups/thunks';
 import { getFriendsAsync } from '../redux/users/thunks';
 import { darkStyle } from './CreateMeetup/CreateMeetupLocation';
+import HistoryIcon from '@mui/icons-material/History';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Avatar, Badge, Box, Button, Card, CardActions, CardContent, 
+    CardHeader, CardMedia, Container, CssBaseline, 
+    FormControl, FormControlLabel, FormLabel, Grid, 
+    MenuItem, Paper, Radio, RadioGroup, Select, 
+    Switch, Typography, useMediaQuery } from '@mui/material';
 
 // for google map <<<<<--------------------------------------------------------------
 let script;
@@ -236,7 +218,7 @@ export default function History() {
                         <Button size="small" onClick={e => navigate(`/meetups/${eventJSON._id}`)}>View</Button>
                     </CardActions>
                 </Card>
-            </Box >
+            </Box>
         );
     }
 

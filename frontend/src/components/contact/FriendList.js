@@ -1,25 +1,13 @@
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import DeleteIcon from '@mui/icons-material/Delete';
-import GroupIcon from '@mui/icons-material/Group';
-import Avatar from '@mui/material/Avatar';
-import Badge from '@mui/material/Badge';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardHeader from '@mui/material/CardHeader';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogTitle from '@mui/material/DialogTitle';
-import Fab from '@mui/material/Fab';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { createTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteFriendAsync, getFriendsAsync } from '../../redux/users/thunks';
+import { Avatar, Badge, Box, Button, Card, CardActions, CardHeader, 
+    Dialog, DialogActions, DialogTitle, Fab, Grid, Paper, useMediaQuery } from '@mui/material';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import DeleteIcon from '@mui/icons-material/Delete';
+import GroupIcon from '@mui/icons-material/Group';
+import { createTheme } from '@mui/material/styles';
 
 
 export default function FriendList() {

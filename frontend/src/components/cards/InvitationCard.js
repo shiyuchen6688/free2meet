@@ -1,25 +1,14 @@
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import Chip from '@mui/material/Chip';
-import Dialog from '@mui/material/Dialog';
-import Divider from '@mui/material/Divider';
-import Grow from '@mui/material/Grow';
-import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { acceptInvitationAsync, declineInvitationAsync } from '../../redux/invitations/thunks';
 import Places from '../place/Places';
 import ScheduleSelector from '../timetable/ScheduleSelector';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import { Avatar, Box, Card, CardActions, CardContent, CardHeader, Chip, 
+    Dialog, Divider, Grow, IconButton, Stack, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;

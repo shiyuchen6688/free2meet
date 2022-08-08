@@ -1,18 +1,13 @@
-import CardHeader from '@material-ui/core/CardHeader';
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
-import TaskIcon from '@mui/icons-material/Task';
-import Badge from '@mui/material/Badge';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMeetupsCreatedAsync } from '../redux/meetups/thunks';
 import MeetupCard from '../components/cards/MeetupCard';
 import ToolBar from '../components/ToolBar';
-import Typography from '@mui/material/Typography';
+import CardHeader from '@material-ui/core/CardHeader';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import TaskIcon from '@mui/icons-material/Task';
+import { Badge, Container, CssBaseline, Grid, Paper, Typography } from '@mui/material';
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -20,6 +15,7 @@ export default function Home() {
     const createdMeetups = useSelector(state => state.meetupsReducer.meetupsCreated);
 
     useEffect(() => {
+        console.log("Home getMeetupsCreatedAsync", currentUser.email)
         dispatch(getMeetupsCreatedAsync(currentUser.email));
     }, [dispatch, currentUser.email]);
 

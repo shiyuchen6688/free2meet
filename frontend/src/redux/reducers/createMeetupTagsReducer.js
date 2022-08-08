@@ -5,6 +5,8 @@ const createMeetupTagsReducer = (state = initialValue, action) => {
         case 'CHANGE_TAGS':
             console.log(action.payload);
             return action.payload;
+        case 'CLEAR_TAGS':
+            return initialValue
         default:
             return state
     }

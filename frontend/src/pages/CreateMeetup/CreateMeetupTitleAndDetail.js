@@ -1,13 +1,9 @@
 import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeMeetupTitleAndDetailForm } from '../../redux/actions/actions'
-import { addImageAsync, removeImageAsync } from '../../redux/meetups/thunks'
+import { changeMeetupTitleAndDetailForm } from '../../redux/actions/actions';
+import { addImageAsync, removeImageAsync } from '../../redux/meetups/thunks';
+import { Button, ButtonGroup, Grid, Typography, TextField } from '@mui/material';
 
 export default function MeetupTitleAndDetail() {
     const dispatch = useDispatch()
@@ -95,7 +91,7 @@ export default function MeetupTitleAndDetail() {
             <Typography variant="subtitle2" gutterBottom>
                 Maximum 1000 characters.
             </Typography>
-            <Grid xs={12} sm={6} item={true}>
+            <Grid xs={12} sm={6} sx={{ mb: "3%" }} item={true}>
                 <TextField
                     placeholder="Describe your meetup"
                     id="meetup-description"
@@ -109,6 +105,12 @@ export default function MeetupTitleAndDetail() {
                 />
             </Grid>
 
+            <Typography variant="h6" gutterBottom>
+                Image
+            </Typography>
+            <Typography variant="subtitle2" gutterBottom>
+                Maximum 10MB. JPG or PNG only.
+            </Typography>
             <Grid xs={12} sm={6} item={true}>
                 <img src={imageURL} style={{ maxWidth: "100%" }} />
             </Grid>
