@@ -9,7 +9,8 @@ import MeetupTitleAndDetail from './CreateMeetupTitleAndDetail';
 import ToolBar from '../../components/ToolBar';
 import Confetti from "react-confetti";
 import { clearMeetupTitleAndDetailForm, clearSchedule, clearInvitee, clearTags, clearLocation } from '../../redux/actions/actions'
-import { Box, Button, Container, CssBaseline, Grid, Paper, Step, Stepper, StepLabel, Typography, useMediaQuery } from '@mui/material';
+import { Box, Button, Container, CssBaseline, Grid, Paper, 
+    Step, Stepper, StepLabel, Typography, useMediaQuery } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];

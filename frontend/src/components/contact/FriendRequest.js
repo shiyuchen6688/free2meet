@@ -12,14 +12,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Avatar, Alert, AlertTitle, Badge, Box, Button, 
     Card, CardActions, CardHeader, Collapse,
     Fab, Grid, IconButton, Paper, TextField, Typography, useMediaQuery } from '@mui/material';
-import {
-    acceptFriendRequestAsync,
+import { acceptFriendRequestAsync,
     declineFriendRequestAsync, getFriendRequestsAsync, getFriendRequestsSentAsync,
-    sendFriendRequestAsync
-} from '../../redux/users/thunks';
-
-
+    sendFriendRequestAsync } from '../../redux/users/thunks';
 import { REQUEST_STATE } from '../../redux/utils';
+
 
 export default function FriendRequest() {
     // get user information 
