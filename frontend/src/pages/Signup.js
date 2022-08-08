@@ -12,6 +12,8 @@ import { useDispatch } from 'react-redux';
 import { registerAsync } from '../redux/users/thunks';
 import EmailValidator from 'email-validator';
 import {useNavigate} from 'react-router-dom';
+import auth from '../firebase';
+import { useEffect } from 'react';
 
 export default function Signup() {
     const dispatch = useDispatch();
@@ -33,28 +35,68 @@ export default function Signup() {
     const [validEmail, setValidEmail] = useState(true);
     const [validUsername, setValidUsername] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
+    const [verified, setVerified] = useState(false);
+    const [verifiedEmailSent, setVerifiedEmailSent] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (verifiedEmailSent) {
+                auth.currentUser.reload();
+                auth.onAuthStateChanged(function(user) {
+                    setVerified(user.emailVerified);
+                });
+            }
+        }, 1000);
+        return () => {
+          clearInterval(interval);
+        };
+    }, []);
 
 
     const onSubmit = () => {
-        if (!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") {
-            if (!EmailValidator.validate(email) || email === "") {
-                setValidEmail(false);
-            }
-            if (username === "") {
-                setValidUsername(false);
-            }
-            if (password === "") {
-                setValidPassword(false);
-            }
-            return false;
+        if (!auth.currentUser.emailVerified) {
+            auth.onAuthStateChanged(function(user) {
+                setVerified(user.emailVerified);
+            });
         } else {
-            dispatch(registerAsync({
-                email,
-                username,
-                password
-            }))
-            navigate("/")
+            setVerified(auth.currentUser.emailVerified);
         }
+        console.log(verified);
+        if (verified) {
+            if (!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") {
+                if (!EmailValidator.validate(email) || email === "") {
+                    setValidEmail(false);
+                }
+                if (username === "") {
+                    setValidUsername(false);
+                }
+                if (password === "") {
+                    setValidPassword(false);
+                }
+                return false;
+            } else {
+                dispatch(registerAsync({
+                    email,
+                    username,
+                    password
+                }))
+                navigate("/")
+            }
+        } else {
+            alert("Please verify your email first")
+        }
+    }
+
+    const emailverification = () => {
+        auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential)=>{
+            // send verification mail.
+            userCredential.user.sendEmailVerification();
+            setVerifiedEmailSent(true);
+            console.log(userCredential);
+            console.log(auth.currentUser);
+        })
+        .catch(alert);
     }
 
     return (
@@ -124,6 +166,14 @@ export default function Signup() {
                             <Button
                                 fullWidth
                                 variant={(!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") ? "outlined" : "contained"}
+                                sx={{ mt: 3, mb: 2 }}
+                                onClick={emailverification}
+                            >
+                                Send Verification Email
+                            </Button>
+                            <Button
+                                fullWidth
+                                variant={(!(validEmail && validUsername && validPassword && verifiedEmailSent && verified) || email === "" || username === "" || password === "") ? "outlined" : "contained"}
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={onSubmit}
                             >
