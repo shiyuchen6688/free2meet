@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
-import { darkStyle } from '../../pages/CreateMeetup/CreateMeetupLocation';
-import { getMeetupAsync } from '../../redux/meetups/thunks';
-import ToolBar from '../ToolBar';
+import { darkStyle } from '../pages/CreateMeetup/CreateMeetupLocation';
+import { getMeetupAsync } from '../redux/meetups/thunks';
+import ToolBar from './ToolBar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box, CardMedia, Chip, CircularProgress, Container, CssBaseline, 
     Paper, Stack, Typography, useMediaQuery } from '@mui/material';
