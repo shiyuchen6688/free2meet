@@ -217,15 +217,6 @@ export default function Meetup() {
                         <Typography variant="body2" align="center" style={{ wordWrap: 'break-word' }}>
                             {meetup.description}
                         </Typography>
-                        <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                            Time Zone
-                        </Typography>
-                        <Typography variant="body2" align="center">
-                            {meetup.schedule.timezone.altName === undefined ? meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
-                        </Typography>
-                        <Typography variant="body2" align="center">
-                            {meetup.schedule.timezone.label}
-                        </Typography>
                         <CardMedia
                             component="img"
                             width="100%"
@@ -243,6 +234,15 @@ export default function Meetup() {
                                 <div ref={mapRef} id='map' />
                             </>
                         }
+                        <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            Time Zone
+                        </Typography>
+                        <Typography variant="body2" align="center">
+                            {meetup.schedule.timezone.altName === undefined ? meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
+                        </Typography>
+                        <Typography variant="body2" align="center">
+                            {meetup.schedule.timezone.label}
+                        </Typography>
                         <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
                             {meetup.state === "PENDING" ? (Object.keys(meetup.schedule.schedule).length === 0 ? "No Time Slots" : "Time Slots") : (meetup.bestTime.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
                         </Typography>
