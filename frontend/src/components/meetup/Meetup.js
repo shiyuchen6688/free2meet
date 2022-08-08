@@ -1,14 +1,3 @@
-import Box from '@mui/material/Box';
-import CardMedia from '@mui/material/CardMedia';
-import Chip from '@mui/material/Chip';
-import CircularProgress from '@mui/material/CircularProgress';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,9 +5,12 @@ import { useLocation } from 'react-router';
 import { darkStyle } from '../../pages/CreateMeetup/CreateMeetupLocation';
 import { getMeetupAsync } from '../../redux/meetups/thunks';
 import ToolBar from '../ToolBar';
-import ScheduleSelector from '../timetable/ScheduleSelector';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Close';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Box, CardMedia, Chip, CircularProgress, Container, CssBaseline, 
+    Paper, Stack, Typography, useMediaQuery } from '@mui/material';
+// import ScheduleSelector from '../timetable/ScheduleSelector';
+// import CheckIcon from '@mui/icons-material/Check';
+// import ClearIcon from '@mui/icons-material/Close';
 
 // for google map <<<<<--------------------------------------------------------------
 let script;

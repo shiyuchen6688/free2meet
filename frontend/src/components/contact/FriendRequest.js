@@ -1,36 +1,23 @@
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CheckIcon from '@mui/icons-material/Check';
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
-import UnarchiveIcon from '@mui/icons-material/Unarchive';
-import Avatar from '@mui/material/Avatar';
-import Badge from '@mui/material/Badge';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardHeader from '@mui/material/CardHeader';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import IconButton from '@mui/material/IconButton';
-import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
-import Fab from '@mui/material/Fab';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Avatar, Alert, AlertTitle, Badge, Box, Button, 
+    Card, CardActions, CardHeader, Collapse,
+    Fab, Grid, IconButton, Paper, TextField, Typography, useMediaQuery } from '@mui/material';
 import {
     acceptFriendRequestAsync,
     declineFriendRequestAsync, getFriendRequestsAsync, getFriendRequestsSentAsync,
     sendFriendRequestAsync
 } from '../../redux/users/thunks';
+
 
 import { REQUEST_STATE } from '../../redux/utils';
 

@@ -1,26 +1,13 @@
+
+import * as React from 'react';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Close';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListNumbered';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Chip from '@mui/material/Chip';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Divider from '@mui/material/Divider';
-import Grow from '@mui/material/Grow';
-import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import { Box, Button, ButtonGroup, Card, CardActions, CardContent, Chip, 
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, 
+    Grow, IconButton, Stack, Typography } from '@mui/material';
 import { calculateMeetupBestLocationandTime, getInvitteesNoResponse } from '../../redux/meetups/service';
 import Places from '../place/Places';
 import ScheduleSelector from '../timetable/ScheduleSelector';

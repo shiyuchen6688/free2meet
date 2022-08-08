@@ -1,20 +1,11 @@
-import CloseIcon from '@mui/icons-material/Close';
-import SendIcon from '@mui/icons-material/Send';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import Slide from '@mui/material/Slide';
-import TextField from '@mui/material/TextField';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePasswordAsync, changeUsernameAsync, deleteUserAccountAsync } from '../redux/users/thunks';
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
+import { AppBar, Button, Dialog, DialogActions, DialogContent, 
+    DialogContentText, DialogTitle, IconButton, Slide, 
+    TextField, Toolbar, Typography } from '@mui/material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
