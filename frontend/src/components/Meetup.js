@@ -1,16 +1,18 @@
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Close';
+import {
+    Box, CardMedia, Chip, CircularProgress, Container, CssBaseline,
+    Paper, Stack, Typography, useMediaQuery
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { darkStyle } from '../pages/CreateMeetup/CreateMeetupLocation';
 import { getMeetupAsync } from '../redux/meetups/thunks';
+import ScheduleSelector from './timetable/ScheduleSelector';
 import ToolBar from './ToolBar';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Box, CardMedia, Chip, CircularProgress, Container, CssBaseline, 
-    Paper, Stack, Typography, useMediaQuery } from '@mui/material';
-// import ScheduleSelector from '../timetable/ScheduleSelector';
-// import CheckIcon from '@mui/icons-material/Check';
-// import ClearIcon from '@mui/icons-material/Close';
 
 // for google map <<<<<--------------------------------------------------------------
 let script;
@@ -241,12 +243,20 @@ export default function Meetup() {
                                 <div ref={mapRef} id='map' />
                             </>
                         }
-                        {/* <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                            {meetup.state === "PENDING" ? (selected.length === 0 ? "No Time Slots" : "Time Slots") : (selected.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
+                        <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            {meetup.state === "PENDING" ? (Object.keys(meetup.schedule.schedule).length === 0 ? "No Time Slots" : "Time Slots") : (meetup.bestTime.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
                         </Typography>
-                        {selected.length !== 0 && <div style={{ pointerEvents: "none" }}>
+                        {Object.keys(meetup.schedule.schedule).length !== 0 && <div style={{ pointerEvents: "none" }}>
                             <ScheduleSelector
-                                selection={meetup.state === "PENDING" ? selected : bestTimeSlot}
+                                selection={meetup.state === "PENDING" ?
+                                    Object.keys(meetup.schedule.schedule).map((key) => {
+                                        return key.replace('|', '.');
+                                    })
+                                    :
+                                    meetup.bestTime.map((key) => {
+                                        return key.replace('|', '.');
+                                    })
+                                }
                                 startDate={meetup.schedule.startDate}
                                 numDays={meetup.schedule.numDays}
                                 minTime={meetup.schedule.timeInterval[0]}
@@ -260,7 +270,7 @@ export default function Meetup() {
                                 )}
                             />
                         </div>
-                        } */}
+                        }
                     </Paper>
                     :
                     <Box
