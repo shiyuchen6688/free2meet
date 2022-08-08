@@ -38,19 +38,26 @@ export default function Signup() {
     const [verified, setVerified] = useState(false);
     const [verifiedEmailSent, setVerifiedEmailSent] = useState(false);
 
+    // declare the data fetching function
+    const relodaUser = async () => {
+        const data = await auth.currentUser.reload();
+    }
+
     useEffect(() => {
         const interval = setInterval(() => {
+            console.log(verifiedEmailSent);
             if (verifiedEmailSent) {
-                auth.currentUser.reload();
-                auth.onAuthStateChanged(function(user) {
-                    setVerified(user.emailVerified);
-                });
+                console.log("verifiedEmailSent");
+                relodaUser().then(() => {
+                    setVerified(auth.currentUser.emailVerified);
+                    console.log(auth.currentUser)
+                })
             }
         }, 1000);
         return () => {
           clearInterval(interval);
         };
-    }, []);
+    }, [verifiedEmailSent]);
 
 
     const onSubmit = () => {
