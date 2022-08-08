@@ -1,7 +1,7 @@
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Close';
 import {
-    Box, CardMedia, Chip, CircularProgress, Container, CssBaseline,
+    Badge, Box, CardMedia, Chip, CircularProgress, Container, CssBaseline,
     Paper, Stack, Typography, useMediaQuery
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -177,10 +177,10 @@ export default function Meetup() {
                 {(meetup !== null && meetup !== undefined && Object.keys(meetup).length !== 0) ?
                     <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                         <Typography component="h1" variant="h4" align="center" style={{ wordWrap: 'break-word' }}>
-                            {meetup.title}
+                            {meetup.title || "No title"}
                         </Typography>
-                        <Typography component="h1" variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                            State: {meetup.state.charAt(0).toUpperCase() + meetup.state.slice(1).toLowerCase()}
+                        <Typography component="h1" variant="h5" align="center" style={{ wordWrap: 'break-word' }}>
+                            <Badge badgeContent={meetup.state} color="primary" align="center" />
                         </Typography>
                         <Typography component="h1" variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
                             Creator: {meetup.creator.username}
@@ -212,10 +212,10 @@ export default function Meetup() {
                             })}
                         </Stack>
                         <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                            Description:
+                            Description
                         </Typography>
                         <Typography variant="body2" align="center" style={{ wordWrap: 'break-word' }}>
-                            {meetup.description}
+                            {meetup.description || "No description"}
                         </Typography>
                         <CardMedia
                             component="img"
@@ -244,14 +244,17 @@ export default function Meetup() {
                             {meetup.schedule.timezone.label}
                         </Typography>
                         <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                            {meetup.state === "PENDING" ? (Object.keys(meetup.schedule.schedule).length === 0 ? "No Time Slots" : "Time Slots") : (meetup.bestTime.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
+                            {meetup.state === "PENDING" ? (meetup.schedule.schedule === null || meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? "No Time Slots" : "Time Slots") : (meetup.bestTime.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
                         </Typography>
-                        {Object.keys(meetup.schedule.schedule).length !== 0 && <div style={{ pointerEvents: "none" }}>
+                        {(meetup.schedule.schedule === null || meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0) && <div style={{ pointerEvents: "none" }}>
                             <ScheduleSelector
                                 selection={meetup.state === "PENDING" ?
-                                    Object.keys(meetup.schedule.schedule).map((key) => {
-                                        return key.replace('|', '.');
-                                    })
+                                    ((meetup.schedule.schedule === null || meetup.schedule.schedule === undefined) ?
+                                        []
+                                        :
+                                        Object.keys(meetup.schedule.schedule).map((key) => {
+                                            return key.replace('|', '.');
+                                        }))
                                     :
                                     meetup.bestTime.map((key) => {
                                         return key.replace('|', '.');
