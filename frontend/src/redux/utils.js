@@ -10,4 +10,4 @@ export function resetTokenIfTokenExpired(error_msg) {
         console.log("resetting token")
         window.localStorage.removeItem('token')
     }
-} 
+};

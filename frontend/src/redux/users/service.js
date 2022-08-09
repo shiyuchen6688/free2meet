@@ -325,7 +325,6 @@ const deleteUserAccount = async (userEmail) => {
 
     const data = await response.json()
 
-
     await fetch(`https://api-CB108BAB-EB6F-4BA7-A7C5-40E73836AAE1.sendbird.com/v3/users/${userEmail}`, {
         method: 'DELETE',
         headers: {
@@ -333,7 +332,6 @@ const deleteUserAccount = async (userEmail) => {
             'Api-Token': '75cb9083d46c3ed2de67310203dd7346a507b8c1'
         }
     });
-
 
     if (!response.ok) {
         console.log('Error in deleteUser')
@@ -383,7 +381,7 @@ const exportedService = {
     changePassword,
     deleteUserAccount,
     getTags,
-    forgetPassword,
+    forgetPassword
 }
 
 export default exportedService;

@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { registerAsync } from '../redux/users/thunks';
-import EmailValidator from 'email-validator';
-import {useNavigate} from 'react-router-dom';
-import auth from '../firebase';
+import {
+    Box, Button, CssBaseline, Grid, Paper,
+    TextField, Typography, useMediaQuery
+} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Box, Button, CssBaseline, Grid, Paper, 
-    TextField, Typography, useMediaQuery } from '@mui/material';
+import EmailValidator from 'email-validator';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import auth from '../firebase';
+import { registerAsync } from '../redux/users/thunks';
 
 export default function Signup() {
     const dispatch = useDispatch();
@@ -49,14 +51,14 @@ export default function Signup() {
             }
         }, 1000);
         return () => {
-          clearInterval(interval);
+            clearInterval(interval);
         };
     }, [verifiedEmailSent]);
 
 
     const onSubmit = () => {
         if (!auth.currentUser.emailVerified) {
-            auth.onAuthStateChanged(function(user) {
+            auth.onAuthStateChanged(function (user) {
                 setVerified(user.emailVerified);
             });
         } else {
@@ -90,12 +92,11 @@ export default function Signup() {
 
     const emailverification = () => {
         auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential)=>{
-            // send verification mail.
-            userCredential.user.sendEmailVerification();
-            setVerifiedEmailSent(true);
-        })
-        .catch(alert);
+            .then((userCredential) => {
+                // send verification email
+                userCredential.user.sendEmailVerification();
+                setVerifiedEmailSent(true);
+            }).catch(alert);
     }
 
     const verifyEmail = async () => {
@@ -159,7 +160,7 @@ export default function Signup() {
                                 variant='body1'
                                 component='div'
                                 gutterBottom>
-                                    An email has been sent to {email} to verify your account. Please verify your email to continue. It might be in your spam folder.
+                                An email has been sent to {email} to verify your account. Please verify your email to continue. It might be in your spam folder.
                             </Typography>}
                             {/* Password Input */}
                             <TextField
@@ -189,7 +190,7 @@ export default function Signup() {
                                 component='div'
                                 align='center'
                                 gutterBottom>
-                                    Please come back to this page and click Sign Up button after verifying your email.
+                                Please come back to this page and click Sign Up button after verifying your email.
                             </Typography>}
                             <Button
                                 fullWidth
