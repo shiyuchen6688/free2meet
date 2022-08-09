@@ -224,7 +224,7 @@ export default function Meetup() {
                         />
                         {locations.length === 0 ?
                             <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                                No location available
+                                No Location Selected
                             </Typography>
                             :
                             <>
