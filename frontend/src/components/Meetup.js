@@ -1,16 +1,18 @@
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Close';
+import {
+    Badge, Box, CardMedia, Chip, CircularProgress, Container, CssBaseline,
+    Paper, Stack, Typography, useMediaQuery
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { darkStyle } from '../pages/CreateMeetup/CreateMeetupLocation';
 import { getMeetupAsync } from '../redux/meetups/thunks';
+import ScheduleSelector from './timetable/ScheduleSelector';
 import ToolBar from './ToolBar';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Box, CardMedia, Chip, CircularProgress, Container, CssBaseline, 
-    Paper, Stack, Typography, useMediaQuery } from '@mui/material';
-// import ScheduleSelector from '../timetable/ScheduleSelector';
-// import CheckIcon from '@mui/icons-material/Check';
-// import ClearIcon from '@mui/icons-material/Close';
 
 // for google map <<<<<--------------------------------------------------------------
 let script;
@@ -175,10 +177,10 @@ export default function Meetup() {
                 {(meetup !== null && meetup !== undefined && Object.keys(meetup).length !== 0) ?
                     <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                         <Typography component="h1" variant="h4" align="center" style={{ wordWrap: 'break-word' }}>
-                            {meetup.title}
+                            {meetup.title || "No title"}
                         </Typography>
-                        <Typography component="h1" variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                            State: {meetup.state.charAt(0).toUpperCase() + meetup.state.slice(1).toLowerCase()}
+                        <Typography component="h1" variant="h5" align="center" style={{ wordWrap: 'break-word' }}>
+                            <Badge badgeContent={meetup.state} color="primary" align="center" />
                         </Typography>
                         <Typography component="h1" variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
                             Creator: {meetup.creator.username}
@@ -210,19 +212,10 @@ export default function Meetup() {
                             })}
                         </Stack>
                         <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                            Description:
+                            Description
                         </Typography>
                         <Typography variant="body2" align="center" style={{ wordWrap: 'break-word' }}>
-                            {meetup.description}
-                        </Typography>
-                        <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                            Time Zone
-                        </Typography>
-                        <Typography variant="body2" align="center">
-                            {meetup.schedule.timezone.altName === undefined ? meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
-                        </Typography>
-                        <Typography variant="body2" align="center">
-                            {meetup.schedule.timezone.label}
+                            {meetup.description || "No description"}
                         </Typography>
                         <CardMedia
                             component="img"
@@ -231,7 +224,7 @@ export default function Meetup() {
                         />
                         {locations.length === 0 ?
                             <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                                No location available
+                                No Location Selected
                             </Typography>
                             :
                             <>
@@ -241,12 +234,32 @@ export default function Meetup() {
                                 <div ref={mapRef} id='map' />
                             </>
                         }
-                        {/* <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                            {meetup.state === "PENDING" ? (selected.length === 0 ? "No Time Slots" : "Time Slots") : (selected.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
+                        <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            Time Zone
                         </Typography>
-                        {selected.length !== 0 && <div style={{ pointerEvents: "none" }}>
+                        <Typography variant="body2" align="center">
+                            {meetup.schedule.timezone.altName === undefined ? meetup.schedule.timezone.value : meetup.schedule.timezone.altName}
+                        </Typography>
+                        <Typography variant="body2" align="center">
+                            {meetup.schedule.timezone.label}
+                        </Typography>
+                        <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
+                            {meetup.state === "PENDING" ? (meetup.schedule.schedule !== null && meetup.schedule.schedule !== undefined && Object.keys(meetup.schedule.schedule).length !== 0 ? "Time Slots" : "No Time Slots") : (meetup.bestTime.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
+                        </Typography>
+                        {(meetup.schedule.schedule !== null && meetup.schedule.schedule !== undefined && Object.keys(meetup.schedule.schedule).length !== 0) && <div style={{ pointerEvents: "none" }}>
                             <ScheduleSelector
-                                selection={meetup.state === "PENDING" ? selected : bestTimeSlot}
+                                selection={meetup.state === "PENDING" ?
+                                    ((meetup.schedule.schedule === null || meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0) ?
+                                        []
+                                        :
+                                        Object.keys(meetup.schedule.schedule).map((key) => {
+                                            return key.replace('|', '.');
+                                        }))
+                                    :
+                                    meetup.bestTime.map((key) => {
+                                        return key.replace('|', '.');
+                                    })
+                                }
                                 startDate={meetup.schedule.startDate}
                                 numDays={meetup.schedule.numDays}
                                 minTime={meetup.schedule.timeInterval[0]}
@@ -260,7 +273,7 @@ export default function Meetup() {
                                 )}
                             />
                         </div>
-                        } */}
+                        }
                     </Paper>
                     :
                     <Box
