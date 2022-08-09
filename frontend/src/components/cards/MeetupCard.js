@@ -1,13 +1,14 @@
-
-import * as React from 'react';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Close';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListNumbered';
+import {
+    Box, Button, ButtonGroup, Card, CardActions, CardContent, Chip,
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider,
+    Grow, IconButton, Stack, Typography
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Box, Button, ButtonGroup, Card, CardActions, CardContent, Chip, 
-    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, 
-    Grow, IconButton, Stack, Typography } from '@mui/material';
+import * as React from 'react';
 import { calculateMeetupBestLocationandTime, getInvitteesNoResponse } from '../../redux/meetups/service';
 import Places from '../place/Places';
 import ScheduleSelector from '../timetable/ScheduleSelector';
@@ -19,7 +20,7 @@ const ExpandMore = styled((props) => {
     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
+        duration: theme.transitions.duration.shortest
     }),
 }));
 
@@ -254,12 +255,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                                 :
                                 <Stack direction="row" spacing={1}>
                                     {noResponseInvitees.map((invitee) => {
-                                        return <Chip key={invitee.email} label={
-                                            <>
-                                                <div>Username: {invitee.username}</div>
-                                                <div>Email: {invitee.email}</div>
-                                            </>
-                                        } />
+                                        return <Chip key={invitee.email} label={invitee.email} />
                                     })}
                                 </Stack>
                             }

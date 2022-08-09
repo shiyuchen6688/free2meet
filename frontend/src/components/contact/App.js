@@ -10,12 +10,10 @@ export default function App({ user, theme, appId }) {
 
     const onChannelSelect = (_channel) => {
         setChannel(_channel);
-        window.history.pushState({}, _channel.name, "/" + _channel.url);
     };
 
     const onBack = () => {
         setChannel(null);
-        window.history.pushState({}, document.title, "/");
     };
 
     return (

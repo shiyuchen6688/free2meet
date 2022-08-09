@@ -1,14 +1,16 @@
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import {
+    Avatar, Box, Card, CardActions, CardContent, CardHeader, Chip,
+    Dialog, Divider, Grow, IconButton, Stack, Typography
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { acceptInvitationAsync, declineInvitationAsync } from '../../redux/invitations/thunks';
 import Places from '../place/Places';
 import ScheduleSelector from '../timetable/ScheduleSelector';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import { Avatar, Box, Card, CardActions, CardContent, CardHeader, Chip, 
-    Dialog, Divider, Grow, IconButton, Stack, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -17,7 +19,7 @@ const ExpandMore = styled((props) => {
     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
+        duration: theme.transitions.duration.shortest
     }),
 }));
 
@@ -44,7 +46,6 @@ export default function InvitationCard({ invitation, userEmail, state }) {
     }
 
     const handleAcceptClick = () => {
-        console.log("Accepted");
         let invitationLocationSelectionCopy = { ...invitationLocationSelection };
         let availableLocations = [];
         for (let key in invitationLocationSelectionCopy) {
@@ -57,7 +58,6 @@ export default function InvitationCard({ invitation, userEmail, state }) {
     };
 
     const handleDeclineClick = () => {
-        console.log("Declined");
         let info = { email: userEmail, invitationId: invitation._id, availableTimeslots: selected, availableLocations: selectedLocations };
         dispatch(declineInvitationAsync(info));
     };
@@ -84,12 +84,6 @@ export default function InvitationCard({ invitation, userEmail, state }) {
             }
         }
     }
-
-    // useEffect(() => {
-    //     if (state === "accepted" && selected.length !== 0 && pastSelectionKeys.length === selected.length) {
-    //         setAvailableTimeSlots(selected);
-    //     }
-    // }, [state]);
 
     return (
         <Box sx={{ width: 275, margin: 2 }}>
