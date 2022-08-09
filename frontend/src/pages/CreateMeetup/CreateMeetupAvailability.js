@@ -1,19 +1,20 @@
+import { Button, MenuItem, Slider, Stack, TextField, Typography, useMediaQuery } from '@mui/material';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ScheduleSelector from 'react-schedule-selector';
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
-import { clearSchedule, updateHourlyChunk, updateHourlyChunkInput,
-    updateNumDays, updateNumDaysInput, updateSchedule, updateSelectionScheme, 
-    updateStartDate, updateTimeInterval, updateTimezone } from '../../redux/actions/actions';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Button, MenuItem, Slider, Stack, TextField, Typography, useMediaQuery } from '@mui/material';
+import {
+    clearSchedule, updateHourlyChunk, updateHourlyChunkInput,
+    updateNumDays, updateNumDaysInput, updateSchedule, updateSelectionScheme,
+    updateStartDate, updateTimeInterval, updateTimezone
+} from '../../redux/actions/actions';
 
 export default function MeetupAvailability() {
     const dispatch = useDispatch();
     const allScheduleInfo = useSelector(state => state.createMeetupScheduleReducer);
-
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     return (

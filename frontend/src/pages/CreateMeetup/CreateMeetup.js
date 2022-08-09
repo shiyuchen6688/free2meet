@@ -1,17 +1,19 @@
+import {
+    Box, Button, Container, CssBaseline, Grid, Paper,
+    Step, StepLabel, Stepper, Typography, useMediaQuery
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
+import Confetti from "react-confetti";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import ToolBar from '../../components/ToolBar';
+import { clearInvitee, clearLocation, clearMeetupTitleAndDetailForm, clearSchedule, clearTags } from '../../redux/actions/actions';
 import { addMeetupAsync } from '../../redux/meetups/thunks';
 import MeetupAvailability from './CreateMeetupAvailability';
 import MeetupInvitation from './CreateMeetupInvitation';
 import MeetupLocation from './CreateMeetupLocation';
 import MeetupTitleAndDetail from './CreateMeetupTitleAndDetail';
-import ToolBar from '../../components/ToolBar';
-import Confetti from "react-confetti";
-import { clearMeetupTitleAndDetailForm, clearSchedule, clearInvitee, clearTags, clearLocation } from '../../redux/actions/actions'
-import { Box, Button, Container, CssBaseline, Grid, Paper, 
-    Step, Stepper, StepLabel, Typography, useMediaQuery } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const steps = ['Title and Details', 'Availability', 'Location', 'Invitation'];
 
@@ -32,11 +34,9 @@ export default function CreateMeetup() {
 
     const [activeStep, setActiveStep] = React.useState(0);
 
-    // TODO: get value of all the form inputs in all steps
     let titleAndDetailInput = useSelector(state => state.createMeetupTitleDetailReducer);
     let meetupLocation = useSelector(state => state.createMeetupLocationReducer);
     let meetupSchedule = useSelector(state => state.createMeetupScheduleReducer);
-    // TODO
     let meetupInvitation = useSelector(state => state.createMeetupInvitationReducer);
     let meetupTags = useSelector(state => state.createMeetupTagsReducer);
     let meetupImage = useSelector(state => state.meetupsReducer.imageURL);
@@ -98,7 +98,6 @@ export default function CreateMeetup() {
         }
     }
 
-
     // clear input data when a meetup is created
     function clearInputData() {
         dispatch(clearMeetupTitleAndDetailForm())
@@ -131,7 +130,6 @@ export default function CreateMeetup() {
                             </Step>
                         ))}
                     </Stepper>
-
 
                     <>
                         {/* Check if we finished all the steps */}

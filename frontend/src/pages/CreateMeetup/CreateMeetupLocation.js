@@ -1,10 +1,10 @@
+import SearchIcon from "@material-ui/icons/Search";
+import { Button, InputAdornment, TextField, useMediaQuery } from '@mui/material';
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import '../../App.css';
-import { addLocation } from "../../redux/actions/actions";
 import Place from '../../components/place/Place';
-import SearchIcon from "@material-ui/icons/Search";
-import { Button, InputAdornment, TextField, useMediaQuery } from '@mui/material';
+import { addLocation } from "../../redux/actions/actions";
 
 let prefersDarkMode;
 let script;
@@ -14,9 +14,8 @@ let map;
 let data;
 let infoWindow;
 let markers = [];
-const k1 = "AIzaSyDHH_p0fbbZSRyr";
-const k2 = "HqvLAc5WcM7Ic26ypP4";
-const k = k1 + k2;
+const k = "AIzaSyDHH_p0fbbZSRyrHqvLAc5WcM7Ic26ypP4";
+
 export const darkStyle = [
     { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
     { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
