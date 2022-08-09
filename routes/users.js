@@ -414,7 +414,7 @@ router.delete('/:email/delete-account', verifyJWT, async function (req, res, nex
 });
 
 // reset password of a user given user email and new password
-router.put('/:email/forget-password', (req, res) => {
+router.patch('/:email/forget-password', (req, res) => {
     // check if user exists
     queries.getUserByEmail(req.params.email).then(user => {
         if (user) {
@@ -422,7 +422,7 @@ router.put('/:email/forget-password', (req, res) => {
             bcrypt.hash(req.body.password, 10).then((password) => {
                 user.password = password;
                 // update user
-                queries.patchUser(user).then(user => {
+                queries.resetPassword(user.email, user.password).then(user => {
                     return res.status(200).send(user);
                 })
             })

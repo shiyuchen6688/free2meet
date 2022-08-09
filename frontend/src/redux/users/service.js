@@ -349,7 +349,7 @@ const deleteUserAccount = async (userEmail) => {
 // The security of this function is handled by firebase
 const forgetPassword = async (email, password) => {
     const response = await fetch(`users/${email}/forget-password`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
