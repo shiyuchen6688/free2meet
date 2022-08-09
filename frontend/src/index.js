@@ -12,14 +12,12 @@ import './index.css';
 import CreateMeetup from './pages/CreateMeetup/CreateMeetup';
 import History from './pages/History';
 import Invitations from './pages/Invitations';
-import Meetup from './components/Meetup';
 import reportWebVitals from './reportWebVitals';
 // import Signup from './pages/Signup';
 // import ForgetPassword from './pages/ForgetPassword';
 import Verify from './pages/Verify';
 import './index.css';
 import rootReducer from './redux/reducers';
-import reportWebVitals from './reportWebVitals';
 
 const store = configureStore({ reducer: rootReducer });
 const root = ReactDOM.createRoot(document.getElementById('root'));
