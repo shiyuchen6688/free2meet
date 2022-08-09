@@ -12,8 +12,9 @@ import History from './pages/History';
 import Invitations from './pages/Invitations';
 import Meetup from './components/Meetup';
 import reportWebVitals from './reportWebVitals';
-import Signup from './pages/Signup';
-import ForgetPassword from './pages/ForgetPassword';
+// import Signup from './pages/Signup';
+// import ForgetPassword from './pages/ForgetPassword';
+import Verify from './pages/Verify';
 import './index.css';
 import rootReducer from './redux/reducers';
 

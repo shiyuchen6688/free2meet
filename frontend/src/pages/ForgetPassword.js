@@ -74,7 +74,7 @@ export default function ForgetPassword() {
                     email,
                     password
                 }))
-                navigate("/")
+                navigate("/");
             }
         } else {
             alert("Please verify your email first");
@@ -167,6 +167,9 @@ export default function ForgetPassword() {
                             >
                                 Send Verification Email
                             </Button>}
+                            {resetPassWordBool && <Typography variant='h5' sx={{ mt: 3, mb: 2 }}>
+                                Your email has been verified. You will be redirected to login page once you click the button below.
+                            </Typography>}
                             {resetPassWordBool && <Button
                                 fullWidth
                                 variant={(!(validEmail && validPassword && verifiedEmailSent && verified) || email === "" || password === "") ? "outlined" : "contained"}

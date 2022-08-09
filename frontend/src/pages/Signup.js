@@ -22,14 +22,18 @@ export default function Signup() {
         [prefersDarkMode],
     );
 
-    const [email, setEmail] = useState("")
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const [validEmail, setValidEmail] = useState(true);
     const [validUsername, setValidUsername] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [verified, setVerified] = useState(false);
     const [verifiedEmailSent, setVerifiedEmailSent] = useState(false);
+
+    const currentURL = new URL(window.location.href);
+    const oobCode = currentURL.searchParams.get('oobCode');
+    const oobCodeBool = oobCode === null ? false : true;
 
     // declare the data fetching function
     const relodaUser = async () => {
@@ -84,7 +88,7 @@ export default function Signup() {
                 navigate("/");
             }
         } else {
-            alert("Please verify your email first")
+            alert("Please verify your email first");
         }
     }
 
@@ -98,6 +102,15 @@ export default function Signup() {
             console.log(auth.currentUser);
         })
         .catch(alert);
+    }
+
+    const verifyEmail = async () => {
+        auth.applyActionCode(oobCode).then((resp) => {
+            console.log(resp);
+            setVerified(true);
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 
     return (
@@ -119,7 +132,7 @@ export default function Signup() {
                             Create an account
                         </Typography>
 
-                        <Box component="form" noValidate sx={{ mt: 1 }}>
+                        {!oobCodeBool && <Box component="form" noValidate sx={{ mt: 1 }}>
                             {/* User Name Input */}
                             <TextField
                                 error={!validUsername}
@@ -149,6 +162,12 @@ export default function Signup() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
+                            {verifiedEmailSent && <Typography
+                                variant='body1'
+                                component='div'
+                                gutterBottom>
+                                    An email has been sent to {email} to verify your account. Please verify your email to continue. It might be in your spam folder.
+                            </Typography>}
                             {/* Password Input */}
                             <TextField
                                 error={!validPassword}
@@ -172,6 +191,13 @@ export default function Signup() {
                             >
                                 Send Verification Email
                             </Button>
+                            {verifiedEmailSent && <Typography
+                                variant='body1'
+                                component='div'
+                                align='center'
+                                gutterBottom>
+                                    Please come back to this page and click Sign Up button after verifying your email.
+                            </Typography>}
                             <Button
                                 fullWidth
                                 variant={(!(validEmail && validUsername && validPassword && verifiedEmailSent && verified) || email === "" || username === "" || password === "") ? "outlined" : "contained"}
@@ -180,7 +206,23 @@ export default function Signup() {
                             >
                                 Sign Up
                             </Button>
-                        </Box>
+                        </Box>}
+                        {oobCodeBool && <Box component="form" noValidate sx={{ mt: 1 }}>
+                            {!verified && <Button
+                                fullWidth
+                                variant={(!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") ? "outlined" : "contained"}
+                                sx={{ mt: 3, mb: 2 }}
+                                onClick={verifyEmail}
+                            >
+                                Verify Email Address
+                            </Button>}
+                            {verified && <Typography
+                                variant='h6'
+                                component='div'
+                                gutterBottom>
+                                Your email has been verified. You can now go back to the original tab and sign in.
+                            </Typography>}
+                        </Box>}
                     </Box>
                 </Grid>
             </Grid>
