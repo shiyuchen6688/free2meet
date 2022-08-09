@@ -95,7 +95,7 @@ export default function ForgetPassword() {
     }
 
     const actionCodeSettings = {
-        url: 'http://localhost:3001/forget-password',
+        url: "http://" + currentURL.host + "/forget-password",
         handleCodeInApp: false,
     };
 
