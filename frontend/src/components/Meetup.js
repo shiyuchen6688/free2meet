@@ -244,12 +244,12 @@ export default function Meetup() {
                             {meetup.schedule.timezone.label}
                         </Typography>
                         <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                            {meetup.state === "PENDING" ? (meetup.schedule.schedule === null || meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0 ? "No Time Slots" : "Time Slots") : (meetup.bestTime.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
+                            {meetup.state === "PENDING" ? (meetup.schedule.schedule !== null && meetup.schedule.schedule !== undefined && Object.keys(meetup.schedule.schedule).length !== 0 ? "Time Slots" : "No Time Slots") : (meetup.bestTime.length === 0 ? "No Best Time Slots" : "Best Time Slots")}
                         </Typography>
-                        {(meetup.schedule.schedule === null || meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0) && <div style={{ pointerEvents: "none" }}>
+                        {(meetup.schedule.schedule !== null && meetup.schedule.schedule !== undefined && Object.keys(meetup.schedule.schedule).length !== 0) && <div style={{ pointerEvents: "none" }}>
                             <ScheduleSelector
                                 selection={meetup.state === "PENDING" ?
-                                    ((meetup.schedule.schedule === null || meetup.schedule.schedule === undefined) ?
+                                    ((meetup.schedule.schedule === null || meetup.schedule.schedule === undefined || Object.keys(meetup.schedule.schedule).length === 0) ?
                                         []
                                         :
                                         Object.keys(meetup.schedule.schedule).map((key) => {
