@@ -229,7 +229,10 @@ export default function Meetup() {
                             :
                             <>
                                 <Typography variant="h6" align="center" style={{ wordWrap: 'break-word' }}>
-                                    Location(s)
+                                    {locations.length} Location(s)
+                                </Typography>
+                                <Typography component="h2" variant="body1" align="center">
+                                    Click on the marker to see more information!
                                 </Typography>
                                 <div ref={mapRef} id='map' />
                             </>
