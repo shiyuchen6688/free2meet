@@ -129,10 +129,8 @@ router.patch('/reset-password', verifyJWT, (req, res) => {
 router.patch('/:email/change-password', verifyJWT, async function (req, res, next) {
     const email = req.params.email;
     const { oldPassword, newPassword } = req.body;
-    console.log(req.body);
     queries.getUserByEmail(email).then(matchedUser => {
         if (matchedUser) {
-            console.log(oldPassword, matchedUser.password);
             bcrypt.compare(oldPassword, matchedUser.password).then(passwordCorrect => {
                 if (passwordCorrect) {
                     bcrypt.hash(newPassword, 10).then(encryptedNewPassword => {
