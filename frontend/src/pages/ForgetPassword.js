@@ -95,7 +95,7 @@ export default function ForgetPassword() {
     }
 
     const actionCodeSettings = {
-        url: "http://" + currentURL.host + "/forget-password",
+        url: process.env.NODE_ENV === 'production' ? 'https://free2meet.herokuapp.com/forget-password' : "http://" + currentURL.host + "/forget-password",
         handleCodeInApp: false,
     };
 
