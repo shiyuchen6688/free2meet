@@ -1,12 +1,12 @@
+import Logout from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+import PersonIcon from '@mui/icons-material/Person';
+import { AppBar, Avatar, Box, Drawer, Grid, IconButton, Link, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Tooltip, Typography } from '@mui/material';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from "react-router-dom";
 import { logout } from '../redux/users/reducer';
 import UserProfile from './UserProfile';
-import Logout from '@mui/icons-material/Logout';
-import PersonIcon from '@mui/icons-material/Person';
-import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Drawer, Tooltip, ListItem, ListItemText, ListItemButton, Link, Typography } from '@mui/material';
 
 export default function ToolBar() {
     const navigate = useNavigate();
@@ -55,11 +55,13 @@ export default function ToolBar() {
     const renderUserSettings = () => {
         return (
             <Box sx={{ flexGrow: 0, m: 2 }}>
-                <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar>{currentUser.username.charAt(0)}</Avatar>
-                    </IconButton>
-                </Tooltip>
+                <Grid container justifyContent="center">
+                    <Tooltip title="User settings" arrow>
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <Avatar>{currentUser.username.charAt(0)}</Avatar>
+                        </IconButton>
+                    </Tooltip>
+                </Grid>
                 <Menu
                     sx={{ mt: '45px' }}
                     anchorEl={user}
