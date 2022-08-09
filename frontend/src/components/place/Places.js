@@ -1,5 +1,5 @@
-import React from 'react'
-import Place from './Place'
+import React from 'react';
+import Place from './Place';
 
 function Places({ placesList, selection, updateMethod, invitationState, showDelete }) {
     return (
