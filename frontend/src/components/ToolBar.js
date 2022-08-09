@@ -51,10 +51,10 @@ export default function ToolBar() {
     const handleCloseUserMenu = () => {
         setUser(null);
     };
-    
+
     const renderUserSettings = () => {
         return (
-            <Box sx={{ flexGrow: 0, m: 2}}>
+            <Box sx={{ flexGrow: 0, m: 2 }}>
                 <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                         <Avatar>{currentUser.username.charAt(0)}</Avatar>
@@ -101,17 +101,17 @@ export default function ToolBar() {
                                 free2meet
                             </Typography>
                         </Link>
-                        <Box sx={{ flexGrow: 1, flexWrap: 'wrap', display: { md: 'flex', xs: 'none'} }}>
+                        <Box sx={{ flexGrow: 1, flexWrap: 'wrap', display: { md: 'flex', xs: 'none' } }}>
                             {pages.map((page) => (
                                 <MenuItem key={page.text} onClick={page.actions} >
                                     <Typography textAlign="center">{page.text}</Typography>
                                 </MenuItem>
                             ))}
                         </Box>
-                        <Box sx={{ flexGrow: 3, display: { md: 'none', xs: 'flex'} }}></Box>
-                        <Box align='right' sx={{ flexGrow: 0, flexWrap: 'wrap', display: { md: 'none', xs: 'flex'} }}>
-                            <IconButton>
-                                <MenuIcon onClick={() => setMenu(true)}/>
+                        <Box sx={{ flexGrow: 3, display: { md: 'none', xs: 'flex' } }}></Box>
+                        <Box align='right' sx={{ flexGrow: 0, flexWrap: 'wrap', display: { md: 'none', xs: 'flex' } }}>
+                            <IconButton onClick={() => setMenu(true)}>
+                                <MenuIcon />
                             </IconButton>
                         </Box>
                         <Drawer
@@ -130,10 +130,10 @@ export default function ToolBar() {
                                 ))
                             }
                         </Drawer>
-                        <Box sx={{ display: { md: 'flex', xs: 'none'} }}>
+                        <Box sx={{ display: { md: 'flex', xs: 'none' } }}>
                             {renderUserSettings()}
                         </Box>
-                
+
                         <UserProfile open={open} handleClose={handleClose} currentUser={currentUser} />
                     </Toolbar>
                 </AppBar>}
