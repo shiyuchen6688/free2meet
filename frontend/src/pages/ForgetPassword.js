@@ -32,7 +32,6 @@ export default function ForgetPassword() {
     const [validPassword, setValidPassword] = useState(true);
     const [verified, setVerified] = useState(false);
     const [verifiedEmailSent, setVerifiedEmailSent] = useState(false);
-    const [confirmChange, setConfirmChange] = useState(false);
 
     useEffect(() => {
         if (resetPassWordBool) {
@@ -45,23 +44,13 @@ export default function ForgetPassword() {
         }
     }, [resetPassWordBool, oobCode]);
 
-    useEffect(() => {
-        if (verified && confirmChange) {
-            auth.confirmPasswordReset(oobCode, password).catch(function(error) {
-                console.log(error);
-            });
-        }
-    }, [confirmChange, oobCode, password, verified]);
-
     const signOutUser = async () => {
-        console.log(auth.currentUser);
         if (auth.currentUser !== null) {
             await auth.signOut();
         }
     }
 
     const onSubmit = () => {
-        console.log(verified);
         if (verified) {
             if (!(validEmail && validPassword) || password === "") {
                 if (password === "" || password.length < 6) {
@@ -69,7 +58,9 @@ export default function ForgetPassword() {
                 }
                 return false;
             } else {
-                setConfirmChange(true);
+                auth.confirmPasswordReset(oobCode, password).catch(function(error) {
+                    console.log(error);
+                });
                 dispatch(forgetPasswordAsync({
                     email,
                     password
@@ -83,7 +74,6 @@ export default function ForgetPassword() {
 
     const emailVerification = () => {
         signOutUser().then(() => {
-            console.log("signOutUser");
             auth.sendPasswordResetEmail(email, actionCodeSettings).then(() => {
                 setVerifiedEmailSent(true);
             }).catch(error => {
@@ -95,7 +85,7 @@ export default function ForgetPassword() {
     }
 
     const actionCodeSettings = {
-        url: process.env.NODE_ENV === 'production' ? 'https://free2meet.herokuapp.com/forget-password' : "http://" + currentURL.host + "/forget-password",
+        url: 'https://free2meet.herokuapp.com/forget-password',
         handleCodeInApp: false,
     };
 

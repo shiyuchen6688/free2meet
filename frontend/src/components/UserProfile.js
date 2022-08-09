@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import auth from '../firebase';
 import { changePasswordAsync, changeUsernameAsync, deleteUserAccountAsync } from '../redux/users/thunks';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -22,6 +23,7 @@ export default function UserProfile(prop) {
     let [newUsername, setNewUsername] = React.useState("");
     let [oldPassword, setOldPassword] = React.useState("");
     let [newPassword, setNewPassword] = React.useState("");
+    let [passwordForDelete, setPasswordForDelete] = React.useState("");
 
     const dispatch = useDispatch();
     let email = useSelector(state => state.usersReducer.email);
@@ -34,14 +36,30 @@ export default function UserProfile(prop) {
         setFullScreenOpen(false);
     };
 
-    const update = () => {
+    const update = async () => {
         if (toChange === "username") {
             dispatch(changeUsernameAsync({ email, password, newUsername }));
         } else if (toChange === "password") {
-            dispatch(changePasswordAsync({ email, oldPassword, newPassword }));
+            auth.signInWithEmailAndPassword(email, oldPassword).then(() => {
+                auth.currentUser.updatePassword(newPassword).then(() => {
+                    dispatch(changePasswordAsync({ email, oldPassword, newPassword }));
+                }).catch(error => {
+                    console.log(error);
+                })
+            }).catch(error => {
+                console.log(error);
+            });
         } else {
             let curr_email = currentUser.email;
-            dispatch(deleteUserAccountAsync(curr_email));
+            auth.signInWithEmailAndPassword(email, passwordForDelete).then(() => {
+                auth.currentUser.delete().then(() => {
+                    dispatch(deleteUserAccountAsync(curr_email));
+                }).catch((error) => {
+                    console.log(error);
+                });
+            }).catch((error) => {
+                console.log(error);
+            });
         }
     }
 
@@ -165,7 +183,19 @@ export default function UserProfile(prop) {
                             />
                         </div>
                     ) : (
-                        <div></div>
+                        <div>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="passwordForDelete"
+                                label="Password"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={passwordForDelete}
+                                onChange={e => setPasswordForDelete(e.target.value)}
+                            />
+                        </div>
                     ))
                     }
 

@@ -42,12 +42,9 @@ export default function Signup() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log(verifiedEmailSent);
             if (verifiedEmailSent) {
-                console.log("verifiedEmailSent");
                 relodaUser().then(() => {
                     setVerified(auth.currentUser.emailVerified);
-                    console.log(auth.currentUser)
                 })
             }
         }, 1000);
@@ -65,7 +62,6 @@ export default function Signup() {
         } else {
             setVerified(auth.currentUser.emailVerified);
         }
-        console.log(verified);
         if (verified) {
             if (!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") {
                 if (!EmailValidator.validate(email) || email === "") {
@@ -98,15 +94,12 @@ export default function Signup() {
             // send verification mail.
             userCredential.user.sendEmailVerification();
             setVerifiedEmailSent(true);
-            console.log(userCredential);
-            console.log(auth.currentUser);
         })
         .catch(alert);
     }
 
     const verifyEmail = async () => {
         auth.applyActionCode(oobCode).then((resp) => {
-            console.log(resp);
             setVerified(true);
         }).catch((error) => {
             console.log(error);
