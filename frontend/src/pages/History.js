@@ -1,3 +1,13 @@
+import HistoryIcon from '@mui/icons-material/History';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import {
+    Avatar, Badge, Box, Button, Card, CardActions, CardContent,
+    CardHeader, CardMedia, Container, CssBaseline,
+    FormControl, FormControlLabel, FormLabel, Grid,
+    MenuItem, Paper, Radio, RadioGroup, Select,
+    Switch, Typography, useMediaQuery
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,30 +16,17 @@ import ToolBar from '../components/ToolBar';
 import { getMeetupsAsync } from '../redux/meetups/thunks';
 import { getFriendsAsync } from '../redux/users/thunks';
 import { darkStyle } from './CreateMeetup/CreateMeetupLocation';
-import HistoryIcon from '@mui/icons-material/History';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Avatar, Badge, Box, Button, Card, CardActions, CardContent, 
-    CardHeader, CardMedia, Container, CssBaseline, 
-    FormControl, FormControlLabel, FormLabel, Grid, 
-    MenuItem, Paper, Radio, RadioGroup, Select, 
-    Switch, Typography, useMediaQuery } from '@mui/material';
 
-// for google map <<<<<--------------------------------------------------------------
 let script;
 let map;
 let locations;
 let firstLoadDarkMode;
 let markers = [];
-const k1 = "AIzaSyDHH_p0fbbZSRyr";
-const k2 = "HqvLAc5WcM7Ic26ypP4";
-const k = k1 + k2;
+const k = "AIzaSyDHH_p0fbbZSRyrHqvLAc5WcM7Ic26ypP4";
 
 function removeGoogleMapScript() {
     let keywords = ['maps.googleapis'];
-    // Remove google from BOM (window object)
     window.google = undefined;
-    // Remove google map scripts from DOM
     let scripts = document.head.getElementsByTagName("script");
     for (let i = scripts.length - 1; i >= 0; i--) {
         let scriptSource = scripts[i].getAttribute('src');
@@ -130,7 +127,6 @@ const fitBounds = () => {
     }
     map.fitBounds(latlngbounds);
 }
-// for google map -------------------------------------------------------------->>>>>
 
 export default function History() {
     const dispatch = useDispatch();
@@ -162,7 +158,6 @@ export default function History() {
         [prefersDarkMode],
     );
 
-    // for google map <<<<<--------------------------------------------------------------
     // false: all events locations, true: completed events locations
     const [eventState, setEventState] = useState(false);
     firstLoadDarkMode = prefersDarkMode;
@@ -186,7 +181,6 @@ export default function History() {
         }
     }, [eventsJSON.length, eventState]);
     document.getElementsByTagName("head")[0].appendChild(script);
-    // for google map -------------------------------------------------------------->>>>>
 
     function mapJSONToCard(eventJSON) {
         return (
@@ -199,17 +193,27 @@ export default function History() {
                                 src={eventJSON.creator.profilePictureLink}
                             />
                         }
-                        title={eventJSON.title}
+                        title={eventJSON.title || "No title"}
                         subheader={eventJSON.schedule.schedule === null || eventJSON.schedule.schedule === undefined ? "NA" :
                             `${Object.keys(eventJSON.schedule.schedule).length === 0 ? 'NA' :
                                 Object.keys(eventJSON.schedule.schedule)[0].split("T")[0]} - ${Object.keys(eventJSON.schedule.schedule).length === 0 ? 'NA' :
                                     Object.keys(eventJSON.schedule.schedule)[Object.keys(eventJSON.schedule.schedule).length - 1].split("T")[0]}`}
                     />
                     <CardContent>
-                        <CardMedia
-                            component="img"
-                            image={eventJSON.meetupImage}
-                        />
+                        {eventJSON.meetupImage === null || eventJSON.meetupImage === undefined || eventJSON.meetupImage === "" ?
+                            <Box sx={{ width: "240px", height: "240px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Typography variant="h5" component="h2">
+                                    No Image
+                                </Typography>
+                            </Box>
+                            :
+
+                            <CardMedia
+                                component="img"
+                                image={eventJSON.meetupImage}
+                                style={{ height: "240px", width: "240px", objectFit: "contain" }}
+                            />
+                        }
                         <Typography variant="body2" color="text.secondary" noWrap>
                             {eventJSON.description || "No description"}
                         </Typography>

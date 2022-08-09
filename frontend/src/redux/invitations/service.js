@@ -1,7 +1,6 @@
-import { resetTokenIfTokenExpired } from '../utils'
+import { resetTokenIfTokenExpired } from '../utils';
 
 const url = 'invitations/';
-
 
 const getInvitations = async () => {
     const response = await fetch(url, {
@@ -12,10 +11,8 @@ const getInvitations = async () => {
     });
 
     const data = await response.json();
-    console.log(data);
 
     if (!response.ok) {
-        console.log('Error in getInvitations')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
@@ -46,7 +43,6 @@ const getInvitationsPending = async (email) => {
         }
         data[i].schedule.schedule = newSchedule;
     }
-
 
     if (!response.ok) {
         console.log('Error in getInvitationsPending')
@@ -148,8 +144,6 @@ const acceptInvitation = async (info) => {
             data[types[a]][i].schedule.schedule = newSchedule;
         }
     }
-
-    console.log(data);
 
     if (!response.ok) {
         console.log('Error in acceptInvitation')

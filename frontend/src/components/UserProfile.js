@@ -1,18 +1,20 @@
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
+import {
+    AppBar, Button, Dialog, DialogActions, DialogContent,
+    DialogContentText, DialogTitle, IconButton, Slide,
+    TextField, Toolbar, Typography
+} from '@mui/material';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePasswordAsync, changeUsernameAsync, deleteUserAccountAsync } from '../redux/users/thunks';
-import CloseIcon from '@mui/icons-material/Close';
-import SendIcon from '@mui/icons-material/Send';
-import { AppBar, Button, Dialog, DialogActions, DialogContent, 
-    DialogContentText, DialogTitle, IconButton, Slide, 
-    TextField, Toolbar, Typography } from '@mui/material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
 
 export default function UserProfile(prop) {
-    let { open, handleClose, currentUser } = prop
+    let { open, handleClose, currentUser } = prop;
     const [fullScreenOpen, setFullScreenOpen] = React.useState(false);
     const [toChange, setToChange] = React.useState(null);
 
@@ -20,7 +22,6 @@ export default function UserProfile(prop) {
     let [newUsername, setNewUsername] = React.useState("");
     let [oldPassword, setOldPassword] = React.useState("");
     let [newPassword, setNewPassword] = React.useState("");
-
 
     const dispatch = useDispatch();
     let email = useSelector(state => state.usersReducer.email);
@@ -34,16 +35,13 @@ export default function UserProfile(prop) {
     };
 
     const update = () => {
-        console.log("in update", email)
-        console.log("in update", password)
-        console.log("in update", newUsername)
         if (toChange === "username") {
-            dispatch(changeUsernameAsync({ email, password, newUsername }))
+            dispatch(changeUsernameAsync({ email, password, newUsername }));
         } else if (toChange === "password") {
-            dispatch(changePasswordAsync({ email, oldPassword, newPassword }))
+            dispatch(changePasswordAsync({ email, oldPassword, newPassword }));
         } else {
-            let curr_email = currentUser.email
-            dispatch(deleteUserAccountAsync(curr_email))
+            let curr_email = currentUser.email;
+            dispatch(deleteUserAccountAsync(curr_email));
         }
     }
 
@@ -55,8 +53,6 @@ export default function UserProfile(prop) {
             onClose={handleClose}
         >
             <DialogTitle>{"Welcome"}</DialogTitle>
-
-
             <DialogContent>
                 <DialogContentText>
                     Hello, {currentUser.username}! You can change your password or username here.

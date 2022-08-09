@@ -1,14 +1,14 @@
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import { Stack, Typography, useMediaQuery } from '@mui/material';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ScheduleSelector from 'react-schedule-selector';
 import CreatableSelect from 'react-select/creatable';
 import "../../App.css";
+import Place from '../../components/place/Place';
 import { changeInvitee, changeTags } from '../../redux/actions/actions';
 import { getFriendsAsync, getTagsAsync } from '../../redux/users/thunks';
-import Place from '../../components/place/Place';
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
-import { Stack, Typography, useMediaQuery } from '@mui/material';
 
 export default function MeetupInvitation() {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');

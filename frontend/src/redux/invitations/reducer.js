@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATE } from '../utils';
 import {
-    getInvitationsAsync, getInvitationsAcceptedAsync, getInvitationsDeclinedAsync,
-    getInvitationsPendingAsync, acceptInvitationAsync, declineInvitationAsync
+    acceptInvitationAsync, declineInvitationAsync, getInvitationsAcceptedAsync,
+    getInvitationsAsync, getInvitationsDeclinedAsync, getInvitationsPendingAsync
 } from './thunks';
 
 const INITIAL_STATE = {

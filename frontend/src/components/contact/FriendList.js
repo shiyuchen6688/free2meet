@@ -1,14 +1,15 @@
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import DeleteIcon from '@mui/icons-material/Delete';
+import GroupIcon from '@mui/icons-material/Group';
+import {
+    Avatar, Badge, Box, Button, Card, CardActions, CardHeader,
+    Dialog, DialogActions, DialogTitle, Fab, Grid, Paper, useMediaQuery
+} from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteFriendAsync, getFriendsAsync } from '../../redux/users/thunks';
-import { Avatar, Badge, Box, Button, Card, CardActions, CardHeader, 
-    Dialog, DialogActions, DialogTitle, Fab, Grid, Paper, useMediaQuery } from '@mui/material';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import DeleteIcon from '@mui/icons-material/Delete';
-import GroupIcon from '@mui/icons-material/Group';
-import { createTheme } from '@mui/material/styles';
-
 
 export default function FriendList() {
     // get user information 
@@ -97,7 +98,7 @@ function FriendCard(props) {
 
     // Delete friend handler
     const handleDeleteFriend = () => {
-        dispatch(deleteFriendAsync({ email: userEmail, friendEmail }))
+        dispatch(deleteFriendAsync({ email: userEmail, friendEmail }));
     }
 
     return (

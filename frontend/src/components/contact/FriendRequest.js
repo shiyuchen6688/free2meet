@@ -1,22 +1,24 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import EmailIcon from '@mui/icons-material/Email';
 import SendIcon from '@mui/icons-material/Send';
-import CloseIcon from '@mui/icons-material/Close';
 import UnarchiveIcon from '@mui/icons-material/Unarchive';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Avatar, Alert, AlertTitle, Badge, Box, Button, 
+import {
+    Alert, AlertTitle, Avatar, Badge, Box, Button,
     Card, CardActions, CardHeader, Collapse,
-    Fab, Grid, IconButton, Paper, TextField, Typography, useMediaQuery } from '@mui/material';
-import { acceptFriendRequestAsync,
-    declineFriendRequestAsync, getFriendRequestsAsync, getFriendRequestsSentAsync,
-    sendFriendRequestAsync } from '../../redux/users/thunks';
+    Fab, Grid, IconButton, Paper, TextField, Typography, useMediaQuery
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    acceptFriendRequestAsync, declineFriendRequestAsync, getFriendRequestsAsync,
+    getFriendRequestsSentAsync, sendFriendRequestAsync
+} from '../../redux/users/thunks';
 import { REQUEST_STATE } from '../../redux/utils';
-
 
 export default function FriendRequest() {
     // get user information 
@@ -24,14 +26,9 @@ export default function FriendRequest() {
     const friendRequestsReceived = useSelector(state => state.usersReducer.friendRequests);
     const friendRequestsSent = useSelector(state => state.usersReducer.friendRequestsSent);
 
-
-    console.log("friendRequestsReceived", friendRequestsReceived)
-    console.log("friendRequestsSent", friendRequestsSent)
-
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("userEffect get friend request info")
         dispatch(getFriendRequestsAsync(currentUserEmail));
         dispatch(getFriendRequestsSentAsync(currentUserEmail));
     }, [dispatch, currentUserEmail]);
@@ -64,9 +61,7 @@ export default function FriendRequest() {
     // Error message
     const [open, setOpen] = React.useState(true);
 
-    // TODO: Send friend request to friendEmail
     const handleSendFriendRequest = () => {
-        console.log({ currentUserEmail, friendEmail })
         setOpen(true);
         dispatch(sendFriendRequestAsync({ email: currentUserEmail, friendEmail })).then(() => {
             refresh();
@@ -174,7 +169,6 @@ export default function FriendRequest() {
             </Paper>
         </ThemeProvider>
     )
-
 }
 
 function ErrorMessage({ open, setOpen }) {
@@ -183,9 +177,7 @@ function ErrorMessage({ open, setOpen }) {
     // get error
     const usersReducerError = useSelector(state => state.usersReducer.sendFriendRequestError)
 
-    console.log(sendFriendRequest)
     if (sendFriendRequest === REQUEST_STATE.REJECTED) {
-        console.log(usersReducerError)
         return (
             <Box sx={{ width: '100%' }}>
                 <Collapse in={open}>
@@ -247,11 +239,11 @@ function FriendCard(props) {
     const dispatch = useDispatch();
 
     const handleAcceptClick = () => {
-        dispatch(acceptFriendRequestAsync({ email: userEmail, friendEmail }))
+        dispatch(acceptFriendRequestAsync({ email: userEmail, friendEmail }));
     }
 
     const handleDeclineClick = () => {
-        dispatch(declineFriendRequestAsync({ email: userEmail, friendEmail }))
+        dispatch(declineFriendRequestAsync({ email: userEmail, friendEmail }));
     }
 
     return (

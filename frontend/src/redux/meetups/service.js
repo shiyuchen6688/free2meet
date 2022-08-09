@@ -2,8 +2,6 @@ import axios from 'axios'
 import { resetTokenIfTokenExpired } from '../utils'
 
 const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
-    console.log("filter by person");
-    console.log(filterByPerson);
     const response = await fetch(`meetups?filterPeopleOption=${filterPeopleOption}&filterByPerson=${filterByPerson}&selfEmail=${email}`, {
         method: 'GET',
         headers: {
@@ -31,6 +29,7 @@ const getMeetup = async (id) => {
         },
         mode: 'cors'
     });
+
     const result = await response.json();
 
     if (!response.ok) {
@@ -39,8 +38,6 @@ const getMeetup = async (id) => {
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
-
-    console.log("getMeetup", id, result)
     return result;
 };
 
@@ -63,7 +60,6 @@ const addMeetup = async (meetup) => {
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
-    console.log(data)
     return data
 }
 
@@ -137,7 +133,6 @@ export const calculateMeetupBestLocationandTime = async (id) => {
     });
 
     const data = await response.json()
-
 
     return data
 }

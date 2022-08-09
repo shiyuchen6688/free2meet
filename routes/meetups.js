@@ -110,7 +110,6 @@ router.post('/new', function (req, res, next) {
                 console.log("meetup added to user");
                 queries.addMeetupToInvitees(inviteesModified, uid).then(function (invitees) {
                     console.log("meetup added to invitees");
-                    // TODO: send email to invitees
                     return res.send(meetup);
                 }).catch(function (err) {
                     console.log(err);

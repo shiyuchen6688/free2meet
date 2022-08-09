@@ -1,7 +1,4 @@
-// @flow
-
 import isBefore from 'date-fns-1/src/is_before'
-
 import * as dateUtils from '../date-utils'
 
 const linear = (selectionStart, selectionEnd, dateList) => {

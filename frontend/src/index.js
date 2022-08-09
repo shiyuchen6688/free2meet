@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 import App from './App';
 import Contact from './components/contact/Contact';
+import Meetup from './components/Meetup';
+import './index.css';
 import CreateMeetup from './pages/CreateMeetup/CreateMeetup';
 import History from './pages/History';
 import Invitations from './pages/Invitations';
@@ -17,6 +19,7 @@ import reportWebVitals from './reportWebVitals';
 import Verify from './pages/Verify';
 import './index.css';
 import rootReducer from './redux/reducers';
+import reportWebVitals from './reportWebVitals';
 
 const store = configureStore({ reducer: rootReducer });
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -39,7 +42,6 @@ root.render(
         </Provider>
     </React.StrictMode>
 );
-
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

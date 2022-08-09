@@ -21,8 +21,6 @@ router.post('/register', function (req, res, next) {
     // get user from req
     const user = req.body;
 
-    // TODO: verify user information (password strong? email valid?)
-
     // check duplicate email and username
     let takenUserName1;
     let takenEmail1;

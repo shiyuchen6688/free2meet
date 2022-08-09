@@ -1,13 +1,12 @@
 import { combineReducers } from "redux";
-import createMeetupLocationReducer from "./createMeetupLocationReducer";
-import createMeetupTitleDetailReducer from "./createMeetupTitleDetailReducer";
-import createMeetupScheduleReducer from "./createMeetupScheduleReducer";
-import createMeetupInvitationReducer from "./createMeetupInvitationReducer";
-import createMeetupTagsReducer from "./createMeetupTagsReducer";
+import invitationsReducer from "../invitations/reducer";
 import meetupsReducer from "../meetups/reducer";
 import usersReducer from "../users/reducer";
-import invitationsReducer from "../invitations/reducer";
-
+import createMeetupInvitationReducer from "./createMeetupInvitationReducer";
+import createMeetupLocationReducer from "./createMeetupLocationReducer";
+import createMeetupScheduleReducer from "./createMeetupScheduleReducer";
+import createMeetupTagsReducer from "./createMeetupTagsReducer";
+import createMeetupTitleDetailReducer from "./createMeetupTitleDetailReducer";
 
 export default combineReducers({
     createMeetupLocationReducer,

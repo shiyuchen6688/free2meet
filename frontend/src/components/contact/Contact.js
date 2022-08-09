@@ -1,11 +1,11 @@
+import { Box, CssBaseline, Tab, Tabs, Typography, useMediaQuery } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 import * as React from 'react';
 import ToolBar from '../ToolBar';
 import Chat from './Chat';
 import FriendList from './FriendList';
 import FriendRequest from './FriendRequest';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Box, CssBaseline, Tab, Tabs, Typography, useMediaQuery } from '@mui/material';
-import PropTypes from 'prop-types';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
