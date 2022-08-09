@@ -17,21 +17,16 @@ import { getMeetupsAsync } from '../redux/meetups/thunks';
 import { getFriendsAsync } from '../redux/users/thunks';
 import { darkStyle } from './CreateMeetup/CreateMeetupLocation';
 
-// for google map <<<<<--------------------------------------------------------------
 let script;
 let map;
 let locations;
 let firstLoadDarkMode;
 let markers = [];
-const k1 = "AIzaSyDHH_p0fbbZSRyr";
-const k2 = "HqvLAc5WcM7Ic26ypP4";
-const k = k1 + k2;
+const k = "AIzaSyDHH_p0fbbZSRyrHqvLAc5WcM7Ic26ypP4";
 
 function removeGoogleMapScript() {
     let keywords = ['maps.googleapis'];
-    // Remove google from BOM (window object)
     window.google = undefined;
-    // Remove google map scripts from DOM
     let scripts = document.head.getElementsByTagName("script");
     for (let i = scripts.length - 1; i >= 0; i--) {
         let scriptSource = scripts[i].getAttribute('src');
@@ -132,7 +127,6 @@ const fitBounds = () => {
     }
     map.fitBounds(latlngbounds);
 }
-// for google map -------------------------------------------------------------->>>>>
 
 export default function History() {
     const dispatch = useDispatch();
@@ -164,7 +158,6 @@ export default function History() {
         [prefersDarkMode],
     );
 
-    // for google map <<<<<--------------------------------------------------------------
     // false: all events locations, true: completed events locations
     const [eventState, setEventState] = useState(false);
     firstLoadDarkMode = prefersDarkMode;
@@ -188,7 +181,6 @@ export default function History() {
         }
     }, [eventsJSON.length, eventState]);
     document.getElementsByTagName("head")[0].appendChild(script);
-    // for google map -------------------------------------------------------------->>>>>
 
     function mapJSONToCard(eventJSON) {
         return (

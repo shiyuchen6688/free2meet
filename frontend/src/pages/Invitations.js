@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom";
-import { getInvitationsAcceptedAsync, getInvitationsDeclinedAsync, getInvitationsPendingAsync } from '../redux/invitations/thunks';
-import InvitationCard from '../components/cards/InvitationCard';
-import ToolBar from '../components/ToolBar';
 import CardHeader from '@material-ui/core/CardHeader';
 import AddIcon from '@mui/icons-material/Add';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import RsvpIcon from '@mui/icons-material/Rsvp';
+import { Badge, Box, CssBaseline, Fab, Grid, Paper, useMediaQuery } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Container } from '@mui/system';
-import { Badge, Box, CssBaseline, Fab, Grid, Paper, useMediaQuery } from '@mui/material';
+import * as React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import InvitationCard from '../components/cards/InvitationCard';
+import ToolBar from '../components/ToolBar';
+import { getInvitationsAcceptedAsync, getInvitationsDeclinedAsync, getInvitationsPendingAsync } from '../redux/invitations/thunks';
 
 export default function Invitations() {
     const dispatch = useDispatch();
@@ -45,7 +45,6 @@ export default function Invitations() {
     };
 
     const refresh = () => {
-        console.log('refreshing');
         dispatch(getInvitationsPendingAsync(currentUser.email));
         dispatch(getInvitationsAcceptedAsync(currentUser.email));
         dispatch(getInvitationsDeclinedAsync(currentUser.email));
@@ -54,7 +53,6 @@ export default function Invitations() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 <Box sx={{ '& > :not(style)': { m: 1 } }} style={fabStyle}>

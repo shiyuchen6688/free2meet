@@ -99,9 +99,7 @@ export const darkStyle = [
 
 function removeGoogleMapScript() {
     let keywords = ['maps.googleapis'];
-    // Remove google from BOM (window object)
     window.google = undefined;
-    // Remove google map scripts from DOM
     let scripts = document.head.getElementsByTagName("script");
     for (let i = scripts.length - 1; i >= 0; i--) {
         let scriptSource = scripts[i].getAttribute('src');

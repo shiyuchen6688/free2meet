@@ -15,7 +15,6 @@ export default function Home() {
     const createdMeetups = useSelector(state => state.meetupsReducer.meetupsCreated);
 
     useEffect(() => {
-        console.log("Home getMeetupsCreatedAsync", currentUser.email)
         dispatch(getMeetupsCreatedAsync(currentUser.email));
     }, [dispatch, currentUser.email]);
 
