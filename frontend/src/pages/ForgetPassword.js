@@ -45,14 +45,6 @@ export default function ForgetPassword() {
         }
     }, [resetPassWordBool, oobCode]);
 
-    useEffect(() => {
-        if (verified && confirmChange) {
-            auth.confirmPasswordReset(oobCode, password).catch(function(error) {
-                console.log(error);
-            });
-        }
-    }, [confirmChange, oobCode, password, verified]);
-
     const signOutUser = async () => {
         console.log(auth.currentUser);
         if (auth.currentUser !== null) {
@@ -70,6 +62,9 @@ export default function ForgetPassword() {
                 return false;
             } else {
                 setConfirmChange(true);
+                auth.confirmPasswordReset(oobCode, password).catch(function(error) {
+                    console.log(error);
+                });
                 dispatch(forgetPasswordAsync({
                     email,
                     password

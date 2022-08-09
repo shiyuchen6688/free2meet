@@ -128,9 +128,11 @@ router.patch('/reset-password', verifyJWT, (req, res) => {
 
 router.patch('/:email/change-password', verifyJWT, async function (req, res, next) {
     const email = req.params.email;
-    const { oldPassword, newPassword } = req.body
+    const { oldPassword, newPassword } = req.body;
+    console.log(req.body);
     queries.getUserByEmail(email).then(matchedUser => {
         if (matchedUser) {
+            console.log(oldPassword, matchedUser.password);
             bcrypt.compare(oldPassword, matchedUser.password).then(passwordCorrect => {
                 if (passwordCorrect) {
                     bcrypt.hash(newPassword, 10).then(encryptedNewPassword => {
@@ -373,7 +375,7 @@ router.post('/:email/friends/delete', verifyJWT, function (req, res, next) {
 router.delete('/:email/delete-account', verifyJWT, async function (req, res, next) {
     console.log(req.params)
     const email = req.params.email;
-    console.log("email is", email)
+    console.log("email is", email);
     queries.getUserByEmail(email).then(async function (user) {
         if (user) {
             // delete meetups this user created
