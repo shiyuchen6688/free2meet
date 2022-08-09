@@ -166,7 +166,6 @@ const usersSlice = createSlice({
             })
             .addCase(sendFriendRequestAsync.rejected, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.REJECTED;
-                console.log(action.error)
                 state.sendFriendRequestError = action.error;
             })
             .addCase(deleteFriendAsync.pending, (state) => {
@@ -212,7 +211,6 @@ const usersSlice = createSlice({
                 state.deleteUserAccountAsync = REQUEST_STATE.FULFILLED;
                 let deletedUser = action.payload;
                 if (deletedUser.username === state.username) {
-                    console.log("deleting user");
                     state.username = null;
                     state.email = null;
                     window.localStorage.removeItem('token');

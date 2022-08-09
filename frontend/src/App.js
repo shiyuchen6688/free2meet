@@ -33,9 +33,7 @@ function App() {
     // if user information is null, get information use token if it exist
     let username = useSelector(state => state.usersReducer.username);
     if (isValidUser && username === null) {
-        console.log("before login with token", isLoggedIn())
-        dispatch(loginWithTokenAsync())
-        console.log("after login with token", isLoggedIn())
+        dispatch(loginWithTokenAsync());
     }
 
     // wait for token login to finish if needed
