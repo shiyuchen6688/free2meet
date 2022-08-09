@@ -4,7 +4,6 @@ var jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 var verifyJWT = require('../middlewares/auth');
 const queries = require('../model/queries');
-const tagQueries = require('../model/tagQueries');
 require('dotenv').config()
 
 var verifyJWT = require("../middlewares/auth")
@@ -54,7 +53,6 @@ router.post('/register', function (req, res, next) {
         });
     });
 });
-
 
 /* sign a new user */
 router.post('/login', (req, res) => {
@@ -156,7 +154,6 @@ router.patch('/:email/change-password', verifyJWT, async function (req, res, nex
         }
     })
 })
-
 
 router.patch('/:email/change-username', verifyJWT, async function (req, res, next) {
     const email = req.params.email;
@@ -407,8 +404,6 @@ router.delete('/:email/delete-account', verifyJWT, async function (req, res, nex
         console.log(err)
         return res.status(404).send(err);
     });
-
-
 });
 
 // reset password of a user given user email and new password

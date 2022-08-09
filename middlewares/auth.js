@@ -10,21 +10,18 @@ function verifyJWT(req, res, next) {
                     status: "error",
                     message: "Token verification failed"
                 })
-
             }
             // add decoded user to req
             req.user = {
                 username: decoded.username,
                 email: decoded.email
             }
-
             if (!req.params.email || req.params.email === 'null') {
                 req.params.email = req.user.email
             }
             if (!req.params.username || req.params.username === 'null') {
                 req.params.username = req.user.username
             }
-
             next()
         })
     } else {
@@ -36,4 +33,3 @@ function verifyJWT(req, res, next) {
 }
 
 module.exports = verifyJWT
-

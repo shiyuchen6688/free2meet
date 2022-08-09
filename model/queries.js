@@ -273,7 +273,6 @@ const queries = {
     },
     // Given a user email and a meetup id, returns all the meetups that the user has accepted
     declineInvitation: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
-        console.log("Declining invitation");
         let invitationState = await queries.getInvitationState(userEmail, meetup);
         if (invitationState === 'pending') {
             let promises = [];
@@ -302,7 +301,6 @@ const queries = {
     },
     // Given a user email and a meetup id and availability (locations and time slots), returns all pending and accepted meetups for that user
     acceptInvitation: async (userEmail, meetup, availableLocations, availableTimeSlots) => {
-        console.log("acceptInvitation");
         let invitationState = await queries.getInvitationState(userEmail, meetup);
         if (invitationState === 'pending') {
             let promises = [];
@@ -448,7 +446,6 @@ const queries = {
     // return user and friend email if reqeust exist, otherwise return Null
     getFriendRequestReceived: async (userEmail, fromEmail) => {
         let user = await User.findOne({ email: userEmail });
-        console.log(user)
         let requestExist = user.friendRequests && user.friendRequests.includes(fromEmail)
         if (requestExist) {
             return { userEmail, fromEmail }
@@ -467,9 +464,7 @@ const queries = {
     },
     // Given a user email, returns the usernames and emails of all the users who received the user's friend requests
     getFriendRequestsSent: async (userEmail) => {
-        console.log("userEmail is", userEmail)
         let user = await User.findOne({ email: userEmail });
-        console.log("getFriendRequestsSent", user)
         // get all users who are friends of the user and sort based on username
         let friendRequestsSent = await User.find({ email: { $in: user.friendRequestsSent } }).sort({ username: 1 });
         // keep friends username and email fields
@@ -480,7 +475,6 @@ const queries = {
     // delete all request send from this user -> actually delete received friend request from the otherside
     deleteSentFriendRequestsBidirectional: async (userEmail) => {
         let friendRequestsSent = await queries.getFriendRequestsSent(userEmail)
-        console.log(friendRequestsSent)
         friendRequestsSent.forEach(async freind => {
             // remove received friend request from the other side
             await User.findOneAndUpdate({ email: freind.email }, { $pull: { friendRequests: userEmail } }, { new: true });
@@ -489,7 +483,6 @@ const queries = {
     // delete all request received by this user -> actually delete sent friend request from the otherside
     deleteReceivedFriendRequestsBidirectional: async (userEmail) => {
         let friendRequestsReceived = await queries.getFriendRequests(userEmail)
-        console.log(friendRequestsReceived)
         friendRequestsReceived.forEach(async freind => {
             // remove sent friend request from the other side
             await User.findOneAndUpdate({ email: freind.email }, { $pull: { friendRequestsSent: userEmail } }, { new: true });
