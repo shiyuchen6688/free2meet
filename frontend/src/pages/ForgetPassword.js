@@ -8,7 +8,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box, Button, CssBaseline, Grid, Paper, 
     TextField, Typography, useMediaQuery } from '@mui/material';
 
-export default function Signup() {
+export default function ForgetPassword() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -23,10 +23,8 @@ export default function Signup() {
     );
 
     const [email, setEmail] = useState("")
-    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [validEmail, setValidEmail] = useState(true);
-    const [validUsername, setValidUsername] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [verified, setVerified] = useState(false);
     const [verifiedEmailSent, setVerifiedEmailSent] = useState(false);
@@ -36,9 +34,19 @@ export default function Signup() {
         await auth.currentUser.reload();
     }
 
+    const signOutUser = async () => {
+        console.log(auth.currentUser);
+        if (auth.currentUser !== null) {
+            await auth.signOut();
+        }
+    }
+
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log(verifiedEmailSent);
+            console.log(auth.currentUser);
+            const currentURL = new URL(window.location.href);
+            const oobCode = currentURL.searchParams.get("oobCode");
+            console.log(oobCode);
             if (verifiedEmailSent) {
                 console.log("verifiedEmailSent");
                 relodaUser().then(() => {
@@ -63,12 +71,9 @@ export default function Signup() {
         }
         console.log(verified);
         if (verified) {
-            if (!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") {
+            if (!(validEmail && validPassword) || email === "" || password === "") {
                 if (!EmailValidator.validate(email) || email === "") {
                     setValidEmail(false);
-                }
-                if (username === "") {
-                    setValidUsername(false);
                 }
                 if (password === "") {
                     setValidPassword(false);
@@ -77,28 +82,32 @@ export default function Signup() {
             } else {
                 dispatch(registerAsync({
                     email,
-                    username,
                     password
-                }));
-                auth.signOut();
-                navigate("/");
+                }))
+                navigate("/")
             }
         } else {
             alert("Please verify your email first")
         }
     }
 
-    const emailverification = () => {
-        auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential)=>{
-            // send verification mail.
-            userCredential.user.sendEmailVerification();
-            setVerifiedEmailSent(true);
-            console.log(userCredential);
-            console.log(auth.currentUser);
+    const emailVerification = () => {
+        signOutUser().then(() => {
+            console.log("signOutUser");
+            auth.sendSignInLinkToEmail(email, actionCodeSettings).then(() => {
+                setVerifiedEmailSent(true);
+            }).catch(error => {
+                console.log(error)
+            })
+        }).catch(error => {
+            console.log(error)
         })
-        .catch(alert);
     }
+
+    const actionCodeSettings = {
+        url: 'http://localhost:3000/forget-password',
+        handleCodeInApp: true,
+    };
 
     return (
         <ThemeProvider theme={theme}>
@@ -116,24 +125,10 @@ export default function Signup() {
                         }}
                     >
                         <Typography component="h1" variant="h5">
-                            Create an account
+                            Reset Password
                         </Typography>
 
                         <Box component="form" noValidate sx={{ mt: 1 }}>
-                            {/* User Name Input */}
-                            <TextField
-                                error={!validUsername}
-                                onFocus={() => setValidUsername(true)}
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="username"
-                                label="User Name"
-                                name="username"
-                                autoFocus
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
                             {/* Email Input */}
                             <TextField
                                 error={!validEmail}
@@ -166,19 +161,19 @@ export default function Signup() {
                             />
                             <Button
                                 fullWidth
-                                variant={(!(validEmail && validUsername && validPassword) || email === "" || username === "" || password === "") ? "outlined" : "contained"}
+                                variant={(!(validEmail && validPassword) || email === "" || password === "") ? "outlined" : "contained"}
                                 sx={{ mt: 3, mb: 2 }}
-                                onClick={emailverification}
+                                onClick={emailVerification}
                             >
                                 Send Verification Email
                             </Button>
                             <Button
                                 fullWidth
-                                variant={(!(validEmail && validUsername && validPassword && verifiedEmailSent && verified) || email === "" || username === "" || password === "") ? "outlined" : "contained"}
+                                variant={(!(validEmail && validPassword && verifiedEmailSent && verified) || email === "" || password === "") ? "outlined" : "contained"}
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={onSubmit}
                             >
-                                Sign Up
+                                Reset Password
                             </Button>
                         </Box>
                     </Box>

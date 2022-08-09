@@ -123,7 +123,7 @@ export default function SignIn({ setIsValidUser }) {
                                         justifyContent: "flex-start"
                                     }}
                                 >
-                                    <Link href="#" variant="body2">
+                                    <Link href="/forget-password" variant="body2">
                                         Forgot password?
                                     </Link>
                                 </Grid>

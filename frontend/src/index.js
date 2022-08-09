@@ -13,6 +13,7 @@ import Invitations from './pages/Invitations';
 import Meetup from './components/Meetup';
 import reportWebVitals from './reportWebVitals';
 import Signup from './pages/Signup';
+import ForgetPassword from './pages/ForgetPassword';
 import './index.css';
 import rootReducer from './redux/reducers';
 
@@ -30,6 +31,7 @@ root.render(
                     <Route path="/history" element={<History />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route path='/forget-password' element={<ForgetPassword />} />
                 </Routes>
             </BrowserRouter>
         </Provider>
