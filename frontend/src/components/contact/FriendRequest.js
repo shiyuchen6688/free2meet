@@ -61,7 +61,6 @@ export default function FriendRequest() {
     // Error message
     const [open, setOpen] = React.useState(true);
 
-    // TODO: Send friend request to friendEmail
     const handleSendFriendRequest = () => {
         setOpen(true);
         dispatch(sendFriendRequestAsync({ email: currentUserEmail, friendEmail })).then(() => {
