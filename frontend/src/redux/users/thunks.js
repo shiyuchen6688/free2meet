@@ -113,3 +113,10 @@ export const getTagsAsync = createAsyncThunk(
         return await UsersService.getTags(email, text);
     }
 )
+
+export const forgetPasswordAsync = createAsyncThunk(
+    actionTypes.FORGET_PASSWORD,
+    async ({ email, password }) => {
+        return await UsersService.forgetPassword(email, password);
+    }
+)

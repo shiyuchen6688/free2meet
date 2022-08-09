@@ -12,7 +12,12 @@ import './index.css';
 import CreateMeetup from './pages/CreateMeetup/CreateMeetup';
 import History from './pages/History';
 import Invitations from './pages/Invitations';
-import Signup from './pages/Signup';
+import Meetup from './components/Meetup';
+import reportWebVitals from './reportWebVitals';
+// import Signup from './pages/Signup';
+// import ForgetPassword from './pages/ForgetPassword';
+import Verify from './pages/Verify';
+import './index.css';
 import rootReducer from './redux/reducers';
 import reportWebVitals from './reportWebVitals';
 
@@ -29,7 +34,9 @@ root.render(
                     <Route path="/invitations" element={<Invitations />} />
                     <Route path="/history" element={<History />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/verify" element={<Verify />} />
+                    {/* <Route path="/signup" element={<Signup />} />
+                    <Route path="/forget-password" element={<ForgetPassword />} /> */}
                 </Routes>
             </BrowserRouter>
         </Provider>

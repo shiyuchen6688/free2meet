@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATE } from '../utils';
 import {
     acceptFriendRequestAsync, changePasswordAsync, changeUsernameAsync, declineFriendRequestAsync, deleteFriendAsync, deleteUserAccountAsync, getFriendRequestsAsync,
-    getFriendRequestsSentAsync, getFriendsAsync, getTagsAsync, loginAsync, registerAsync, resetPasswordAsync, sendFriendRequestAsync, loginWithTokenAsync
+    getFriendRequestsSentAsync, getFriendsAsync, getTagsAsync, loginAsync, registerAsync, resetPasswordAsync, sendFriendRequestAsync, loginWithTokenAsync, forgetPasswordAsync
 } from './thunks';
 
 const INITIAL_STATE = {
@@ -28,6 +28,7 @@ const INITIAL_STATE = {
     changeUsername: REQUEST_STATE.IDLE,
     deleteUserAccountAsync: REQUEST_STATE.IDLE,
     getTags: REQUEST_STATE.IDLE,
+    forgetPassword: REQUEST_STATE.IDLE,
     error: null,
     sendFriendRequestError: null
 };
@@ -215,7 +216,7 @@ const usersSlice = createSlice({
             .addCase(deleteUserAccountAsync.fulfilled, (state, action) => {
                 state.deleteUserAccountAsync = REQUEST_STATE.FULFILLED;
                 let deletedUser = action.payload
-                if (deletedUser.username == state.username) {
+                if (deletedUser.username === state.username) {
                     console.log("deleting user")
                     state.username = null
                     state.email = null
@@ -237,6 +238,17 @@ const usersSlice = createSlice({
             })
             .addCase(getTagsAsync.rejected, (state, action) => {
                 state.getTags = REQUEST_STATE.REJECTED;
+                state.error = action.error;
+            })
+            .addCase(forgetPasswordAsync.pending, (state, action) => {
+                state.forgetPassword = REQUEST_STATE.PENDING;
+                state.error = null;
+            })
+            .addCase(forgetPasswordAsync.fulfilled, (state, action) => {
+                state.forgetPassword = REQUEST_STATE.FULFILLED;
+            })
+            .addCase(forgetPasswordAsync.rejected, (state, action) => {
+                state.forgetPassword = REQUEST_STATE.REJECTED;
                 state.error = action.error;
             })
     }

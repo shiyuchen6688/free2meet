@@ -554,6 +554,10 @@ const queries = {
     deleteUserByEmail: async (userEmail) => {
         userCache.delete(userEmail);
         return await User.findOneAndDelete({ email: userEmail })
+    },
+    // reset user password
+    resetPassword: async (userEmail, newPassword) => {
+        return await User.findOneAndUpdate({ email: userEmail }, { password: newPassword }, { new: true });
     }
 };
 
