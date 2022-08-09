@@ -30,8 +30,9 @@ root.render(
                     <Route path="/invitations" element={<Invitations />} />
                     <Route path="/history" element={<History />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path='/forget-password' element={<ForgetPassword />} />
+                    <Route path="/verify" element={<Verify />} />
+                    {/* <Route path="/signup" element={<Signup />} />
+                    <Route path="/forget-password" element={<ForgetPassword />} /> */}
                 </Routes>
             </BrowserRouter>
         </Provider>

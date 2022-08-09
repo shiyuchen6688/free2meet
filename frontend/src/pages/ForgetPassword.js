@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { registerAsync } from '../redux/users/thunks';
+import { forgetPasswordAsync } from '../redux/users/thunks';
 import EmailValidator from 'email-validator';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import auth from '../firebase';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box, Button, CssBaseline, Grid, Paper, 
@@ -22,17 +22,36 @@ export default function ForgetPassword() {
         [prefersDarkMode],
     );
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const currentURL = new URL(window.location.href);
+    const oobCode = currentURL.searchParams.get('oobCode');
+    const resetPassWordBool = oobCode === null ? false : true;
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [validEmail, setValidEmail] = useState(true);
     const [validPassword, setValidPassword] = useState(true);
     const [verified, setVerified] = useState(false);
     const [verifiedEmailSent, setVerifiedEmailSent] = useState(false);
+    const [confirmChange, setConfirmChange] = useState(false);
 
-    // declare the data fetching function
-    const relodaUser = async () => {
-        await auth.currentUser.reload();
-    }
+    useEffect(() => {
+        if (resetPassWordBool) {
+            auth.verifyPasswordResetCode(oobCode).then(function(email) {
+                setEmail(email);
+                setVerified(true);
+            }).catch(function(error) {
+                console.log(error);
+            });
+        }
+    }, [resetPassWordBool, oobCode]);
+
+    useEffect(() => {
+        if (verified && confirmChange) {
+            auth.confirmPasswordReset(oobCode, password).catch(function(error) {
+                console.log(error);
+            });
+        }
+    }, [confirmChange, oobCode, password, verified]);
 
     const signOutUser = async () => {
         console.log(auth.currentUser);
@@ -41,60 +60,31 @@ export default function ForgetPassword() {
         }
     }
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            console.log(auth.currentUser);
-            const currentURL = new URL(window.location.href);
-            const oobCode = currentURL.searchParams.get("oobCode");
-            console.log(oobCode);
-            if (verifiedEmailSent) {
-                console.log("verifiedEmailSent");
-                relodaUser().then(() => {
-                    setVerified(auth.currentUser.emailVerified);
-                    console.log(auth.currentUser)
-                })
-            }
-        }, 1000);
-        return () => {
-          clearInterval(interval);
-        };
-    }, [verifiedEmailSent]);
-
-
     const onSubmit = () => {
-        if (!auth.currentUser.emailVerified) {
-            auth.onAuthStateChanged(function(user) {
-                setVerified(user.emailVerified);
-            });
-        } else {
-            setVerified(auth.currentUser.emailVerified);
-        }
         console.log(verified);
         if (verified) {
-            if (!(validEmail && validPassword) || email === "" || password === "") {
-                if (!EmailValidator.validate(email) || email === "") {
-                    setValidEmail(false);
-                }
-                if (password === "") {
+            if (!(validEmail && validPassword) || password === "") {
+                if (password === "" || password.length < 6) {
                     setValidPassword(false);
                 }
                 return false;
             } else {
-                dispatch(registerAsync({
+                setConfirmChange(true);
+                dispatch(forgetPasswordAsync({
                     email,
                     password
                 }))
                 navigate("/")
             }
         } else {
-            alert("Please verify your email first")
+            alert("Please verify your email first");
         }
     }
 
     const emailVerification = () => {
         signOutUser().then(() => {
             console.log("signOutUser");
-            auth.sendSignInLinkToEmail(email, actionCodeSettings).then(() => {
+            auth.sendPasswordResetEmail(email, actionCodeSettings).then(() => {
                 setVerifiedEmailSent(true);
             }).catch(error => {
                 console.log(error)
@@ -105,8 +95,8 @@ export default function ForgetPassword() {
     }
 
     const actionCodeSettings = {
-        url: 'http://localhost:3000/forget-password',
-        handleCodeInApp: true,
+        url: 'http://localhost:3001/forget-password',
+        handleCodeInApp: false,
     };
 
     return (
@@ -130,6 +120,16 @@ export default function ForgetPassword() {
 
                         <Box component="form" noValidate sx={{ mt: 1 }}>
                             {/* Email Input */}
+                            {resetPassWordBool ? 
+                            <TextField
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                value={email === "" ? "INVALID" : email}
+                                disabled={true}
+                            /> : 
                             <TextField
                                 error={!validEmail}
                                 onBlur={() => email === "" ? setValidEmail(true) : setValidEmail(EmailValidator.validate(email))}
@@ -143,9 +143,9 @@ export default function ForgetPassword() {
                                 autoComplete="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                            />
+                                />}
                             {/* Password Input */}
-                            <TextField
+                            {resetPassWordBool && <TextField
                                 error={!validPassword}
                                 onFocus={() => setValidPassword(true)}
                                 margin="normal"
@@ -158,23 +158,23 @@ export default function ForgetPassword() {
                                 autoComplete="current-password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <Button
+                            />}
+                            {!resetPassWordBool && <Button
                                 fullWidth
                                 variant={(!(validEmail && validPassword) || email === "" || password === "") ? "outlined" : "contained"}
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={emailVerification}
                             >
                                 Send Verification Email
-                            </Button>
-                            <Button
+                            </Button>}
+                            {resetPassWordBool && <Button
                                 fullWidth
                                 variant={(!(validEmail && validPassword && verifiedEmailSent && verified) || email === "" || password === "") ? "outlined" : "contained"}
                                 sx={{ mt: 3, mb: 2 }}
                                 onClick={onSubmit}
                             >
                                 Reset Password
-                            </Button>
+                            </Button>}
                         </Box>
                     </Box>
                 </Grid>

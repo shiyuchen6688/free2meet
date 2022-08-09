@@ -345,6 +345,27 @@ const deleteUserAccount = async (userEmail) => {
     return data
 }
 
+// Reset user's password without token and old password (forget password)
+// The security of this function is handled by firebase
+const forgetPassword = async (email, password) => {
+    const response = await fetch(`users/${email}/forget-password`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password })
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        console.log('Error in forgetPassword')
+        const errorMsg = data?.message;
+        console.log(errorMsg)
+    }
+    return data
+}
+
 
 const exportedService = {
     login,
@@ -361,7 +382,8 @@ const exportedService = {
     changeUsername,
     changePassword,
     deleteUserAccount,
-    getTags
+    getTags,
+    forgetPassword,
 }
 
 export default exportedService;
