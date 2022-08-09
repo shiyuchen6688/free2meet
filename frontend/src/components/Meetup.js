@@ -14,21 +14,16 @@ import { getMeetupAsync } from '../redux/meetups/thunks';
 import ScheduleSelector from './timetable/ScheduleSelector';
 import ToolBar from './ToolBar';
 
-// for google map <<<<<--------------------------------------------------------------
 let script;
 let map;
 let locations;
 let firstLoadDarkMode;
 let markers = [];
-const k1 = "AIzaSyDHH_p0fbbZSRyr";
-const k2 = "HqvLAc5WcM7Ic26ypP4";
-const k = k1 + k2;
+const k = "AIzaSyDHH_p0fbbZSRyrHqvLAc5WcM7Ic26ypP4";
 
 function removeGoogleMapScript() {
     let keywords = ['maps.googleapis'];
-    // Remove google from BOM (window object)
     window.google = undefined;
-    // Remove google map scripts from DOM
     let scripts = document.head.getElementsByTagName("script");
     for (let i = scripts.length - 1; i >= 0; i--) {
         let scriptSource = scripts[i].getAttribute('src');
@@ -106,7 +101,6 @@ const fitBounds = () => {
     }
     map.fitBounds(latlngbounds);
 }
-// for google map -------------------------------------------------------------->>>>>
 
 export default function Meetup() {
     const dispatch = useDispatch();
@@ -115,15 +109,10 @@ export default function Meetup() {
     const location = useLocation();
     const id = location.pathname.split("/")[2];
 
-    console.log("id is", id)
-
     let meetup = useSelector(state => state.meetupsReducer.meetup);
     useEffect(() => {
-        console.log("useEffect dispatched")
         dispatch(getMeetupAsync(id));
     }, [dispatch, id]);
-
-    console.log("meetup", meetup)
 
     const theme = React.useMemo(
         () =>
@@ -138,9 +127,7 @@ export default function Meetup() {
             }),
         [prefersDarkMode],
     );
-    console.log("line 156")
 
-    // for google map <<<<<--------------------------------------------------------------
     firstLoadDarkMode = prefersDarkMode;
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -166,12 +153,10 @@ export default function Meetup() {
         }
     }, [meetup]);
     document.getElementsByTagName("head")[0].appendChild(script);
-    // for google map -------------------------------------------------------------->>>>>
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-
             <ToolBar />
             <Container component="main" sx={{ mb: 4 }}>
                 {(meetup !== null && meetup !== undefined && Object.keys(meetup).length !== 0) ?
