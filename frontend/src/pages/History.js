@@ -1,3 +1,13 @@
+import HistoryIcon from '@mui/icons-material/History';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import {
+    Avatar, Badge, Box, Button, Card, CardActions, CardContent,
+    CardHeader, CardMedia, Container, CssBaseline,
+    FormControl, FormControlLabel, FormLabel, Grid,
+    MenuItem, Paper, Radio, RadioGroup, Select,
+    Switch, Typography, useMediaQuery
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,14 +16,6 @@ import ToolBar from '../components/ToolBar';
 import { getMeetupsAsync } from '../redux/meetups/thunks';
 import { getFriendsAsync } from '../redux/users/thunks';
 import { darkStyle } from './CreateMeetup/CreateMeetupLocation';
-import HistoryIcon from '@mui/icons-material/History';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Avatar, Badge, Box, Button, Card, CardActions, CardContent, 
-    CardHeader, CardMedia, Container, CssBaseline, 
-    FormControl, FormControlLabel, FormLabel, Grid, 
-    MenuItem, Paper, Radio, RadioGroup, Select, 
-    Switch, Typography, useMediaQuery } from '@mui/material';
 
 // for google map <<<<<--------------------------------------------------------------
 let script;
@@ -206,10 +208,20 @@ export default function History() {
                                     Object.keys(eventJSON.schedule.schedule)[Object.keys(eventJSON.schedule.schedule).length - 1].split("T")[0]}`}
                     />
                     <CardContent>
-                        <CardMedia
-                            component="img"
-                            image={eventJSON.meetupImage}
-                        />
+                        {eventJSON.meetupImage === null || eventJSON.meetupImage === undefined || eventJSON.meetupImage === "" ?
+                            <Box sx={{ width: "240px", height: "240px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Typography variant="h5" component="h2">
+                                    No Image
+                                </Typography>
+                            </Box>
+                            :
+
+                            <CardMedia
+                                component="img"
+                                image={eventJSON.meetupImage}
+                                style={{ height: "240px", width: "240px", objectFit: "contain" }}
+                            />
+                        }
                         <Typography variant="body2" color="text.secondary" noWrap>
                             {eventJSON.description || "No description"}
                         </Typography>
