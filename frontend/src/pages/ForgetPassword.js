@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { forgetPasswordAsync } from '../redux/users/thunks';
+import { Box, Button, CssBaseline, Grid, Paper, TextField, Typography, useMediaQuery } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import EmailValidator from 'email-validator';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import auth from '../firebase';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Box, Button, CssBaseline, Grid, Paper, 
-    TextField, Typography, useMediaQuery } from '@mui/material';
+import { forgetPasswordAsync } from '../redux/users/thunks';
 
 export default function ForgetPassword() {
     const dispatch = useDispatch();
@@ -35,10 +34,10 @@ export default function ForgetPassword() {
 
     useEffect(() => {
         if (resetPassWordBool) {
-            auth.verifyPasswordResetCode(oobCode).then(function(email) {
+            auth.verifyPasswordResetCode(oobCode).then(function (email) {
                 setEmail(email);
                 setVerified(true);
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console.log(error);
             });
         }
@@ -58,7 +57,7 @@ export default function ForgetPassword() {
                 }
                 return false;
             } else {
-                auth.confirmPasswordReset(oobCode, password).catch(function(error) {
+                auth.confirmPasswordReset(oobCode, password).catch(function (error) {
                     console.log(error);
                 });
                 dispatch(forgetPasswordAsync({
@@ -110,29 +109,29 @@ export default function ForgetPassword() {
 
                         <Box component="form" noValidate sx={{ mt: 1 }}>
                             {/* Email Input */}
-                            {resetPassWordBool ? 
-                            <TextField
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                value={email === "" ? "INVALID" : email}
-                                disabled={true}
-                            /> : 
-                            <TextField
-                                error={!validEmail}
-                                onBlur={() => email === "" ? setValidEmail(true) : setValidEmail(EmailValidator.validate(email))}
-                                onFocus={() => setValidEmail(true)}
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                            {resetPassWordBool ?
+                                <TextField
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                    value={email === "" ? "INVALID" : email}
+                                    disabled={true}
+                                /> :
+                                <TextField
+                                    error={!validEmail}
+                                    onBlur={() => email === "" ? setValidEmail(true) : setValidEmail(EmailValidator.validate(email))}
+                                    onFocus={() => setValidEmail(true)}
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />}
                             {/* Password Input */}
                             {resetPassWordBool && <TextField

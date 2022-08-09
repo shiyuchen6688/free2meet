@@ -145,8 +145,6 @@ export const getInvitteesNoResponse = async (id) => {
     return data
 }
 
-
-
 const exportedService = {
     getMeetups,
     getMeetup,

@@ -9,7 +9,6 @@ router.get('/', function (req, res, next) {
     const option = req.query.filterPeopleOption;
     const person = req.query.filterByPerson;
     const self = req.query.selfEmail || req.user.email;
-    console.log(option, person, self);
     if (option === null || option === undefined || option === "all") {
         queries.getAllMeetups().then(function (meetups) {
             return res.send(meetups);
@@ -43,7 +42,6 @@ router.get('/', function (req, res, next) {
 /* get a single meetup by id. */
 router.get(`/meetup/`, function (req, res, next) {
     const id = req.query.id;
-    console.log(id);
     queries.getMeetupById(id).then(function (meetup) {
         return res.send(meetup);
     });
@@ -104,26 +102,19 @@ router.post('/new', function (req, res, next) {
             }
         }
         queries.addMeetup(meetup).then(function (meetup) {
-            console.log("meetup added");
             queries.addMeetupToUserCreator(creatorEmail, uid).then(function (user) {
-                console.log("meetup added to user");
                 queries.addMeetupToInvitees(inviteesModified, uid).then(function (invitees) {
-                    console.log("meetup added to invitees");
                     return res.send(meetup);
                 }).catch(function (err) {
-                    console.log(err);
                     return res.send(err);
                 });
             }).catch(function (err) {
-                console.log(err);
                 return res.send(err);
             });
         }).catch(function (err) {
-            console.log(err);
             return res.send(err);
         });
     }).catch(function (err) {
-        console.log(err);
         return res.send(err);
     });
 });
@@ -142,7 +133,6 @@ router.get('/:email/created', (req, res) => {
 router.get('/:id/noresponse', (req, res) => {
     const id = req.params.id;
     queries.checkIfMeetupIsComplete(id).then(completed => {
-        console.log(completed);
         return res.send(completed);
     }).catch(err => {
         return res.status(404).send(err);

@@ -139,7 +139,6 @@ router.patch('/:email/change-password', verifyJWT, async function (req, res, nex
                         })
                     })
                 } else {
-                    console.log("Old Password is incorrect")
                     return res.status(404).send({ message: "Old Password is incorrect" })
                 }
             })
@@ -149,7 +148,6 @@ router.patch('/:email/change-password', verifyJWT, async function (req, res, nex
                     error: new Error("Email does not exist"),
                     message: "Email does not exist"
                 }
-
             )
         }
     })
@@ -175,7 +173,6 @@ router.patch('/:email/change-username', verifyJWT, async function (req, res, nex
                         queries.patchUser(email, { username: newUsername }).then(user => {
                             return res.status(200).send(user)
                         })
-
                     } else {
                         return res.status(404).send({ message: "Password is incorrect" })
                     }
@@ -189,9 +186,7 @@ router.patch('/:email/change-username', verifyJWT, async function (req, res, nex
 
 // get all friends for a user given user email
 router.get('/:email/friends/', verifyJWT, function (req, res, next) {
-    console.log("req.params is", req.params)
     const email = req.params.email;
-    console.log('/:email/friends/', email)
     queries.getFriends(email).then(friends => {
         return res.send(friends);
     }).catch(err => {
@@ -203,7 +198,6 @@ router.get('/:email/friends/', verifyJWT, function (req, res, next) {
 router.get('/:email/friends/requests', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     queries.getFriendRequests(email).then(friendRequests => {
-        console.log("friendRequests", friendRequests)
         return res.send(friendRequests);
     }).catch(err => {
         return res.status(404).send(err);
@@ -231,11 +225,9 @@ router.post('/:email/friends/requests/accept', verifyJWT, function (req, res, ne
             queries.acceptFriendRequest(email, friendEmail).then(friendRequest => {
                 return res.send(friendRequest);
             }).catch(err => {
-                console.log(err)
                 return res.status(404).send(err);
             });
         } else {
-            console.log("Friend request does not exist")
             return res.status(404).send(
                 {
                     message: "Friend request does not exist",
@@ -285,7 +277,6 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
             // check if friend request already exists
             queries.getFriendRequestSent(email, friendEmail).then(friendRequest => {
                 if (friendRequest) {
-                    console.log("Friend request already exists")
                     return res.status(404).send(
                         {
                             message: "You have already sent a friend request to this user",
@@ -296,7 +287,6 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
                     // check if friend already exists
                     queries.isFriend(email, friendEmail).then(isFriend => {
                         if (isFriend) {
-                            console.log("Friend already exists")
                             return res.status(404).send(
                                 {
                                     message: "You are already friends with this user",
@@ -308,12 +298,10 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
                             queries.sendFriendRequest(email, friendEmail).then(friend => {
                                 return res.send({ message: "Friend request sent successfully" });
                             }).catch(err => {
-                                console.log(err)
                                 return res.status(404).send(err);
                             });
                         }
                     }).catch(err => {
-                        console.log(err)
                         return res.status(404).send({
                             error: "Server Error",
                             error: err
@@ -322,7 +310,6 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
                 }
             });
         } else {
-            console.log("User does not exist")
             return res.status(404).send(
                 {
                     message: "This user does not exist",
@@ -330,7 +317,6 @@ router.post('/:email/friends/requests/send', verifyJWT, function (req, res, next
                 });
         }
     }).catch(err => {
-        console.log(err)
         return res.status(404).send(err);
     });
 });
@@ -349,14 +335,12 @@ router.post('/:email/friends/delete', verifyJWT, function (req, res, next) {
                     queries.deleteFriend(email, friendEmail).then(friend => {
                         return res.send(friend);
                     }).catch(err => {
-                        console.log(err)
                         return res.status(404).send(err);
                     });
                 } else {
                     return res.status(404).send(new Error("Friend does not exist"));
                 }
             }).catch(err => {
-                console.log(err)
                 return res.status(404).send(err);
             });
         } else {
@@ -368,9 +352,7 @@ router.post('/:email/friends/delete', verifyJWT, function (req, res, next) {
 });
 
 router.delete('/:email/delete-account', verifyJWT, async function (req, res, next) {
-    console.log(req.params)
     const email = req.params.email;
-    console.log("email is", email);
     queries.getUserByEmail(email).then(async function (user) {
         if (user) {
             // delete meetups this user created
@@ -394,14 +376,11 @@ router.delete('/:email/delete-account', verifyJWT, async function (req, res, nex
 
             // delete user
             deleteResult = await queries.deleteUserByEmail(email)
-            console.log(deleteResult)
             return res.status(200).send(deleteResult)
         } else {
-            console.log("Email (user) does not exist")
             return res.status(404).send(new Error("Email (user) does not exist"));
         }
     }).catch(err => {
-        console.log(err)
         return res.status(404).send(err);
     });
 });

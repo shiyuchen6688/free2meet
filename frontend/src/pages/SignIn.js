@@ -1,8 +1,5 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {
-    Avatar, Box, Button, CssBaseline, Grid, Link,
-    Paper, TextField, Typography, useMediaQuery
-} from '@mui/material';
+import { Avatar, Box, Button, CssBaseline, Grid, Link, Paper, TextField, Typography, useMediaQuery } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';

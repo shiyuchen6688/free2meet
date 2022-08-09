@@ -92,7 +92,7 @@ export default function UserProfile(prop) {
 
                 <DialogContentText>
                     <Button variant="text" onClick={e => {
-                        setToChange("delete-account")
+                        setToChange("delete account")
                         handleFullScreenClickOpen()
                     }}>Delete Account</Button>
                 </DialogContentText>
@@ -122,13 +122,13 @@ export default function UserProfile(prop) {
                             update()
                             handleFullScreenClose()
                         }} endIcon={<SendIcon />}>
-                            Update
+                            {toChange === "delete account" ? "Delete" : "Update"}
                         </Button>
                     </Toolbar>
                 </AppBar>
                 <DialogContent>
                     <DialogContentText>
-                        {toChange === "delete-account" ? "Press Update button above if you are sure that you want to delete the account"
+                        {toChange === "delete account" ? "Press delete button above if you are sure that you want to delete the account"
                             : "To change your " + toChange + ", please enter your " +
                             (toChange !== "username" ? "password" : "old password") + " and new " + toChange}
                     </DialogContentText>

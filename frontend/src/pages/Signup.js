@@ -1,7 +1,4 @@
-import {
-    Box, Button, CssBaseline, Grid, Paper,
-    TextField, Typography, useMediaQuery
-} from '@mui/material';
+import { Box, Button, CssBaseline, Grid, Paper, TextField, Typography, useMediaQuery } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import EmailValidator from 'email-validator';
 import React, { useEffect, useState } from 'react';
@@ -38,14 +35,14 @@ export default function Signup() {
     const oobCodeBool = oobCode === null ? false : true;
 
     // declare the data fetching function
-    const relodaUser = async () => {
+    const reloadUser = async () => {
         await auth.currentUser.reload();
     }
 
     useEffect(() => {
         const interval = setInterval(() => {
             if (verifiedEmailSent) {
-                relodaUser().then(() => {
+                reloadUser().then(() => {
                     setVerified(auth.currentUser.emailVerified);
                 })
             }
@@ -160,7 +157,7 @@ export default function Signup() {
                                 variant='body1'
                                 component='div'
                                 gutterBottom>
-                                An email has been sent to {email} to verify your account. Please verify your email to continue. It might be in your spam folder.
+                                An email has been sent to {email} to verify your account. Please verify your email to continue. It might be in your <strong>spam folder</strong>.
                             </Typography>}
                             {/* Password Input */}
                             <TextField

@@ -1,7 +1,6 @@
 import { resetTokenIfTokenExpired } from '../utils'
 
 const login = async (user) => {
-
     const response = await fetch('users/login', {
         method: "POST",
         headers: {
@@ -39,7 +38,6 @@ const loginWithToken = async () => {
 }
 
 const register = async (user) => {
-
     const response = await fetch('users/register', {
         method: "POST",
         headers: {
@@ -328,7 +326,6 @@ const forgetPassword = async (email, password) => {
     }
     return data
 }
-
 
 const exportedService = {
     login,
