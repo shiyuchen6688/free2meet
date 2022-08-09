@@ -45,8 +45,14 @@ router.post('/:email/accept', function (req, res, next) {
     // check if invitation exists
     queries.getMeetupById(invitationId).then(invitation => {
         if (invitation) {
+            // get creator time slots
+            const creatorTimeSlot = (invitation.schedule.schedule === null || invitation.schedule.schedule === undefined || Object.keys(invitation.schedule.schedule).length === 0) ? [] : Object.keys(invitation.schedule.schedule);
+            // filter available timeslots by creator's timeslots prevent invitee select other timeslots
+            const availableTimeslotsFiltered = availableTimeslots.filter(timeSlot => {
+                return creatorTimeSlot.includes(timeSlot);
+            });
             // accept invitation
-            queries.acceptInvitation(email, invitation.id, availableLocations, availableTimeslots).then(invitation => {
+            queries.acceptInvitation(email, invitation.id, availableLocations, availableTimeslotsFiltered).then(invitation => {
                 return res.send(invitation);
             }).catch(err => {
                 return res.status(404).send(err);
