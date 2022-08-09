@@ -1,5 +1,3 @@
-// @flow
-
 import * as React from 'react'
 import styled from 'styled-components'
 
@@ -10,9 +8,7 @@ import addDays from 'date-fns-1/src/add_days'
 import startOfDay from 'date-fns-1/src/start_of_day'
 import isSameMinute from 'date-fns-1/src/is_same_minute'
 import formatDate from 'date-fns-1/src/format'
-
 import { Text, Subtitle } from './typography'
-// import colors from './colors'
 import selectionSchemes from './selection-schemes'
 
 const Wrapper = styled.div`
@@ -78,38 +74,6 @@ const TimeText = styled(Text)`
   text-align: right;
 `
 
-/*
-type PropsType = {
-  selection: Array<Date>,
-  pastSelection: Map<Date, Number>,
-  selectionScheme: SelectionSchemeType,
-  onChange: (Array<Date>) => void,
-  startDate: Date,
-  numDays: number,
-  minTime: number,
-  maxTime: number,
-  hourlyChunks: number,
-  dateFormat: string,
-  timeFormat: string,
-  margin: number,
-  unselectedColor: string,
-  pastSelectedColor: string,
-  selectedColor: string,
-  hoveredColor: string,
-  renderDateCell?: (Date, boolean, boolean, (HTMLElement) => void) => React.Node
-}
-
-
-type StateType = {
-  // In the case that a user is drag-selecting, we don't want to call this.props.onChange() until they have completed
-  // the drag-select. selectionDraft serves as a temporary copy during drag-selects.
-  selectionDraft: Array<Date>,
-  selectionType: ?SelectionType,
-  selectionStart: ?Date,
-  isTouchDragging: boolean
-}
-*/
-
 export const preventScroll = (e) => {
     e.preventDefault()
 }
@@ -151,10 +115,6 @@ export default class ScheduleSelector extends React.Component {
         selectedColor: colors('blue', 5),
         unselectedColor: colors('grey', 1),
         hoveredColor: colors('blue', 3),
-        // unselectedColor: colors.paleBlue,
-        // hoveredColor: colors.lightBlue,
-        // TODO: Change color
-        // pastSelectedColor: colors('blue', 3),
         onChange: () => { }
     }
 
@@ -263,7 +223,6 @@ export default class ScheduleSelector extends React.Component {
     }
 
     // Given an ending Date, determines all the dates that should be selected in this draft
-    // TODO
     updateAvailabilityDraft(selectionEnd, callback) {
         const { selectionType, selectionStart } = this.state
 
