@@ -201,7 +201,7 @@ export default function History() {
                                 src={eventJSON.creator.profilePictureLink}
                             />
                         }
-                        title={eventJSON.title}
+                        title={eventJSON.title || "No title"}
                         subheader={eventJSON.schedule.schedule === null || eventJSON.schedule.schedule === undefined ? "NA" :
                             `${Object.keys(eventJSON.schedule.schedule).length === 0 ? 'NA' :
                                 Object.keys(eventJSON.schedule.schedule)[0].split("T")[0]} - ${Object.keys(eventJSON.schedule.schedule).length === 0 ? 'NA' :
