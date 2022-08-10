@@ -106,10 +106,12 @@ We created an NLP recommender using the “natural” library from npm, allowing
 ### Email Authentication through FireBase
 We used FireBase to facilitate email verification, allowing users to first verify their email before being able to sign up for the service, and allowing users to receive a password reset link in their email inbox if they forget their password. 
 
+### UX Design
+We did some research for our UX design, allowing users to refresh the content with a button on the right bottom corner on certain pages to see the latest updates, incorporating custom calendar components with different depths of color for each time slot representing different numbers of people selected for that timeslot, and have success or error feedback when sending friends requests from the server to the client.
+
 ## Next Steps
 
 Our next steps are to devise a smarter recommendation algorithm for user events that can resolve ties between different dates and locations, suggest the best backup locations and times, and even suggest people that the user could invite. Another useful feature would be to send emails when a user gets invited to an event, or when an event organizer receives responses. We would also integrate the app with existing social media platforms such as Facebook, Instagram, and WeChat.
-
 
 ## List of Contributions
 
