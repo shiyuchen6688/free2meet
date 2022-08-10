@@ -404,6 +404,7 @@ router.patch('/:email/forget-password', (req, res) => {
     });
 });
 
+// Get tags recommended for a user given user email and user input
 router.get('/:email/tags', async function (req, res, next) {
     const email = req.params.email;
     const text = req.headers.text;
@@ -413,6 +414,5 @@ router.get('/:email/tags', async function (req, res, next) {
         return res.status(404).send(err);
     });
 });
-
 
 module.exports = router;
