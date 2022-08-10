@@ -72,19 +72,58 @@ We used the Express.js framework to build our backend logic, which routes API re
 We used a NoSQL database on MongoDB to store application data that needs to persist between sessions, and NoSQL queries on our backend to query the database for relevant data. Our database consists of two collections, users, and meetups, with each document created using a schema specified on our backend using mongoose. 
 
 ### Unit 5 - Release Engineering
-Our web app is deployed on Heroku. Continuous Integration and Continuous Deployment (CI/CD) is implemented by connecting the App to our GitHub repository, so any commits to the main branch on GitHub will be automatically deployed to our Heroku app. This approach was chosen over creating a GitHub action as our requirements were straightforward enough that Heroku already supported our use case and a GitHub action would require more complexity while adding an additional point of failure. 
+Our web app is deployed to Heroku. Continuous Integration and Continuous Deployment is implemented by connecting the App to our GitHub repository, so any commits to the main branch on GitHub will be automatically deployed to our Heroku app. This approach was chosen over creating a GitHub action as our requirements were straightforward enough that Heroku already supported our use case and a GitHub action would require more complexity while adding an additional point of failure.
 
 ## Above and Beyond Functionality
 
+### Google Maps
+We incorporated the Google Maps API on the frontend allowing users to select where they want to host events, view locations on a dynamic map, and resize the map to fit several locations in the window. 
+
+### Fully Responsive frontend
+We made our frontend fully responsive by changing the layout of items on the website based on the user’s screen size. For instance, we used a hamburger menu that includes the profile icon on the mobile version of the website, and a spaced-out horizontal menu on the desktop version. This was achieved using the “sx” property in Material UI, allowing us to make things “flexGrow” into their containers for instance, and show or hide UI components with the “display” property paired with a pre-set screen size. 
+
+### Dark Mode
+We incorporated an automatic dark mode on the frontend of our website by checking the user’s system settings and applying dark mode on the website as needed. The dark mode is implemented through a Material UI theme retrieved using React’s useMemo hook to reduce the number of expensive calculations on each render, improving UI performance. 
+
+### SendBird Chat API
+We incorporated the SendBird Chat API to allow users to chat with other users on the platform. 
+
+### Image Upload API
+We are allowing users to upload a JPEG or PNG image when they create an event on our website. The frontend calls an AWS API Gateway with the particular request, which gets processed by an AWS Lambda function that validates the filetype, and returns a signed URL to a randomized AWS S3 object with the appropriate file extension. The frontend uploads the image to that S3 URL for persistent storage, and the image URL is added to the database when the event is created, allowing other users to see the image. Despite the complexity of this approach, generating a random filename on AWS is necessary as it circumvents the issue of naming when users upload images with the same filename. 
+
+### Support for Multiple Time zones
+Our application allows people to select the time zone and time they wish to host their event in. 
+
+### Location Services
+When users are creating an event, they have the option of using Location Services on their device to find their current location and set that as a location for the event. 
+
+### Optimal Location and Time Recommender Algorithm 
+We created an algorithm to find the most popular time and location based on the inputs of all the users that have responded to an event invite. The optimal time and location are set as the time and location for the final event. 
+
+### Utilizing ML/AI
+We created an NLP recommender using the “natural” library from npm, allowing us to recommend tags to users, making their event more discoverable and searchable, especially users viewing the event have a lot of events to scour through. 
+
+### Email Authentication through FireBase
+We used FireBase to facilitate email verification, allowing users to first verify their email before being able to sign up for the service, and allowing users to receive a password reset link in their email inbox if they forget their password. 
+
 ## Next Steps
+
+Our next steps are to devise a smarter recommendation algorithm for user events that can resolve ties between different dates and locations, suggest the best backup locations and times, and even suggest people that the user could invite. Another useful feature would be to send emails when a user gets invited to an event, or when an event organizer receives responses. We would also integrate the app with existing social media platforms such as Facebook, Instagram, and WeChat.
+
 
 ## List of Contributions
 
-- Runhe Guo (Josh)
-- Shiyu Chen
-- Banghua Xu
-- Ming Gong
+### Banghua Xu (r8x2b):
+I led the following features: all schedule and invitation related frontend (React, Redux) and backend (Node & Express, MongoDB) including customized timetable component, create meetup schedule/invitation forms and send/accept/decline invitation; Firebase related password reset, email authentication, the link between Firebase and our account system; natural language processing based user customized tag recommender system, co-led the mono-repo Heroku deployment including route rearrangement with Runhe. I also participated in testing, fixing bugs, optimization, peer programming, and discussion of features led by other teammates.
 
+### Runhe Guo (z8x2b):
+I led the following features: Implemented Google Maps API with adding and deleting locations (React, Redux), MongoDB (setup, connection, schema, queries, mock data), chat API, dark mode for the website, connect scheduling meetups and get created meetups in frontend to backend (Node & Express, MongoDB), algorithm to calculate the best location and time slot for each meetup, home page including checking people not responding and completing meetups, co-lead the Heroku deployment with Banghua. I also participated in testing, fixing bugs, beautifying some UI, designing some frontend UI layouts, peer programming, optimization, and discussion of features led by other teammates.
+
+### Shiyu Chen (d7d2b):
+I led the following features: Initialised frontend structure (react, MUI), create meetup form (using redux), backend route structure (express), friend relationship including send/receive friend request, add/delete friend, JSON web token login, change username/password, delete user accounts. I also participated in fixing bugs, optimization, peer programming, and discussion of features led by other teammates.
+
+### Ming Gong (u8g2b): 
+I led the following features: Implementing the frontend and backend for the History page to display and filter past meetups, the frontend and backend for the individual meetup page, the upload image feature (using AWS API Gateway, Lambda, and S3), making the site responsive by implementing the hamburger menu on mobile, writing the README posts, and facilitation communications. I also participated in testing, fixing bugs, peer programming, refactoring, optimization, and discussion of features led by other teammates. 
 
 ## Prototypes
 
