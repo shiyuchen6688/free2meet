@@ -187,7 +187,7 @@ export default function Signup() {
                                 component='div'
                                 align='center'
                                 gutterBottom>
-                                Please come back to this page and click Sign Up button after verifying your email.
+                                Please come back to this page and click SIGN UP button after verifying your email.
                             </Typography>}
                             <Button
                                 fullWidth
