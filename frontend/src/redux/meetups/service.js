@@ -40,7 +40,7 @@ const getMeetup = async (id) => {
 
 // Add new meetup
 const addMeetup = async (meetup) => {
-    const response = await fetch('new', {
+    const response = await fetch('schedule', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
