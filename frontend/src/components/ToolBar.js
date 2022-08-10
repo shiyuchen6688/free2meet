@@ -36,7 +36,7 @@ export default function ToolBar() {
 
     const pages = [
         { text: 'Home', actions: () => navigate("/") },
-        { text: 'Schedule', actions: () => navigate("/meetups/new") },
+        { text: 'Schedule', actions: () => navigate("/meetups/create") },
         { text: 'Invitations', actions: () => navigate("/invitations") },
         { text: 'History', actions: () => navigate("/history") },
         { text: 'Contact', actions: () => navigate("/contact") }
