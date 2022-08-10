@@ -36,25 +36,6 @@ function App() {
         dispatch(loginWithTokenAsync());
     }
 
-    // wait for token login to finish if needed
-    while (isValidUser && username === null) {
-        return (
-            <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="100vh"
-            >
-                <CircularProgress />
-            </Box>
-        )
-    }
-
-    // if user is still null, token should be removed since it's invalid
-    if (username === null) {
-        window.localStorage.removeItem('token');
-    }
-
     // if not signed in
     if (!isValidUser) {
         return <SignIn setIsValidUser={setIsValidUser} />
