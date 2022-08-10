@@ -75,3 +75,5 @@ router.post('/', function (req, res, next) {
         return res.send(err);
     });
 });
+
+module.exports = router;
