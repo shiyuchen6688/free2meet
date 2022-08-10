@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { forgetPasswordAsync } from '../redux/users/thunks';
+import { Box, Button, CssBaseline, Grid, Paper, TextField, Typography, useMediaQuery } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import EmailValidator from 'email-validator';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import auth from '../firebase';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Box, Button, CssBaseline, Grid, Paper, 
-    TextField, Typography, useMediaQuery } from '@mui/material';
+import { forgetPasswordAsync } from '../redux/users/thunks';
 
 export default function ForgetPassword() {
     const dispatch = useDispatch();
@@ -32,36 +31,25 @@ export default function ForgetPassword() {
     const [validPassword, setValidPassword] = useState(true);
     const [verified, setVerified] = useState(false);
     const [verifiedEmailSent, setVerifiedEmailSent] = useState(false);
-    const [confirmChange, setConfirmChange] = useState(false);
 
     useEffect(() => {
         if (resetPassWordBool) {
-            auth.verifyPasswordResetCode(oobCode).then(function(email) {
+            auth.verifyPasswordResetCode(oobCode).then(function (email) {
                 setEmail(email);
                 setVerified(true);
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console.log(error);
             });
         }
     }, [resetPassWordBool, oobCode]);
 
-    useEffect(() => {
-        if (verified && confirmChange) {
-            auth.confirmPasswordReset(oobCode, password).catch(function(error) {
-                console.log(error);
-            });
-        }
-    }, [confirmChange, oobCode, password, verified]);
-
     const signOutUser = async () => {
-        console.log(auth.currentUser);
         if (auth.currentUser !== null) {
             await auth.signOut();
         }
     }
 
     const onSubmit = () => {
-        console.log(verified);
         if (verified) {
             if (!(validEmail && validPassword) || password === "") {
                 if (password === "" || password.length < 6) {
@@ -69,7 +57,9 @@ export default function ForgetPassword() {
                 }
                 return false;
             } else {
-                setConfirmChange(true);
+                auth.confirmPasswordReset(oobCode, password).catch(function (error) {
+                    console.log(error);
+                });
                 dispatch(forgetPasswordAsync({
                     email,
                     password
@@ -83,7 +73,6 @@ export default function ForgetPassword() {
 
     const emailVerification = () => {
         signOutUser().then(() => {
-            console.log("signOutUser");
             auth.sendPasswordResetEmail(email, actionCodeSettings).then(() => {
                 setVerifiedEmailSent(true);
             }).catch(error => {
@@ -95,7 +84,7 @@ export default function ForgetPassword() {
     }
 
     const actionCodeSettings = {
-        url: process.env.NODE_ENV === 'production' ? 'https://free2meet.herokuapp.com/forget-password' : "http://" + currentURL.host + "/forget-password",
+        url: 'https://free2meet.herokuapp.com/forget-password',
         handleCodeInApp: false,
     };
 
@@ -120,29 +109,29 @@ export default function ForgetPassword() {
 
                         <Box component="form" noValidate sx={{ mt: 1 }}>
                             {/* Email Input */}
-                            {resetPassWordBool ? 
-                            <TextField
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                value={email === "" ? "INVALID" : email}
-                                disabled={true}
-                            /> : 
-                            <TextField
-                                error={!validEmail}
-                                onBlur={() => email === "" ? setValidEmail(true) : setValidEmail(EmailValidator.validate(email))}
-                                onFocus={() => setValidEmail(true)}
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                            {resetPassWordBool ?
+                                <TextField
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                    value={email === "" ? "INVALID" : email}
+                                    disabled={true}
+                                /> :
+                                <TextField
+                                    error={!validEmail}
+                                    onBlur={() => email === "" ? setValidEmail(true) : setValidEmail(EmailValidator.validate(email))}
+                                    onFocus={() => setValidEmail(true)}
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />}
                             {/* Password Input */}
                             {resetPassWordBool && <TextField

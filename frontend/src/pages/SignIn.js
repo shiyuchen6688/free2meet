@@ -1,10 +1,9 @@
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { Avatar, Box, Button, CssBaseline, Grid, Link, Paper, TextField, Typography, useMediaQuery } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginAsync } from '../redux/users/thunks';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Avatar, Box, Button, CssBaseline, Grid, Link, 
-    Paper, TextField, Typography, useMediaQuery } from '@mui/material';
 import img from './signin.jpeg';
 
 export default function SignIn({ setIsValidUser }) {
@@ -23,7 +22,6 @@ export default function SignIn({ setIsValidUser }) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    // TODO: this is just a stub that does not validate password and username
     const onSignIn = (e) => {
         e.preventDefault()
         dispatch(loginAsync({
@@ -31,7 +29,6 @@ export default function SignIn({ setIsValidUser }) {
             password,
             setIsValidUser
         }))
-
     }
 
     return (
@@ -98,11 +95,6 @@ export default function SignIn({ setIsValidUser }) {
                                 onChange={(e) => setPassword(e.target.value)}
                                 autoComplete="current-password"
                             />
-                            {/* TODO: use cookie to remmeber user in the future */}
-                            {/* <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
-                            /> */}
                             <Button
                                 type="submit"
                                 fullWidth
@@ -114,7 +106,6 @@ export default function SignIn({ setIsValidUser }) {
                             </Button>
 
                             <Grid container>
-                                {/* Currently not supported */}
                                 <Grid
                                     item
                                     xs

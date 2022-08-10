@@ -59,7 +59,7 @@ export default function Invitations() {
                     <Fab color="primary" aria-label="fresh" onClick={refresh}>
                         <AutorenewIcon />
                     </Fab>
-                    <Fab color="secondary" aria-label="add" onClick={() => navigate("/meetups/new")}>
+                    <Fab color="secondary" aria-label="add" onClick={() => navigate("/schedule")}>
                         <AddIcon />
                     </Fab>
                 </Box>

@@ -45,7 +45,6 @@ const getInvitationsPending = async (email) => {
     }
 
     if (!response.ok) {
-        console.log('Error in getInvitationsPending')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
@@ -77,7 +76,6 @@ const getInvitationsAccepted = async (email) => {
     }
 
     if (!response.ok) {
-        console.log('Error in getInvitationsAccepted')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
@@ -109,7 +107,6 @@ const getInvitationsDeclined = async (email) => {
     }
 
     if (!response.ok) {
-        console.log('Error in getInvitationsDeclined')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
@@ -146,7 +143,6 @@ const acceptInvitation = async (info) => {
     }
 
     if (!response.ok) {
-        console.log('Error in acceptInvitation')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
@@ -182,7 +178,6 @@ const declineInvitation = async (info) => {
     }
 
     if (!response.ok) {
-        console.log('Error in declineMeetup')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)

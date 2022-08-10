@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var meetupsRouter = require('./routes/meetups');
 var userRouter = require('./routes/users');
 var invitationsRouter = require('./routes/invitations');
+var scheduleMeetupRouter = require('./routes/scheduleMeetup');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 app.use('/', indexRouter);
+app.use('/schedule', scheduleMeetupRouter);
 app.use('/meetups', verifyJWT, meetupsRouter);
 app.use('/users', userRouter);
 app.use('/invitations', verifyJWT, invitationsRouter);

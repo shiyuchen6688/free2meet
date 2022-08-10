@@ -33,28 +33,7 @@ function App() {
     // if user information is null, get information use token if it exist
     let username = useSelector(state => state.usersReducer.username);
     if (isValidUser && username === null) {
-        console.log("before login with token", isLoggedIn())
-        dispatch(loginWithTokenAsync())
-        console.log("after login with token", isLoggedIn())
-    }
-
-    // wait for token login to finish if needed
-    // while (isValidUser && username === null) {
-    //     return (
-    //         <Box
-    //             display="flex"
-    //             justifyContent="center"
-    //             alignItems="center"
-    //             minHeight="100vh"
-    //         >
-    //             <CircularProgress />
-    //         </Box>
-    //     )
-    // }
-
-    // if user is still null, token should be removed since it's invalid
-    if (username === null) {
-        window.localStorage.removeItem('token');
+        dispatch(loginWithTokenAsync());
     }
 
     // if not signed in

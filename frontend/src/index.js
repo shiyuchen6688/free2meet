@@ -2,9 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import {
-    BrowserRouter, Route, Routes
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from './App';
 import Contact from './components/contact/Contact';
 import Meetup from './components/Meetup';
@@ -12,12 +10,9 @@ import './index.css';
 import CreateMeetup from './pages/CreateMeetup/CreateMeetup';
 import History from './pages/History';
 import Invitations from './pages/Invitations';
-import reportWebVitals from './reportWebVitals';
-// import Signup from './pages/Signup';
-// import ForgetPassword from './pages/ForgetPassword';
 import Verify from './pages/Verify';
-import './index.css';
 import rootReducer from './redux/reducers';
+import reportWebVitals from './reportWebVitals';
 
 const store = configureStore({ reducer: rootReducer });
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -28,13 +23,11 @@ root.render(
                 <Routes>
                     <Route path="/" element={<App />} />
                     <Route path="/meetups/:id" element={<Meetup />} />
-                    <Route path="/meetups/new" element={<CreateMeetup />} />
+                    <Route path="/schedule" element={<CreateMeetup />} />
                     <Route path="/invitations" element={<Invitations />} />
                     <Route path="/history" element={<History />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/verify" element={<Verify />} />
-                    {/* <Route path="/signup" element={<Signup />} />
-                    <Route path="/forget-password" element={<ForgetPassword />} /> */}
                 </Routes>
             </BrowserRouter>
         </Provider>

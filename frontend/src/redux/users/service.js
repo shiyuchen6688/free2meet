@@ -1,7 +1,6 @@
 import { resetTokenIfTokenExpired } from '../utils'
 
 const login = async (user) => {
-
     const response = await fetch('users/login', {
         method: "POST",
         headers: {
@@ -13,7 +12,6 @@ const login = async (user) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in login')
         const errorMsg = data?.message;
         throw new Error(errorMsg)
     }
@@ -22,7 +20,6 @@ const login = async (user) => {
 }
 
 const loginWithToken = async () => {
-    console.log("loginWithToken")
     const response = await fetch('users/tokenlogin', {
         method: "POST",
         headers: {
@@ -32,9 +29,7 @@ const loginWithToken = async () => {
     })
 
     const data = await response.json()
-    console.log("loginWithToken after login", data)
     if (!response.ok) {
-        console.log('Error in loginWithToken')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
@@ -43,7 +38,6 @@ const loginWithToken = async () => {
 }
 
 const register = async (user) => {
-
     const response = await fetch('users/register', {
         method: "POST",
         headers: {
@@ -55,7 +49,6 @@ const register = async (user) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in register')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
@@ -77,9 +70,7 @@ const resetPassword = async (email, password) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in resetPassword')
         const errorMsg = data?.message;
-        console.log(errorMsg)
         resetTokenIfTokenExpired(errorMsg)
     }
     return data
@@ -99,9 +90,7 @@ const changePassword = async (email, oldPassword, newPassword) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in changePassword')
         const errorMsg = data?.message;
-        console.log(errorMsg)
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
@@ -110,9 +99,6 @@ const changePassword = async (email, oldPassword, newPassword) => {
 
 // user change email in profile page
 const changeUsername = async (email, password, newUsername) => {
-    console.log("email", email)
-    console.log("password", password)
-    console.log("newUsername", newUsername)
     const response = await fetch(`users/${email}/change-username`, {
         method: 'PATCH',
         headers: {
@@ -125,9 +111,7 @@ const changeUsername = async (email, password, newUsername) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in changeUsername')
         const errorMsg = data?.message;
-        console.log(errorMsg)
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
@@ -148,9 +132,7 @@ const getFriends = async (email) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in getFriends')
         const errorMsg = data?.message;
-        console.log(errorMsg)
         resetTokenIfTokenExpired(errorMsg)
     }
     return data
@@ -170,9 +152,7 @@ const getTags = async (email, text) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in getTags')
         const errorMsg = data?.message;
-        console.log(errorMsg)
         resetTokenIfTokenExpired(errorMsg)
     }
     return data
@@ -191,13 +171,10 @@ const getFriendRequests = async (email) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in getFriendRequests')
         const errorMsg = data?.message;
-        console.log(errorMsg)
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
-    console.log(data)
     return data
 }
 
@@ -214,7 +191,6 @@ const getFriendRequestsSent = async (email) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in getFriendRequestsSent')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
     }
@@ -223,7 +199,6 @@ const getFriendRequestsSent = async (email) => {
 
 // accept a friend request for a user given user email and friend email
 const acceptFriendRequest = async (email, friendEmail) => {
-    console.log("acceptFriendRequest", email, friendEmail)
     const response = await fetch(`users/${email}/friends/requests/accept`, {
         method: 'POST',
         headers: {
@@ -236,7 +211,6 @@ const acceptFriendRequest = async (email, friendEmail) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in acceptFriendRequest')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
     }
@@ -257,7 +231,6 @@ const declineFriendRequest = async (email, friendEmail) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in declineFriendRequest')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
     }
@@ -266,7 +239,6 @@ const declineFriendRequest = async (email, friendEmail) => {
 
 // send a friend request for a user given user email and friend email
 const sendFriendRequest = async (email, friendEmail) => {
-    console.log(email, friendEmail)
     const response = await fetch(`users/${email}/friends/requests/send`, {
         method: 'POST',
         headers: {
@@ -279,10 +251,7 @@ const sendFriendRequest = async (email, friendEmail) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in sendFriendRequest')
-        console.log(data)
         const errorMsg = data?.message;
-        console.log(errorMsg)
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
@@ -291,7 +260,6 @@ const sendFriendRequest = async (email, friendEmail) => {
 
 // delete a friend for a user given user email and friend email
 const deleteFriend = async (email, friendEmail) => {
-    console.log(email)
     const response = await fetch(`users/${email}/friends/delete`, {
         method: 'POST',
         headers: {
@@ -304,9 +272,7 @@ const deleteFriend = async (email, friendEmail) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in deleteFriend')
         const errorMsg = data?.message;
-        console.log(errorMsg)
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
@@ -325,7 +291,6 @@ const deleteUserAccount = async (userEmail) => {
 
     const data = await response.json()
 
-
     await fetch(`https://api-CB108BAB-EB6F-4BA7-A7C5-40E73836AAE1.sendbird.com/v3/users/${userEmail}`, {
         method: 'DELETE',
         headers: {
@@ -334,11 +299,8 @@ const deleteUserAccount = async (userEmail) => {
         }
     });
 
-
     if (!response.ok) {
-        console.log('Error in deleteUser')
         const errorMsg = data?.message;
-        console.log(errorMsg)
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
     }
@@ -359,13 +321,11 @@ const forgetPassword = async (email, password) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in forgetPassword')
         const errorMsg = data?.message;
         console.log(errorMsg)
     }
     return data
 }
-
 
 const exportedService = {
     login,
@@ -383,7 +343,7 @@ const exportedService = {
     changePassword,
     deleteUserAccount,
     getTags,
-    forgetPassword,
+    forgetPassword
 }
 
 export default exportedService;

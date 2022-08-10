@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATE } from '../utils';
 import {
-    acceptFriendRequestAsync, changePasswordAsync, changeUsernameAsync, declineFriendRequestAsync, deleteFriendAsync, deleteUserAccountAsync, getFriendRequestsAsync,
-    getFriendRequestsSentAsync, getFriendsAsync, getTagsAsync, loginAsync, registerAsync, resetPasswordAsync, sendFriendRequestAsync, loginWithTokenAsync, forgetPasswordAsync
+    acceptFriendRequestAsync, changePasswordAsync, changeUsernameAsync, declineFriendRequestAsync, deleteFriendAsync, deleteUserAccountAsync, forgetPasswordAsync, getFriendRequestsAsync,
+    getFriendRequestsSentAsync, getFriendsAsync, getTagsAsync, loginAsync, loginWithTokenAsync, registerAsync, resetPasswordAsync, sendFriendRequestAsync
 } from './thunks';
 
 const INITIAL_STATE = {
@@ -38,7 +38,6 @@ const usersSlice = createSlice({
     initialState: INITIAL_STATE,
     reducers: {
         logout: (state) => {
-            // console.log(action)
             state.username = null
             state.email = null
             window.localStorage.removeItem('token');
@@ -55,9 +54,7 @@ const usersSlice = createSlice({
                 state.getMeetups = REQUEST_STATE.FULFILLED;
                 state.username = action.payload.username;
                 state.email = action.payload.email
-                // console.log(action.payload)
                 window.localStorage.setItem('token', action.payload.token)
-
             })
             .addCase(loginAsync.rejected, (state, action) => {
                 state.getMeetups = REQUEST_STATE.REJECTED;
@@ -82,7 +79,6 @@ const usersSlice = createSlice({
             })
             .addCase(registerAsync.fulfilled, (state, action) => {
                 state.getMeetups = REQUEST_STATE.FULFILLED;
-                // state.user = action.payload;
             })
             .addCase(registerAsync.rejected, (state, action) => {
                 state.getMeetups = REQUEST_STATE.REJECTED;
@@ -94,7 +90,6 @@ const usersSlice = createSlice({
             })
             .addCase(resetPasswordAsync.fulfilled, (state, action) => {
                 state.resetPassword = REQUEST_STATE.FULFILLED;
-                // state.user = action.payload;
             })
             .addCase(resetPasswordAsync.rejected, (state, action) => {
                 state.resetPassword = REQUEST_STATE.REJECTED;
@@ -171,7 +166,6 @@ const usersSlice = createSlice({
             })
             .addCase(sendFriendRequestAsync.rejected, (state, action) => {
                 state.sendFriendRequest = REQUEST_STATE.REJECTED;
-                console.log(action.error)
                 state.sendFriendRequestError = action.error;
             })
             .addCase(deleteFriendAsync.pending, (state) => {
@@ -215,11 +209,10 @@ const usersSlice = createSlice({
             })
             .addCase(deleteUserAccountAsync.fulfilled, (state, action) => {
                 state.deleteUserAccountAsync = REQUEST_STATE.FULFILLED;
-                let deletedUser = action.payload
+                let deletedUser = action.payload;
                 if (deletedUser.username === state.username) {
-                    console.log("deleting user")
-                    state.username = null
-                    state.email = null
+                    state.username = null;
+                    state.email = null;
                     window.localStorage.removeItem('token');
                     window.location.reload(false);
                 }

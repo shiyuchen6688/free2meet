@@ -68,7 +68,6 @@ export const declineFriendRequestAsync = createAsyncThunk(
 export const sendFriendRequestAsync = createAsyncThunk(
     actionTypes.SEND_FRIEND_REQUEST,
     async ({ email, friendEmail }) => {
-        console.log(email, friendEmail)
         return await UsersService.sendFriendRequest(email, friendEmail)
     }
 );
@@ -76,7 +75,6 @@ export const sendFriendRequestAsync = createAsyncThunk(
 export const deleteFriendAsync = createAsyncThunk(
     actionTypes.DELETE_FRIEND,
     async ({ email, friendEmail }) => {
-        console.log("deleteFriendAsync", email)
         return await UsersService.deleteFriend(email, friendEmail)
     }
 );
@@ -84,7 +82,6 @@ export const deleteFriendAsync = createAsyncThunk(
 export const changePasswordAsync = createAsyncThunk(
     actionTypes.CHANGE_PASSWORD,
     async ({ email, oldPassword, newPassword }) => {
-        console.log("email", email)
         return await UsersService.changePassword(email, oldPassword, newPassword)
     }
 );
@@ -92,7 +89,6 @@ export const changePasswordAsync = createAsyncThunk(
 export const changeUsernameAsync = createAsyncThunk(
     actionTypes.CHANGE_USERNAME,
     async ({ email, password, newUsername }) => {
-        console.log("changeUsernameAsync")
         return await UsersService.changeUsername(email, password, newUsername)
     }
 );
@@ -100,7 +96,6 @@ export const changeUsernameAsync = createAsyncThunk(
 export const deleteUserAccountAsync = createAsyncThunk(
     actionTypes.DELETE_USER_ACCOUNT,
     async (email) => {
-        console.log("deleteUserAccountAsync", email)
         return await UsersService.deleteUserAccount(email);
     }
 )
@@ -108,8 +103,6 @@ export const deleteUserAccountAsync = createAsyncThunk(
 export const getTagsAsync = createAsyncThunk(
     actionTypes.GET_TAGS,
     async ({ email, text }) => {
-        console.log("getTagsAsync", email)
-        console.log("text", text)
         return await UsersService.getTags(email, text);
     }
 )

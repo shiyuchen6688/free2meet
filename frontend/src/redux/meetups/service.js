@@ -12,7 +12,6 @@ const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in getMeetups')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
     }
@@ -21,7 +20,6 @@ const getMeetups = async (filterPeopleOption, filterByPerson, email) => {
 
 // Get one meetup
 const getMeetup = async (id) => {
-    console.log("getMeetup", id)
     const response = await fetch(`meetup?id=${id}`, {
         method: 'GET',
         headers: {
@@ -33,7 +31,6 @@ const getMeetup = async (id) => {
     const result = await response.json();
 
     if (!response.ok) {
-        console.log('Error in getMeetups')
         const errorMsg = result?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
@@ -43,7 +40,7 @@ const getMeetup = async (id) => {
 
 // Add new meetup
 const addMeetup = async (meetup) => {
-    const response = await fetch('new', {
+    const response = await fetch('schedule', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -55,7 +52,6 @@ const addMeetup = async (meetup) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in addMeeup')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
@@ -103,7 +99,6 @@ const removeImage = async (imageURL) => {
 
 // get meetups created by a user given user email
 const getMeetupsCreated = async (email) => {
-    console.log("getMeetupsCreated", email)
     const response = await fetch(`meetups/${email}/created`, {
         method: 'GET',
         headers: {
@@ -115,7 +110,6 @@ const getMeetupsCreated = async (email) => {
     const data = await response.json()
 
     if (!response.ok) {
-        console.log('Error in getMeetupsCreated')
         const errorMsg = data?.message;
         resetTokenIfTokenExpired(errorMsg)
         throw new Error(errorMsg)
@@ -150,8 +144,6 @@ export const getInvitteesNoResponse = async (id) => {
 
     return data
 }
-
-
 
 const exportedService = {
     getMeetups,
