@@ -3,8 +3,10 @@ var router = express.Router();
 const queries = require('../model/queries');
 require('dotenv').config()
 
+var verifyJWT = require("../middlewares/auth")
+
 // get pending invitations for a user given user email
-router.get('/:email/pending', function (req, res, next) {
+router.get('/:email/pending', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     queries.getInvitationsPending(email).then(invitations => {
         return res.send(invitations);
@@ -14,7 +16,7 @@ router.get('/:email/pending', function (req, res, next) {
 });
 
 // get accepted invitations for a user given user email
-router.get('/:email/accepted', function (req, res, next) {
+router.get('/:email/accepted', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     queries.getInvitationsAccepted(email).then(invitations => {
         return res.send(invitations);
@@ -24,7 +26,7 @@ router.get('/:email/accepted', function (req, res, next) {
 });
 
 // get declined invitations for a user given user email
-router.get('/:email/declined', function (req, res, next) {
+router.get('/:email/declined', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     queries.getInvitationsDeclined(email).then(invitations => {
         return res.send(invitations);
@@ -34,7 +36,7 @@ router.get('/:email/declined', function (req, res, next) {
 });
 
 // accept a pending invitation for a user given user email and invitation ID and availbale locations and time slots
-router.post('/:email/accept', function (req, res, next) {
+router.post('/:email/accept', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     const invitationId = req.body.invitationId;
     const availableLocations = req.body.availableLocations;
@@ -66,7 +68,7 @@ router.post('/:email/accept', function (req, res, next) {
 });
 
 // decline a pending invitation for a user given user email and invitation ID
-router.post('/:email/decline', function (req, res, next) {
+router.post('/:email/decline', verifyJWT, function (req, res, next) {
     const email = req.params.email;
     const invitationId = req.body.invitationId;
     const availableLocations = req.body.availableLocations;

@@ -38,7 +38,7 @@ app.use('/', indexRouter);
 app.use('/schedule', scheduleMeetupRouter);
 app.use('/meetups', verifyJWT, meetupsRouter);
 app.use('/users', userRouter);
-app.use('/invitations', verifyJWT, invitationsRouter);
+app.use('/invitations', invitationsRouter);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
