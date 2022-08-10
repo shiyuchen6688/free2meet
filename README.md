@@ -107,7 +107,7 @@ We created an NLP recommender using the “natural” library from npm, allowing
 We used FireBase to facilitate email verification, allowing users to first verify their email before being able to sign up for the service, and allowing users to receive a password reset link in their email inbox if they forget their password. 
 
 ### UX Design
-We did some research for our UX design, allowing users to refresh the content with a button on the right bottom corner on certain pages to see the latest updates, incorporating custom calendar components with different depths of color for each time slot representing different numbers of people selected for that timeslot, and have success or error feedback when sending friends requests from the server to the client.
+We did some research for our UX design, allowing users to refresh the content with a button on the right bottom corner on certain pages to see the latest updates, incorporating custom calendar components with different depths of color for each time slot representing different numbers of people selected for that timeslot, having success or error feedback when sending friends requests from the server to the client, and having confirmation dialogs when users want to delete their account, change their password, change their username, delete their friends, and complete an meetup.
 
 ## Next Steps
 
