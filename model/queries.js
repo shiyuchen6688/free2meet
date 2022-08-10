@@ -291,7 +291,7 @@ const queries = {
             promises.push(queries.removeUserFromLocations(userEmail, meetup, availableLocations));
             await Promise.all(promises);
         }
-        // get all pending & accepted & declined meetups for user (run in parallel)
+        // get all pending & accepted & declined meetups for user
         let promises = [];
         promises.push(queries.getInvitationsPending(userEmail));
         promises.push(queries.getInvitationsAccepted(userEmail));
@@ -310,7 +310,7 @@ const queries = {
             let a = { meetupId: meetup, availableLocations: availableLocations, availableTimeSlot: availableTimeSlots };
             promises.push(User.findOneAndUpdate({ email: userEmail }, { $push: { meetupsAccepted: a } }, { new: true }));
             promises.push(queries.addUserToTimeslots(userEmail, meetup, availableTimeSlots));
-            // find the meetup by id， then add the user's email to the corresponding meetup.locations.attendees
+            // find the meetup by id, then add the user's email to the corresponding meetup.locations.attendees
             promises.push(queries.addUserToLocations(userEmail, meetup, availableLocations));
             await Promise.all(promises);
         } else if (invitationState === 'declined') {
@@ -324,7 +324,7 @@ const queries = {
             promises.push(queries.addUserToLocations(userEmail, meetup, availableLocations));
             await Promise.all(promises);
         }
-        // get all pending & accepted & declined meetups for user (run in parallel)
+        // get all pending & accepted & declined meetups for user
         let promises = [];
         promises.push(queries.getInvitationsPending(userEmail));
         promises.push(queries.getInvitationsAccepted(userEmail));

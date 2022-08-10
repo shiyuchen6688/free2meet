@@ -20,7 +20,6 @@ const getInvitations = async () => {
     return data
 }
 
-
 // get pending invitations for a user given user email
 const getInvitationsPending = async (email) => {
     const response = await fetch(url + `${email}/pending`, {
@@ -191,7 +190,7 @@ const exportObject = {
     getInvitationsAccepted,
     getInvitationsDeclined,
     acceptInvitation,
-    declineInvitation,
+    declineInvitation
 };
 
 export default exportObject;

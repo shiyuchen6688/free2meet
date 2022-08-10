@@ -17,7 +17,6 @@ router.get('/', verifyJWT, function (req, res, next) {
 router.post('/register', function (req, res, next) {
     // get user from req
     const user = req.body;
-
     // check duplicate email and username
     let takenUserName1;
     let takenEmail1;

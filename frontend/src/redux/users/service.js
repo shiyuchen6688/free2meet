@@ -118,7 +118,6 @@ const changeUsername = async (email, password, newUsername) => {
     return data
 }
 
-
 // get all friends for a user given user email
 const getFriends = async (email) => {
     const response = await fetch(`users/${email}/friends`, {

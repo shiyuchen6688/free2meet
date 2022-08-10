@@ -169,7 +169,7 @@ export default function MeetupCard({ meetup, refresh, state }) {
                             })}
                         </Stack>
                         <Divider>
-                            {meetup.invitees.length === 0 ? "No Invitees" : (meetup.invitees.length) + " Invitee(s) (Email)"}
+                            {meetup.invitees.length === 0 ? "No Invitees" : (meetup.invitees.length) + " Invitee(s)"}
                         </Divider>
                         <Stack
                             direction="row"
