@@ -60,14 +60,19 @@ Our project is a responsive web app allowing users to invite others to events, a
 ## Technology
 
 ### Unit 1 - HTML/CSS/Javascript
+We used HTML by leveraging JSX, a custom language similar to HTML that allows us to incorporate React components alongside classic HTML tags. Rather than writing CSS files to style our site, our styling was provided by MaterialUI, a powerful React.js library that provides highly customizable UI components that can be styled through JSX tags, allowing us to follow best practices of making styling changes easier to locate. JavaScript is used throughout our frontend and backend to code our application logic, as it’s one of the most popular modern languages, allowing us to use many packages through Node.js and npm. 
 
 ### Unit 2 - React
+We used the React.js framework extensively throughout our frontend to create highly reusable UI components that allow user inputs to be updated and processed through React hooks while following best practices such as abstraction to reduce code complexity and duplicated code. We used Redux to simplify the structure of frontend application data by flattening the data structure and providing a single source of truth allowing all React components to update and access the data without worrying about the hierarchy of the React components.
 
 ### Unit 3 - Node and Express
+We used the Express.js framework to build our backend logic, which routes API requests to our backend services running Node.js to process data sent from the frontend and store it in the MongoDB server if necessary. We also incorporated APIs such as the Google Maps API to show locations specified by users, Firebase to verify user emails, and an AWS API Gateway, Lambda function, and S3 bucket to store user-uploaded images under a randomized filename. In the backend, we also used an NLP-based recommender system to suggest tags for events, and an algorithm to recommend the best times and locations for events based on user submissions.
 
 ### Unit 4 - MongoDB
+We used a NoSQL database on MongoDB to store application data that needs to persist between sessions, and NoSQL queries on our backend to query the database for relevant data. Our database consists of two collections, users, and meetups, with each document created using a schema specified on our backend using mongoose. 
 
 ### Unit 5 - Release Engineering
+Our web app is deployed on Heroku. Continuous Integration and Continuous Deployment (CI/CD) is implemented by connecting the App to our GitHub repository, so any commits to the main branch on GitHub will be automatically deployed to our Heroku app. This approach was chosen over creating a GitHub action as our requirements were straightforward enough that Heroku already supported our use case and a GitHub action would require more complexity while adding an additional point of failure. 
 
 ## Above and Beyond Functionality
 
