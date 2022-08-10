@@ -34,9 +34,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 
 app.use('/', indexRouter);
-app.use('/meetups', verifyJWT, meetupsRouter);
+app.use('/meetups/new', meetupsRouter);
+app.use('/meetups', meetupsRouter);
 app.use('/users', userRouter);
-app.use('/invitations', verifyJWT, invitationsRouter);
+app.use('/invitations', invitationsRouter);
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/build/index.html'));
