@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var queries = require('../model/queries');
-var tagQueries = require('../model/tagQueries');
 
 /* get all meetups listing. */
 router.get('/', function (req, res, next) {
@@ -71,16 +70,6 @@ router.post('/:id/calculate', (req, res) => {
     const id = req.params.id;
     queries.calculateMeetupBestLocationandTime(id).then(meetup => {
         return res.send(meetup);
-    }).catch(err => {
-        return res.status(404).send(err);
-    });
-});
-
-router.get('/users/:email/tags', async function (req, res, next) {
-    const email = req.params.email;
-    const text = req.headers.text;
-    tagQueries.classifyNLP(email, text).then(tags => {
-        return res.send(tags);
     }).catch(err => {
         return res.status(404).send(err);
     });

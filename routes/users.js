@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 var verifyJWT = require('../middlewares/auth');
 const queries = require('../model/queries');
+const tagQueries = require('../model/tagQueries');
 require('dotenv').config()
 
 /* get all users. */
@@ -402,5 +403,16 @@ router.patch('/:email/forget-password', (req, res) => {
         return res.status(404).send(err);
     });
 });
+
+router.get('/:email/tags', async function (req, res, next) {
+    const email = req.params.email;
+    const text = req.headers.text;
+    tagQueries.classifyNLP(email, text).then(tags => {
+        return res.send(tags);
+    }).catch(err => {
+        return res.status(404).send(err);
+    });
+});
+
 
 module.exports = router;
