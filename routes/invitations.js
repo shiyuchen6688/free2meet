@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const queries = require('../model/queries');
 require('dotenv').config()
-
 var verifyJWT = require("../middlewares/auth")
 
 // get pending invitations for a user given user email

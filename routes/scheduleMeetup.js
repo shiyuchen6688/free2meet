@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const { v4: uuid } = require('uuid');
 var queries = require('../model/queries');
-var tagQueries = require('../model/tagQueries');
 
 /* add a new meetup */
 router.post('/', function (req, res, next) {

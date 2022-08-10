@@ -6,8 +6,6 @@ var verifyJWT = require('../middlewares/auth');
 const queries = require('../model/queries');
 require('dotenv').config()
 
-var verifyJWT = require("../middlewares/auth")
-
 /* get all users. */
 router.get('/', verifyJWT, function (req, res, next) {
     queries.getUsers({}).then(users => {
